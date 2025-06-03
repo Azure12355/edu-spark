@@ -56,7 +56,3 @@
 .sidebarIcon:hover {
     color: var(--primary-blue);
 }
-.backToTop {
-    /* position is not fixed here, as the parent .floatingSidebar is fixed */
-    /* display is handled by JS */
-}

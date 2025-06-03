@@ -90,16 +90,16 @@
 
 @media (max-width: 992px) {
     .footerContent { 
-        /* flex-direction: column;  */
-        /* align-items: center;  */
-        /* text-align: center;  */
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
     }
     .footerColumn {
         flex-basis: 45%; /* Two columns on medium screens */
         min-width: unset;
     }
     .qrCodes { 
-        /* justify-content: center;  */
+        justify-content: center; 
     }
 }
 @media (max-width: 768px) {

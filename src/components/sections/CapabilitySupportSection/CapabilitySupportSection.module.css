@@ -1,7 +1,5 @@
 /* src/components/sections/CapabilitySupportSection/CapabilitySupportSection.module.css */
-.capabilitySupportSection {
-    /* Uses global .section-padding */
-}
+
 
 .capabilityCards {
     display: grid;

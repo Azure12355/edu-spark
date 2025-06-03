@@ -1,7 +1,5 @@
 /* src/components/sections/SystemCapacitySection/SystemCapacitySection.module.css */
-.systemCapacitySection {
-    /* Uses global .section-padding and .light-bg */
-}
+
 .videoLink {
     margin-top: -20px; /* Pull up slightly */
     margin-bottom: 40px;

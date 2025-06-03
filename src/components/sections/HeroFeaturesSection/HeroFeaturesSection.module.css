@@ -55,8 +55,8 @@
   }
   /* 特定标签样式 */
   .featureTag:where(:first-child) { /* 假设 "上新" 标签颜色不同 */
-    /* background-color: #E8FFEA; */
-    /* color: #00B42A; */
+    background-color: #E8FFEA;
+    color: #00B42A;
   }
   
   
