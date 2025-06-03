@@ -1,0 +1,171 @@
+/* src/components/layout/Header/Header.module.css */
+.veMainHeader {
+    background-color: var(--ve-white);
+    border-bottom: 1px solid var(--ve-border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--ve-header-height);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.veHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.veLogo img {
+    display: block;
+}
+
+.veMainNav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.veMainNav li {
+    margin-left: 28px;
+}
+.veMainNav li:first-child {
+    margin-left: 32px;
+}
+
+.veNavLink {
+    text-decoration: none;
+    color: var(--ve-text-dark);
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.2s ease;
+}
+
+.veNavLink:hover {
+    color: var(--ve-primary-blue);
+}
+
+.veNavLink.active {
+    color: var(--ve-primary-blue);
+    font-weight: 500;
+}
+
+.veNewIndicator {
+    display: block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--ve-red-accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 6px; /* 微调 */
+    right: -7px;
+}
+
+.veChevron {
+    font-size: 10px;
+    color: var(--ve-text-light);
+    margin-left: 4px;
+    transition: color 0.2s ease;
+}
+.veNavLink:hover .veChevron {
+    color: var(--ve-primary-blue);
+}
+
+.veHeaderActions {
+    display: flex;
+    align-items: center;
+}
+
+.veSearchBar {
+    display: flex;
+    align-items: center;
+    background-color: var(--ve-bg-light-gray);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 24px;
+}
+
+.veSearchIcon {
+    color: var(--ve-text-light);
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.veSearchBar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: var(--ve-text-dark);
+    width: 160px;
+}
+.veSearchBar input::placeholder {
+    color: var(--ve-text-light);
+    font-weight: 400;
+}
+
+.veActionLink {
+    text-decoration: none;
+    color: var(--ve-text-dark);
+    font-size: 14px;
+    margin-left: 24px;
+    transition: color 0.2s ease;
+}
+.veActionLink:hover {
+    color: var(--ve-primary-blue);
+}
+
+.veNotificationLink {
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.veNotificationBadge {
+    background-color: var(--ve-primary-blue);
+    color: var(--ve-white);
+    font-size: 12px;
+    font-weight: 500;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+@media (max-width: 1200px) {
+    .veMainNav li { margin-left: 20px; }
+    .veMainNav li:first-child { margin-left: 24px; }
+    .veSearchBar { margin-right: 16px; }
+    .veActionLink, .veNotificationLink { margin-left: 16px; }
+}
+
+@media (max-width: 1050px) { /* 增加一个断点隐藏部分导航 */
+    .veMainNav li:nth-child(n+6) { /* 隐藏“生态与合作”及之后的项 */
+        display: none;
+    }
+}
+
+
+@media (max-width: 992px) {
+    .veMainNav { display: none; }
+    .veSearchBar input { width: 120px; }
+    .veMainHeader { padding: 0 16px; }
+}
+@media (max-width: 768px) {
+    .veSearchBar { display: none; }
+    .veActionLink:nth-child(2) { display: none; } /* 隐藏备案 */
+}

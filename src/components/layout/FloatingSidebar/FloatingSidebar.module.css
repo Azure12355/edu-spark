@@ -1,0 +1,62 @@
+/* src/components/layout/FloatingSidebar/FloatingSidebar.module.css */
+.floatingSidebar {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.consultBtn {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 30px;
+    box-sizing: content-box;
+    text-align: center;
+}
+.consultBtn i {
+    writing-mode: horizontal-tb;
+    margin-bottom: 5px;
+}
+.consultBtn span {
+    display: block;
+    max-height: 60px;
+}
+.sidebarIcon {
+    background-color: var(--white);
+    color: var(--text-medium);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 12px;
+}
+.sidebarIcon i {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+.sidebarIcon:hover {
+    color: var(--primary-blue);
+}
+.backToTop {
+    /* position is not fixed here, as the parent .floatingSidebar is fixed */
+    /* display is handled by JS */
+}

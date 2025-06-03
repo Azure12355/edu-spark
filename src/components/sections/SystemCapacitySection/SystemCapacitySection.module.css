@@ -1,0 +1,46 @@
+/* src/components/sections/SystemCapacitySection/SystemCapacitySection.module.css */
+.systemCapacitySection {
+    /* Uses global .section-padding and .light-bg */
+}
+.videoLink {
+    margin-top: -20px; /* Pull up slightly */
+    margin-bottom: 40px;
+}
+.capacityContent {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+.capacityText {
+    flex: 1;
+}
+.capacityText h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+.capacityText p {
+    font-size: 16px;
+    color: var(--text-medium);
+}
+.capacityImageContainer {
+    flex: 1.2;
+}
+.capacityImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .capacityContent { 
+        flex-direction: column-reverse; 
+        text-align: center;
+    }
+    .capacityText {
+        margin-top: 30px;
+    }
+}

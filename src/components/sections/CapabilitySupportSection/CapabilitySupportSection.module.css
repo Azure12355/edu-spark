@@ -1,0 +1,68 @@
+/* src/components/sections/CapabilitySupportSection/CapabilitySupportSection.module.css */
+.capabilitySupportSection {
+    /* Uses global .section-padding */
+}
+
+.capabilityCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.capabilityCard {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+.cardImageContainer {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    overflow: hidden; /* Ensure image corners are rounded */
+}
+.cardImage {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 120px; /* As per original CSS */
+    object-fit: cover;
+    display: block;
+}
+.capabilityCard h4 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+.capabilityCard p {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    line-height: 1.6;
+    flex-grow: 1; /* Make p take available space to align ul at bottom */
+    min-height: 60px; /* As per original CSS */
+}
+.capabilityCard ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+.capabilityCard li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start; /* Align icon with first line of text */
+}
+.capabilityCard li:last-child {
+    margin-bottom: 0;
+}
+.capabilityCard li i {
+    color: var(--primary-blue);
+    margin-right: 8px;
+    margin-top: 3px; /* Align icon slightly better */
+    font-size: 14px; /* Match text size better */
+}

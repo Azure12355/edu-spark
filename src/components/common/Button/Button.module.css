@@ -1,0 +1,29 @@
+/* src/components/common/Button/Button.module.css */
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-align: center;
+}
+
+.primary {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+.primary:hover {
+    background-color: #0042d1; /* Darker primary blue */
+}
+
+.secondary {
+    background-color: var(--white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+}
+.secondary:hover {
+    background-color: var(--light-blue);
+}

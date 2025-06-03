@@ -1,0 +1,117 @@
+/* src/components/layout/Footer/Footer.module.css */
+.mainFooter {
+    background-color: #262C33;
+    color: #A7B0BA;
+    font-size: 13px;
+    padding-top: 60px; /* section-padding */
+    padding-bottom: 0; /* bottom part has its own padding */
+}
+.footerLogoContainer {
+    margin-bottom: 20px;
+}
+.footerLogo {
+    opacity: 0.8;
+    display: block;
+}
+.footerContent {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.footerColumn {
+    flex: 1;
+    min-width: 180px;
+}
+.footerColumn h4 {
+    color: var(--white);
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.footerColumn ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footerColumn li {
+    margin-bottom: 10px;
+}
+.footerColumn a {
+    color: #A7B0BA;
+    text-decoration: none;
+}
+.footerColumn a:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+.footerContact p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+.qrCodes {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.qrCodes div {
+    text-align: center;
+}
+.qrCodes img {
+    /* width: 70px; height: 70px; */ /* Handled by Image component props */
+    background-color: var(--white);
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: block;
+}
+.qrCodes span {
+    font-size: 12px;
+}
+
+.footerBottom {
+    border-top: 1px solid #3A414A;
+    padding: 20px 0;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 12px;
+}
+.footerBottom p {
+    margin: 0;
+}
+.footerBottom a {
+    color: #A7B0BA;
+    text-decoration: none;
+    margin: 0 5px;
+}
+.footerBottom a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+    .footerContent { 
+        /* flex-direction: column;  */
+        /* align-items: center;  */
+        /* text-align: center;  */
+    }
+    .footerColumn {
+        flex-basis: 45%; /* Two columns on medium screens */
+        min-width: unset;
+    }
+    .qrCodes { 
+        /* justify-content: center;  */
+    }
+}
+@media (max-width: 768px) {
+    .footerColumn {
+        flex-basis: 100%; /* Stack columns */
+        text-align: center;
+    }
+     .footerColumn ul {
+        display: inline-block; /* Center list items */
+        text-align: left;
+    }
+    .qrCodes {
+        justify-content: center;
+    }
+}
