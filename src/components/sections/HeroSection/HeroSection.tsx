@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
             <span className={styles.newAnnouncement}>Prompt优解限时免费60天 <i className="fas fa-chevron-right"></i></span>
           </div>
           <h1 className={styles.mainTitle}>EduSpark</h1>
-          <h2 className={styles.subTitle}>Agent助力教育行业，提供智能化的教育解决方案</h2>
+          <h2 className={styles.subTitle}>Agent助力教育行业</h2>
           <p className={styles.description}>模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障</p>
           <div className={styles.heroButtons}>
             <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>立即体验</a>
@@ -41,10 +41,10 @@ const HeroSection: React.FC = () => {
         </div>
         <div className={styles.heroImageContainer}>
           <Image
-            src="/"
+            src="/images/ai.webp"
             alt="火山方舟平台图示"
-            width={570}
-            height={428}
+            width={350}
+            height={228}
             className={styles.heroImage}
             priority
           />

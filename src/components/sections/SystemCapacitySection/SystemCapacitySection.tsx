@@ -20,7 +20,7 @@ const SystemCapacitySection: React.FC = () => {
           </div>
           <div className={styles.capacityImageContainer}>
             <Image 
-              src="https://via.placeholder.com/500x350/E0E8FF/666666?text=System+Capacity" 
+              src="/images/SystemCapacitySection/imdxevlx57p_承载力3-移动端.jpg" 
               alt="System Capacity Graphic"
               width={500}
               height={350}

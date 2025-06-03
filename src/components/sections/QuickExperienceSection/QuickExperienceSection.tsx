@@ -5,12 +5,12 @@ import Button from '../../common/Button/Button';
 import styles from './QuickExperienceSection.module.css';
 
 const apiFeatures = [
-  { icon: "M", title: "模型选择", description: "多种模态模型体验，开箱即用" },
-  { icon: "T", title: "模型推理", description: "支持在线和批量推理，灵活适配" },
-  { icon: "F", title: "模型精调", description: "支持SFT精调，直接偏好学习等" },
-  { icon: "E", title: "模型评测", description: "准确评估性能，系统感知模型表现" },
-  { icon: "P", title: "Prompt调优", description: "轻松打造精准Prompt，高效优化" },
-  { icon: "L", title: "应用实验室", description: "多种开箱方式，搭建企业级应用" },
+  { icon: "/images/QuickExperience/模型选择.png", title: "模型选择", description: "多种模态模型体验，开箱即用" },
+  { icon: "/images/QuickExperience/模型推理.png", title: "模型推理", description: "支持在线和批量推理，灵活适配" },
+  { icon: "/images/QuickExperience/模型精调.png", title: "模型精调", description: "支持SFT精调，直接偏好学习等" },
+  { icon: "/images/QuickExperience/模型评测.png", title: "模型评测", description: "准确评估性能，系统感知模型表现" },
+  { icon: "/images/QuickExperience/prompt优化.png", title: "Prompt调优", description: "轻松打造精准Prompt，高效优化" },
+  { icon: "/images/QuickExperience/应用实验室.png", title: "应用实验室", description: "多种开箱方式，搭建企业级应用" },
 ];
 
 const QuickExperienceSection: React.FC = () => {
@@ -32,7 +32,7 @@ const QuickExperienceSection: React.FC = () => {
               <p className={styles.highlightPrice}>0.8 <span className={styles.smallText}>元/百万Tokens</span></p>
               <h4>多模态大模型</h4>
               <p>支持<span className="text-blue">文本</span>、<span className="text-blue">语音</span>、<span className="text-blue">视觉</span></p>
-              <div className={styles.featureBoxImageContainer}>
+              {/* <div className={styles.featureBoxImageContainer}>
                 <Image 
                     src="https://via.placeholder.com/400x250/F0F4FF/666666?text=Model+Features" 
                     alt="Model Features" 
@@ -40,7 +40,7 @@ const QuickExperienceSection: React.FC = () => {
                     height={218}
                     className={styles.featureBoxImg}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className={styles.experienceCol}>
@@ -51,7 +51,7 @@ const QuickExperienceSection: React.FC = () => {
               {apiFeatures.map((feature, index) => (
                 <div key={index} className={styles.apiFeatureItem}>
                   <Image 
-                    src={`https://via.placeholder.com/40x40/E0E8FF/0052FF?text=${feature.icon}`} 
+                    src={`${feature.icon}`} 
                     alt={feature.title}
                     width={32}
                     height={32}
