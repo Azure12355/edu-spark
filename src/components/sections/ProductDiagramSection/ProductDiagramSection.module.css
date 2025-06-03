@@ -1,76 +1,116 @@
 /* src/components/sections/ProductDiagramSection/ProductDiagramSection.module.css */
-.productDiagramSection {
-    background-color: #F7F8FA; /* 主背景色，非常浅的灰色 */
+@keyframes fadeInGrow {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  .productDiagramSection {
+    background-color: #F9FAFC; /* 整体背景更淡雅 */
+    padding-top: 80px; /* 增加顶部间距 */
+    padding-bottom: 80px;
   }
   
   .mainSectionTitle {
-    margin-bottom: 40px; /* 标题和内容间距 */
+    margin-bottom: 50px;
+    font-size: 32px; /* 标题稍大 */
+    color: #1D2129;
   }
   
   .contentWrapper {
     display: flex;
-    gap: 30px; /* 图表和信息面板间距 */
-    background-color: var(--white); /* 内层容器背景，使得圆角可以包裹 */
+    gap: 32px;
+    background: linear-gradient(145deg, #ffffff 0%, #fdfdff 100%); /* 内容区白色渐变 */
     padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    border-radius: 16px; /* 更大的圆角 */
+    box-shadow: 0 12px 32px rgba(80, 90, 120, 0.08); /* 更柔和的阴影 */
   }
   
   .diagramContainer {
-    flex: 2; /* 图表区域占比更大 */
-    background-color: #F0F4FF; /* 图表区域的淡紫色背景 */
-    padding: 24px;
-    border-radius: 8px;
+    flex: 2.2; /* 图表区域占比微调 */
+    /* 科技感背景渐变 */
+    background: linear-gradient(135deg, #EDF2FF 0%, #F5F8FF 70%, #E8EEFB 100%);
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 15px rgba(0, 82, 255, 0.03);
   }
   
   .diagramRow {
-    margin-bottom: 20px;
-    position: relative; /* For rowLabel positioning */
+    margin-bottom: 24px; /* 行间距调整 */
+    position: relative;
   }
   .diagramRow:last-child {
     margin-bottom: 0;
   }
   
+  /* 入场动画 */
+  .animatedRow {
+    animation: fadeInGrow 0.6s ease-out forwards;
+    opacity: 0; /* 初始不可见 */
+  }
+  /* 为每一行设置不同的动画延迟，形成错落效果 */
+  .diagramRow:nth-child(1).animatedRow { animation-delay: 0.1s; }
+  .diagramRow:nth-child(2).animatedRow { animation-delay: 0.2s; }
+  .diagramRow:nth-child(3).animatedRow { animation-delay: 0.3s; }
+  .diagramRow:nth-child(4).animatedRow { animation-delay: 0.4s; }
+  .diagramRow:nth-child(5).animatedRow { animation-delay: 0.5s; }
+  
+  
   .rowLabel {
-    font-size: 12px;
-    color: #86909C; /* 灰色标签文字 */
-    margin-bottom: 8px;
-    padding-left: 4px; /* 稍微缩进 */
+    font-size: 13px;
+    color: #6C7B95; /* 标签文字颜色更深 */
+    margin-bottom: 10px;
+    padding-left: 4px;
+    font-weight: 500;
   }
   
   .rowContent {
     display: flex;
-    gap: 12px; /* 同行盒子间距 */
-    flex-wrap: wrap; /* 允许换行，如平台能力部分 */
+    gap: 12px;
+    flex-wrap: wrap;
   }
   
   .diagramBox {
     background-color: var(--white);
     padding: 12px 16px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 8px; /* 盒子圆角稍大 */
+    box-shadow: 0 3px 6px rgba(100, 120, 180, 0.06);
     font-size: 14px;
-    color: var(--text-dark);
+    color: #344054; /* 盒子内文字颜色 */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    border: 1px solid #E5E6EB;
+    border: 1px solid #EAEFFB; /* 更淡的边框 */
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
   }
   
-  /* 自定义图标样式 - 确保替换为真实的SVG或Image */
+  .interactiveBox:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 82, 255, 0.1);
+    border-color: #B2CCFF; /* Hover时边框颜色 */
+  }
+  
   .customIcon {
     margin-right: 8px;
-    font-size: 16px; /* 示例大小 */
+    font-size: 16px;
+    display: inline-flex; /* 确保SVG可以应用颜色 */
+    align-items: center;
   }
-  .iconCoze { color: #4A90E2; } /* 示例颜色 */
-  .iconHiAgent { color: #50E3C2; }
-  .iconVolcArk { color: #1664FF; font-size: 18px; } /* 火山方舟图标颜色和官网类似 */
-  .iconDoubao { color: #7ED321; }
-  
+  .iconCoze { color: #4A4AFF; /* Coze专业版图标颜色 (示例) */ }
+  .iconHiAgent { color: #00C4B3; /* Hi Agent图标颜色 (示例) */ }
+  .iconVolcArk { color: #1664FF; font-size: 18px; }
+  .iconDoubao svg path { /* 通过SVG的fill属性设置渐变 */
+    /* fill: url(#doubaoGradient); 定义在SVG内部 */
+  }
   
   .largeBox {
-    flex: 1; /* AI 应用开发那行的盒子均分 */
+    flex: 1;
     padding: 16px;
     font-weight: 500;
   }
@@ -82,20 +122,22 @@
   
   .arkBox {
     font-weight: 500;
-    color: #165DFF; /* 火山方舟文字颜色 */
-    background-color: #E8F1FF; /* 火山方舟盒子背景 */
-    border-color: #ADC6FF;
+    color: #1664FF;
+    background: linear-gradient(135deg, #E8F1FF 0%, #F0F6FF 100%); /* 火山方舟盒子背景渐变 */
+    border: 1px solid #C9DFFF; /* 边框更明显一点 */
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
   
   .platformFeaturesRow .rowContent {
-    /* 允许平台能力盒子换行并均匀分布 */
-    justify-content: space-between; /* 或 flex-start 如果不想拉伸 */
+    justify-content: space-between;
   }
   .featureBox {
-    flex-basis: calc(16.666% - 10px); /* 大约六个一行，减去gap */
-    min-width: 100px; /* 最小宽度防止过度挤压 */
-    padding: 10px;
+    flex-basis: calc(16.666% - 10px);
+    min-width: 90px;
+    padding: 10px 8px; /* 调整内边距 */
     font-size: 13px;
+    background-color: #FDFEFF; /* 特性盒子不同背景 */
   }
   
   .baseModelCategory {
@@ -103,64 +145,77 @@
     padding: 16px;
     font-weight: 500;
   }
-  .doubaoCategory .customIcon{ /* 多彩豆包图标示意 */
-    background: linear-gradient(45deg, #FFD700, #FF69B4, #00BFFF, #32CD32);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    font-size: 18px;
+  .doubaoCategory {
+    /* 可以添加特定样式 */
   }
   
   .thirdPartyCategory {
-    /* 可以有不同的背景或边框以示区分 */
+    background-color: #F9FAFB; /* 三方模型不同背景 */
   }
-  .subModelsRow {
-      margin-top: -10px; /* 使其更贴近 基础模型一行 */
+  
+  /* Row 5: 豆包大模型 subtypes - Centering and Styling */
+  .subModelsRowWrapper {
+    /* 包裹层用于在 flex 容器内控制对齐 */
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 将内部的 content 水平居中 */
+    margin-top: -12px; /* 调整与上一行的间距 */
   }
-  .subModelsRow .rowContent {
-      justify-content: flex-start; /* 左对齐 */
-      gap: 10px;
+  .subModelsRowContent {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* 允许换行 */
+    justify-content: center; /* 确保即使换行也居中 */
+    /* max-width: 75%; 限制最大宽度，模拟相对于父级（豆包大模型盒子）居中 */
+    /* 如果豆包大模型盒子宽度固定，可以计算更精确的 max-width 或使用 margin auto */
   }
   .subModelBox {
     font-size: 13px;
     padding: 8px 12px;
-    background-color: #F7F9FC; /* 子类型盒子不同背景 */
-    border-color: #E5EAF0;
+    background-color: #F5F8FE; /* 子类型盒子背景 */
+    border-color: #DCE5F5;
   }
   
   
   /* Right Info Panel */
   .infoPanel {
-    flex: 1; /* 信息面板占比 */
-    background-color: var(--white); /* 信息面板背景 */
-    /* padding: 24px; - 已由 contentWrapper 提供 */
-    /* border-radius: 8px; - 已由 contentWrapper 提供 */
+    flex: 1;
+    background-color: var(--white);
+    padding: 28px; /* 面板内边距 */
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(100, 120, 180, 0.07);
   }
   
   .panelTitle {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 12px;
+    color: #1D2129;
+    margin-bottom: 16px;
+    /* 标题也用一点渐变 */
+    background: linear-gradient(90deg, #2a51c7 0%, #5331c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    display: inline-block;
   }
   
   .panelDescription {
     font-size: 14px;
-    color: #4E5969;
-    line-height: 1.7;
-    margin-bottom: 24px;
+    color: #5A6881;
+    line-height: 1.8;
+    margin-bottom: 28px;
   }
   
   .panelSubtitle {
     font-size: 16px;
     font-weight: 500;
-    color: var(--text-dark);
-    margin-top: 24px;
-    margin-bottom: 12px;
+    color: #344054;
+    margin-top: 28px;
+    margin-bottom: 14px;
   }
-  .panelSubtitle:first-of-type { /* 第一个架构优势的 margin-top */
-      margin-top: 0;
+  .panelSubtitle:first-of-type {
+    margin-top: 0;
   }
   
   .advantagesList {
@@ -170,56 +225,62 @@
   }
   .advantagesList li {
     font-size: 14px;
-    color: #4E5969;
-    margin-bottom: 8px;
+    color: #5A6881;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
   }
   .advantagesList li i {
-    color: var(--ve-primary-blue); /* 蓝色对勾 */
-    margin-right: 8px;
+    color: var(--ve-primary-blue);
+    margin-right: 10px;
     font-size: 16px;
   }
   
   .consultButton {
     width: 100%;
     padding: 12px;
-    background-color: var(--ve-primary-blue);
+    background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3A79FF 100%); /* 按钮渐变 */
     color: var(--white);
     border: none;
-    border-radius: 4px;
+    border-radius: 6px; /* 按钮圆角 */
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 24px;
+    transition: all 0.3s ease;
+    margin-top: 28px;
+    box-shadow: 0 4px 12px rgba(22, 100, 255, 0.2);
   }
   .consultButton:hover {
-    background-color: #0042d1; /* 深一点的蓝色 */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(22, 100, 255, 0.3);
   }
   
   .relatedCapabilities {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
   .capabilityItem {
-    background-color: #F7F8FA; /* 浅灰色背景 */
-    padding: 10px 12px;
-    border-radius: 4px;
+    background-color: #F8FAFD;
+    padding: 10px 14px;
+    border-radius: 6px;
     font-size: 14px;
-    color: var(--text-dark);
+    color: #475569;
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border: 1px solid #EFF3F9;
   }
-  .capabilityItem:hover {
-      background-color: #EFF0F2;
+  .interactiveItem:hover { /* Renamed to avoid conflict */
+    background-color: #EFF5FF;
+    transform: translateX(3px);
+    border-left: 3px solid var(--ve-primary-blue);
+    padding-left: 11px; /* Adjust padding to account for border */
   }
   .capabilityItem .customIcon {
-      font-size: 16px;
-      margin-right: 8px;
+    font-size: 16px;
+    margin-right: 10px;
   }
   
   
@@ -230,48 +291,39 @@
       padding: 24px;
     }
     .diagramContainer {
-      flex: none; /* 取消 flex grow/shrink */
-      width: 100%;
+      padding: 20px;
     }
     .infoPanel {
-      flex: none;
-      width: 100%;
-      margin-top: 24px; /* 在图表下方时增加间距 */
+      margin-top: 24px;
+      padding: 20px;
     }
     .featureBox {
-      flex-basis: calc(33.333% - 8px); /* 平板上可能一行三个 */
+      flex-basis: calc(33.333% - 8px);
     }
   }
   
   @media (max-width: 768px) {
     .mainSectionTitle {
-      font-size: 24px;
+      font-size: 26px;
+      margin-bottom: 30px;
     }
-    .contentWrapper {
-      padding: 16px;
-    }
-    .diagramContainer, .infoPanel {
-      padding: 16px;
-    }
+    .contentWrapper { padding: 16px; }
+    .diagramContainer, .infoPanel { padding: 16px; }
+    
     .diagramRow .rowContent {
-      flex-direction: column; /* 移动端大部分盒子堆叠 */
-      align-items: stretch; /* 拉伸以填满宽度 */
+      flex-direction: column;
+      align-items: stretch;
     }
     .diagramRow.platformFeaturesRow .rowContent,
-    .diagramRow.subModelsRow .rowContent {
-      flex-direction: row; /* 平台能力和子模型在移动端依然尝试横向排列，但会换行 */
+    .subModelsRowContent { /* Apply to the actual content holder */
+      flex-direction: row;
       flex-wrap: wrap;
-      justify-content: flex-start;
+      justify-content: space-around; /* Try space-around for better mobile spacing */
     }
-    .featureBox {
-      flex-basis: calc(50% - 6px); /* 移动端一行两个 */
+    .featureBox, .subModelBox {
+      flex-basis: calc(48% - 6px); /* 移动端一行两个，留出gap */
       font-size: 12px;
       padding: 8px;
     }
-    .subModelBox {
-      flex-basis: calc(50% - 5px); /* 子模型一行两个 */
-    }
-    .panelTitle { font-size: 18px; }
-    .panelDescription, .advantagesList li { font-size: 13px; }
-    .consultButton { font-size: 15px; }
+    .panelTitle { font-size: 20px; }
   }
