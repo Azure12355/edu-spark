@@ -1,21 +1,38 @@
 // src/components/sections/HeroSection/HeroSection.tsx
 import React from 'react';
 import Image from 'next/image';
-// import Button from '../../common/Button/Button'; // 我们将为Hero部分的按钮定制样式，可以不直接用通用Button
 import styles from './HeroSection.module.css';
 
 const HeroSection: React.FC = () => {
   return (
     <section className={styles.heroSection}>
+      {/* 视频背景 */}
+      <div className={styles.videoBackgroundContainer}>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline // 关键属性，用于在移动设备上（尤其是iOS）内联播放
+          className={styles.backgroundVideo}
+          poster="/images/hero-video-poster.jpg" // 可选：视频加载前的占位图
+        >
+          {/* 确保视频文件放在 public/videos/ 目录下 */}
+          <source src="/video/hero.mp4" type="video/mp4" />
+          {/* 可以为不支持mp4的浏览器提供其他格式 */}
+          {/* <source src="/videos/hero-background.webm" type="video/webm" /> */}
+          您的浏览器不支持 HTML5 视频。
+        </video>
+      </div>
+
+      {/* 内容层 - 确保内容在视频之上 */}
       <div className={`container ${styles.heroContent}`}>
         <div className={styles.heroText}>
           <div className={styles.newAnnouncementContainer}>
             <span className={styles.newTag}>NEW</span>
-            {/* 官网的公告似乎有两个版本，这里采用第二个截图的样式 */}
             <span className={styles.newAnnouncement}>Prompt优解限时免费60天 <i className="fas fa-chevron-right"></i></span>
           </div>
-          <h1 className={styles.mainTitle}>火山方舟</h1>
-          <h2 className={styles.subTitle}>一站式大模型开发平台</h2>
+          <h1 className={styles.mainTitle}>EduSpark</h1>
+          <h2 className={styles.subTitle}>Agent助力教育行业，提供智能化的教育解决方案</h2>
           <p className={styles.description}>模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障</p>
           <div className={styles.heroButtons}>
             <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>立即体验</a>
@@ -24,10 +41,10 @@ const HeroSection: React.FC = () => {
         </div>
         <div className={styles.heroImageContainer}>
           <Image
-            src="https://lf-volc-website.volccdn.com/obj/volcengine-public/large_language_model/image/ark-banner.image.1.0.png" // 使用官网图片链接
+            src="/"
             alt="火山方舟平台图示"
-            width={570} // 根据官网图片尺寸调整
-            height={428} // 根据官网图片尺寸调整
+            width={570}
+            height={428}
             className={styles.heroImage}
             priority
           />

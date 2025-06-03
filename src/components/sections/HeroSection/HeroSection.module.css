@@ -1,211 +1,248 @@
 /* src/components/sections/HeroSection/HeroSection.module.css */
 .heroSection {
-    /* 淡雅科技感渐变背景 */
-    background: linear-gradient(135deg, #f3f5fc 0%, #eef2fa 60%, #e6ecf7 100%);
-    padding: 60px 0; /* 上下内边距调整，可以根据视觉效果微调 */
-    position: relative;
-    overflow: hidden; /* 隐藏可能溢出的背景元素 */
-  }
-  
-  /* 可选：添加一些科技感的背景图形元素（如果需要更复杂的效果） */
-  .heroSection::before,
-  .heroSection::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.05;
-    pointer-events: none; /* 不影响交互 */
-  }
-  
-  .heroSection::before {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(100, 120, 255, 0.5) 0%, rgba(100, 120, 255, 0) 70%);
-    top: -100px;
-    left: -150px;
-    filter: blur(50px);
-  }
-  
-  .heroSection::after {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(150, 100, 255, 0.4) 0%, rgba(150, 100, 255, 0) 70%);
-    bottom: -150px;
-    right: -100px;
-    filter: blur(60px);
-  }
-  
-  
+  padding: 60px 0;
+  position: relative; /* 关键：为视频背景容器提供定位上下文 */
+  overflow: hidden; /* 隐藏可能溢出的视频部分 */
+  /* 移除之前的渐变背景，因为现在使用视频背景 */
+  /* background: linear-gradient(135deg, #f3f5fc 0%, #eef2fa 60%, #e6ecf7 100%); */
+}
+
+/* 移除之前的 ::before 和 ::after 伪元素背景，或根据需要调整 */
+/*
+.heroSection::before,
+.heroSection::after {
+  display: none;
+}
+*/
+
+/* 新增：视频背景容器 */
+.videoBackgroundContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* 确保视频在最底层 */
+  overflow: hidden; /* 再次确保溢出被隐藏 */
+}
+
+.backgroundVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪视频边缘以填充 */
+  /*
+  如果您希望视频完整显示但可能有黑边（letterboxing/pillarboxing），可以使用:
+  object-fit: contain;
+  */
+  position: absolute; /* 对于某些浏览器，绝对定位可能有助于 object-fit */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 确保视频居中 */
+  min-width: 100%; /* 确保在各种宽高比下都能覆盖 */
+  min-height: 100%; /* 确保在各种宽高比下都能覆盖 */
+}
+
+
+.heroContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  position: relative; /* 关键：确保内容在视频之上 */
+  z-index: 1; /* 高于视频背景的 z-index */
+}
+
+/* --- 以下样式与之前保持一致或按需微调 --- */
+
+.heroText {
+  max-width: 520px;
+  flex-shrink: 0;
+  /* 可选：为文本添加轻微背景或阴影以提高在复杂视频上的可读性 */
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  /* padding: 20px; */
+  /* border-radius: 8px; */
+  /* text-shadow: 0 0 8px rgba(0,0,0,0.5); */
+}
+
+.newAnnouncementContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  /* 如果视频背景复杂，可能需要给这个容器也加上一点背景使其更清晰 */
+  /* background-color: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-flex; */
+}
+
+.newTag {
+  background-color: #E8F1FF;
+  color: #1664FF;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 12px;
+  line-height: 1.5;
+}
+
+.newAnnouncement {
+  font-size: 14px;
+  color: #4E5969;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+.newAnnouncement i {
+  font-size: 12px;
+  margin-left: 6px;
+  color: #86909C;
+}
+
+.mainTitle {
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.25;
+  background: linear-gradient(90deg, #2f54eb 0%, #861dee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+}
+
+.subTitle {
+  font-size: 28px;
+  /* 如果视频背景是浅色的，确保文字颜色足够深 */
+  color: var(--text-dark);
+  /* 如果视频背景是深色的，可以考虑浅色文字 */
+  /* color: var(--white); */
+  margin: 0 0 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.description {
+  font-size: 16px;
+  color: #4E5969; /* 根据视频背景调整可读性 */
+  /* color: #f0f0f0; */
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 16px;
+}
+
+.heroBtn {
+  padding: 12px 32px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primaryBtn {
+  color: var(--white);
+  background: linear-gradient(90deg, #2f54eb 0%, #5733ff 100%);
+  box-shadow: 0 4px 12px rgba(47, 84, 235, 0.2);
+}
+.primaryBtn:hover {
+  background: linear-gradient(90deg, #1e43d6 0%, #4a28e0 100%);
+  box-shadow: 0 6px 16px rgba(47, 84, 235, 0.3);
+}
+
+.secondaryBtn {
+  color: #1664FF;
+  background-color: rgba(232, 241, 255, 0.85); /* 增加一点透明度，让视频背景透出来一点 */
+  border: 1px solid #ADC6FF;
+}
+.secondaryBtn:hover {
+  background-color: rgba(220, 233, 255, 0.9);
+  border-color: #A0BFFF;
+  color: #0052D9;
+}
+
+.heroImageContainer {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+.heroImage {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 1024px) {
   .heroContent {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px; /* 文本和图片间距 */
-    position: relative; /* 确保内容在背景元素之上 */
-    z-index: 1;
+    gap: 30px;
   }
-  
   .heroText {
-    max-width: 520px; /* 根据官网调整文本区域宽度 */
-    flex-shrink: 0;
+    max-width: 480px;
   }
-  
-  .newAnnouncementContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  
-  .newTag {
-    background-color: #E8F1FF; /* 官网的 NEW 标签背景色 */
-    color: #1664FF; /* 官网的 NEW 标签文字颜色 */
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    margin-right: 12px;
-    line-height: 1.5;
-  }
-  
-  .newAnnouncement {
-    font-size: 14px;
-    color: #4E5969; /* 官网公告文字颜色 */
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-  }
-  .newAnnouncement i {
-    font-size: 12px; /* 图标略小 */
-    margin-left: 6px;
-    color: #86909C; /* 图标颜色 */
-  }
-  
   .mainTitle {
-    font-size: 48px; /* 官网主标题字号 */
-    font-weight: 600; /* 官网主标题字重 */
-    margin-bottom: 12px; /* 调整与副标题间距 */
-    line-height: 1.25;
-    /* 蓝紫色渐变 */
-    background: linear-gradient(90deg, #2f54eb 0%, #861dee 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    /* text-fill-color: transparent; */
-    display: inline-block; /* 确保渐变生效 */
+    font-size: 40px;
   }
-  
   .subTitle {
-    font-size: 28px; /* 官网副标题字号 */
-    color: var(--text-dark);
-    margin: 0 0 16px;
-    font-weight: 500;
-    line-height: 1.4;
+    font-size: 24px;
   }
-  
-  .description {
-    font-size: 16px;
-    color: #4E5969; /* 官网描述文字颜色 */
-    margin-bottom: 32px; /* 调整与按钮间距 */
-    line-height: 1.6;
+  .heroImageContainer {
+    max-width: 45%;
   }
-  
-  .heroButtons {
-    display: flex;
-    gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 40px 0;
+    /* 对于移动端，视频背景可能会很消耗性能，可以考虑在小屏幕上禁用视频，改用静态图或纯色/渐变背景 */
   }
-  
-  .heroBtn {
-    padding: 12px 32px; /* 按钮尺寸调整 */
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
+  /* 示例：移动端禁用视频背景，改用之前的渐变 */
+  /*
+  .videoBackgroundContainer {
+    display: none;
+  }
+  .heroSection {
+     background: linear-gradient(135deg, #f3f5fc 0%, #eef2fa 60%, #e6ecf7 100%);
+  }
+  */
+  .heroContent {
+    flex-direction: column;
+    text-align: center;
+  }
+  .heroText {
+    max-width: 100%;
+    margin-bottom: 30px;
+    order: 2;
+    /* background-color: rgba(0, 0, 0, 0.3); 示例：在移动端给文本区域一个深色半透明背景以保证可读性 */
+    /* padding: 20px; */
+    /* border-radius: 8px; */
+  }
+  /*
+  .mainTitle, .subTitle, .description, .newAnnouncement {
+    color: white; 示例：如果用了深色背景或视频，文本改白色
+  }
+  */
+  .mainTitle {
+    font-size: 32px;
+  }
+  .subTitle {
+    font-size: 20px;
+  }
+  .newAnnouncementContainer, .heroButtons {
     justify-content: center;
   }
-  
-  .primaryBtn {
-    color: var(--white);
-    /* 蓝紫色渐变背景 */
-    background: linear-gradient(90deg, #2f54eb 0%, #5733ff 100%);
-    box-shadow: 0 4px 12px rgba(47, 84, 235, 0.2); /* 添加一点阴影 */
-  }
-  .primaryBtn:hover {
-    background: linear-gradient(90deg, #1e43d6 0%, #4a28e0 100%);
-    box-shadow: 0 6px 16px rgba(47, 84, 235, 0.3);
-  }
-  
-  .secondaryBtn {
-    color: #1664FF; /* 官网次要按钮文字颜色 */
-    background-color: #E8F1FF; /* 官网次要按钮背景色 */
-    border: 1px solid #ADC6FF; /* 官网次要按钮边框 */
-  }
-  .secondaryBtn:hover {
-    background-color: #DCE9FF;
-    border-color: #A0BFFF;
-    color: #0052D9;
-  }
-  
   .heroImageContainer {
-    flex-shrink: 0;
-    margin-left: 20px; /* 图片与右侧边缘的距离或与文本的额外距离 */
+    order: 1;
+    margin-left: 0;
+    max-width: 80%;
+    margin-bottom: 20px;
   }
-  .heroImage {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  /* 响应式调整 */
-  @media (max-width: 1024px) { /* 平板 */
-    .heroContent {
-      gap: 30px;
-    }
-    .heroText {
-      max-width: 480px;
-    }
-    .mainTitle {
-      font-size: 40px;
-    }
-    .subTitle {
-      font-size: 24px;
-    }
-    .heroImageContainer {
-      /* 确保图片按比例缩小 */
-      max-width: 45%;
-    }
-  }
-  
-  @media (max-width: 768px) { /* 移动端 */
-    .heroSection {
-      padding: 40px 0;
-    }
-    .heroContent {
-      flex-direction: column;
-      text-align: center;
-    }
-    .heroText {
-      max-width: 100%;
-      margin-bottom: 30px;
-      order: 2; /* 文本内容在图片下方 */
-    }
-    .mainTitle {
-      font-size: 32px;
-    }
-    .subTitle {
-      font-size: 20px;
-    }
-    .newAnnouncementContainer, .heroButtons {
-      justify-content: center;
-    }
-    .heroImageContainer {
-      order: 1; /* 图片在文本内容上方 */
-      margin-left: 0;
-      max-width: 80%; /* 图片在移动端可以大一些 */
-      margin-bottom: 20px;
-    }
-  }
+}
