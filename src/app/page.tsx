@@ -8,6 +8,7 @@ import SystemCapacitySection from '@/components/sections/SystemCapacitySection/S
 import CapabilitySupportSection from '@/components/sections/CapabilitySupportSection/CapabilitySupportSection';
 import PricingSection from '@/components/sections/PricingSection/PricingSection';
 import Footer from '@/components/layout/Footer/Footer';
+import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
         <QuickExperienceSection />
         <SystemCapacitySection />
         <CapabilitySupportSection />
+        <ProductDiagramSection />
         <PricingSection />
         {/* ... 其他 section ... */}
       </main>
