@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduSpark AI - AI驱动教学创新平台</title>
+    <meta
+        name="description"
+        content="EduSpark AI 是一款基于开源大模型的教学实训智能体，助力教师高效备课与考核，赋能学生个性化练习与指导。"
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+    <link href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased text-gray-700 dark:text-gray-300 transition-colors duration-300 overflow-x-hidden global-gradient-bg">
+
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-sm dark:shadow-dark-sm transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="logo-area flex-shrink-0" data-aos="fade-right">
+                    <a href="#" class="flex items-center">
+                        <i class="fas fa-lightbulb text-primary dark:text-primary-light text-2xl mr-2 animate-pulse"></i>
+                        <span class="text-xl font-semibold font-serif text-gray-900 dark:text-white">EduSpark AI</span>
+                    </a>
+                </div>
+                 <nav class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+                     <div class="flex space-x-1">
+                        <a href="#about" class="nav-link">关于我们</a>
+                        <a href="#features" class="nav-link">核心功能</a>
+                        <a href="#visualization" class="nav-link">工作原理</a>
+                        <a href="#tech" class="nav-link">技术架构</a>
+                         <a href="#benefits" class="nav-link">核心价值</a>
+                         <a href="#further-reading" class="nav-link">进一步了解</a>
+                        <a href="#contact" class="nav-link">联系我们</a>
+                    </div>
+                </nav>
+                <div class="actions-area flex-shrink-0 flex items-center space-x-3" data-aos="fade-left">
+                    <button id="theme-toggle" type="button" class="theme-toggle-button">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm-.707 7.072l.707-.707a1 1 0 10-1.414-1.414l-.707.707a1 1 0 001.414 1.414zM3 11a1 1 0 100 2H2a1 1 0 100-2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <a href="https://github.com/yourusername/eduspark-ai" target="_blank" rel="noopener noreferrer" class="github-link" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 space-y-16 md:space-y-20 lg:space-y-24">
+        <section class="hero-section relative overflow-hidden py-20 md:py-28 lg:py-32 -mt-16 md:-mt-20 lg:-mt-24 min-h-screen flex items-center">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="max-w-3xl mx-auto text-center">
+                    <span id="hero-badge" class="inline-flex items-center px-4 py-1 rounded-full text-base font-medium bg-blue-100/80 dark:bg-blue-900/70 text-blue-800 dark:text-blue-200 shadow-md dark:shadow-dark-md backdrop-blur-sm opacity-0">
+                        <i class="fas fa-brain mr-1.5"></i> ✨ AI赋能智慧教学
+                    </span>
+                    <h1 id="hero-title-main" class="mt-8 text-4xl font-bold font-serif tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl opacity-0">
+                        EduSpark AI
+                    </h1>
+                    <h2 id="hero-title-sub" class="mt-4 text-3xl font-semibold font-serif tracking-tight text-gray-800 dark:text-gray-100 sm:text-4xl lg:text-5xl opacity-0">
+                        <span class="hero-subtitle-gradient">AI 驱动教学创新，点亮学习未来</span>
+                    </h2>
+                    <p id="hero-desc" class="mt-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300 opacity-0">
+                         EduSpark AI 融合先进的开源大模型与教学实训场景，为教师提供智能备课、自动出题、学情分析等强大工具，同时为学生打造全天候个性化练习与智能辅导，共同开启教学相长新篇章。
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6" data-aos="fade-up" data-aos-delay="200">
+                        <a href="/app" class="btn btn-gradient-primary group text-lg px-8 py-3"><i class="fas fa-rocket mr-2 group-hover:rotate-12 transition-transform duration-300"></i> 开始体验</a>
+                        <a href="#about" class="btn btn-gradient-secondary group text-lg px-8 py-3"><i class="fas fa-info-circle mr-2 group-hover:scale-110 transition-transform duration-300"></i> 了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section-padding">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-secondary dark:text-secondary-light">我们的愿景</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">革新教学模式，激发学习潜能。</p>
+                </div>
+                <div class="lg:grid lg:grid-cols-2 lg:gap-20 lg:items-center">
+                    <div data-aos="fade-right" class="about-text-panel">
+                        <h2 class="subheading text-primary dark:text-primary-light">关于 EduSpark AI</h2>
+                        <p class="heading mt-2 text-gray-900 dark:text-white">智能时代的教学实训伙伴</p>
+                        <p class="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300 first-letter-drop">
+                             EduSpark AI 致力于将前沿的人工智能技术深度融入教育实训领域。我们相信，通过智能化的工具，可以极大地提升教师的工作效率，丰富教学手段，并为学生提供更加个性化、适应性的学习体验。
+                        </p>
+                        <p class="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300 first-letter-drop">
+                            我们的平台基于强大的开源大语言模型，结合本地化知识库与RAG技术，旨在解决传统教学中备课耗时、辅导不足、效果评估困难等痛点，赋能教师，成就学生，共同迈向智能教育新时代。
+                       </p>
+                    </div>
+                    <div class="mt-12 lg:mt-0" data-aos="fade-left" data-aos-delay="100">
+                        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZWR1Y2F0aW9uJTIwdGVjaG5vbG9neXxlbnwwfHwwfHx8MA&auto=format&fit=crop&w=600&q=60" alt="EduSpark AI 团队合作与技术研讨" class="rounded-2xl shadow-xl dark:shadow-dark-xl aspect-video object-cover transform hover:scale-105 transition-transform duration-500 ease-in-out">
+                        <p class="text-xs text-gray-600 dark:text-gray-400 text-right mt-3">示意图：AI技术赋能教育创新</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section-padding">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-secondary dark:text-secondary-light">核心功能</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">EduSpark AI 如何赋能教与学</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex items-start mb-4">
+                            <span class="icon-wrapper feature-icon-bg-1 mr-4 flex-shrink-0"><i class="fas fa-file-alt text-xl"></i></span>
+                            <h3 class="feature-title mt-1">智能备课设计</h3>
+                        </div>
+                        <p class="feature-description">教师可上传课程大纲与知识库，AI自动生成包含知识讲解、实训练习、时间分布的详细备课内容，大幅提升备课效率。</p>
+                    </div>
+                     <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex items-start mb-4">
+                             <span class="icon-wrapper feature-icon-bg-2 mr-4 flex-shrink-0"><i class="fas fa-question-circle text-xl"></i></span>
+                            <h3 class="feature-title mt-1">课后检测生成</h3>
+                        </div>
+                        <p class="feature-description">根据教学内容智能生成多样化考核题目（选择、填空、编程等）及参考答案，减轻教师出题负担。</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="flex items-start mb-4">
+                             <span class="icon-wrapper feature-icon-bg-3 mr-4 flex-shrink-0"><i class="fas fa-user-graduate text-xl"></i></span>
+                            <h3 class="feature-title mt-1">学生全时辅导</h3>
+                        </div>
+                        <p class="feature-description">提供7x24小时在线练习与智能指导，学生可随时提问、进行针对性练习，并获得即时错误分析与学习建议。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualization" class="section-padding">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-primary dark:text-primary-light">工作原理</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">EduSpark AI 的智能核心</p>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg leading-relaxed text-gray-700 dark:text-gray-300">EduSpark AI 通过一个精心设计的流程，将教师输入、大模型能力和学生互动有机结合，实现高效的教学辅助。</p>
+                </div>
+
+                <div class="max-w-7xl mx-auto" data-aos="zoom-in-up">
+                    <div class="flowchart-flex-container">
+                        <div class="flowchart-flex-stage justify-center">
+                            <div class="flowchart-node node-data" data-aos="fade-right" data-aos-delay="100"><i class="fas fa-upload"></i><span>教师上传</span><span class="node-subtitle">课程资料/大纲</span></div>
+                            <div class="flowchart-node node-io" data-aos="fade-right" data-aos-delay="200"><i class="fas fa-cogs"></i><span>参数设置</span><span class="node-subtitle">教学目标/要求</span></div>
+                        </div>
+                        <div class="flowchart-flex-connector"><div class="connector-line"></div><div class="connector-arrow"></div></div>
+                        <div class="flowchart-flex-stage justify-center">
+                             <div class="flowchart-node node-data" data-aos="fade-up" data-aos-delay="300"><i class="fas fa-book-open"></i><span>知识库构建</span><span class="node-subtitle">PDF解析/向量化</span></div>
+                             <div class="flowchart-node node-rag" data-aos="fade-down" data-aos-delay="400"><i class="fas fa-search-plus"></i><span>RAG检索</span><span class="node-subtitle">上下文增强</span></div>
+                        </div>
+                        <div class="flowchart-flex-connector"><div class="connector-line"></div><div class="connector-arrow"></div></div>
+                         <div class="flowchart-flex-stage justify-center">
+                             <div class="flowchart-node node-process" data-aos="fade-left" data-aos-delay="500"><i class="fas fa-microchip"></i><span>LLM处理</span><span class="node-subtitle">内容生成/分析</span></div>
+                        </div>
+                        <div class="flowchart-flex-connector"><div class="connector-line"></div><div class="connector-arrow"></div></div>
+                        <div class="flowchart-flex-stage justify-center">
+                            <div class="flowchart-node node-io" data-aos="fade-up" data-aos-delay="600"><i class="fas fa-edit"></i><span>备课/题目生成</span><span class="node-subtitle">教师端应用</span></div>
+                            <div class="flowchart-node node-io" data-aos="fade-down" data-aos-delay="700"><i class="fas fa-comments"></i><span>智能问答/辅导</span><span class="node-subtitle">学生端应用</span></div>
+                        </div>
+                        <div class="flowchart-flex-connector"><div class="connector-line"></div><div class="connector-arrow"></div></div>
+                        <div class="flowchart-flex-stage justify-center">
+                            <div class="flowchart-node node-data" data-aos="fade-right" data-aos-delay="800"><i class="fas fa-chart-line"></i><span>学情分析</span><span class="node-subtitle">教学优化建议</span></div>
+                        </div>
+                    </div>
+                    <p class="text-center mt-12 text-sm text-gray-600 dark:text-gray-400">(EduSpark AI 核心工作流程示意图)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech" class="section-padding">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-secondary dark:text-secondary-light">技术架构</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">驱动 EduSpark AI 的核心技术</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6 md:gap-8 text-center"> {/* Adjusted to 4 columns for 8 items */}
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="100"><i class="fas fa-brain tech-icon text-blue-500 dark:text-blue-400"></i><span class="tech-name">开源大模型 (千问3)</span><span class="tech-desc">核心智能引擎</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="150"><i class="fab fa-java tech-icon text-red-500 dark:text-red-400"></i><span class="tech-name">SpringBoot</span><span class="tech-desc">后端服务框架</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="200"><i class="fab fa-react tech-icon text-sky-500 dark:text-sky-400"></i><span class="tech-name">Next.js</span><span class="tech-desc">前端用户界面</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="250"><i class="fas fa-leaf tech-icon text-green-500 dark:text-green-400"></i><span class="tech-name">Spring AI</span><span class="tech-desc">AI应用开发</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="300"><i class="fas fa-database tech-icon text-orange-500 dark:text-orange-400"></i><span class="tech-name">MySQL</span><span class="tech-desc">结构化数据存储</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="350"><i class="fas fa-share-alt tech-icon text-purple-500 dark:text-purple-400"></i><span class="tech-name">Neo4j</span><span class="tech-desc">知识图谱构建</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="400"><i class="fas fa-vector-square tech-icon text-yellow-500 dark:text-yellow-400"></i><span class="tech-name">向量数据库</span><span class="tech-desc">RAG检索支持</span></div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="450"><i class="fab fa-docker tech-icon text-blue-600 dark:text-blue-500"></i><span class="tech-name">Docker</span><span class="tech-desc">容器化部署</span></div>
+                </div>
+                 <p class="text-center mt-12 text-gray-700 dark:text-gray-300" data-aos="fade-up">EduSpark AI 采用开源大模型、SpringBoot、Next.js、Spring AI、MySQL、Neo4j 及向量数据库等技术栈，构建稳定、高效、智能的教学实训平台。</p>
+            </div>
+        </section>
+
+        <section id="benefits" class="section-padding">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-primary dark:text-primary-light">核心价值</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">EduSpark AI 为教育带来的变革</p>
+                </div>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="benefit-item" data-aos="fade-right" data-aos-delay="100">
+                        <div class="benefit-icon-wrapper benefit-icon-bg-1"><i class="fas fa-tachometer-alt text-white text-2xl"></i></div>
+                        <div class="benefit-content">
+                            <h3 class="benefit-title">提升教学效率</h3>
+                            <p class="benefit-description">AI智能辅助备课、出题、初步批改，将教师从重复性工作中解放出来，更专注于教学创新与学生互动。</p>
+                        </div>
+                    </div>
+                     <div class="benefit-item" data-aos="fade-left" data-aos-delay="150">
+                        <div class="benefit-icon-wrapper benefit-icon-bg-2"><i class="fas fa-puzzle-piece text-white text-2xl"></i></div>
+                         <div class="benefit-content">
+                            <h3 class="benefit-title">个性化学习体验</h3>
+                            <p class="benefit-description">为学生提供定制化的练习内容与即时反馈，满足不同学习节奏与需求，有效提升学习效果。</p>
+                        </div>
+                    </div>
+                     <div class="benefit-item" data-aos="fade-right" data-aos-delay="200">
+                        <div class="benefit-icon-wrapper benefit-icon-bg-3"><i class="fas fa-chart-bar text-white text-2xl"></i></div>
+                         <div class="benefit-content">
+                            <h3 class="benefit-title">数据驱动教学</h3>
+                            <p class="benefit-description">通过学情数据分析，帮助教师洞察学生学习状况，及时调整教学策略，实现精准教学。</p>
+                        </div>
+                    </div>
+                     <div class="benefit-item" data-aos="fade-left" data-aos-delay="250">
+                        <div class="benefit-icon-wrapper benefit-icon-bg-4"><i class="fas fa-sync-alt text-white text-2xl"></i></div>
+                         <div class="benefit-content">
+                            <h3 class="benefit-title">促进教学相长</h3>
+                            <p class="benefit-description">AI作为师生间的桥梁，辅助教师优化教学，辅助学生高效学习，共同成长，教学效果与学习体验双提升。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="further-reading" class="section-padding">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center section-title-mb" data-aos="fade-up">
+                    <h2 class="subheading text-secondary dark:text-secondary-light">进一步了解</h2>
+                    <p class="heading mt-2 text-gray-900 dark:text-white">教育科技与AI应用前沿</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <div class="reading-card" data-aos="fade-up" data-aos-delay="100">
+                         <div class="reading-icon-wrapper"><i class="fas fa-book-open"></i></div>
+                         <div class="reading-content">
+                             <h4 class="reading-title">《教育中的人工智能》</h4>
+                             <p class="reading-description">探讨AI在个性化学习、智能辅导、教育评估等方面的应用与未来趋势。</p>
+                         </div>
+                    </div>
+                     <div class="reading-card" data-aos="fade-up" data-aos-delay="150">
+                         <div class="reading-icon-wrapper"><i class="fas fa-lightbulb"></i></div>
+                         <div class="reading-content">
+                             <h4 class="reading-title">大语言模型与教育创新</h4>
+                             <p class="reading-description">探索LLMs如何赋能课程设计、内容生成、智能问答，革新传统教学模式。</p>
+                         </div>
+                    </div>
+                    <div class="reading-card" data-aos="fade-up" data-aos-delay="200">
+                         <div class="reading-icon-wrapper"><i class="fas fa-atom"></i></div>
+                         <div class="reading-content">
+                             <h4 class="reading-title">知识图谱在教育领域应用</h4>
+                             <p class="reading-description">了解知识图谱如何构建学科知识体系，支持个性化推荐与智能导学。</p>
+                         </div>
+                    </div>
+                     <div class="reading-card" data-aos="fade-up" data-aos-delay="250">
+                         <div class="reading-icon-wrapper"><i class="fas fa-chalkboard-teacher"></i></div>
+                         <div class="reading-content">
+                             <h4 class="reading-title">AI助教：未来课堂新形态</h4>
+                             <p class="reading-description">分析AI作为教学助手在提升教学效率、促进师生互动方面的潜力。</p>
+                         </div>
+                    </div>
+                     <div class="reading-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="reading-icon-wrapper"><i class="fas fa-link"></i></div>
+                        <div class="reading-content">
+                             <h4 class="reading-title">开源教育资源与社区</h4>
+                             <p class="reading-description">关注教育领域的开源项目和社区，共同推动教育技术的普惠与发展。</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section-padding">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="heading text-3xl sm:text-4xl text-gray-900 dark:text-white" data-aos="fade-up">即刻开启您的智能教学之旅</h2>
+                <p class="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">EduSpark AI 期待与您携手，共同探索人工智能在教育实训领域的无限可能。联系我们，获取演示或咨询详情。</p>
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="/app" class="btn btn-gradient-primary group text-lg px-8 py-3"><i class="fas fa-rocket mr-2 group-hover:rotate-12 transition-transform duration-300"></i> 开始体验</a>
+                    <a href="mailto:contact@eduspark.ai" class="btn btn-gradient-secondary group text-lg px-8 py-3"><i class="fas fa-envelope mr-2 group-hover:animate-bounce"></i> 咨询邮箱</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white/80 dark:bg-gray-900/80 border-t border-gray-200 dark:border-gray-700 backdrop-blur-sm mt-16 md:mt-20 lg:mt-24 relative z-10">
+         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-6 md:gap-8">
+                <div class="flex items-center justify-center md:justify-start order-1" data-aos="fade-right">
+                    <i class="fas fa-lightbulb text-primary dark:text-primary-light text-2xl mr-2"></i>
+                    <span class="text-xl font-semibold font-serif text-gray-800 dark:text-gray-100">EduSpark AI</span>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400 order-3 md:order-2" data-aos="fade-up">
+                    <span>© 2024 EduSpark AI 团队. 保留所有权利.</span>
+                    <span class="hidden sm:inline"> | </span><br class="sm:hidden">
+                    <a href="#" class="link ml-2">隐私政策</a> | <a href="#" class="link ml-1">服务条款</a>
+                </div>
+                <div class="flex justify-center space-x-6 order-2 md:order-3" data-aos="fade-left">
+                    <a href="https://github.com/yourusername/eduspark-ai" target="_blank" rel="noopener noreferrer" class="footer-icon-link" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" class="footer-icon-link" title="Twitter (示例)"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:contact@eduspark.ai" class="footer-icon-link" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+        <div class="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3 opacity-30 dark:opacity-20" aria-hidden="true">
+            <svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="500" cy="500" r="500" fill="url(#global-gradient-1)" />
+                <defs><radialGradient id="global-gradient-1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(500 500) rotate(90) scale(500)"><stop stop-color="#60A5FA" stop-opacity="0.5"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></radialGradient></defs>
+            </svg>
+        </div>
+        <div class="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 opacity-20 dark:opacity-15" aria-hidden="true">
+             <svg width="900" height="900" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="450" cy="450" r="450" fill="url(#global-gradient-2)" />
+                <defs><radialGradient id="global-gradient-2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(450 450) rotate(90) scale(450)"><stop stop-color="#FB923C" stop-opacity="0.4"/><stop offset="1" stop-color="#F97316" stop-opacity="0"/></radialGradient></defs>
+            </svg>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

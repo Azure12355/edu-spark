@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=""> <!-- `class`会由JS动态添加 `dark` -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能助手 - EduSpark AI</title>
+    <meta name="description" content="EduSpark AI 学生端智能问答助手，基于您的课程资料提供精准解答。"/>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+    <link href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!-- 引入学生端特定的CSS -->
+    <link rel="stylesheet" href="student-style.css">
+</head>
+<body class="bg-bg-light dark:bg-bg-dark text-text-base-light dark:text-text-base-dark font-sans antialiased">
+
+    <!-- 顶部导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-primary text-2xl"></i>
+                    <span class="text-xl font-semibold text-text-heading-light dark:text-text-heading-dark">EduSpark AI</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="student-notebook.html" class="nav-item active">智能助手</a>
+                    <a href="student-courses.html" class="nav-item">课程管理</a>
+                    <a href="student-knowledgebase.html" class="nav-item">知识库</a>
+                    <a href="student-assessment.html" class="nav-item">实时测评</a>
+                    <a href="student-analytics.html" class="nav-item">学情分析</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="theme-toggle-btn" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full">
+                        <i class="fas fa-sun text-lg theme-icon-light"></i>
+                        <i class="fas fa-moon text-lg theme-icon-dark hidden"></i>
+                    </button>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <img src="https://via.placeholder.com/32?text=S" alt="User Avatar" class="w-8 h-8 rounded-full">
+                            <span class="text-sm font-medium hidden sm:inline">学生姓名</span>
+                            <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                        </button>
+                        <!-- 下拉菜单 (简化) -->
+                        <!-- <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 hidden">
+                            <a href="student-profile.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">个人中心</a>
+                            <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">退出登录</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 核心内容区 (Notebook 风格) -->
+    <main class="pt-16 h-screen flex flex-col">
+        <div class="flex-grow grid grid-cols-12 gap-0 h-[calc(100vh-4rem)] overflow-hidden"> {/* 减去导航栏高度 */}
+
+            <!-- 左侧知识库区 -->
+            <aside class="col-span-12 md:col-span-3 lg:col-span-3 bg-white dark:bg-gray-850 border-r border-border-color dark:border-gray-700 p-4 flex flex-col overflow-y-auto">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-text-heading-light dark:text-text-heading-dark">知识来源</h2>
+                    <div class="space-x-2">
+                        <button class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light text-sm" title="添加资料">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                        <button class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light text-sm" title="搜索资料">
+                            <i class="fas fa-search"></i> 搜索
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-grow space-y-3 knowledge-tree">
+                    <!-- 课程1 -->
+                    <div class="course-item">
+                        <div class="course-header flex items-center justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-750 cursor-pointer">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 arrow-icon"></i>
+                                <i class="fas fa-book text-primary mr-2"></i>
+                                <span class="font-medium text-sm">Python编程基础</span>
+                            </div>
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded border-gray-300 dark:border-gray-600 focus:ring-primary-light">
+                        </div>
+                        <ul class="course-materials ml-4 pl-3 border-l border-gray-200 dark:border-gray-700 hidden">
+                            <li class="material-item flex items-center justify-between p-1.5 pl-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                                    <span>第1章-Python简介.pdf</span>
+                                </div>
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
+                            </li>
+                            <li class="material-item flex items-center justify-between p-1.5 pl-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                                    <span>变量与数据类型.docx</span>
+                                </div>
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
+                            </li>
+                            <li class="material-item flex items-center justify-between p-1.5 pl-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                <div class="flex items-center">
+                                    <i class="fas fa-link text-green-500 mr-2"></i>
+                                    <span>外部参考：Python官方文档</span>
+                                </div>
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 课程2 (学生自己上传的) -->
+                    <div class="course-item">
+                        <div class="course-header flex items-center justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-750 cursor-pointer">
+                            <div class="flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 arrow-icon"></i>
+                                <i class="fas fa-folder-open text-accent mr-2"></i>
+                                <span class="font-medium text-sm">我的算法笔记</span>
+                            </div>
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
+                        </div>
+                        <ul class="course-materials ml-4 pl-3 border-l border-gray-200 dark:border-gray-700 hidden">
+                             <li class="material-item flex items-center justify-between p-1.5 pl-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                                <div class="flex items-center">
+                                    <i class="fas fa-sticky-note text-yellow-500 mr-2"></i>
+                                    <span>排序算法总结.md</span>
+                                </div>
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 更多课程... -->
+                </div>
+            </aside>
+
+            <!-- 中间问答对话区 -->
+            <section class="col-span-12 md:col-span-6 lg:col-span-6 bg-bg-light dark:bg-bg-dark flex flex-col h-full p-4 md:p-6">
+                <div class="chat-header mb-4 text-center md:text-left">
+                    <h1 class="text-xl font-semibold text-text-heading-light dark:text-text-heading-dark">智能问答</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">基于您选择的 <span class="font-medium text-primary dark:text-primary-light">2</span> 个知识来源</p>
+                </div>
+
+                <div class="chat-messages flex-grow overflow-y-auto space-y-6 mb-4 pr-2">
+                    <!-- 示例对话 -->
+                    <div class="message user-message flex justify-end">
+                        <div class="message-bubble bg-primary text-white p-3 rounded-lg rounded-br-none max-w-md shadow">
+                            Python中的列表和元组有什么主要区别？我勾选了《Python编程基础》第一章。
+                        </div>
+                    </div>
+                    <div class="message ai-message flex">
+                        <img src="https://via.placeholder.com/32/00C4C4/FFFFFF?Text=AI" alt="AI Avatar" class="w-8 h-8 rounded-full mr-3 flex-shrink-0">
+                        <div class="message-bubble bg-white dark:bg-gray-750 p-3 rounded-lg rounded-bl-none max-w-xl shadow">
+                            <p class="text-sm">根据您提供的《Python编程基础》第一章内容：</p>
+                            <p class="text-sm mt-1">列表 (List) 是可变的序列，这意味着您可以在创建列表后修改其内容（例如添加、删除或更改元素）。</p>
+                            <p class="text-sm mt-1">元组 (Tuple) 是不可变的序列，一旦创建，其内容就不能被修改。元组通常用于存储不希望被更改的数据集合。</p>
+                            <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                                <i class="fas fa-file-pdf text-red-500 mr-1"></i> 来源于: 第1章-Python简介.pdf (第5页)
+                            </div>
+                            <div class="message-actions mt-2 flex space-x-2">
+                                <button class="action-btn" title="复制"><i class="fas fa-copy"></i></button>
+                                <button class="action-btn" title="添加到笔记"><i class="fas fa-sticky-note"></i></button>
+                                <button class="action-btn" title="点赞"><i class="far fa-thumbs-up"></i></button>
+                                <button class="action-btn" title="点踩"><i class="far fa-thumbs-down"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- 更多消息... -->
+                </div>
+
+                <div class="chat-input-area relative">
+                    <textarea class="w-full p-3 pr-12 border border-border-color dark:border-gray-600 rounded-lg resize-none focus:ring-2 focus:ring-primary-light focus:border-transparent dark:bg-gray-750 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm" rows="2" placeholder="基于选中的资料提问... (Shift + Enter 换行)"></textarea>
+                    <button class="absolute right-3 bottom-2.5 p-2 bg-primary text-white rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary-light" title="发送">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 右侧功能区 -->
+            <aside class="col-span-12 md:col-span-3 lg:col-span-3 bg-white dark:bg-gray-850 border-l border-border-color dark:border-gray-700 p-4 flex flex-col overflow-y-auto">
+                <h2 class="text-lg font-semibold text-text-heading-light dark:text-text-heading-dark mb-4">学习工具</h2>
+                <div class="space-y-3">
+                    <button class="w-full機能btn justify-start">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-3"></i>
+                        <span>学习指南</span>
+                    </button>
+                    <button class="w-full機能btn justify-start">
+                        <i class="fas fa-project-diagram text-purple-500 mr-3"></i>
+                        <span>思维导图</span>
+                    </button>
+                    <button class="w-full機能btn justify-start">
+                        <i class="fas fa-share-alt text-green-500 mr-3"></i>
+                        <span>知识图谱</span>
+                    </button>
+                    <button class="w-full機能btn justify-start">
+                        <i class="fas fa-question text-blue-500 mr-3"></i>
+                        <span>常见问题解答 (FAQ)</span>
+                    </button>
+                </div>
+
+                <h2 class="text-lg font-semibold text-text-heading-light dark:text-text-heading-dark mt-6 mb-3">我的笔记</h2>
+                <div class="flex-grow border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-3 text-sm text-gray-400 dark:text-gray-500 flex flex-col items-center justify-center">
+                    <i class="fas fa-sticky-note text-3xl mb-2"></i>
+                    <p>选择AI回答中的 <i class="fas fa-sticky-note text-xs"></i> 图标</p>
+                    <p>或 <button class="text-primary dark:text-primary-light font-medium hover:underline">手动创建笔记</button></p>
+                </div>
+                <!-- 示例笔记卡片 (动态添加) -->
+                <!-- <div class="note-card bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-3 shadow-sm">
+                    <h4 class="font-medium text-yellow-700 dark:text-yellow-300 text-sm">Python列表与元组</h4>
+                    <p class="text-xs text-yellow-600 dark:text-yellow-400 mt-1 leading-relaxed">列表是可变的，元组是不可变的...</p>
+                    <div class="text-right mt-1">
+                        <button class="text-xs text-yellow-500 hover:underline">编辑</button>
+                    </div>
+                </div> -->
+            </aside>
+        </div>
+    </main>
+
+    <!-- 引入学生端特定的JS -->
+    <script src="student-script.js"></script>
+</body>
+</html>

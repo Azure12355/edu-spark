@@ -1,0 +1,737 @@
+/* ==========================================================================
+   基础样式与变量定义 (Base Styles & Variables)
+   ========================================================================== */
+
+   :root {
+    /* EduSpark AI Theme: Professional Blue with Orange Accent */
+    --primary-color: #2563EB;        /* Blue-600 */
+    --secondary-color: #1E40AF;      /* Blue-800 */
+    --accent-color: #F97316;         /* Orange-500 */
+    --primary-color-light: #60A5FA;  /* Blue-400 (Dark Mode Primary) */
+    --secondary-color-light: #93C5FD;/* Blue-300 (Dark Mode Secondary) */
+    --accent-color-light: #FB923C;   /* Orange-400 (Dark Mode Accent) */
+
+    /* Backgrounds */
+    --bg-light: #F9FAFB;             /* Gray-50 */
+    --bg-dark: #1F2937;              /* Gray-800 */
+    --bg-card-light: rgba(255, 255, 255, 0.8);
+    --bg-card-dark: rgba(55, 65, 81, 0.6); /* Gray-700 with transparency */
+    --bg-subtle-light: #f3f4f6;      /* gray-100 */
+    --bg-subtle-dark: #374151;       /* gray-700 */
+    --bg-hover-light: #EFF6FF;       /* Blue-50 (lighter primary tint) */
+    --bg-hover-dark: #2c3a4f;       /* Darker blue/gray tint */
+
+    /* Text Colors */
+    --text-base-light: #374151;      /* Gray-700 */
+    --text-base-dark: #D1D5DB;       /* Gray-300 */
+    --text-heading-light: #111827;   /* Gray-900 */
+    --text-heading-dark: #F3F4F6;    /* Gray-100 */
+    --text-muted-light: #6B7280;     /* Gray-500 */
+    --text-muted-dark: #9CA3AF;      /* Gray-400 */
+    --text-link-light: var(--primary-color);
+    --text-link-dark: var(--primary-color-light);
+    --text-on-primary: #FFFFFF;
+
+    /* Borders */
+    --border-light: rgba(37, 99, 235, 0.2);  /* primary/20 */
+    --border-dark: rgba(96, 165, 250, 0.25); /* primary-light/25 */
+    --border-input-light: #d1d5db;   /* gray-300 */
+    --border-input-dark: #4b5563;    /* gray-600 */
+    --border-hover-light: rgba(37, 99, 235, 0.4);
+    --border-hover-dark: rgba(96, 165, 250, 0.5);
+    --border-card-light: rgba(0, 0, 0, 0.07);
+    --border-card-dark: rgba(255, 255, 255, 0.1);
+
+    /* Gradients (Adjust if needed, example uses primary for some bg) */
+    --bg-gradient-start-light: rgba(37, 99, 235, 0.08);
+    --bg-gradient-end-light: rgba(30, 64, 175, 0.03);
+    --bg-gradient-start-dark: rgba(96, 165, 250, 0.07);
+    --bg-gradient-end-dark: rgba(59, 130, 246, 0.1);
+
+    /* Radii */
+    --rounded-btn: 9999px;
+    --rounded-card: 1rem;
+    --rounded-input: 0.5rem;
+    --rounded-img: 1rem;
+    --rounded-icon-bg: 0.75rem;
+    --rounded-lg: 0.75rem;
+    --rounded-xl: 1.25rem;
+    --rounded-2xl: 1.5rem;
+
+    /* Shadows - Adjusted for blueish tones */
+    --shadow-sm: 0 2px 5px rgba(30, 58, 138, 0.08); /* blue-900 based */
+    --shadow-md: 0 4px 10px rgba(30, 58, 138, 0.1);
+    --shadow-lg: 0 12px 25px rgba(30, 58, 138, 0.12);
+    --shadow-xl: 0 25px 50px rgba(30, 58, 138, 0.15);
+    --shadow-dark-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+    --shadow-dark-md: 0 5px 15px rgba(0, 0, 0, 0.35);
+    --shadow-dark-lg: 0 15px 35px rgba(0, 0, 0, 0.4);
+    --shadow-dark-xl: 0 30px 60px rgba(0, 0, 0, 0.45);
+
+    /* Transitions */
+    --transition-fast: all 0.2s ease-in-out;
+    --transition-base: all 0.3s ease-in-out;
+    --transition-slow: all 0.5s ease-in-out;
+
+    /* Glow Effect */
+    --glow-primary-light: 0 0 15px rgba(37, 99, 235, 0.3);
+    --glow-primary-dark: 0 0 20px rgba(96, 165, 250, 0.4);
+}
+
+body {
+    font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
+    color: var(--text-base-light);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    z-index: 0;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--text-heading-light);
+}
+
+html.dark body {
+    color: var(--text-base-dark);
+}
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6, html.dark .font-serif {
+    color: var(--text-heading-dark);
+}
+
+.link {
+    color: var(--text-link-light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+.link:hover { text-decoration: underline; }
+html.dark .link { color: var(--text-link-dark); }
+
+.global-gradient-bg { background-color: var(--bg-light); }
+html.dark .global-gradient-bg { background-color: var(--bg-dark); }
+
+/* ==========================================================================
+   通用组件样式 (Common Components)
+   ========================================================================== */
+
+.container {
+    width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem;
+}
+@media (min-width: 640px) { .container { max-width: 640px; padding-left: 1.5rem; padding-right: 1.5rem; } }
+@media (min-width: 768px) { .container { max-width: 768px; } }
+@media (min-width: 1024px) { .container { max-width: 1024px; padding-left: 2rem; padding-right: 2rem; } }
+@media (min-width: 1280px) { .container { max-width: 1280px; } }
+@media (min-width: 1536px) { .container { max-width: 1536px; } }
+
+.section-padding {
+    padding-top: 0rem; padding-bottom: 0rem;
+}
+@media (min-width: 640px) { .section-padding { padding-top: 5rem; padding-bottom: 5rem; } }
+@media (min-width: 768px) { .section-padding { padding-top: 6rem; padding-bottom: 6rem; } }
+
+.heading {
+    margin-top: 0.5rem; font-size: 1.875rem; line-height: 1.25; font-weight: 700;
+    letter-spacing: -0.025em; font-family: 'Noto Serif SC', serif; color: var(--text-heading-light);
+}
+html.dark .heading { color: var(--text-heading-dark); }
+@media (min-width: 640px) { .heading { font-size: 2.25rem; line-height: 2.5rem; } }
+
+.subheading {
+    font-size: 1rem; line-height: 1.75rem; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--primary-color);
+}
+html.dark .subheading { color: var(--primary-color-light); }
+.subheading.text-secondary { color: var(--secondary-color); }
+html.dark .subheading.text-secondary { color: var(--secondary-color-light); }
+
+.section-title-mb {
+    margin-bottom: 3rem;
+}
+@media (min-width: 768px) { .section-title-mb { margin-bottom: 4rem; } }
+
+.btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.75rem 2rem; border-radius: var(--rounded-btn); font-weight: 600;
+    transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms;
+    box-shadow: var(--shadow-lg); white-space: nowrap; letter-spacing: 0.5px; cursor: pointer; outline: none;
+    border: 1px solid transparent;
+}
+html.dark .btn { box-shadow: var(--shadow-dark-lg); }
+.btn:hover { transform: translateY(-4px); }
+.btn:focus-visible { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4); } /* primary/40 */
+html.dark .btn:focus-visible { box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); } /* primary-light/50 */
+.btn i { transition: transform 0.3s ease-in-out; display: inline-block; }
+
+.btn-gradient-primary {
+    /* Blue to Lighter Blue/Orange Gradient */
+    background-image: linear-gradient(to right, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color) 100%);
+    background-size: 200% auto; border: none; color: var(--text-on-primary);
+}
+html.dark .btn-gradient-primary {
+    background-image: linear-gradient(to right, var(--primary-color-light) 0%, var(--accent-color-light) 50%, var(--primary-color-light) 100%);
+}
+.btn-gradient-primary:hover { background-position: right center; }
+
+.btn-gradient-secondary {
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(249, 250, 251, 0.9) 100%); /* gray-50 base */
+    border: 1px solid var(--border-light); color: var(--text-base-light); backdrop-filter: blur(4px);
+    box-shadow: var(--shadow-md);
+}
+html.dark .btn-gradient-secondary {
+    background-image: linear-gradient(to bottom, rgba(55, 65, 81, 0.8) 0%, rgba(31, 41, 55, 0.8) 100%); /* gray-700/gray-800 base */
+    border-color: var(--border-dark); color: var(--text-base-dark); backdrop-filter: blur(4px);
+    box-shadow: var(--shadow-dark-md);
+}
+.btn-gradient-secondary:hover {
+    border-color: var(--border-hover-light);
+    background-image: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(250, 253, 251, 1) 100%);
+}
+html.dark .btn-gradient-secondary:hover {
+    border-color: var(--border-hover-dark);
+    background-image: linear-gradient(to bottom, rgba(60, 70, 86, 0.9) 0%, rgba(36, 46, 60, 0.9) 100%);
+}
+
+.nav-link {
+    color: var(--text-muted-light); font-weight: 500; border-radius: var(--rounded-lg);
+    padding: 0.5rem 0.75rem; transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    position: relative; text-decoration: none; background-color: transparent;
+}
+.nav-link:hover { color: var(--primary-color); background-color: var(--bg-hover-light); }
+html.dark .nav-link { color: var(--text-muted-dark); }
+html.dark .nav-link:hover { color: var(--primary-color-light); background-color: var(--bg-hover-dark); }
+.nav-link::after {
+    content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%;
+    background-color: var(--primary-color); transition: all 0.3s ease-in-out; transform: translateX(-50%);
+}
+html.dark .nav-link::after { background-color: var(--primary-color-light); }
+.nav-link:hover::after { width: 50%; }
+
+.footer-icon-link {
+    color: var(--text-muted-light); font-size: 1.25rem;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+html.dark .footer-icon-link { color: var(--text-muted-dark); }
+.footer-icon-link:hover { color: var(--text-link-light); transform: scale(1.1); }
+html.dark .footer-icon-link:hover { color: var(--text-link-dark); }
+
+/* ==========================================================================
+   特定区域样式 (Section Specific Styles)
+   ========================================================================== */
+
+.theme-toggle-button, .github-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-muted-light); padding: 0.5rem; border-radius: var(--rounded-lg);
+    transition: var(--transition-fast); background-color: transparent; border: none; cursor: pointer;
+}
+.theme-toggle-button:hover, .github-link:hover { color: var(--text-link-light); background-color: var(--bg-hover-light); }
+html.dark .theme-toggle-button, html.dark .github-link { color: var(--text-muted-dark); }
+html.dark .theme-toggle-button:hover, html.dark .github-link:hover { color: var(--text-link-dark); background-color: var(--bg-hover-dark); }
+.theme-toggle-button svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+.github-link i { font-size: 1.25rem; }
+
+.hero-section .text-gradient-primary {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      display: inline-block; margin-top: 1rem;
+}
+html.dark .hero-section .text-gradient-primary {
+      background: linear-gradient(90deg, var(--primary-color-light), var(--secondary-color-light));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-subtitle-gradient { /* EduSpark AI Theme */
+    background-image: linear-gradient(95deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color-light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    padding: 0.1em 0;
+    font-size: 4rem;
+    font-weight: 600;
+    line-height: 4rem;
+}
+html.dark .hero-subtitle-gradient {
+     background-image: linear-gradient(95deg, var(--primary-color-light) 0%, var(--accent-color-light) 50%, var(--primary-color) 100%);
+}
+
+.about-text-panel {
+    background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px);
+    border-radius: var(--rounded-xl); padding: 2rem; box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+html.dark .about-text-panel {
+    background-color: rgba(31, 41, 55, 0.5); /* gray-800 with alpha */
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-dark-lg);
+}
+#about .first-letter-drop {
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--text-muted-light);
+    padding-left: calc(4.5em * 0.15 + 0.05em);
+}
+html.dark #about .first-letter-drop { color: var(--text-base-dark); }
+#about .first-letter-drop::first-letter {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 4.5em;
+    font-weight: 600;
+    float: left;
+    line-height: 1;
+    margin-right: 0.15em;
+    margin-top: 0.1em;
+    margin-bottom: -0.2em;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+    position: relative;
+}
+html.dark #about .first-letter-drop::first-letter {
+    color: var(--primary-color-light);
+}
+#about .first-letter-drop::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+#about .mt-5 { margin-top: 1.25rem; }
+#about .leading-relaxed { line-height: 1.75; }
+#about .mt-12 { margin-top: 3rem; }
+@media (min-width: 1024px) { #about .lg\:mt-0 { margin-top: 0; } }
+#about img {
+    border-radius: var(--rounded-img);
+    box-shadow: var(--shadow-xl);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+}
+#about img:hover {
+    transform: scale(1.05);
+}
+#about .text-xs { font-size: 0.75rem; line-height: 1rem; }
+#about .text-gray-500 { color: var(--text-muted-light); }
+html.dark #about .text-gray-400 { color: var(--text-muted-dark); }
+#about .text-right { text-align: right; }
+#about .mt-3 { margin-top: 0.75rem; }
+
+.feature-card {
+    padding: 1.5rem;
+    background-color: var(--bg-card-light);
+    border-radius: var(--rounded-xl);
+    border: 1px solid var(--border-card-light);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(16px) saturate(180%);
+    transition: var(--transition-base);
+    position: relative; overflow: hidden;
+    transform-style: preserve-3d; perspective: 1000px;
+}
+html.dark .feature-card {
+    background-color: var(--bg-card-dark);
+    border-color: var(--border-card-dark);
+    box-shadow: var(--shadow-dark-md);
+}
+.feature-card:hover {
+    transform: translateY(-8px) rotateX(3deg) rotateY(-2deg) scale(1.03);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover-light);
+}
+html.dark .feature-card:hover {
+    box-shadow: var(--shadow-dark-lg);
+    border-color: var(--border-hover-dark);
+}
+.feature-card::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    opacity: 0; transform: scale(0.8); border-radius: inherit; z-index: -1;
+    transition: opacity var(--transition-slow) ease, transform var(--transition-slow) ease;
+    pointer-events: none;
+}
+html.dark .feature-card::before { background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%); } /* primary-light based */
+.feature-card:hover::before { opacity: 1; transform: scale(1); }
+
+.feature-card .icon-wrapper {
+    height: 3rem; width: 3rem; border-radius: var(--rounded-lg);
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition-base); box-shadow: var(--shadow-sm);
+}
+html.dark .feature-card .icon-wrapper { box-shadow: var(--shadow-dark-sm); }
+.feature-card:hover .icon-wrapper { transform: scale(1.15) rotate(-8deg); box-shadow: var(--shadow-md); }
+html.dark .feature-card:hover .icon-wrapper { box-shadow: var(--shadow-dark-md); }
+
+/* EduSpark AI Feature Icon Colors */
+.feature-icon-bg-1 { background-color: #DBEAFE; color: #2563EB;} /* Blue-100, Blue-600 */
+html.dark .feature-icon-bg-1 { background-color: #2C5282; color: #90CDF4;} /* Darker Blue, Lighter Blue */
+.feature-icon-bg-2 { background-color: #FEF3C7; color: #D97706;} /* Amber-100, Amber-600 */
+html.dark .feature-icon-bg-2 { background-color: #7C2D12; color: #FCD34D;} /* Darker Amber, Lighter Amber */
+.feature-icon-bg-3 { background-color: #D1FAE5; color: #059669;} /* Green-100, Green-600 */
+html.dark .feature-icon-bg-3 { background-color: #065F46; color: #6EE7B7;} /* Darker Green, Lighter Green */
+
+.feature-title { font-size: 1.125rem; font-weight: 600; color: var(--text-heading-light); }
+html.dark .feature-title { color: var(--text-heading-dark); }
+.feature-description { font-size: 0.9rem; color: var(--text-muted-light); line-height: 1.7; margin-top: 0.5rem; }
+html.dark .feature-description { color: var(--text-muted-dark); }
+
+
+.flowchart-container { /* Unchanged */
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.5rem;
+    padding: 2rem; border: none; box-shadow: none; background-color: transparent; backdrop-filter: none;
+}
+@media (min-width: 1024px) { .flowchart-container { flex-wrap: nowrap; gap: 0; align-items: stretch; } }
+.flowchart-group { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+/* EduSpark AI Flowchart Node Colors */
+.flowchart-node.node-data { --node-color: #EF4444; --node-color-light: #F87171; } /* Red */
+.flowchart-node.node-io { --node-color: #3B82F6; --node-color-light: #60A5FA; }    /* Blue (Primary) */
+.flowchart-node.node-process { --node-color: #8B5CF6; --node-color-light: #A78BFA; } /* Violet */
+.flowchart-node.node-rag { --node-color: #F59E0B; --node-color-light: #FBBF24; }    /* Amber/Orange (Accent) */
+
+.flowchart-node {
+    width: 10rem; height: 10rem; padding: 1rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    border-radius: 50%; border: 2px solid transparent;
+    background: radial-gradient(circle at center, var(--bg-card-light) 0%, transparent 100%);
+    box-shadow: var(--shadow-sm), inset 0 0 10px rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px) saturate(150%);
+    position: relative; overflow: visible;
+    transform-style: preserve-3d; perspective: 1000px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+html.dark .flowchart-node {
+    background: radial-gradient(circle at center, var(--bg-card-dark) 0%, transparent 100%);
+    box-shadow: var(--shadow-dark-sm), inset 0 0 15px rgba(0,0,0,0.4);
+}
+.flowchart-node::before {
+    content: ''; position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50%; border: 2px solid var(--node-color, transparent);
+    opacity: 0; animation: pulse-glow 2.5s infinite ease-out; z-index: -1;
+    transition: opacity 0.4s ease; pointer-events: none;
+}
+html.dark .flowchart-node::before { border-color: var(--node-color-light, transparent); }
+.flowchart-node:hover {
+    transform: translateY(-10px) scale(1.08) rotateZ(5deg);
+    border-color: var(--node-color); box-shadow: var(--shadow-lg), 0 0 25px var(--node-color);
+}
+html.dark .flowchart-node:hover { border-color: var(--node-color-light); box-shadow: var(--shadow-dark-lg), 0 0 30px var(--node-color-light); }
+.flowchart-node:hover::before { opacity: 0.8; animation-play-state: paused; }
+.flowchart-node i {
+    font-size: 2rem; margin-bottom: 0.75rem; color: var(--node-color);
+    transition: transform 0.5s ease, filter 0.3s ease; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+    transform: translateZ(20px);
+}
+html.dark .flowchart-node i { color: var(--node-color-light); filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4));}
+.flowchart-node:hover i { transform: translateZ(40px) scale(1.2) rotateY(360deg); filter: drop-shadow(0 5px 8px rgba(0,0,0,0.3)); }
+html.dark .flowchart-node:hover i { filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));}
+.flowchart-node span { font-size: 0.8rem; font-weight: 500; color: var(--text-heading-light); }
+html.dark .flowchart-node span { color: var(--text-heading-dark); }
+.flowchart-node .node-subtitle { font-size: 0.65rem; color: var(--text-muted-light); margin-top: 0.1rem; }
+html.dark .flowchart-node .node-subtitle { color: var(--text-muted-dark); }
+
+.flowchart-arrow-horizontal, .flowchart-arrow-vertical { position: relative; background-color: var(--border-dark); opacity: 0.4; flex-shrink: 0; }
+html.dark .flowchart-arrow-horizontal, html.dark .flowchart-arrow-vertical { background-color: var(--border-light); }
+.flowchart-arrow-horizontal { width: 3rem; height: 2px; margin: auto 1rem; }
+.flowchart-arrow-horizontal::after { content: ''; position: absolute; width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 8px solid var(--border-dark); right: -8px; top: 50%; transform: translateY(-50%); }
+html.dark .flowchart-arrow-horizontal::after { border-left-color: var(--border-light); }
+.flowchart-arrow-vertical { width: 2px; height: 1.5rem; margin: 0.5rem auto; }
+.flowchart-arrow-vertical::after { content: ''; position: absolute; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--border-dark); bottom: -8px; left: 50%; transform: translateX(-50%); }
+html.dark .flowchart-arrow-vertical::after { border-top-color: var(--border-light); }
+
+@media (min-width: 1024px) { .flowchart-group .flowchart-arrow-vertical { display: none; } }
+@media (max-width: 1023px) {
+     .flowchart-container > .flowchart-arrow-horizontal { display: none; }
+     .flowchart-container { flex-direction: column; }
+     .flowchart-group + .flowchart-group::before { content: ''; display: block; width: 2px; height: 2rem; margin: 1rem auto; background-color: var(--border-dark); opacity: 0.4; position: relative; }
+     .flowchart-group + .flowchart-group::after { content: ''; position: absolute; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--border-dark); top: 100%; left: 50%; transform: translateX(-50%);}
+     html.dark .flowchart-group + .flowchart-group::before { background-color: var(--border-light); }
+     html.dark .flowchart-group + .flowchart-group::after { border-top-color: var(--border-light); }
+}
+
+
+.tech-item {
+    padding: 1.5rem 1rem; text-align: center;
+    background-color: var(--bg-card-light);
+    border-radius: var(--rounded-xl);
+    border: 1px solid var(--border-card-light);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    transition: var(--transition-base);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+html.dark .tech-item {
+    background-color: var(--bg-card-dark);
+    border-color: var(--border-card-dark);
+    box-shadow: var(--shadow-dark-md);
+}
+.tech-item:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover-light);
+}
+html.dark .tech-item:hover {
+    box-shadow: var(--shadow-dark-lg);
+    border-color: var(--border-hover-dark);
+}
+.tech-item .tech-icon {
+    font-size: 2.25rem; margin-bottom: 1rem;
+    transition: var(--transition-base);
+}
+.tech-item:hover .tech-icon { transform: scale(1.2) rotate(10deg) translateY(-5px); }
+.tech-name { font-weight: 600; font-size: 0.9rem; color: var(--text-heading-light); }
+html.dark .tech-name { color: var(--text-heading-dark); }
+.tech-desc { font-size: 0.75rem; color: var(--text-muted-light); margin-top: 0.25rem; }
+html.dark .tech-desc { color: var(--text-muted-dark); }
+
+
+.benefit-item {
+    background-color: var(--bg-card-light);
+    border-radius: var(--rounded-xl);
+    border: 1px solid var(--border-card-light);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(12px);
+    transition: var(--transition-base);
+    position: relative;
+    padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;
+}
+html.dark .benefit-item {
+    background-color: var(--bg-card-dark);
+    border-color: var(--border-card-dark);
+    box-shadow: var(--shadow-dark-md);
+}
+.benefit-item:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover-light);
+}
+html.dark .benefit-item:hover {
+    box-shadow: var(--shadow-dark-lg);
+    border-color: var(--border-hover-dark);
+}
+.benefit-icon-wrapper {
+    flex-shrink: 0; height: 3rem; width: 3rem; border-radius: var(--rounded-lg);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); transition: var(--transition-base);
+}
+.benefit-item:hover .benefit-icon-wrapper { transform: scale(1.15) rotate(-5deg); box-shadow: var(--shadow-lg); }
+
+/* EduSpark AI Benefit Icon BG Colors */
+.benefit-icon-bg-1 { background-image: linear-gradient(to right, var(--primary-color), var(--primary-color-light)); } /* Blue gradient */
+.benefit-icon-bg-2 { background-image: linear-gradient(to right, #EC4899, #F472B6); } /* Pink gradient */
+.benefit-icon-bg-3 { background-image: linear-gradient(to right, #10B981, #34D399); } /* Green gradient */
+.benefit-icon-bg-4 { background-image: linear-gradient(to right, var(--accent-color), var(--accent-color-light)); } /* Orange gradient */
+
+.benefit-content { flex-grow: 1; }
+.benefit-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-heading-light); }
+html.dark .benefit-title { color: var(--text-heading-dark); }
+.benefit-description { font-size: 0.95rem; color: var(--text-muted-light); line-height: 1.7; }
+html.dark .benefit-description { color: var(--text-muted-dark); }
+
+
+.reading-card {
+    background-color: var(--bg-card-light);
+    padding: 1.25rem; border-radius: var(--rounded-xl);
+    box-shadow: var(--shadow-md); transition: var(--transition-base);
+    position: relative; overflow: hidden;
+    border: 1px solid var(--border-card-light); backdrop-filter: blur(10px);
+    display: flex; align-items: flex-start; gap: 1rem;
+}
+html.dark .reading-card {
+    background-color: var(--bg-card-dark);
+    border-color: var(--border-card-dark); box-shadow: var(--shadow-dark-md);
+}
+.reading-card:hover {
+    box-shadow: var(--shadow-lg); border-color: var(--border-hover-light);
+    transform: translateY(-5px) scale(1.02);
+}
+html.dark .reading-card:hover { box-shadow: var(--shadow-dark-lg); border-color: var(--border-hover-dark); }
+.reading-card::after { display: none; }
+
+.reading-icon-wrapper {
+    flex-shrink: 0; width: 2.5rem; height: 2.5rem; border-radius: var(--rounded-lg);
+    background-color: rgba(37, 99, 235, 0.1); /* primary/10 */
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition-base);
+}
+html.dark .reading-icon-wrapper { background-color: rgba(96, 165, 250, 0.15); } /* primary-light/15 */
+.reading-card:hover .reading-icon-wrapper { background-color: rgba(37, 99, 235, 0.2); transform: scale(1.1); }
+html.dark .reading-card:hover .reading-icon-wrapper { background-color: rgba(96, 165, 250, 0.25); }
+.reading-icon-wrapper i { font-size: 1.25rem; color: var(--primary-color); }
+html.dark .reading-icon-wrapper i { color: var(--primary-color-light); }
+
+.reading-content { flex-grow: 1; }
+.reading-title { font-weight: 600; font-size: 1.05rem; margin-bottom: 0.25rem; color: var(--text-heading-light); }
+html.dark .reading-title { color: var(--text-heading-dark); }
+.reading-description { font-size: 0.85rem; color: var(--text-muted-light); line-height: 1.6; }
+html.dark .reading-description { color: var(--text-muted-dark); }
+
+/* ==========================================================================
+   自定义动画
+   ========================================================================== */
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .6; transform: scale(1.05); }
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-6px);}
+    60% {transform: translateY(-3px);}
+}
+@keyframes pulse-glow {
+    0% { transform: scale(0.95); opacity: 0; }
+    50% { opacity: 0.6; }
+    100% { transform: scale(1.1); opacity: 0; }
+}
+
+/* ==========================================================================
+   Flowchart Flex Layout Styles
+   ========================================================================== */
+
+.flowchart-flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.flowchart-flex-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.flowchart-flex-connector {
+    width: 2px;
+    height: 3rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 0.5rem 0;
+}
+
+.flowchart-flex-connector .connector-line {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--border-dark) 30%,
+        var(--border-dark) 70%,
+        transparent 100%
+    );
+    opacity: 0.6;
+    background-size: 100% 200%;
+    animation: flow-gradient 2s linear infinite;
+}
+html.dark .flowchart-flex-connector .connector-line {
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--border-light) 30%,
+        var(--border-light) 70%,
+        transparent 100%
+    );
+    background-size: 100% 200%; animation: flow-gradient 2s linear infinite;
+}
+
+.flowchart-flex-connector .connector-arrow {
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 9px solid var(--border-dark);
+}
+html.dark .flowchart-flex-connector .connector-arrow {
+    border-top-color: var(--border-light);
+}
+
+@media (min-width: 1024px) {
+    .flowchart-flex-container {
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+        gap: 0;
+        padding: 2rem 0;
+    }
+
+    .flowchart-flex-stage {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        width: auto;
+        min-width: 11rem;
+        padding: 0 1rem;
+    }
+
+    .flowchart-flex-connector {
+        width: 5rem;
+        height: auto;
+        align-self: center;
+        flex-direction: row;
+        align-items: center;
+        margin: 0 1rem;
+    }
+
+    .flowchart-flex-connector .connector-line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+            to right,
+            transparent 0%,
+            var(--border-dark) 30%,
+            var(--border-dark) 70%,
+            transparent 100%
+        );
+        background-size: 200% 100%;
+        animation: flow-gradient-horizontal 2s linear infinite;
+    }
+    html.dark .flowchart-flex-connector .connector-line {
+         background: linear-gradient(
+            to right,
+            transparent 0%,
+            var(--border-light) 30%,
+            var(--border-light) 70%,
+            transparent 100%
+        );
+        background-size: 200% 100%; animation: flow-gradient-horizontal 2s linear infinite;
+    }
+
+    .flowchart-flex-connector .connector-arrow {
+        position: absolute;
+        right: -1px;
+        top: 50%;
+        transform: translateY(-50%);
+        left: auto;
+        bottom: auto;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left: 9px solid var(--border-dark);
+        border-right: 0;
+    }
+     html.dark .flowchart-flex-connector .connector-arrow {
+        border-left-color: var(--border-light);
+    }
+
+    @keyframes flow-gradient-horizontal {
+        0% { background-position: 100% 0%; }
+        100% { background-position: -100% 0%; }
+    }
+}
+
+@keyframes flow-gradient {
+    0% { background-position: 0% 100%; }
+    100% { background-position: 0% -100%; }
+}
+@keyframes flow-gradient-horizontal { /* Ensure this is defined for desktop */
+    0% { background-position: 100% 0%; }
+    100% { background-position: -100% 0%; }
+}
