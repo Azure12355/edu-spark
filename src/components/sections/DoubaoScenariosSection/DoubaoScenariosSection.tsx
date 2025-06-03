@@ -39,7 +39,7 @@ const scenariosData: Scenario[] = [
       { icon: <IconHiAgentSmall />, name: 'Hi Agent' },
       { icon: <IconLab />, name: '应用实验室' },
     ],
-    imageSrc: 'https://lf-volc-website.volccdn.com/obj/volcengine-public/large_language_model/image/doubao-scenario-1.1.0.png', // 官网智能座舱图片
+    imageSrc: '/images/DoubaoScenariosSection/8j7nxi49pry_ai模块-场景-智能座舱.png', // 官网智能座舱图片
     imageAlt: '智能座舱演示',
     imageWidth: 600, // 示例尺寸，根据实际图片调整
     imageHeight: 420,
@@ -58,17 +58,17 @@ const scenariosData: Scenario[] = [
         { icon: <IconKouzi />, name: '扣子' },
         { icon: <IconLab />, name: '应用实验室' },
     ],
-    imageSrc: 'https://lf-volc-website.volccdn.com/obj/volcengine-public/large_language_model/image/doubao-scenario-2.1.0.png', // 官网在线教育图片
+    imageSrc: '/images/DoubaoScenariosSection/2yn2bl8vchw_ai模块-场景-在线教育.png', // 官网在线教育图片
     imageAlt: '在线教育演示',
     imageWidth: 600,
     imageHeight: 420,
   },
   // 可以继续添加其他场景：智能终端, 社交娱乐, 智能客服, 营销提效, 消费零售
-  { id: 'smart-terminal', tabName: '智能终端', title: '智能终端', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: 'https://via.placeholder.com/600x420/E0F0FF/333?text=智能终端', imageAlt: '智能终端', imageWidth:600, imageHeight:420 },
-  { id: 'social-entertainment', tabName: '社交娱乐', title: '社交娱乐', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: 'https://via.placeholder.com/600x420/FFE0F0/333?text=社交娱乐', imageAlt: '社交娱乐', imageWidth:600, imageHeight:420 },
-  { id: 'smart-customer-service', tabName: '智能客服', title: '智能客服', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: 'https://via.placeholder.com/600x420/E0FFE0/333?text=智能客服', imageAlt: '智能客服', imageWidth:600, imageHeight:420 },
-  { id: 'marketing-efficiency', tabName: '营销提效', title: '营销提效', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: 'https://via.placeholder.com/600x420/FFF0E0/333?text=营销提效', imageAlt: '营销提效', imageWidth:600, imageHeight:420 },
-  { id: 'consumer-retail', tabName: '消费零售', title: '消费零售', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: 'https://via.placeholder.com/600x420/F0E0FF/333?text=消费零售', imageAlt: '消费零售', imageWidth:600, imageHeight:420 },
+  { id: 'smart-terminal', tabName: '智能终端', title: '智能终端', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/ptdfhl78eb_ai模块-场景-智能终端.png', imageAlt: '智能终端', imageWidth:600, imageHeight:420 },
+  { id: 'social-entertainment', tabName: '社交娱乐', title: '社交娱乐', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/4wqfn41ee29_ai模块-场景-社交娱乐.png', imageAlt: '社交娱乐', imageWidth:600, imageHeight:420 },
+  { id: 'smart-customer-service', tabName: '智能客服', title: '智能客服', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/hb7235wif2_ai模块-场景-智能客服.png', imageAlt: '智能客服', imageWidth:600, imageHeight:420 },
+  { id: 'marketing-efficiency', tabName: '营销提效', title: '营销提效', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/d4mgrghk7sg_ai模块-场景-营销提效.png', imageAlt: '营销提效', imageWidth:600, imageHeight:420 },
+  { id: 'consumer-retail', tabName: '消费零售', title: '消费零售', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/y0bmacehdud_ai模块-场景-电商零售.png', imageAlt: '消费零售', imageWidth:600, imageHeight:420 },
 ];
 
 const DoubaoScenariosSection: React.FC = () => {
