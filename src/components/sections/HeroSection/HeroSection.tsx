@@ -1,57 +1,98 @@
 // src/components/sections/HeroSection/HeroSection.tsx
-import React from 'react';
+"use client"
+import React, { useEffect } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import styles from './HeroSection.module.css';
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 12,
+    },
+  },
+};
+
 const HeroSection: React.FC = () => {
+
+  useEffect(() => {
+    console.log(motion);
+    
+  },[motion])
+
   return (
     <section className={styles.heroSection}>
-      {/* 视频背景 */}
       <div className={styles.videoBackgroundContainer}>
         <video
           autoPlay
           loop
           muted
-          playsInline // 关键属性，用于在移动设备上（尤其是iOS）内联播放
+          playsInline
           className={styles.backgroundVideo}
-          poster="/images/hero-video-poster.jpg" // 可选：视频加载前的占位图
+          poster="/images/hero-video-poster.jpg"
         >
-          {/* 确保视频文件放在 public/videos/ 目录下 */}
           <source src="/video/hero.mp4" type="video/mp4" />
-          {/* 可以为不支持mp4的浏览器提供其他格式 */}
-          {/* <source src="/videos/hero-background.webm" type="video/webm" /> */}
           您的浏览器不支持 HTML5 视频。
         </video>
+        <div className={styles.videoOverlay}></div>
       </div>
 
-      {/* 内容层 - 确保内容在视频之上 */}
-      <div className={`container ${styles.heroContent}`}>
+      <motion.div
+        className={`container ${styles.heroContent}`}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className={styles.heroText}>
-          <div className={styles.newAnnouncementContainer}>
+          <motion.div variants={itemVariants} className={styles.newAnnouncementContainer}>
             <span className={styles.newTag}>NEW</span>
             <span className={styles.newAnnouncement}>Prompt优解限时免费60天 <i className="fas fa-chevron-right"></i></span>
-          </div>
-          <h1 className={styles.mainTitle}>EduSpark</h1>
-          <h2 className={styles.subTitle}>Agent助力教育行业</h2>
-          <p className={styles.description}>模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障</p>
-          <div className={styles.heroButtons}>
+          </motion.div>
+
+          <motion.h1 variants={itemVariants} className={styles.mainTitle}>EduSpark</motion.h1>
+          <motion.h2 variants={itemVariants} className={styles.subTitle}>Agent助力教育行业</motion.h2>
+          <motion.p variants={itemVariants} className={styles.description}>
+            模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障
+          </motion.p>
+          <motion.div variants={itemVariants} className={styles.heroButtons}>
             <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>立即体验</a>
             <a href="#" className={`${styles.heroBtn} ${styles.secondaryBtn}`}>API文档</a>
-          </div>
+          </motion.div>
         </div>
-        <div className={styles.heroImageContainer}>
+        <motion.div
+          className={styles.heroImageContainer}
+          initial={{ opacity: 0, scale: 0.8, x: 50 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Image
             src="/images/ai.webp"
-            alt="火山方舟平台图示"
-            width={350}
-            height={228}
+            alt="AI 助力教育行业图示"
+            width={420}
+            height={420}
             className={styles.heroImage}
             priority
           />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
 
-export default HeroSection;
+export default HeroSection; // <--- 确保这一行存在且正确！
