@@ -9,6 +9,7 @@ import CapabilitySupportSection from '@/components/sections/CapabilitySupportSec
 import PricingSection from '@/components/sections/PricingSection/PricingSection';
 import Footer from '@/components/layout/Footer/Footer';
 import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
+import DoubaoScenariosSection from '@/components/sections/DoubaoScenariosSection/DoubaoScenariosSection';
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         <HeroSection />
         <HeroFeaturesSection /> {/* 在 HeroSection 下方添加新组件 */}
         <QuickExperienceSection />
+        <DoubaoScenariosSection/>
         <SystemCapacitySection />
         <CapabilitySupportSection />
         <ProductDiagramSection />
