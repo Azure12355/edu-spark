@@ -10,6 +10,7 @@ import PricingSection from '@/components/sections/PricingSection/PricingSection'
 import Footer from '@/components/layout/Footer/Footer';
 import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
 import DoubaoScenariosSection from '@/components/sections/DoubaoScenariosSection/DoubaoScenariosSection';
+import FullLifecycleSecuritySection from '@/components/sections/FullLifecycleSecuritySection/FullLifecycleSecuritySection';
 
 export default function HomePage() {
   return (
@@ -23,6 +24,7 @@ export default function HomePage() {
         <DoubaoScenariosSection/>
         <SystemCapacitySection />
         <CapabilitySupportSection />
+        <FullLifecycleSecuritySection/>
         <ProductDiagramSection />
         <PricingSection />
         {/* ... 其他 section ... */}
