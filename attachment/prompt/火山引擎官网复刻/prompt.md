@@ -341,4 +341,197 @@ export default HeroSection;
 }
 ```
 
-###
+## QuickExperienceSection 快速体验section优化
+请详细阅读我的图片，帮我优化我的QuickExperienceSection部分的布局和样式
+- 调整QuickExperienceSection部分的整体的布局，让整体看起来更加紧凑、大气、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮
+- 使用高级的动画库和效果，为我的QuickExperienceSection部分的文字和按钮设计一个高级优雅的入场动画
+- section的整体高度需要刚好适配浏览器的视口，不要超出。
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/QuickExperienceSection/QuickExperienceSection.tsx
+```tsx
+// src/components/sections/QuickExperienceSection/QuickExperienceSection.tsx
+import React from 'react';
+import Image from 'next/image';
+import Button from '../../common/Button/Button';
+import styles from './QuickExperienceSection.module.css';
+
+const apiFeatures = [
+  { icon: "/images/QuickExperience/模型选择.png", title: "模型选择", description: "多种模态模型体验，开箱即用" },
+  { icon: "/images/QuickExperience/模型推理.png", title: "模型推理", description: "支持在线和批量推理，灵活适配" },
+  { icon: "/images/QuickExperience/模型精调.png", title: "模型精调", description: "支持SFT精调，直接偏好学习等" },
+  { icon: "/images/QuickExperience/模型评测.png", title: "模型评测", description: "准确评估性能，系统感知模型表现" },
+  { icon: "/images/QuickExperience/prompt优化.png", title: "Prompt调优", description: "轻松打造精准Prompt，高效优化" },
+  { icon: "/images/QuickExperience/应用实验室.png", title: "应用实验室", description: "多种开箱方式，搭建企业级应用" },
+];
+
+const QuickExperienceSection: React.FC = () => {
+  return (
+    <section className={`section-padding ${styles.quickExperienceSection}`}>
+      <div className="container">
+        <h2 className="section-title-global text-center">极速体验火山方舟</h2>
+        <div className={styles.experienceColumns}>
+          <div className={styles.experienceCol}>
+            <h3>极速体验模型</h3>
+            <p>体验全模型，领取超大免费权益。每款豆包大语言模型50万Tokens免费额度，企业用户参与协作计划可获得500万Tokens免费额度</p>
+            <Button variant="primary" href="#">立即体验</Button>
+            <div className={styles.featureBox}>
+              <h4>免费额度</h4>
+              <p className={styles.largeText}>50 <span className={styles.smallText}>万Tokens/豆包语言模型</span></p>
+              <h4>企业客户权益</h4>
+              <p className={styles.largeText}>500 <span className={styles.smallText}>万Tokens/天</span></p>
+              <h4>主力模型价格低至</h4>
+              <p className={styles.highlightPrice}>0.8 <span className={styles.smallText}>元/百万Tokens</span></p>
+              <h4>多模态大模型</h4>
+              <p>支持<span className="text-blue">文本</span>、<span className="text-blue">语音</span>、<span className="text-blue">视觉</span></p>
+              {/* <div className={styles.featureBoxImageContainer}>
+                <Image 
+                    src="https://via.placeholder.com/400x250/F0F4FF/666666?text=Model+Features" 
+                    alt="Model Features" 
+                    width={350} 
+                    height={218}
+                    className={styles.featureBoxImg}
+                />
+              </div> */}
+            </div>
+          </div>
+          <div className={styles.experienceCol}>
+            <h3>API构建应用</h3>
+            <p>平台提供模型精调、推理、评测等全方位功能与服务，提供联网内容等丰富插件功能、知识库与智能体集成能力，保障企业级AI应用落地</p>
+            <Button variant="primary" href="#">立即使用</Button>
+            <div className={styles.apiFeaturesGrid}>
+              {apiFeatures.map((feature, index) => (
+                <div key={index} className={styles.apiFeatureItem}>
+                  <Image 
+                    src={`${feature.icon}`} 
+                    alt={feature.title}
+                    width={32}
+                    height={32}
+                    className={styles.apiFeatureIcon}
+                  />
+                  <h4>{feature.title}</h4>
+                  <p>{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default QuickExperienceSection;
+```
+
+### src/components/sections/QuickExperienceSection/QuickExperienceSection.module.css
+```tsx
+/* src/components/sections/QuickExperienceSection/QuickExperienceSection.module.css */
+/* .quickExperienceSection {
+    /* Uses global .section-padding */
+/* } */
+
+.experienceColumns {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+}
+.experienceCol {
+    flex: 1;
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.experienceCol h3 {
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.experienceCol > p {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+.featureBox {
+    background-color: #F7F9FF; /* Very light blue */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    position: relative;
+}
+.featureBox h4 {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.largeText {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+}
+.smallText {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--text-light);
+}
+.highlightPrice {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--red-accent);
+}
+.featureBoxImageContainer {
+    text-align: center; /* Center the image if it's smaller than container */
+}
+.featureBoxImg {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.apiFeaturesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+.apiFeatureItem {
+    background-color: #F7F9FF;
+    padding: 20px 15px; /* More padding */
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.apiFeatureIcon {
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.apiFeatureItem h4 {
+    font-size: 16px;
+    margin: 0 0 5px;
+    color: var(--text-dark);
+}
+.apiFeatureItem p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 992px) {
+    .experienceColumns { flex-direction: column; }
+}
+@media (max-width: 768px) {
+    .apiFeaturesGrid { grid-template-columns: 1fr; }
+    .featureBoxImg { max-width: 100%; }
+}
+```
+
+##
