@@ -1,329 +1,365 @@
 /* src/components/sections/ProductDiagramSection/ProductDiagramSection.module.css */
-@keyframes fadeInGrow {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-  
+.productDiagramSection {
+  min-height: calc(100vh - var(--ve-header-height)); /* 减去Header高度 */
+  display: flex; /* 用于垂直居中内部容器 */
+  flex-direction: column; /* 主轴垂直 */
+  justify-content: center; /* 垂直居中 */
+  background: linear-gradient(180deg, #F8FAFD 0%, #FFFFFF 100%); /* 更柔和的背景 */
+  padding: 60px 0; /* 上下padding，如果内容不足则靠min-height撑开 */
+  overflow: hidden; /* 防止动画元素溢出 */
+}
+.fullHeightContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* 如果section有额外空间，让container填满 */
+  justify-content: center; /* 确保标题和内容包装器在垂直方向上居中 */
+}
+
+
+.mainSectionTitle {
+  margin-bottom: 40px; /* 标题和内容间距 */
+  font-size: 30px;
+  color: #1D2129;
+  /* 标题渐变 */
+  /* background: linear-gradient(90deg, #2a4ac7 0%, #4a63d9 100%); */
+  background: #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* text-fill-color: transparent; */
+  display: inline-block;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 32px;
+  background: var(--white); /* 内容区使用纯白，对比度更高 */
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(90, 110, 170, 0.1); /* 更明显的阴影 */
+  width: 100%; /* 确保内容包装器占满容器宽度 */
+  max-width: 1200px; /* 限制最大宽度 */
+  margin-left: auto; /* 水平居中 contentWrapper */
+  margin-right: auto;
+}
+
+.diagramContainer {
+  flex: 2.3; /* 图表区域占比 */
+  background: linear-gradient(145deg, #F7F9FC 0%, #EFF3F9 100%); /* 图表区淡雅渐变 */
+  padding: 24px; /* 内部间距调整 */
+  border-radius: 12px;
+  border: 1px solid #E8EDF5; /* 轻微边框 */
+}
+
+.diagramRow {
+  margin-bottom: 20px; /* 行间距调整 */
+  position: relative;
+}
+.diagramRow:last-child {
+  margin-bottom: 0;
+}
+
+.rowLabel {
+  font-size: 12px; /* 标签字号调小 */
+  color: #86909C;
+  margin-bottom: 8px;
+  padding-left: 2px;
+  font-weight: 500;
+}
+
+.rowContent {
+  display: flex;
+  gap: 10px; /* 盒子间距调小 */
+  flex-wrap: wrap;
+}
+
+.diagramBox {
+  background-color: var(--white);
+  padding: 10px 14px; /* 盒子内边距调整 */
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(100, 120, 180, 0.05);
+  font-size: 13px; /* 盒子内文字调小 */
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid #E0E8F3;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.interactiveBox:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 5px 10px rgba(0, 82, 255, 0.08);
+  border-color: #AFC8FF;
+}
+
+.customIcon {
+  margin-right: 6px; /* 图标与文字间距调小 */
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+}
+/* 图标颜色保持不变 */
+.iconCoze { color: #4A4AFF; }
+.iconHiAgent { color: #00C4B3; }
+.iconVolcArk { color: #1664FF; font-size: 17px; }
+
+
+.largeBox {
+  flex: 1;
+  padding: 14px; /* 调整内边距 */
+  font-weight: 500;
+  font-size: 14px; /* 大盒子文字可稍大 */
+}
+
+.fullWidthBox {
+  width: 100%;
+  justify-content: center;
+}
+
+.arkBox {
+  font-weight: 500;
+  color: #1664FF;
+  background: #E8F1FF; /* 火山方舟盒子背景简化 */
+  border: 1px solid #C9DFFF;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.platformFeaturesRow .rowContent {
+  justify-content: flex-start; /* 左对齐，让盒子自然排列 */
+  gap: 8px; /* 平台能力盒子间距 */
+}
+.featureBox {
+  flex-grow: 1; /* 允许特性盒子在空间足够时伸展 */
+  flex-basis: auto; /* 移除固定basis，让flex-grow生效 */
+  min-width: 80px; /* 最小宽度 */
+  padding: 8px 10px;
+  font-size: 12px;
+  background-color: #F9FBFE;
+}
+
+.baseModelCategory {
+  flex: 1;
+  padding: 14px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.thirdPartyCategoryContainer {
+  display: flex;
+  flex-direction: column; /* 标题和网格垂直排列 */
+  align-items: center; /* 内部元素居中 */
+  gap: 8px; /* 标题和网格间距 */
+  padding: 10px; /* 调整三方模型容器的内边距 */
+}
+.thirdPartyTitle {
+  font-weight: 500;
+  font-size: 14px; /* 与豆包大模型标题一致 */
+}
+.thirdPartyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 三方模型内部两列 */
+  gap: 6px; /* 三方模型项间距 */
+  width: 100%; /* 占满父容器 */
+}
+.thirdPartyItem {
+  background-color: #F0F3F8;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 11px; /* 三方模型项文字更小 */
+  text-align: center;
+  color: #5A6881;
+}
+
+
+.subModelsRowWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -10px; /* 调整与上一行的间距 */
+}
+.subModelsRowContent {
+  display: flex;
+  gap: 8px; /* 子模型盒子间距 */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.subModelBox {
+  font-size: 12px;
+  padding: 8px 10px;
+  background-color: #F0F4FA;
+  border-color: #DAE2F0;
+}
+
+
+/* Right Info Panel */
+.infoPanel {
+  flex: 1;
+  background-color: var(--white);
+  padding: 28px;
+  border-radius: 12px; /* 面板圆角 */
+  box-shadow: 0 8px 24px rgba(100, 120, 180, 0.07);
+  border: 1px solid #F0F3F8; /* 轻微边框 */
+}
+
+.panelTitle {
+  font-size: 20px; /* 面板标题调整 */
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, #2a51c7 0%, #4058b1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* text-fill-color: transparent; */
+  display: inline-block;
+}
+
+.panelDescription {
+  font-size: 13px; /* 面板描述字号 */
+  color: #5A6881;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.panelSubtitle {
+  font-size: 15px; /* 副标题字号 */
+  font-weight: 500;
+  color: #344054;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.panelSubtitle:first-of-type {
+  margin-top: 0;
+}
+
+.advantagesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.advantagesList li {
+  font-size: 13px; /* 列表项字号 */
+  color: #5A6881;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+.advantagesList li i {
+  color: var(--ve-primary-blue);
+  margin-right: 8px;
+  font-size: 15px;
+}
+
+.consultButton {
+  width: 100%;
+  padding: 11px; /* 按钮内边距 */
+  background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3A79FF 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px; /* 按钮字号 */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 24px;
+  box-shadow: 0 4px 10px rgba(22, 100, 255, 0.18);
+}
+.consultButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(22, 100, 255, 0.25);
+}
+
+.relatedCapabilities {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 相关能力项间距 */
+}
+.capabilityItem {
+  background-color: #F9FBFE; /* 相关能力项背景 */
+  padding: 9px 12px; /* 内边距调整 */
+  border-radius: 6px;
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, border-left-color 0.2s ease;
+  border: 1px solid #F0F3F8;
+  border-left: 3px solid transparent; /* 预留hover时左边框位置 */
+}
+.interactiveItem:hover {
+  background-color: #EFF5FF;
+  transform: translateX(3px);
+  border-left-color: var(--ve-primary-blue);
+  padding-left: 9px; /* 保持文本对齐 */
+}
+.capabilityItem .customIcon {
+  font-size: 15px;
+  margin-right: 8px;
+}
+
+
+/* 响应式调整 */
+@media (max-width: 1024px) { /* 平板 */
   .productDiagramSection {
-    background-color: #F9FAFC; /* 整体背景更淡雅 */
-    padding-top: 80px; /* 增加顶部间距 */
-    padding-bottom: 80px;
+    min-height: auto; /* 平板上不强制全屏 */
+    padding: 60px 15px; /* 左右加padding */
   }
-  
-  .mainSectionTitle {
-    margin-bottom: 50px;
-    font-size: 32px; /* 标题稍大 */
-    color: #1D2129;
-  }
-  
   .contentWrapper {
-    display: flex;
-    gap: 32px;
-    background: linear-gradient(145deg, #ffffff 0%, #fdfdff 100%); /* 内容区白色渐变 */
-    padding: 32px;
-    border-radius: 16px; /* 更大的圆角 */
-    box-shadow: 0 12px 32px rgba(80, 90, 120, 0.08); /* 更柔和的阴影 */
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
   }
-  
-  .diagramContainer {
-    flex: 2.2; /* 图表区域占比微调 */
-    /* 科技感背景渐变 */
-    background: linear-gradient(135deg, #EDF2FF 0%, #F5F8FF 70%, #E8EEFB 100%);
-    padding: 28px;
-    border-radius: 12px;
-    box-shadow: inset 0 0 15px rgba(0, 82, 255, 0.03);
+  .diagramContainer, .infoPanel {
+    padding: 20px;
   }
-  
-  .diagramRow {
-    margin-bottom: 24px; /* 行间距调整 */
-    position: relative;
-  }
-  .diagramRow:last-child {
-    margin-bottom: 0;
-  }
-  
-  /* 入场动画 */
-  .animatedRow {
-    animation: fadeInGrow 0.6s ease-out forwards;
-    opacity: 0; /* 初始不可见 */
-  }
-  /* 为每一行设置不同的动画延迟，形成错落效果 */
-  .diagramRow:nth-child(1).animatedRow { animation-delay: 0.1s; }
-  .diagramRow:nth-child(2).animatedRow { animation-delay: 0.2s; }
-  .diagramRow:nth-child(3).animatedRow { animation-delay: 0.3s; }
-  .diagramRow:nth-child(4).animatedRow { animation-delay: 0.4s; }
-  .diagramRow:nth-child(5).animatedRow { animation-delay: 0.5s; }
-  
-  
-  .rowLabel {
-    font-size: 13px;
-    color: #6C7B95; /* 标签文字颜色更深 */
-    margin-bottom: 10px;
-    padding-left: 4px;
-    font-weight: 500;
-  }
-  
-  .rowContent {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  
-  .diagramBox {
-    background-color: var(--white);
-    padding: 12px 16px;
-    border-radius: 8px; /* 盒子圆角稍大 */
-    box-shadow: 0 3px 6px rgba(100, 120, 180, 0.06);
-    font-size: 14px;
-    color: #344054; /* 盒子内文字颜色 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px solid #EAEFFB; /* 更淡的边框 */
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
-  }
-  
-  .interactiveBox:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 82, 255, 0.1);
-    border-color: #B2CCFF; /* Hover时边框颜色 */
-  }
-  
-  .customIcon {
-    margin-right: 8px;
-    font-size: 16px;
-    display: inline-flex; /* 确保SVG可以应用颜色 */
-    align-items: center;
-  }
-  .iconCoze { color: #4A4AFF; /* Coze专业版图标颜色 (示例) */ }
-  .iconHiAgent { color: #00C4B3; /* Hi Agent图标颜色 (示例) */ }
-  .iconVolcArk { color: #1664FF; font-size: 18px; }
-  .iconDoubao svg path { /* 通过SVG的fill属性设置渐变 */
-    /* fill: url(#doubaoGradient); 定义在SVG内部 */
-  }
-  
-  .largeBox {
-    flex: 1;
-    padding: 16px;
-    font-weight: 500;
-  }
-  
-  .fullWidthBox {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .arkBox {
-    font-weight: 500;
-    color: #1664FF;
-    background: linear-gradient(135deg, #E8F1FF 0%, #F0F6FF 100%); /* 火山方舟盒子背景渐变 */
-    border: 1px solid #C9DFFF; /* 边框更明显一点 */
-    padding-top: 14px;
-    padding-bottom: 14px;
-  }
-  
   .platformFeaturesRow .rowContent {
-    justify-content: space-between;
+      justify-content: space-around; /* 让特性盒子分布更均匀 */
   }
   .featureBox {
-    flex-basis: calc(16.666% - 10px);
-    min-width: 90px;
-    padding: 10px 8px; /* 调整内边距 */
-    font-size: 13px;
-    background-color: #FDFEFF; /* 特性盒子不同背景 */
+    flex-basis: calc(25% - 8px); /* 一行尝试放4个 */
+    min-width: 100px; /* 增加最小宽度 */
   }
-  
-  .baseModelCategory {
-    flex: 1;
-    padding: 16px;
-    font-weight: 500;
+}
+
+@media (max-width: 768px) { /* 移动设备 */
+  .mainSectionTitle {
+    font-size: 26px;
+    margin-bottom: 30px;
   }
-  .doubaoCategory {
-    /* 可以添加特定样式 */
+  .contentWrapper { padding: 16px; }
+  .diagramContainer, .infoPanel { padding: 16px; }
+
+  /* .diagramRow .rowContent {
+    /* 保持flex-start，让盒子自然排列换行 */
+  /* }  */
+  .diagramRow.platformFeaturesRow .rowContent {
+    justify-content: space-around;
   }
-  
-  .thirdPartyCategory {
-    background-color: #F9FAFB; /* 三方模型不同背景 */
-  }
-  
-  /* Row 5: 豆包大模型 subtypes - Centering and Styling */
-  .subModelsRowWrapper {
-    /* 包裹层用于在 flex 容器内控制对齐 */
-    width: 100%;
-    display: flex;
-    justify-content: center; /* 将内部的 content 水平居中 */
-    margin-top: -12px; /* 调整与上一行的间距 */
-  }
-  .subModelsRowContent {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap; /* 允许换行 */
-    justify-content: center; /* 确保即使换行也居中 */
-    /* max-width: 75%; 限制最大宽度，模拟相对于父级（豆包大模型盒子）居中 */
-    /* 如果豆包大模型盒子宽度固定，可以计算更精确的 max-width 或使用 margin auto */
+  .featureBox {
+    flex-basis: calc(33.333% - 6px); /* 移动端一行三个 */
   }
   .subModelBox {
-    font-size: 13px;
-    padding: 8px 12px;
-    background-color: #F5F8FE; /* 子类型盒子背景 */
-    border-color: #DCE5F5;
+    flex-basis: calc(48% - 4px); /* 子模型一行两个 */
   }
-  
-  
-  /* Right Info Panel */
-  .infoPanel {
-    flex: 1;
-    background-color: var(--white);
-    padding: 28px; /* 面板内边距 */
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(100, 120, 180, 0.07);
+  .largeBox, .baseModelCategory {
+    width: 100%; /* 大盒子和基础模型分类在移动端占满一行 */
+    flex: none;
   }
-  
-  .panelTitle {
-    font-size: 22px;
-    font-weight: 600;
-    color: #1D2129;
-    margin-bottom: 16px;
-    /* 标题也用一点渐变 */
-    background: linear-gradient(90deg, #2a51c7 0%, #5331c7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    display: inline-block;
+  .thirdPartyGrid {
+    grid-template-columns: 1fr; /* 三方模型内部单列 */
   }
-  
-  .panelDescription {
-    font-size: 14px;
-    color: #5A6881;
-    line-height: 1.8;
-    margin-bottom: 28px;
-  }
-  
-  .panelSubtitle {
-    font-size: 16px;
-    font-weight: 500;
-    color: #344054;
-    margin-top: 28px;
-    margin-bottom: 14px;
-  }
-  .panelSubtitle:first-of-type {
-    margin-top: 0;
-  }
-  
-  .advantagesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .advantagesList li {
-    font-size: 14px;
-    color: #5A6881;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-  .advantagesList li i {
-    color: var(--ve-primary-blue);
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  
-  .consultButton {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3A79FF 100%); /* 按钮渐变 */
-    color: var(--white);
-    border: none;
-    border-radius: 6px; /* 按钮圆角 */
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 28px;
-    box-shadow: 0 4px 12px rgba(22, 100, 255, 0.2);
-  }
-  .consultButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(22, 100, 255, 0.3);
-  }
-  
-  .relatedCapabilities {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .capabilityItem {
-    background-color: #F8FAFD;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #475569;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    border: 1px solid #EFF3F9;
-  }
-  .interactiveItem:hover { /* Renamed to avoid conflict */
-    background-color: #EFF5FF;
-    transform: translateX(3px);
-    border-left: 3px solid var(--ve-primary-blue);
-    padding-left: 11px; /* Adjust padding to account for border */
-  }
-  .capabilityItem .customIcon {
-    font-size: 16px;
-    margin-right: 10px;
-  }
-  
-  
-  /* 响应式调整 */
-  @media (max-width: 1024px) {
-    .contentWrapper {
-      flex-direction: column;
-      padding: 24px;
-    }
-    .diagramContainer {
-      padding: 20px;
-    }
-    .infoPanel {
-      margin-top: 24px;
-      padding: 20px;
-    }
+  .panelTitle { font-size: 18px; }
+}
+
+@media (max-width: 480px) { /* 非常小的屏幕 */
     .featureBox {
-      flex-basis: calc(33.333% - 8px);
+        flex-basis: calc(50% - 4px); /* 一行两个 */
     }
-  }
-  
-  @media (max-width: 768px) {
-    .mainSectionTitle {
-      font-size: 26px;
-      margin-bottom: 30px;
+    .subModelBox {
+        flex-basis: 100%; /* 一行一个 */
     }
-    .contentWrapper { padding: 16px; }
-    .diagramContainer, .infoPanel { padding: 16px; }
-    
-    .diagramRow .rowContent {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .diagramRow.platformFeaturesRow .rowContent,
-    .subModelsRowContent { /* Apply to the actual content holder */
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-around; /* Try space-around for better mobile spacing */
-    }
-    .featureBox, .subModelBox {
-      flex-basis: calc(48% - 6px); /* 移动端一行两个，留出gap */
-      font-size: 12px;
-      padding: 8px;
-    }
-    .panelTitle { font-size: 20px; }
-  }
+}

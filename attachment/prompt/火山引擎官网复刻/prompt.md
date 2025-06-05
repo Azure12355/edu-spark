@@ -1287,4 +1287,475 @@ export default SystemCapacitySection;
 }
 ```
 
-### 
+## 大模型产品关系图ProductDiagramSection优化
+帮我优化我的ProductDiagramSection部分的布局和样式
+- 调整ProductDiagramSection部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的ProductDiagramSection部分的卡片设计一个高级优雅的入场动画
+- 保持整个section的高度刚好适配视口，不要溢出也不要太小
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 自行模拟一些数据填充完整整个架构图，不要留白太多，刚好能够充满架构图卡片容器
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/ProductDiagramSection/ProductDiagramSection.tsx
+```tsx
+// src/components/sections/ProductDiagramSection/ProductDiagramSection.tsx
+import React from 'react';
+// import Image from 'next/image'; // 如果使用SVG图标，Image组件可能不需要
+import styles from './ProductDiagramSection.module.css';
+
+// 真实项目中这里应该是 SVG 组件或 Image 组件
+const IconCoze = () => <span className={`${styles.customIcon} ${styles.iconCoze}`}>Coze</span>; // 用文字模拟，实际替换SVG
+const IconHiAgent = () => <span className={`${styles.customIcon} ${styles.iconHiAgent}`}>Hi</span>; // 用文字模拟
+const IconVolcArk = () => ( // 使用SVG Path模拟官网波浪线图标
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" className={`${styles.customIcon} ${styles.iconVolcArk}`}>
+    <path d="M3.515 10.484Q2.531 10.484 2.016 11.172Q1.5 11.859 1.5 12.984Q1.5 14.109 2.016 14.797Q2.531 15.484 3.515 15.484Q4.5 15.484 5.016 14.797Q5.531 14.109 5.531 12.984Q5.531 11.859 5.016 11.172Q4.5 10.484 3.515 10.484ZM9.515 10.484Q8.531 10.484 8.016 11.172Q7.5 11.859 7.5 12.984Q7.5 14.109 8.016 14.797Q8.531 15.484 9.515 15.484Q10.5 15.484 11.016 14.797Q11.531 14.109 11.531 12.984Q11.531 11.859 11.016 11.172Q10.5 10.484 9.515 10.484ZM15.515 10.484Q14.531 10.484 14.016 11.172Q13.5 11.859 13.5 12.984Q13.5 14.109 14.016 14.797Q14.531 15.484 15.515 15.484Q16.5 15.484 17.016 14.797Q17.531 14.109 17.531 12.984Q17.531 11.859 17.016 11.172Q16.5 10.484 15.515 10.484ZM21.484 10.484Q20.5 10.484 19.984 11.172Q19.468 11.859 19.468 12.984Q19.468 14.109 19.984 14.797Q20.5 15.484 21.484 15.484Q22.468 15.484 22.984 14.797Q23.5 14.109 23.5 12.984Q23.5 11.859 22.984 11.172Q22.468 10.484 21.484 10.484Z" />
+    <path d="M3.515 6.484Q2.531 6.484 2.016 7.172Q1.5 7.859 1.5 8.984Q1.5 10.109 2.016 10.797Q2.531 11.484 3.515 11.484Q4.5 11.484 5.016 10.797Q5.531 10.109 5.531 8.984Q5.531 7.859 5.016 7.172Q4.5 6.484 3.515 6.484ZM9.515 6.484Q8.531 6.484 8.016 7.172Q7.5 7.859 7.5 8.984Q7.5 10.109 8.016 10.797Q8.531 11.484 9.515 11.484Q10.5 11.484 11.016 10.797Q11.531 10.109 11.531 8.984Q11.531 7.859 11.016 7.172Q10.5 6.484 9.515 6.484ZM15.515 6.484Q14.531 6.484 14.016 7.172Q13.5 7.859 13.5 8.984Q13.5 10.109 14.016 10.797Q14.531 11.484 15.515 11.484Q16.5 11.484 17.016 10.797Q17.531 10.109 17.531 8.984Q17.531 7.859 17.016 7.172Q16.5 6.484 15.515 6.484ZM21.484 6.484Q20.5 6.484 19.984 7.172Q19.468 7.859 19.468 8.984Q19.468 10.109 19.984 10.797Q20.5 11.484 21.484 11.484Q22.468 11.484 22.984 10.797Q23.5 10.109 23.5 8.984Q23.5 7.859 22.984 7.172Q22.468 6.484 21.484 6.484Z" />
+    <path d="M3.515 14.484Q2.531 14.484 2.016 15.172Q1.5 15.859 1.5 16.984Q1.5 18.109 2.016 18.797Q2.531 19.484 3.515 19.484Q4.5 19.484 5.016 18.797Q5.531 18.109 5.531 16.984Q5.531 15.859 5.016 15.172Q4.5 14.484 3.515 14.484ZM9.515 14.484Q8.531 14.484 8.016 15.172Q7.5 15.859 7.5 16.984Q7.5 18.109 8.016 18.797Q8.531 19.484 9.515 19.484Q10.5 19.484 11.016 18.797Q11.531 18.109 11.531 16.984Q11.531 15.859 11.016 15.172Q10.5 14.484 9.515 14.484ZM15.515 14.484Q14.531 14.484 14.016 15.172Q13.5 15.859 13.5 16.984Q13.5 18.109 14.016 18.797Q14.531 19.484 15.515 19.484Q16.5 19.484 17.016 18.797Q17.531 18.109 17.531 16.984Q17.531 15.859 17.016 15.172Q16.5 14.484 15.515 14.484ZM21.484 14.484Q20.5 14.484 19.984 15.172Q19.468 15.859 19.468 16.984Q19.468 18.109 19.984 18.797Q20.5 19.484 21.484 19.484Q22.468 19.484 22.984 18.797Q23.5 18.109 23.5 16.984Q23.5 15.859 22.984 15.172Q22.468 14.484 21.484 14.484Z" />
+  </svg>
+);
+const IconDoubao = () => ( // 使用SVG Path模拟官网豆包图标
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" className={`${styles.customIcon} ${styles.iconDoubao}`}>
+        <defs>
+            <linearGradient id="doubaoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{stopColor: '#FF6B6B', stopOpacity: 1}} />
+            <stop offset="50%" style={{stopColor: '#FFE66D', stopOpacity: 1}} />
+            <stop offset="100%" style={{stopColor: '#4ECDC4', stopOpacity: 1}} />
+            </linearGradient>
+        </defs>
+        <path fill="url(#doubaoGradient)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 14.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3 5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+    </svg>
+);
+
+
+const ProductDiagramSection: React.FC = () => {
+  return (
+    <section className={`section-padding ${styles.productDiagramSection}`}>
+      <div className="container">
+        <h2 className={`section-title-global text-center ${styles.mainSectionTitle}`}>
+          大模型产品关系图
+        </h2>
+        <div className={styles.contentWrapper}>
+          {/* Left Column: Diagram */}
+          <div className={styles.diagramContainer}>
+            {/* Row 1: AI 应用开发 */}
+            <div className={`${styles.diagramRow} ${styles.animatedRow}`}>
+              <div className={styles.rowLabel}>AI应用开发</div>
+              <div className={styles.rowContent}>
+                <div className={`${styles.diagramBox} ${styles.largeBox} ${styles.interactiveBox}`}>
+                  <IconCoze /> Coze专业版
+                </div>
+                <div className={`${styles.diagramBox} ${styles.largeBox} ${styles.interactiveBox}`}>
+                  <IconHiAgent /> Hi Agent
+                </div>
+              </div>
+            </div>
+
+            {/* Row 2: 大模型服务 */}
+            <div className={`${styles.diagramRow} ${styles.animatedRow}`}>
+              <div className={styles.rowLabel}>大模型服务</div>
+              <div className={styles.rowContent}>
+                <div className={`${styles.diagramBox} ${styles.fullWidthBox} ${styles.arkBox} ${styles.interactiveBox}`}>
+                  <IconVolcArk /> 火山方舟 —— 一站式大模型服务平台
+                </div>
+              </div>
+            </div>
+
+            {/* Row 3: 火山方舟平台能力 */}
+            <div className={`${styles.diagramRow} ${styles.platformFeaturesRow} ${styles.animatedRow}`}>
+              <div className={styles.rowContent}>
+                {['体验中心', '模型精调', '模型测评', '模型推理', 'Prompt优化', '智能体广场'].map(item => (
+                  <div key={item} className={`${styles.diagramBox} ${styles.featureBox} ${styles.interactiveBox}`}>{item}</div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 4: 基础模型 */}
+            <div className={`${styles.diagramRow} ${styles.animatedRow}`}>
+              <div className={styles.rowLabel}>基础模型</div>
+              <div className={styles.rowContent}>
+                <div className={`${styles.diagramBox} ${styles.baseModelCategory} ${styles.doubaoCategory} ${styles.interactiveBox}`}>
+                  <IconDoubao /> 豆包大模型
+                </div>
+                <div className={`${styles.diagramBox} ${styles.baseModelCategory} ${styles.thirdPartyCategory} ${styles.interactiveBox}`}>
+                  三方模型
+                </div>
+              </div>
+            </div>
+
+             {/* Row 5: 豆包大模型 subtypes - Centered */}
+            <div className={`${styles.diagramRow} ${styles.subModelsRowWrapper} ${styles.animatedRow}`}>
+                {/* This div is for the centering logic relative to its parent */}
+                <div className={styles.subModelsRowContent}>
+                    {['视觉大模型', '多模态大模型', '语音大模型', '语言大模型'].map(item => (
+                         <div key={item} className={`${styles.diagramBox} ${styles.subModelBox} ${styles.interactiveBox}`}>{item}</div>
+                    ))}
+                </div>
+             </div>
+
+          </div>
+
+          {/* Right Column: Info Panel */}
+          <div className={styles.infoPanel}>
+            <h3 className={styles.panelTitle}>火山方舟</h3>
+            <p className={styles.panelDescription}>
+              平台提供模型精调、推理、评测等全方位功能与服务，提供丰富的插件生态和AI原生应用开发服务，并通过安全可信的基础设施、专业的算法技术服务，全方位保障企业级AI应用落地
+            </p>
+            <h4 className={styles.panelSubtitle}>架构优势</h4>
+            <ul className={styles.advantagesList}>
+              <li><i className="fas fa-check-circle"></i> 专业算法服务</li>
+              <li><i className="fas fa-check-circle"></i> 模型能力拓展</li>
+              <li><i className="fas fa-check-circle"></i> 高并发算力保障</li>
+              <li><i className="fas fa-check-circle"></i> 安全可信会话无痕</li>
+            </ul>
+            <button className={styles.consultButton}>立即咨询</button>
+            <h4 className={styles.panelSubtitle}>相关能力</h4>
+            <div className={styles.relatedCapabilities}>
+              <div className={`${styles.capabilityItem} ${styles.interactiveItem}`}><IconDoubao /> 豆包大模型</div>
+              <div className={`${styles.capabilityItem} ${styles.interactiveItem}`}><IconVolcArk /> 火山方舟</div>
+              <div className={`${styles.capabilityItem} ${styles.interactiveItem}`}><IconCoze /> Coze专业版</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProductDiagramSection;
+```
+
+### src/components/sections/ProductDiagramSection/ProductDiagramSection.module.css
+```tsx
+/* src/components/sections/ProductDiagramSection/ProductDiagramSection.module.css */
+@keyframes fadeInGrow {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  .productDiagramSection {
+    background-color: #F9FAFC; /* 整体背景更淡雅 */
+    padding-top: 80px; /* 增加顶部间距 */
+    padding-bottom: 80px;
+  }
+  
+  .mainSectionTitle {
+    margin-bottom: 50px;
+    font-size: 32px; /* 标题稍大 */
+    color: #1D2129;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    gap: 32px;
+    background: linear-gradient(145deg, #ffffff 0%, #fdfdff 100%); /* 内容区白色渐变 */
+    padding: 32px;
+    border-radius: 16px; /* 更大的圆角 */
+    box-shadow: 0 12px 32px rgba(80, 90, 120, 0.08); /* 更柔和的阴影 */
+  }
+  
+  .diagramContainer {
+    flex: 2.2; /* 图表区域占比微调 */
+    /* 科技感背景渐变 */
+    background: linear-gradient(135deg, #EDF2FF 0%, #F5F8FF 70%, #E8EEFB 100%);
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 15px rgba(0, 82, 255, 0.03);
+  }
+  
+  .diagramRow {
+    margin-bottom: 24px; /* 行间距调整 */
+    position: relative;
+  }
+  .diagramRow:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* 入场动画 */
+  .animatedRow {
+    animation: fadeInGrow 0.6s ease-out forwards;
+    opacity: 0; /* 初始不可见 */
+  }
+  /* 为每一行设置不同的动画延迟，形成错落效果 */
+  .diagramRow:nth-child(1).animatedRow { animation-delay: 0.1s; }
+  .diagramRow:nth-child(2).animatedRow { animation-delay: 0.2s; }
+  .diagramRow:nth-child(3).animatedRow { animation-delay: 0.3s; }
+  .diagramRow:nth-child(4).animatedRow { animation-delay: 0.4s; }
+  .diagramRow:nth-child(5).animatedRow { animation-delay: 0.5s; }
+  
+  
+  .rowLabel {
+    font-size: 13px;
+    color: #6C7B95; /* 标签文字颜色更深 */
+    margin-bottom: 10px;
+    padding-left: 4px;
+    font-weight: 500;
+  }
+  
+  .rowContent {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .diagramBox {
+    background-color: var(--white);
+    padding: 12px 16px;
+    border-radius: 8px; /* 盒子圆角稍大 */
+    box-shadow: 0 3px 6px rgba(100, 120, 180, 0.06);
+    font-size: 14px;
+    color: #344054; /* 盒子内文字颜色 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #EAEFFB; /* 更淡的边框 */
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+  }
+  
+  .interactiveBox:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 82, 255, 0.1);
+    border-color: #B2CCFF; /* Hover时边框颜色 */
+  }
+  
+  .customIcon {
+    margin-right: 8px;
+    font-size: 16px;
+    display: inline-flex; /* 确保SVG可以应用颜色 */
+    align-items: center;
+  }
+  .iconCoze { color: #4A4AFF; /* Coze专业版图标颜色 (示例) */ }
+  .iconHiAgent { color: #00C4B3; /* Hi Agent图标颜色 (示例) */ }
+  .iconVolcArk { color: #1664FF; font-size: 18px; }
+  .iconDoubao svg path { /* 通过SVG的fill属性设置渐变 */
+    /* fill: url(#doubaoGradient); 定义在SVG内部 */
+  }
+  
+  .largeBox {
+    flex: 1;
+    padding: 16px;
+    font-weight: 500;
+  }
+  
+  .fullWidthBox {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .arkBox {
+    font-weight: 500;
+    color: #1664FF;
+    background: linear-gradient(135deg, #E8F1FF 0%, #F0F6FF 100%); /* 火山方舟盒子背景渐变 */
+    border: 1px solid #C9DFFF; /* 边框更明显一点 */
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  
+  .platformFeaturesRow .rowContent {
+    justify-content: space-between;
+  }
+  .featureBox {
+    flex-basis: calc(16.666% - 10px);
+    min-width: 90px;
+    padding: 10px 8px; /* 调整内边距 */
+    font-size: 13px;
+    background-color: #FDFEFF; /* 特性盒子不同背景 */
+  }
+  
+  .baseModelCategory {
+    flex: 1;
+    padding: 16px;
+    font-weight: 500;
+  }
+  .doubaoCategory {
+    /* 可以添加特定样式 */
+  }
+  
+  .thirdPartyCategory {
+    background-color: #F9FAFB; /* 三方模型不同背景 */
+  }
+  
+  /* Row 5: 豆包大模型 subtypes - Centering and Styling */
+  .subModelsRowWrapper {
+    /* 包裹层用于在 flex 容器内控制对齐 */
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 将内部的 content 水平居中 */
+    margin-top: -12px; /* 调整与上一行的间距 */
+  }
+  .subModelsRowContent {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* 允许换行 */
+    justify-content: center; /* 确保即使换行也居中 */
+    /* max-width: 75%; 限制最大宽度，模拟相对于父级（豆包大模型盒子）居中 */
+    /* 如果豆包大模型盒子宽度固定，可以计算更精确的 max-width 或使用 margin auto */
+  }
+  .subModelBox {
+    font-size: 13px;
+    padding: 8px 12px;
+    background-color: #F5F8FE; /* 子类型盒子背景 */
+    border-color: #DCE5F5;
+  }
+  
+  
+  /* Right Info Panel */
+  .infoPanel {
+    flex: 1;
+    background-color: var(--white);
+    padding: 28px; /* 面板内边距 */
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(100, 120, 180, 0.07);
+  }
+  
+  .panelTitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1D2129;
+    margin-bottom: 16px;
+    /* 标题也用一点渐变 */
+    background: linear-gradient(90deg, #2a51c7 0%, #5331c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    display: inline-block;
+  }
+  
+  .panelDescription {
+    font-size: 14px;
+    color: #5A6881;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  
+  .panelSubtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: #344054;
+    margin-top: 28px;
+    margin-bottom: 14px;
+  }
+  .panelSubtitle:first-of-type {
+    margin-top: 0;
+  }
+  
+  .advantagesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .advantagesList li {
+    font-size: 14px;
+    color: #5A6881;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .advantagesList li i {
+    color: var(--ve-primary-blue);
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  .consultButton {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3A79FF 100%); /* 按钮渐变 */
+    color: var(--white);
+    border: none;
+    border-radius: 6px; /* 按钮圆角 */
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 28px;
+    box-shadow: 0 4px 12px rgba(22, 100, 255, 0.2);
+  }
+  .consultButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(22, 100, 255, 0.3);
+  }
+  
+  .relatedCapabilities {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .capabilityItem {
+    background-color: #F8FAFD;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border: 1px solid #EFF3F9;
+  }
+  .interactiveItem:hover { /* Renamed to avoid conflict */
+    background-color: #EFF5FF;
+    transform: translateX(3px);
+    border-left: 3px solid var(--ve-primary-blue);
+    padding-left: 11px; /* Adjust padding to account for border */
+  }
+  .capabilityItem .customIcon {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  
+  /* 响应式调整 */
+  @media (max-width: 1024px) {
+    .contentWrapper {
+      flex-direction: column;
+      padding: 24px;
+    }
+    .diagramContainer {
+      padding: 20px;
+    }
+    .infoPanel {
+      margin-top: 24px;
+      padding: 20px;
+    }
+    .featureBox {
+      flex-basis: calc(33.333% - 8px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mainSectionTitle {
+      font-size: 26px;
+      margin-bottom: 30px;
+    }
+    .contentWrapper { padding: 16px; }
+    .diagramContainer, .infoPanel { padding: 16px; }
+    
+    .diagramRow .rowContent {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .diagramRow.platformFeaturesRow .rowContent,
+    .subModelsRowContent { /* Apply to the actual content holder */
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around; /* Try space-around for better mobile spacing */
+    }
+    .featureBox, .subModelBox {
+      flex-basis: calc(48% - 6px); /* 移动端一行两个，留出gap */
+      font-size: 12px;
+      padding: 8px;
+    }
+    .panelTitle { font-size: 20px; }
+  }
+```
+
+##
