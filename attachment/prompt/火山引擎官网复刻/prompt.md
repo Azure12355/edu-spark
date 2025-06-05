@@ -719,4 +719,475 @@ export default HeroFeaturesSection;
   }
 ```
 
-### 
+## 豆包大模型应用场景DoubaoScenariosSection优化
+帮我优化我的DoubaoScenariosSection部分的布局和样式
+- 调整DoubaoScenariosSection部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的DoubaoScenariosSection部分的卡片设计一个高级优雅的入场动画
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/DoubaoScenariosSection/DoubaoScenariosSection.tsx
+```tsx
+// src/components/sections/DoubaoScenariosSection/DoubaoScenariosSection.tsx
+"use client"; // 需要客户端交互
+import React, { useState } from 'react';
+import Image from 'next/image';
+import styles from './DoubaoScenariosSection.module.css';
+
+// 假设的图标组件或路径
+const IconDoubaoSmall = () => <span className={styles.relatedProductIcon} style={{background: 'linear-gradient(45deg, #FFD700, #FF69B4, #00BFFF)', color: 'white'}}>豆</span>;
+const IconKouzi = () => <span className={styles.relatedProductIcon} style={{background: '#FF8C00', color: 'white'}}>扣</span>; // 扣子图标
+const IconHiAgentSmall = () => <span className={styles.relatedProductIcon} style={{background: '#50E3C2', color: 'white'}}>Hi</span>;
+const IconLab = () => <span className={styles.relatedProductIcon} style={{background: '#7B68EE', color: 'white'}}>验</span>;
+
+
+interface Scenario {
+  id: string;
+  tabName: string;
+  title: string;
+  descriptionPoints: string[];
+  relatedProducts: { icon: React.ReactNode; name: string }[];
+  imageSrc: string;
+  imageAlt: string;
+  imageWidth: number;
+  imageHeight: number;
+}
+
+const scenariosData: Scenario[] = [
+  {
+    id: 'smart-cockpit',
+    tabName: '智能座舱',
+    title: '智能座舱',
+    descriptionPoints: [
+      "用车顾问：可基于车辆功能、行车知识、交规问答，配合RAG和抖音视频，提供准确和多样化的信息交互",
+      "POI推荐+行程助手：结合豆包大模型和抖音本地生活POI，提供智能的POI搜索和行程规划能力",
+      "AI副驾：结合多模资讯、抖音资讯，智能理解用户意图并且搜索相关新闻资讯、提供新闻总结和播报能力",
+    ],
+    relatedProducts: [
+      { icon: <IconDoubaoSmall />, name: '豆包大模型' },
+      { icon: <IconKouzi />, name: '扣子' },
+      { icon: <IconHiAgentSmall />, name: 'Hi Agent' },
+      { icon: <IconLab />, name: '应用实验室' },
+    ],
+    imageSrc: '/images/DoubaoScenariosSection/8j7nxi49pry_ai模块-场景-智能座舱.png', // 官网智能座舱图片
+    imageAlt: '智能座舱演示',
+    imageWidth: 600, // 示例尺寸，根据实际图片调整
+    imageHeight: 420,
+  },
+  {
+    id: 'online-education',
+    tabName: '在线教育',
+    title: '在线教育',
+    descriptionPoints: [
+      "拍照解题：通过图像理解和解题意图识别题目，解析更新点，快速匹配解题思路与方法，助力学生高效攻克难题",
+      "陪练助手：家长式记忆学习历程，依据过往数据调整陪练策略，针对性强化，给予个性化学习引导",
+      "虚拟课堂：模拟真实课堂场景，以丰富的专业储备设计互动环节，激发学生学习兴趣，提升知识吸收效果",
+    ],
+    relatedProducts: [
+        { icon: <IconDoubaoSmall />, name: '豆包大模型' },
+        { icon: <IconKouzi />, name: '扣子' },
+        { icon: <IconLab />, name: '应用实验室' },
+    ],
+    imageSrc: '/images/DoubaoScenariosSection/2yn2bl8vchw_ai模块-场景-在线教育.png', // 官网在线教育图片
+    imageAlt: '在线教育演示',
+    imageWidth: 600,
+    imageHeight: 420,
+  },
+  // 可以继续添加其他场景：智能终端, 社交娱乐, 智能客服, 营销提效, 消费零售
+  { id: 'smart-terminal', tabName: '智能终端', title: '智能终端', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/ptdfhl78eb_ai模块-场景-智能终端.png', imageAlt: '智能终端', imageWidth:600, imageHeight:420 },
+  { id: 'social-entertainment', tabName: '社交娱乐', title: '社交娱乐', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/4wqfn41ee29_ai模块-场景-社交娱乐.png', imageAlt: '社交娱乐', imageWidth:600, imageHeight:420 },
+  { id: 'smart-customer-service', tabName: '智能客服', title: '智能客服', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/hb7235wif2_ai模块-场景-智能客服.png', imageAlt: '智能客服', imageWidth:600, imageHeight:420 },
+  { id: 'marketing-efficiency', tabName: '营销提效', title: '营销提效', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/d4mgrghk7sg_ai模块-场景-营销提效.png', imageAlt: '营销提效', imageWidth:600, imageHeight:420 },
+  { id: 'consumer-retail', tabName: '消费零售', title: '消费零售', descriptionPoints: ["...", "..."], relatedProducts: [], imageSrc: '/images/DoubaoScenariosSection/y0bmacehdud_ai模块-场景-电商零售.png', imageAlt: '消费零售', imageWidth:600, imageHeight:420 },
+];
+
+const DoubaoScenariosSection: React.FC = () => {
+  const [activeTabId, setActiveTabId] = useState<string>(scenariosData[0].id);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [prevActiveIndex, setPrevActiveIndex] = useState(0);
+
+  const handleTabClick = (tabId: string) => {
+    const currentIndex = scenariosData.findIndex(s => s.id === tabId);
+    const previousIndex = scenariosData.findIndex(s => s.id === activeTabId);
+
+    if (currentIndex > previousIndex) {
+      setSlideDirection('left'); // 新卡片从右边进入，旧卡片向左边滑出
+    } else if (currentIndex < previousIndex) {
+      setSlideDirection('right'); // 新卡片从左边进入，旧卡片向右边滑出
+    } else {
+      setSlideDirection(null); // 点击当前tab，不滑动
+    }
+    setPrevActiveIndex(previousIndex);
+    setActiveTabId(tabId);
+  };
+
+  const activeScenario = scenariosData.find(scenario => scenario.id === activeTabId) || scenariosData[0];
+  const currentActiveIndex = scenariosData.findIndex(s => s.id === activeTabId);
+
+  return (
+    <section className={`section-padding ${styles.scenariosSection}`}>
+      <div className="container">
+        <h2 className={`section-title-global text-center ${styles.mainSectionTitle}`}>
+          豆包大模型应用场景
+        </h2>
+        <p className={`text-center ${styles.sectionSubtitle}`}>
+          丰富的应用场景和解决方案，满足多种业务需求
+        </p>
+
+        <div className={styles.tabsContainer}>
+          {scenariosData.map(scenario => (
+            <button
+              key={scenario.id}
+              className={`${styles.tabButton} ${activeTabId === scenario.id ? styles.active : ''}`}
+              onClick={() => handleTabClick(scenario.id)}
+            >
+              {scenario.tabName}
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.cardContainerWrapper}>
+          {scenariosData.map((scenario, index) => (
+            <div
+              key={scenario.id}
+              className={`
+                ${styles.scenarioCard}
+                ${scenario.id === activeTabId ? styles.cardActive : styles.cardInactive}
+                ${slideDirection && scenario.id === activeTabId ? (slideDirection === 'left' ? styles.slideFromRight : styles.slideFromLeft) : ''}
+                ${slideDirection && index === prevActiveIndex && scenario.id !== activeTabId ? (slideDirection === 'left' ? styles.slideToLeft : styles.slideToRight) : ''}
+              `}
+            >
+              <div className={styles.cardTextContent}>
+                <h3 className={styles.cardTitle}>{scenario.title}</h3>
+                <ul className={styles.descriptionList}>
+                  {scenario.descriptionPoints.map((point, i) => (
+                    <li key={i}><i className="fas fa-check"></i> {point}</li>
+                  ))}
+                </ul>
+                <h4 className={styles.relatedProductsTitle}>相关产品</h4>
+                <div className={styles.relatedProductsList}>
+                  {scenario.relatedProducts.map((product, i) => (
+                    <span key={i} className={styles.relatedProductItem}>
+                      {product.icon} {product.name}
+                    </span>
+                  ))}
+                </div>
+                <div className={styles.cardButtons}>
+                  <a href="#" className={`${styles.cardBtn} ${styles.primaryBtn}`}>立即咨询</a>
+                  <a href="#" className={`${styles.cardBtn} ${styles.secondaryBtn}`}>模型详情</a>
+                </div>
+              </div>
+              <div className={styles.cardImageWrapper}>
+                <Image
+                  src={scenario.imageSrc}
+                  alt={scenario.imageAlt}
+                  width={scenario.imageWidth}
+                  height={scenario.imageHeight}
+                  className={styles.scenarioImage}
+                  priority={scenario.id === activeTabId} // 优先加载活动卡片的图片
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default DoubaoScenariosSection;
+```
+
+### src/components/sections/DoubaoScenariosSection/DoubaoScenariosSection.module.css
+```tsx
+/* src/components/sections/DoubaoScenariosSection/DoubaoScenariosSection.module.css */
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideInFromLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOutToLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+  }
+  @keyframes slideOutToRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  
+  .scenariosSection {
+    background: linear-gradient(180deg, #F9FAFC 0%, #FDFEFF 100%); /* 淡雅背景 */
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  
+  .mainSectionTitle {
+    margin-bottom: 12px;
+    font-size: 32px;
+    color: #1D2129;
+  }
+  
+  .sectionSubtitle {
+    font-size: 16px;
+    color: #86909C;
+    margin-bottom: 40px;
+  }
+  
+  .tabsContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #E5E6EB; /* Tab底部横线 */
+    padding-bottom: 16px;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #4E5969;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent; /* 未激活状态的底部边框 */
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    position: relative;
+  }
+  .tabButton:hover {
+    color: var(--ve-primary-blue);
+  }
+  .tabButton.active {
+    color: var(--ve-primary-blue);
+    border-bottom-color: var(--ve-primary-blue); /* 激活状态的底部高亮 */
+  }
+  
+  .cardContainerWrapper {
+    position: relative;
+    min-height: 520px; /* 根据内容预估一个最小高度，防止切换时跳动 */
+    overflow: hidden; /* 隐藏滑出卡片 */
+    background: linear-gradient(135deg, #ffffff 0%, #f9fcff 100%);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(100, 120, 180, 0.07);
+    padding: 32px; /* 卡片内边距 */
+  }
+  
+  .scenarioCard {
+    display: flex;
+    gap: 32px; /* 文本和图片间距 */
+    position: absolute; /* 用于堆叠和动画 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: inherit; /* 继承父级内边距 */
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden; /* 初始隐藏非活动卡片 */
+    transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s; /* 延迟visibility确保动画完成 */
+  }
+  
+  .scenarioCard.cardActive {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s, 0s; /* 激活卡片立即显示 */
+    z-index: 1; /* 确保活动卡片在最上层 */
+  }
+  .scenarioCard.cardInactive {
+      z-index: 0;
+  }
+  
+  
+  /* 卡片滑动动画 */
+  .cardActive.slideFromRight { animation: slideInFromRight 0.5s forwards ease-out; }
+  .cardActive.slideFromLeft { animation: slideInFromLeft 0.5s forwards ease-out; }
+  .slideOutToLeft { animation: slideOutToLeft 0.5s forwards ease-out; opacity: 1 !important; visibility: visible !important; } /* 强制显示直到动画结束 */
+  .slideOutToRight { animation: slideOutToRight 0.5s forwards ease-out; opacity: 1 !important; visibility: visible !important; }
+  
+  
+  .cardTextContent {
+    flex: 1; /* 文本内容占据更多空间 */
+    max-width: 480px; /* 限制文本最大宽度 */
+    animation: fadeIn 0.6s ease-out 0.3s forwards; /* 文本内容入场动画 */
+    opacity: 0;
+  }
+  
+  .cardTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1D2129;
+    margin-bottom: 20px;
+  }
+  
+  .descriptionList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+  }
+  .descriptionList li {
+    font-size: 14px;
+    color: #4E5969;
+    line-height: 1.8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start; /* 图标和文字顶部对齐 */
+  }
+  .descriptionList li i {
+    color: var(--ve-primary-blue); /* 对勾颜色 */
+    margin-right: 10px;
+    font-size: 14px; /* 对勾大小 */
+    margin-top: 4px; /* 微调对齐 */
+  }
+  
+  .relatedProductsTitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1D2129;
+    margin-bottom: 12px;
+  }
+  
+  .relatedProductsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .relatedProductItem {
+    background-color: #F2F3F5;
+    padding: 6px 12px;
+    border-radius: 16px; /* 胶囊形状 */
+    font-size: 13px;
+    color: #4E5969;
+    display: inline-flex;
+    align-items: center;
+  }
+  .relatedProductIcon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  
+  .cardButtons {
+    display: flex;
+    gap: 16px;
+  }
+  .cardBtn {
+    padding: 10px 28px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .primaryBtn {
+    color: var(--white);
+    background: var(--ve-primary-blue);
+    box-shadow: 0 4px 8px rgba(22, 100, 255, 0.15);
+  }
+  .primaryBtn:hover {
+    background: #0042d1;
+    box-shadow: 0 6px 12px rgba(22, 100, 255, 0.25);
+  }
+  .secondaryBtn {
+    color: var(--ve-primary-blue);
+    background-color: #E8F1FF;
+    border: 1px solid #ADC6FF;
+  }
+  .secondaryBtn:hover {
+    background-color: #DCE9FF;
+  }
+  
+  .cardImageWrapper {
+    flex: 1.2; /* 图片区域占比 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* 用于图片动画或装饰 */
+    animation: fadeIn 0.7s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+  .scenarioImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px; /* 图片圆角 */
+    box-shadow: 0 8px 24px rgba(100, 120, 180, 0.1);
+    object-fit: cover; /* 如果图片比例不一致，确保覆盖 */
+  }
+  
+  
+  /* 响应式调整 */
+  @media (max-width: 1024px) {
+    .tabsContainer {
+      justify-content: flex-start; /* 标签靠左排列 */
+      overflow-x: auto; /* 允许横向滚动 */
+      padding-bottom: 8px; /* 滚动条空间 */
+      margin-bottom: 30px;
+      scrollbar-width: none; /* Firefox */
+    }
+    .tabsContainer::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera */ }
+  
+    .tabButton {
+      white-space: nowrap; /* 防止标签文字换行 */
+      padding: 8px 16px;
+      font-size: 15px;
+    }
+    .cardContainerWrapper {
+      padding: 24px;
+      min-height: auto; /* 取消最小高度，让内容自适应 */
+    }
+    .scenarioCard {
+      flex-direction: column;
+      align-items: center; /* 移动端文本和图片居中堆叠 */
+      text-align: center;
+      gap: 24px;
+      padding: 24px; /* 调整内部卡片内边距 */
+    }
+    .cardTextContent {
+      max-width: 100%;
+      order: 2; /* 文本在图片下方 */
+    }
+    .descriptionList li {
+      text-align: left; /* 列表项内部左对齐 */
+      justify-content: flex-start; /* 图标和文字左对齐 */
+    }
+    .relatedProductsList, .cardButtons {
+      justify-content: center;
+    }
+    .cardImageWrapper {
+      order: 1; /* 图片在文本上方 */
+      width: 100%; /* 图片宽度占满 */
+      max-width: 500px; /* 但不要过宽 */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mainSectionTitle { font-size: 26px; }
+    .sectionSubtitle { font-size: 14px; margin-bottom: 30px; }
+    .tabsContainer { margin-bottom: 24px; }
+    .cardContainerWrapper { padding: 20px; }
+    .scenarioCard { padding: 20px; }
+    .cardTitle { font-size: 20px; margin-bottom: 16px; }
+    .descriptionList li { font-size: 13px; margin-bottom: 8px; }
+    .cardBtn { font-size: 14px; padding: 8px 24px; }
+  }
+```
+
+###
