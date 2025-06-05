@@ -1758,4 +1758,213 @@ export default ProductDiagramSection;
   }
 ```
 
+## 灵活多样的定价方案PricingSection优化
+帮我优化我的PricingSection部分的布局和样式
+- 调整PricingSection部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的PricingSection部分的卡片设计一个高级优雅的入场动画
+- 保持整个section的高度刚好适配视口，不要溢出也不要太小
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 其中表格可以中的数据如果超过5条，可以滚动，请自行为每一个选项都模拟一些真实的数据。
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/PricingSection/PricingSection.tsx
+```tsx
+// src/components/sections/PricingSection/PricingSection.tsx
+"use client";
+import React, { useState } from 'react';
+import styles from './PricingSection.module.css';
+
+const TABS = [
+  { id: 'ondemand', label: '按量付费' },
+  { id: 'production', label: '生产级保障' },
+  { id: 'package', label: '资源包' },
+  { id: 'free', label: '免费额度' },
+  { id: 'lab', label: '应用实验室' },
+];
+
+const PRICING_DATA = [ // Simplified data structure for demo
+  { model: 'Doubao-1.5-thinking-pro', new: true, online: '0.0040 / 0.0160', context: '', batch: '0.0020 / 0.0080' },
+  { model: 'DeepSeek-R1', online: '0.0040 / 0.0160', context: '0.0008 / 0.000017', batch: '0.0020 / 0.0080' },
+  { model: 'DeepSeek-R1-Distill-Qwen-7B', online: '0.0006 / 0.0024', context: '', batch: '0.0003 / 0.0012' },
+  { model: 'DeepSeek-R1-Distill-Qwen-32B', online: '0.0015 / 0.0060', context: '0.0003 / 0.000017', batch: '0.00075 / 0.0030' },
+];
+
+
+const PricingSection: React.FC = () => {
+  const [activeTab, setActiveTab] = useState(TABS[0].id);
+
+  return (
+    <section className={`section-padding light-bg ${styles.pricingSection}`}>
+      <div className="container">
+        <h2 className="section-title-global text-center">灵活多样的定价方案</h2>
+        <p className={`text-center ${styles.calculatorLink}`}>
+          <a href="#" className="link-arrow">价格计算器 <i className="fas fa-chevron-right"></i></a>
+        </p>
+        <div className={styles.pricingTabs}>
+          {TABS.map(tab => (
+            <button
+              key={tab.id}
+              className={`${styles.tabBtn} ${activeTab === tab.id ? styles.active : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+              data-tab={tab.id}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className={styles.pricingTableContainer}>
+          {/* For demo, table content is static. In real app, it would change based on activeTab */}
+          <table>
+            <thead>
+              <tr>
+                <th>深度思考模型</th>
+                <th>在线推理</th>
+                <th>在线推理-上下文缓存</th>
+                <th>批量推理 <span className={`${styles.priceTag} ${styles.lowPrice}`}>低价</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {PRICING_DATA.map((row, index) => (
+                <tr key={index}>
+                  <td>
+                    {row.model} 
+                    {row.new && <span className={styles.newBadgeTable}>NEW</span>}
+                  </td>
+                  <td>
+                    <strong>{row.online.split(' / ')[0]}</strong> 元/千输入tokens<br/>
+                    <strong>{row.online.split(' / ')[1]}</strong> 元/千输出tokens
+                  </td>
+                  <td>
+                    {row.context ? (
+                        <>
+                        <strong>{row.context.split(' / ')[0]}</strong> 元/千命中tokens<br/>
+                        <strong>{row.context.split(' / ')[1]}</strong> 元/千tokens缓存/小时
+                        </>
+                    ) : ''}
+                  </td>
+                  <td>
+                    <strong>{row.batch.split(' / ')[0]}</strong> 元/千输入tokens<br/>
+                    <strong>{row.batch.split(' / ')[1]}</strong> 元/千输出{row.model.includes('DeepSeek-R1') ? '缓存命中' : ''}tokens
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PricingSection;
+```
+
+### src/components/sections/PricingSection/PricingSection.module.css
+```tsx
+/* src/components/sections/PricingSection/PricingSection.module.css */
+/* .pricingSection { */
+    /* Uses global .section-padding and .light-bg */
+/* } */
+.calculatorLink {
+    margin-top: -20px; /* Pull up slightly */
+    margin-bottom: 30px;
+}
+.pricingTabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+    margin-bottom: 30px;
+    gap: 5px;
+}
+.tabBtn {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    color: var(--text-medium);
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+.tabBtn:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.tabBtn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.tabBtn.active {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+.tabBtn:not(.active):hover {
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.pricingTableContainer {
+    background-color: var(--white);
+    border-radius: 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.pricingTableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Ensure table content doesn't break too early */
+}
+.pricingTableContainer th, .pricingTableContainer td {
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap; /* Prevent text wrapping in cells */
+}
+.pricingTableContainer th {
+    background-color: #F9FAFB;
+    font-weight: 500;
+    color: var(--text-medium);
+}
+.pricingTableContainer td:first-child {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+.pricingTableContainer td strong {
+    color: var(--text-dark);
+}
+.pricingTableContainer td br {
+    display: block; /* Ensure <br> works */
+    content: "";
+    margin-top: 4px;
+}
+.newBadgeTable {
+    background-color: var(--red-accent);
+    color: var(--white);
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    font-weight: normal;
+    vertical-align: middle;
+}
+.priceTag {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+    font-weight: normal;
+    vertical-align: middle;
+}
+.lowPrice {
+    background-color: #FFF1F0; /* Light red */
+    color: var(--red-accent);
+    border: 1px solid #FFCCC7;
+}
+```
+
 ##

@@ -1,103 +1,206 @@
 /* src/components/sections/PricingSection/PricingSection.module.css */
-/* .pricingSection { */
-    /* Uses global .section-padding and .light-bg */
-/* } */
-.calculatorLink {
-    margin-top: -20px; /* Pull up slightly */
-    margin-bottom: 30px;
-}
-.pricingTabs {
+.pricingSection {
+    min-height: calc(100vh - var(--ve-header-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(180deg, #FDFEFF 0%, #F4F7FF 100%);
+    padding: 60px 0;
+    overflow: hidden;
+  }
+  .fullHeightContainer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+  }
+  
+  .mainSectionTitle {
+    margin-bottom: 12px;
+    font-size: 30px;
+    /* background: linear-gradient(90deg, #2a4ac7 0%, #4a63d9 100%); */
+    background: #000;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* text-fill-color: transparent; */
+    display: inline-block;
+  }
+  
+  .calculatorLink {
+    margin-bottom: 40px; /* 增加与Tab间距 */
+    font-size: 15px;
+  }
+  .calculatorLink a {
+    color: var(--ve-primary-blue);
+    transition: color 0.3s ease;
+  }
+  .calculatorLink a:hover {
+    color: #0042d1;
+  }
+  
+  .pricingTabs {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
-    margin-bottom: 30px;
-    gap: 5px;
-}
-.tabBtn {
-    padding: 10px 20px;
-    border: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 8px; /* Tab按钮间距 */
+    margin-bottom: 40px; /* Tab与表格间距 */
+    position: relative;
+  }
+  
+  .tabBtn {
+    padding: 10px 22px; /* Tab按钮内边距调整 */
+    border: 1px solid #DCE4F2; /* 更淡的边框 */
     background-color: var(--white);
-    color: var(--text-medium);
+    color: #5A6881; /* 未激活文字颜色 */
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
+    border-radius: 6px; /* 按钮圆角 */
+    font-size: 15px;
+    font-weight: 500;
     transition: all 0.3s ease;
     white-space: nowrap;
-}
-.tabBtn:first-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-.tabBtn:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-.tabBtn.active {
-    background-color: var(--primary-blue);
+    position: relative; /* 为了激活指示器 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  
+  .tabBtn:hover {
+    color: var(--ve-primary-blue);
+    border-color: #AFC8FF;
+    background-color: #F8FBFF;
+  }
+  .tabBtn.active {
+    /* background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3f80ff 100%); 激活按钮渐变 */
+    background: var(--ve-primary-blue);
     color: var(--white);
-    border-color: var(--primary-blue);
-}
-.tabBtn:not(.active):hover {
-    color: var(--primary-blue);
-    border-color: var(--primary-blue);
-}
-
-.pricingTableContainer {
+    border-color: transparent; /* 激活时隐藏边框，靠背景色 */
+    box-shadow: 0 3px 8px rgba(22, 100, 255, 0.2);
+  }
+  
+  .activeTabIndicator {
+    position: absolute;
+    bottom: -5px; /* 指示器在按钮下方 */
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background: var(--ve-primary-blue); /* 保持与激活按钮一致的颜色或渐变 */
+    border-radius: 3px;
+  }
+  
+  .pricingTableWrapper {
+    /* 这个div用于包裹表格容器，方便AnimatePresence应用动画 */
+    width: 100%;
+  }
+  
+  .pricingTableContainer {
     background-color: var(--white);
-    border-radius: 8px;
-    overflow-x: auto;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-.pricingTableContainer table {
+    border-radius: 12px; /* 表格容器圆角 */
+    overflow-x: auto; /* 允许横向滚动表格 */
+    box-shadow: 0 8px 24px rgba(100, 120, 180, 0.07); /* 更精致的阴影 */
+    border: 1px solid #E8EDF5; /* 轻微边框 */
+    position: relative; /* 为了滚动条美化（如果需要）*/
+  }
+  /* 表格主体可滚动 */
+  .scrollableTable {
+    max-height: 450px; /* 例如，超过5行（估算）开始滚动，根据实际行高调整 */
+    overflow-y: auto;
+    /* 美化滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: var(--ve-primary-blue) #E8EDF5;
+  }
+  .scrollableTable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollableTable::-webkit-scrollbar-track {
+    background: #F4F7FC;
+    border-radius: 4px;
+  }
+  .scrollableTable::-webkit-scrollbar-thumb {
+    background-color: var(--ve-primary-blue);
+    border-radius: 4px;
+    border: 2px solid #F4F7FC; /* 创建一个边框效果 */
+  }
+  
+  
+  .pricingTableContainer table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px; /* Ensure table content doesn't break too early */
-}
-.pricingTableContainer th, .pricingTableContainer td {
-    padding: 15px;
+    min-width: 800px;
+  }
+  .pricingTableContainer th, .pricingTableContainer td {
+    padding: 14px 16px; /*单元格内边距调整 */
     text-align: left;
     font-size: 14px;
-    border-bottom: 1px solid var(--border-color);
-    white-space: nowrap; /* Prevent text wrapping in cells */
-}
-.pricingTableContainer th {
-    background-color: #F9FAFB;
+    border-bottom: 1px solid #F0F3F8; /* 更淡的单元格分割线 */
+    white-space: nowrap;
+  }
+  .pricingTableContainer th {
+    background-color: #F9FBFE; /* 表头背景色 */
     font-weight: 500;
-    color: var(--text-medium);
-}
-.pricingTableContainer td:first-child {
+    color: #475569; /* 表头文字颜色 */
+    position: sticky; /* 表头固定 */
+    top: 0;
+    z-index: 1; /* 确保在滚动内容之上 */
+  }
+  .pricingTableContainer td:first-child {
     font-weight: 500;
-    color: var(--text-dark);
-}
-.pricingTableContainer td strong {
-    color: var(--text-dark);
-}
-.pricingTableContainer td br {
-    display: block; /* Ensure <br> works */
+    color: #344054; /* 模型名称颜色 */
+  }
+  .pricingTableContainer td strong {
+    color: #1D2129; /* 加粗价格颜色 */
+    font-weight: 600;
+  }
+  .pricingTableContainer td br {
+    display: block;
     content: "";
-    margin-top: 4px;
-}
-.newBadgeTable {
-    background-color: var(--red-accent);
-    color: var(--white);
+    margin-top: 3px; /* 减小br间距 */
+  }
+  .newBadgeTable {
+    background-color: #FFEBEB; /* NEW标签背景 */
+    color: var(--red-accent);
+    border: 1px solid #FFD6D6;
     font-size: 10px;
-    padding: 2px 5px;
-    border-radius: 3px;
-    margin-left: 5px;
-    font-weight: normal;
+    padding: 2px 6px; /* 内边距调整 */
+    border-radius: 12px; /* 胶囊形状 */
+    margin-left: 6px;
+    font-weight: 500;
     vertical-align: middle;
-}
-.priceTag {
+  }
+  .priceTag {
     display: inline-block;
     padding: 2px 6px;
     font-size: 10px;
-    border-radius: 3px;
-    margin-left: 5px;
-    font-weight: normal;
+    border-radius: 12px;
+    margin-left: 6px;
+    font-weight: 500;
     vertical-align: middle;
-}
-.lowPrice {
-    background-color: #FFF1F0; /* Light red */
-    color: var(--red-accent);
-    border: 1px solid #FFCCC7;
-}
+  }
+  .lowPrice {
+    background-color: #FFF7E6; /* 低价标签背景 */
+    color: #FFA940; /* 低价标签文字 */
+    border: 1px solid #FFE5BF;
+  }
+  .noDataCell {
+      text-align: center;
+      color: var(--text-light);
+      padding: 40px 0 !important; /* 增加上下padding */
+      font-style: italic;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 1024px) { /* 平板 */
+    .pricingSection { min-height: auto; padding: 60px 15px; }
+    .pricingTabs { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+    .pricingTabs::-webkit-scrollbar { display: none; }
+    .tabBtn { padding: 9px 18px; font-size: 14px; }
+    .activeTabIndicator { bottom: -3px; }
+  }
+  
+  @media (max-width: 768px) { /* 移动设备 */
+    .mainSectionTitle { font-size: 26px; }
+    .calculatorLink { margin-bottom: 30px; }
+    .pricingTabs { margin-bottom: 30px; }
+    .tabBtn { padding: 8px 16px; }
+    .pricingTableContainer table { min-width: 600px; } /* 减小表格最小宽度 */
+    .pricingTableContainer th, .pricingTableContainer td { padding: 12px 10px; font-size: 13px; }
+  }
