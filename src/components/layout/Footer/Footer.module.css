@@ -1,117 +1,245 @@
 /* src/components/layout/Footer/Footer.module.css */
 .mainFooter {
-    background-color: #262C33;
-    color: #A7B0BA;
+    background: linear-gradient(135deg, #1e242b 0%, #2c333c 100%); /* 深色科技感渐变背景 */
+    color: #adb5bd; /* 整体文字颜色调整为更柔和的灰色 */
+    font-size: 14px; /* 基础字号调整 */
+    padding: 80px 0 0; /* 增加顶部 padding，底部 padding 由 .footerBottom 控制 */
+    position: relative;
+    overflow: hidden; /* 防止动画元素溢出 */
+  }
+  
+  /* 可选：添加一些细微的背景纹理或光效 */
+  .mainFooter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-image: radial-gradient(circle at 20% 80%, rgba(0, 110, 255, 0.08) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 30%, rgba(74, 74, 255, 0.06) 0%, transparent 35%); */
+    /* 或者使用SVG纹理 */
+    /* background-image: url("data:image/svg+xml,..."); */
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  
+  .footerContent {
+    display: grid; /* 改用 Grid 布局以更好地控制列宽和响应式 */
+    grid-template-columns: repeat(6, 1fr); /* Ensure all columns are in one row */
+    gap: 40px 30px; /* 行间距和列间距 */
+    padding-bottom: 60px; /* 底部内容区与 copyright 间距 */
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* .footerColumn {
+    /* flex 和 min-width 由 grid-template-columns 控制 */
+  /* } */
+  
+  .footerLogoContainer {
+    margin-bottom: 16px; /* Logo 与下方内容间距 */
+    display: inline-block; /* 使链接区域适应Logo大小 */
+  }
+  /* SVG Logo fill will be handled by SVG itself */
+  
+  .footerSlogan {
     font-size: 13px;
-    padding-top: 60px; /* section-padding */
-    padding-bottom: 0; /* bottom part has its own padding */
-}
-.footerLogoContainer {
-    margin-bottom: 20px;
-}
-.footerLogo {
-    opacity: 0.8;
-    display: block;
-}
-.footerContent {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-.footerColumn {
-    flex: 1;
-    min-width: 180px;
-}
-.footerColumn h4 {
-    color: var(--white);
+    color: #86909C;
+    margin-top: -8px; /* 紧随 Logo */
+    max-width: 180px; /* 控制口号宽度 */
+  }
+  
+  .footerTitleGradient {
     font-size: 16px;
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-.footerColumn ul {
+    font-weight: 500; /* 标题字重调整 */
+    margin-bottom: 20px; /* 标题与列表间距 */
+    /* 高级渐变文字 */
+    background: linear-gradient(90deg, #dee2e6 30%, #ced4da 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* text-fill-color: transparent; */
+    position: relative;
+    /* display: inline-block; 确保渐变生效 */
+    display: block;
+  }
+  /* 可选：为标题添加细微下划线效果 */
+  .footerTitleGradient::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--ve-primary-blue), rgba(0, 110, 255, 0.5));
+    opacity: 0.7;
+  }
+  
+  
+  .footerColumn ul {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-.footerColumn li {
-    margin-bottom: 10px;
-}
-.footerColumn a {
-    color: #A7B0BA;
+  }
+  .footerColumn li {
+    margin-bottom: 12px; /* 列表项间距调整 */
+  }
+  .footerColumn li:last-child {
+    margin-bottom: 0;
+  }
+  
+  .footerLink {
+    color: #adb5bd;
     text-decoration: none;
-}
-.footerColumn a:hover {
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-block; /* 允许 transform */
+  }
+  .footerLink:hover {
+    color: var(--white);
+    transform: translateX(3px); /* 轻微右移效果 */
+    /* text-decoration: underline; */ /* 可以取消下划线，用颜色和位移强调 */
+  }
+  
+  .footerContact p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 13px; /* 联系方式文字略小 */
+  }
+  
+  .qrCodes {
+    display: flex;
+    gap: 20px; /* 二维码间距调整 */
+    margin-top: 24px;
+    flex-wrap: wrap; /* 允许换行 */
+  }
+  .qrCodeItem {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* 图片和文字间距 */
+  }
+  .qrImageWrapper {
+    background-color: var(--white); /* 二维码背景 */
+    padding: 6px; /* 图片内边距 */
+    border-radius: 6px; /* 圆角 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .qrImageWrapper:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .qrImage {
+    display: block;
+    border-radius: 3px; /* 图片本身也加一点圆角（如果图片本身不是圆角） */
+  }
+  .qrCodeItem span {
+    font-size: 12px;
+    color: #86909C;
+  }
+  
+  .footerBottom {
+    border-top: 1px solid #3a414e; /* 分割线颜色调整 */
+    padding: 24px 0; /* 上下 padding 调整 */
+    margin-top: 0; /* 因为 footerContent 有 padding-bottom */
+    text-align: center;
+    font-size: 12px;
+    color: #86909C; /* 底部文字颜色 */
+    background-color: rgba(0,0,0,0.1); /* 底部背景略深，增加层次 */
+    position: relative;
+    z-index: 1;
+  }
+  .footerBottom p {
+    margin: 0;
+    line-height: 1.8; /* 增加行高使多行文本更易读 */
+  }
+  .footerBottom .footerLink { /* 底部链接特定样式 */
+    color: #9fa8b3;
+    margin: 0 8px; /* 调整链接间距 */
+  }
+  .footerBottom .footerLink:hover {
     color: var(--white);
     text-decoration: underline;
-}
-.footerContact p {
-    margin-bottom: 8px;
-    line-height: 1.5;
-}
-.qrCodes {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-.qrCodes div {
-    text-align: center;
-}
-.qrCodes img {
-    /* width: 70px; height: 70px; */ /* Handled by Image component props */
-    background-color: var(--white);
-    padding: 5px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    display: block;
-}
-.qrCodes span {
-    font-size: 12px;
-}
-
-.footerBottom {
-    border-top: 1px solid #3A414A;
-    padding: 20px 0;
-    margin-top: 30px;
-    text-align: center;
-    font-size: 12px;
-}
-.footerBottom p {
-    margin: 0;
-}
-.footerBottom a {
-    color: #A7B0BA;
-    text-decoration: none;
-    margin: 0 5px;
-}
-.footerBottom a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 992px) {
-    .footerContent { 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
+    transform: none; /* 取消底部链接的位移效果 */
+  }
+  
+  /* 响应式布局调整 */
+  @media (max-width: 1200px) {
+    .footerContent {
+      grid-template-columns: repeat(5, 1fr); /* Maintain 5 columns in one row */
     }
-    .footerColumn {
-        flex-basis: 45%; /* Two columns on medium screens */
-        min-width: unset;
+  }
+  
+  @media (max-width: 992px) {
+    .mainFooter {
+      padding: 60px 0 0;
     }
-    .qrCodes { 
-        justify-content: center; 
+    .footerContent {
+      /* 在中等屏幕上，可以考虑让第一列（Logo）和最后一列（联系我们）占据整行 */
+      grid-template-columns: 1fr; /* 先全部堆叠 */
+      gap: 30px;
     }
-}
-@media (max-width: 768px) {
-    .footerColumn {
-        flex-basis: 100%; /* Stack columns */
-        text-align: center;
+    .footerColumn:first-child, /* Logo 列 */
+    .footerColumn:last-child { /* 联系我们列 */
+      grid-column: 1 / -1; /* 占据所有列 */
+      text-align: center; /* 居中 */
     }
-     .footerColumn ul {
-        display: inline-block; /* Center list items */
-        text-align: left;
+    .footerColumn:first-child .footerLogoContainer,
+    .footerColumn:first-child .footerSlogan {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .footerColumn:not(:first-child):not(:last-child) {
+      /* 中间的导航列在中等屏幕尝试两列布局 */
+      /* 但由于上面设置了1fr，这部分可能需要更复杂的grid设置或JS判断 */
+      /* 简单起见，它们也会堆叠。如果需要并排，需要进一步调整grid-template-columns */
+      text-align: center; /* 也居中 */
+    }
+    .footerColumn ul {
+      display: inline-block;
+      text-align: left; /* 列表项左对齐 */
     }
     .qrCodes {
-        justify-content: center;
+      justify-content: center;
     }
-}
+    .footerTitleGradient::after {
+      left: 50%;
+      transform: translateX(-50%); /* 标题下划线居中 */
+    }
+  }
+  
+  @media (max-width: 576px) { /* 更小屏幕 */
+    .mainFooter {
+      padding: 40px 0 0;
+    }
+    .footerContent {
+      gap: 24px;
+    }
+    .footerColumn h4, .footerTitleGradient { /* 修正渐变标题的选择器 */
+      font-size: 15px;
+    }
+    .footerLink, .footerContact p {
+      font-size: 13px;
+    }
+    .qrCodes {
+      gap: 15px;
+    }
+    .qrCodeItem {
+      flex-basis: calc(50% - 10px); /* 确保一行最多两个二维码 */
+    }
+    .qrImageWrapper {
+      padding: 4px;
+    }
+    .footerBottom {
+      padding: 20px 0;
+    }
+    .footerBottom p {
+      display: flex;
+      flex-direction: column; /* 底部版权信息堆叠 */
+      gap: 5px;
+    }
+  }

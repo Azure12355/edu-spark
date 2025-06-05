@@ -120,6 +120,9 @@ const PricingSection: React.FC = () => {
               transition={{ type: "spring", stiffness: 300 }}
             >
               {tab.label}
+              {/* {activeTabId === tab.id && (
+                <motion.div className={styles.activeTabIndicator} layoutId="activePricingTabIndicator" />
+              )} */}
             </motion.button>
           ))}
         </motion.div>
