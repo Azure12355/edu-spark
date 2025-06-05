@@ -1190,4 +1190,101 @@ export default DoubaoScenariosSection;
   }
 ```
 
-###
+## 系统承载能力SystemCapacitySection优化
+帮我优化我的SystemCapacitySection部分的布局和样式
+- 调整SystemCapacitySection部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的SystemCapacitySection部分的卡片设计一个高级优雅的入场动画
+- 其中左半区的三个标题为可切换的tab栏，切换到对应的tab栏后显示副标题，并且右侧显示对应的图片。
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/SystemCapacitySection/SystemCapacitySection.tsx
+```tsx
+// src/components/sections/SystemCapacitySection/SystemCapacitySection.tsx
+import React from 'react';
+import Image from 'next/image';
+import styles from './SystemCapacitySection.module.css';
+
+const SystemCapacitySection: React.FC = () => {
+  return (
+    <section className={`section-padding light-bg ${styles.systemCapacitySection}`}>
+      <div className="container">
+        <h2 className="section-title-global text-center">强大系统承载力，保障大模型落地</h2>
+        <p className={`text-center ${styles.videoLink}`}>
+          <a href="#" className="link-arrow">完整视频介绍 <i className="fas fa-chevron-right"></i></a>
+        </p>
+        <div className={styles.capacityContent}>
+          <div className={styles.capacityText}>
+            <h3>充沛GPU算力</h3>
+            <h3>超高吞吐能力</h3>
+            <h3>极致调度能力</h3>
+            <p>灵活配置GPU算力资源，精准应对业务高峰</p>
+          </div>
+          <div className={styles.capacityImageContainer}>
+            <Image 
+              src="/images/SystemCapacitySection/imdxevlx57p_承载力3-移动端.jpg" 
+              alt="System Capacity Graphic"
+              width={500}
+              height={350}
+              className={styles.capacityImage}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default SystemCapacitySection;
+```
+
+### src/components/sections/SystemCapacitySection/SystemCapacitySection.module.css
+```tsx
+/* src/components/sections/SystemCapacitySection/SystemCapacitySection.module.css */
+
+.videoLink {
+    margin-top: -20px; /* Pull up slightly */
+    margin-bottom: 40px;
+}
+.capacityContent {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+.capacityText {
+    flex: 1;
+}
+.capacityText h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+.capacityText p {
+    font-size: 16px;
+    color: var(--text-medium);
+}
+.capacityImageContainer {
+    flex: 1.2;
+}
+.capacityImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .capacityContent { 
+        flex-direction: column-reverse; 
+        text-align: center;
+    }
+    .capacityText {
+        margin-top: 30px;
+    }
+}
+```
+
+### 
