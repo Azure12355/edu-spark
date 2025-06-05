@@ -2197,4 +2197,250 @@ export default Footer;
 }
 ```
 
-## 
+## Header优化
+帮我优化我的Header部分的布局和样式
+- 调整Header部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的Header部分的卡片设计一个高级优雅的入场动画
+- 保持整个Header的高度刚好适配视口，不要溢出也不要太小
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 当屏幕宽度太小时，自动收缩到菜单栏，点击菜单栏后显示所有导航选项。
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/layout/Header/Header.tsx
+```tsx
+// src/components/layout/Header/Header.tsx
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import styles from './Header.module.css';
+
+const Header: React.FC = () => {
+  return (
+    <header className={styles.veMainHeader}>
+      <div className={styles.veHeaderContainer}>
+        <Link href="/" className={styles.veLogo}>
+          <Image 
+            src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pipuzhpldbp/volcengine-fe/img/logo-new.038f9439.svg" 
+            alt="火山引擎 Logo"
+            width={115} // 根据实际logo调整
+            height={28} // 根据实际logo调整
+            priority
+          />
+        </Link>
+
+        <nav className={styles.veMainNav}>
+          <ul>
+            <li>
+              <Link href="#" className={`${styles.veNavLink} ${styles.active}`}>
+                最新活动
+                <span className={styles.veNewIndicator}></span>
+              </Link>
+            </li>
+            <li><Link href="#" className={styles.veNavLink}>大模型 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>产品 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>解决方案 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>定价 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>生态与合作 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>支持与服务 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>开发者 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+            <li><Link href="#" className={styles.veNavLink}>了解我们 <i className={`fas fa-chevron-down ${styles.veChevron}`}></i></Link></li>
+          </ul>
+        </nav>
+
+        <div className={styles.veHeaderActions}>
+          <div className={styles.veSearchBar}>
+            <i className={`fas fa-search ${styles.veSearchIcon}`}></i>
+            <input type="text" placeholder="请输入关键字" />
+          </div>
+          <Link href="#" className={styles.veActionLink}>文档</Link>
+          <Link href="#" className={styles.veActionLink}>备案</Link>
+          <Link href="#" className={styles.veActionLink}>控制台</Link>
+          <Link href="#" className={styles.veNotificationLink}>
+            <span className={styles.veNotificationBadge}>1</span>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+### src/components/layout/Header/Header.module.css
+```tsx
+/* src/components/layout/Header/Header.module.css */
+.veMainHeader {
+    background-color: var(--ve-white);
+    border-bottom: 1px solid var(--ve-border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--ve-header-height);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.veHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.veLogo img {
+    display: block;
+}
+
+.veMainNav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.veMainNav li {
+    margin-left: 28px;
+}
+.veMainNav li:first-child {
+    margin-left: 32px;
+}
+
+.veNavLink {
+    text-decoration: none;
+    color: var(--ve-text-dark);
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.2s ease;
+}
+
+.veNavLink:hover {
+    color: var(--ve-primary-blue);
+}
+
+.veNavLink.active {
+    color: var(--ve-primary-blue);
+    font-weight: 500;
+}
+
+.veNewIndicator {
+    display: block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--ve-red-accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 6px; /* 微调 */
+    right: -7px;
+}
+
+.veChevron {
+    font-size: 10px;
+    color: var(--ve-text-light);
+    margin-left: 4px;
+    transition: color 0.2s ease;
+}
+.veNavLink:hover .veChevron {
+    color: var(--ve-primary-blue);
+}
+
+.veHeaderActions {
+    display: flex;
+    align-items: center;
+}
+
+.veSearchBar {
+    display: flex;
+    align-items: center;
+    background-color: var(--ve-bg-light-gray);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 24px;
+}
+
+.veSearchIcon {
+    color: var(--ve-text-light);
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.veSearchBar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: var(--ve-text-dark);
+    width: 160px;
+}
+.veSearchBar input::placeholder {
+    color: var(--ve-text-light);
+    font-weight: 400;
+}
+
+.veActionLink {
+    text-decoration: none;
+    color: var(--ve-text-dark);
+    font-size: 14px;
+    margin-left: 24px;
+    transition: color 0.2s ease;
+}
+.veActionLink:hover {
+    color: var(--ve-primary-blue);
+}
+
+.veNotificationLink {
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.veNotificationBadge {
+    background-color: var(--ve-primary-blue);
+    color: var(--ve-white);
+    font-size: 12px;
+    font-weight: 500;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+@media (max-width: 1200px) {
+    .veMainNav li { margin-left: 20px; }
+    .veMainNav li:first-child { margin-left: 24px; }
+    .veSearchBar { margin-right: 16px; }
+    .veActionLink, .veNotificationLink { margin-left: 16px; }
+}
+
+@media (max-width: 1050px) { /* 增加一个断点隐藏部分导航 */
+    .veMainNav li:nth-child(n+6) { /* 隐藏“生态与合作”及之后的项 */
+        display: none;
+    }
+}
+
+
+@media (max-width: 992px) {
+    .veMainNav { display: none; }
+    .veSearchBar input { width: 120px; }
+    .veMainHeader { padding: 0 16px; }
+}
+@media (max-width: 768px) {
+    .veSearchBar { display: none; }
+    .veActionLink:nth-child(2) { display: none; } /* 隐藏备案 */
+}
+```
+
+##

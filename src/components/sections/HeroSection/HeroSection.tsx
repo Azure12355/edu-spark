@@ -45,7 +45,7 @@ const HeroSection: React.FC = () => {
           muted
           playsInline
           className={styles.backgroundVideo}
-          poster="/images/hero-video-poster.jpg"
+          poster="/video/hero-video-poster.jpg"
         >
           <source src="/video/hero.mp4" type="video/mp4" />
           您的浏览器不支持 HTML5 视频。
@@ -81,10 +81,10 @@ const HeroSection: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <Image
-            src="/images/ai.webp"
+            src="/images/hero.png"
             alt="AI 助力教育行业图示"
-            width={380}
-            height={380}
+            width={480}
+            height={480}
             className={styles.heroImage}
             priority
           />

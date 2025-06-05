@@ -1,141 +1,195 @@
 /* src/components/layout/Header/Header.module.css */
 .veMainHeader {
-    background-color: var(--ve-white);
-    border-bottom: 1px solid var(--ve-border-color);
+    background-color: rgba(255, 255, 255, 0.9); /* 初始轻微透明 */
+    backdrop-filter: blur(8px); /* 毛玻璃效果 */
+    border-bottom: 1px solid transparent; /* 初始无边框 */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--ve-header-height);
+    height: var(--ve-header-height, 64px); /* 默认64px, 可通过CSS变量调整 */
     z-index: 1000;
     display: flex;
     align-items: center;
     padding: 0 24px;
-}
-
-.veHeaderContainer {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .veMainHeader.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    border-bottom-color: var(--ve-border-color, #E5E6EB);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .veHeaderContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-}
-
-.veLogo img {
+    max-width: 1400px; /* 可以设置一个最大容器宽度 */
+    margin: 0 auto;
+  }
+  
+  .veLogo img {
     display: block;
-}
-
-.veMainNav ul {
+    transition: transform 0.3s ease;
+  }
+  .veLogo:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* Desktop Navigation */
+  .desktopNav {
+    display: flex; /* 默认显示 */
+  }
+  .veMainNav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
-}
-
-.veMainNav li {
-    margin-left: 28px;
-}
-.veMainNav li:first-child {
-    margin-left: 32px;
-}
-
-.veNavLink {
+  }
+  .veMainNav li {
+    margin-left: 28px; /* 导航项间距 */
+  }
+  .veMainNav li:first-child {
+    margin-left: 0; /* 第一个导航项通常不需要左边距，由容器控制 */
+  }
+  
+  .veNavLink {
     text-decoration: none;
-    color: var(--ve-text-dark);
-    font-size: 14px;
+    color: var(--ve-text-dark, #1D2129);
+    font-size: 15px; /* 导航字体略大 */
     font-weight: 400;
     display: flex;
     align-items: center;
     position: relative;
-    padding: 8px 0;
-    transition: color 0.2s ease;
-}
-
-.veNavLink:hover {
-    color: var(--ve-primary-blue);
-}
-
-.veNavLink.active {
-    color: var(--ve-primary-blue);
+    padding: 10px 4px; /* 增加垂直padding和一点水平padding */
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+  .veNavLink::after { /* 下划线动画 */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--ve-primary-blue, #1664FF), #5733FF); /* 渐变下划线 */
+    transition: width 0.3s ease;
+  }
+  .veNavLink:hover::after,
+  .veNavLink.active::after {
+    width: calc(100% - 8px); /* 下划线宽度，减去padding */
+  }
+  .veNavLink:hover {
+    color: var(--ve-primary-blue, #1664FF);
+  }
+  .veNavLink.active {
+    color: var(--ve-primary-blue, #1664FF);
     font-weight: 500;
-}
-
-.veNewIndicator {
+  }
+  
+  .veNewIndicator {
     display: block;
-    width: 4px;
-    height: 4px;
-    background-color: var(--ve-red-accent);
+    width: 5px;
+    height: 5px;
+    background: linear-gradient(135deg, #ff7043, var(--ve-red-accent, #F53F3F)); /* 渐变指示点 */
     border-radius: 50%;
     position: absolute;
-    top: 6px; /* 微调 */
-    right: -7px;
-}
-
-.veChevron {
+    top: 8px;
+    right: -8px;
+    box-shadow: 0 0 5px var(--ve-red-accent, #F53F3F);
+  }
+  
+  .veChevron {
     font-size: 10px;
-    color: var(--ve-text-light);
-    margin-left: 4px;
-    transition: color 0.2s ease;
-}
-.veNavLink:hover .veChevron {
-    color: var(--ve-primary-blue);
-}
-
-.veHeaderActions {
+    color: var(--ve-text-light, #86909C);
+    margin-left: 5px;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  .veNavLink:hover .veChevron {
+    color: var(--ve-primary-blue, #1664FF);
+    transform: translateY(1px);
+  }
+  
+  /* Desktop Header Actions */
+  .desktopActions {
+    display: flex; /* 默认显示 */
+    align-items: center;
+  }
+  .veHeaderActions {
     display: flex;
     align-items: center;
-}
-
-.veSearchBar {
+    gap: 12px; /* 动作元素间距 */
+  }
+  
+  .veSearchBar {
     display: flex;
     align-items: center;
-    background-color: var(--ve-bg-light-gray);
-    padding: 6px 12px;
-    border-radius: 4px;
-    margin-right: 24px;
-}
-
-.veSearchIcon {
-    color: var(--ve-text-light);
-    font-size: 14px;
+    background-color: var(--ve-bg-light-gray, #F2F3F5);
+    padding: 8px 14px; /* 搜索框内边距调整 */
+    border-radius: 20px; /* 更圆润的搜索框 */
+    margin-right: 16px; /* 与其他动作按钮的间距 */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  .veSearchBar:focus-within {
+    background-color: var(--white);
+    box-shadow: 0 0 0 2px var(--ve-primary-blue, #1664FF);
+  }
+  .veSearchIcon {
+    color: var(--ve-text-light, #86909C);
+    font-size: 15px;
     margin-right: 8px;
-}
-
-.veSearchBar input {
+  }
+  .veSearchBar input {
     border: none;
     background: transparent;
     outline: none;
     font-size: 14px;
-    color: var(--ve-text-dark);
+    color: var(--ve-text-dark, #1D2129);
     width: 160px;
-}
-.veSearchBar input::placeholder {
-    color: var(--ve-text-light);
+  }
+  .veSearchBar input::placeholder {
+    color: var(--ve-text-light, #86909C);
     font-weight: 400;
-}
-
-.veActionLink {
+  }
+  
+  .veActionLink {
     text-decoration: none;
-    color: var(--ve-text-dark);
+    color: var(--ve-text-medium, #4E5969); /* 普通动作链接颜色 */
     font-size: 14px;
-    margin-left: 24px;
-    transition: color 0.2s ease;
-}
-.veActionLink:hover {
-    color: var(--ve-primary-blue);
-}
-
-.veNotificationLink {
-    margin-left: 24px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    transition: color 0.25s ease, background-color 0.25s ease;
+  }
+  .veActionLink:hover {
+    color: var(--ve-primary-blue, #1664FF);
+    background-color: rgba(22, 100, 255, 0.05); /* 轻微背景高亮 */
+  }
+  .consoleLink { /* 控制台按钮特殊样式 */
+    background: linear-gradient(90deg, var(--ve-primary-blue, #1664FF), #3A79FF);
+    color: var(--white) !important;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(22, 100, 255, 0.15);
+  }
+  .consoleLink:hover {
+    background: linear-gradient(90deg, #0042d1, #1e5cd1);
+    box-shadow: 0 4px 12px rgba(22, 100, 255, 0.25);
+  }
+  
+  .veNotificationLink {
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-.veNotificationBadge {
-    background-color: var(--ve-primary-blue);
-    color: var(--ve-white);
-    font-size: 12px;
+    position: relative;
+    padding: 8px;
+  }
+  .veNotificationBadge {
+    background: linear-gradient(135deg, var(--ve-red-accent, #F53F3F), #ff7043); /* 渐变通知徽章 */
+    color: var(--white);
+    font-size: 11px;
     font-weight: 500;
     width: 18px;
     height: 18px;
@@ -144,28 +198,144 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
-}
-
-@media (max-width: 1200px) {
-    .veMainNav li { margin-left: 20px; }
-    .veMainNav li:first-child { margin-left: 24px; }
-    .veSearchBar { margin-right: 16px; }
-    .veActionLink, .veNotificationLink { margin-left: 16px; }
-}
-
-@media (max-width: 1050px) { /* 增加一个断点隐藏部分导航 */
-    .veMainNav li:nth-child(n+6) { /* 隐藏“生态与合作”及之后的项 */
-        display: none;
+    box-shadow: 0 1px 4px rgba(245, 63, 63, 0.4);
+    border: 1px solid var(--white); /* 给徽章一个白色边框 */
+  }
+  .veNotificationLink:hover .veNotificationBadge {
+    transform: scale(1.1);
+  }
+  
+  /* Mobile Menu Toggle Button */
+  .mobileMenuToggle {
+    display: none; /* 默认隐藏，媒体查询中显示 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002; /* 高于 Header 内容，低于 Mobile Nav Panel */
+    margin-left: auto; /* 确保在右侧 */
+  }
+  .hamburgerLine {
+    width: 24px;
+    height: 2px;
+    background-color: var(--ve-text-dark, #1D2129);
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    border-radius: 1px;
+  }
+  .mobileMenuToggle.closeBtnInPanel .hamburgerLine {
+      background-color: var(--ve-text-dark, #1D2129); /* 面板内关闭按钮颜色 */
+  }
+  
+  /* Hamburger animation to X */
+  .line1Open { transform: translateY(7px) rotate(45deg); }
+  .line2Open { opacity: 0; }
+  .line3Open { transform: translateY(-7px) rotate(-45deg); }
+  
+  /* Mobile Navigation Panel */
+  .mobileNavPanel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 320px; /* 或 80vw */
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1001; /* 高于 Header */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .mobileNavHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--ve-border-color, #E5E6EB);
+  }
+  .veLogoMobile img {
+      display: block;
+  }
+  
+  .veMobileNav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .veMobileNav li {
+    margin-bottom: 5px;
+  }
+  .veMobileNav .veNavLink {
+    font-size: 16px; /* 移动端导航字体稍大 */
+    padding: 12px 10px;
+    border-radius: 4px;
+    width: 100%;
+    justify-content: space-between; /* 图标在右侧 */
+  }
+  .veMobileNav .veNavLink:hover {
+    background-color: rgba(22, 100, 255, 0.05);
+  }
+  .veNewIndicatorMobile { /* 移动端指示点可能需要不同定位 */
+    right: 25px; /* 示例，根据实际情况调整 */
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--ve-red-accent, #F53F3F);
+    width: 6px; height: 6px;
+  }
+  
+  .mobileActions {
+    margin-top: auto; /* 将移动端操作按钮推到底部 */
+    padding-top: 20px;
+    border-top: 1px solid var(--ve-border-color, #E5E6EB);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .veSearchBarMobile {
+    display: flex;
+    align-items: center;
+    background-color: var(--ve-bg-light-gray, #F2F3F5);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .veSearchBarMobile input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+  }
+  .veActionLinkMobile {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 15px;
+    text-decoration: none;
+    color: var(--ve-text-dark, #1D2129);
+    background-color: var(--ve-bg-light-gray, #F2F3F5);
+    transition: background-color 0.2s ease;
+  }
+  .veActionLinkMobile:hover {
+    background-color: #e9ecef;
+  }
+  .consoleLinkMobile {
+    background: linear-gradient(90deg, var(--ve-primary-blue, #1664FF), #3A79FF);
+    color: var(--white) !important;
+  }
+  
+  /* Responsive Breakpoints */
+  @media (max-width: 1050px) { /* 断点调整，适配响应式菜单 */
+    .desktopNav, .desktopActions {
+      display: none; /* 在此断点隐藏桌面导航和操作 */
     }
-}
-
-
-@media (max-width: 992px) {
-    .veMainNav { display: none; }
-    .veSearchBar input { width: 120px; }
-    .veMainHeader { padding: 0 16px; }
-}
-@media (max-width: 768px) {
-    .veSearchBar { display: none; }
-    .veActionLink:nth-child(2) { display: none; } /* 隐藏备案 */
-}
+    .mobileMenuToggle {
+      display: block; /* 显示汉堡按钮 */
+    }
+    .veMainHeader { padding: 0 16px; } /* 缩小Header内边距 */
+  }
