@@ -157,7 +157,7 @@ const Header: React.FC = () => {
             <div className={styles.mobileNavHeader}>
                 <Link href="/" className={styles.veLogoMobile} onClick={toggleMobileMenu}>
                 <Image
-                    src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pipuzhpldbp/volcengine-fe/img/logo-new.038f9439.svg"
+                    src="/icon.svg"
                     alt="火山引擎 Logo"
                     width={100}
                     height={24}
