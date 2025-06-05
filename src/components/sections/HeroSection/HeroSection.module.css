@@ -6,7 +6,7 @@
   overflow: hidden;
   display: flex; /* 确保内容垂直居中（如果需要） */
   align-items: center; /* 垂直居中内容 */
-  min-height: 75vh; /* 至少占据屏幕75%的高度 */
+  min-height: 60vh; /* 至少占据屏幕75%的高度 */
 }
 
 .videoBackgroundContainer {

@@ -534,4 +534,189 @@ export default QuickExperienceSection;
 }
 ```
 
-##
+## HeroFeaturesSection 优化
+帮我优化我的HeroFeaturesSection部分的布局和样式
+- 调整HeroFeaturesSection部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的HeroFeaturesSection部分的卡片设计一个高级优雅的入场动画
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/sections/HeroFeaturesSection/HeroFeaturesSection.tsx
+```tsx
+// src/components/sections/HeroFeaturesSection/HeroFeaturesSection.tsx
+import React from 'react';
+import Link from 'next/link';
+import styles from './HeroFeaturesSection.module.css';
+
+interface FeatureItem {
+  title: string;
+  description: string;
+  linkText: string;
+  href: string;
+  tag?: string; // 可选的标签，如 "限时特惠"
+}
+
+const features: FeatureItem[] = [
+  {
+    title: "大模型特惠",
+    description: "限量秒杀！19.9元起1000万tokens",
+    linkText: "立即抢购",
+    href: "#",
+    tag: "限时特惠"
+  },
+  {
+    title: "定价与计费",
+    description: "各模型定价与计费方式",
+    linkText: "了解详情",
+    href: "#"
+  },
+  {
+    title: "体验中心",
+    description: "DeepSeek-R1/0528 上线",
+    linkText: "免费体验",
+    href: "#",
+    tag: "上新"
+  },
+  {
+    title: "API文档",
+    description: "快速入门与调用",
+    linkText: "查看文档",
+    href: "#"
+  }
+];
+
+const HeroFeaturesSection: React.FC = () => {
+  return (
+    <section className={styles.heroFeaturesSection}>
+      <div className={`container ${styles.featuresContainer}`}>
+        {features.map((feature, index) => (
+          <Link href={feature.href} key={index} className={styles.featureCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.featureTitle}>{feature.title}</h3>
+              {feature.tag && <span className={styles.featureTag}>{feature.tag}</span>}
+            </div>
+            <p className={styles.featureDescription}>{feature.description}</p>
+            <div className={styles.featureLink}>
+              {feature.linkText} <i className="fas fa-chevron-right"></i>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default HeroFeaturesSection;
+```
+
+### src/components/sections/HeroFeaturesSection/HeroFeaturesSection.module.css
+```tsx
+/* src/components/sections/HeroFeaturesSection/HeroFeaturesSection.module.css */
+.heroFeaturesSection {
+    padding: 40px 0; /* 与 HeroSection 区分开，调整上下间距 */
+    background-color: var(--white); /* 或者与 HeroSection 不同的浅色背景 */
+    border-bottom: 1px solid var(--ve-border-color); /* 底部加一条分割线 */
+  }
+  
+  .featuresContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px; /* 卡片间距 */
+  }
+  
+  .featureCard {
+    background-color: #F7F8FA; /* 卡片背景色，类似官网 */
+    padding: 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 使链接在底部对齐 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent; /* 为 hover 效果预留边框位置 */
+  }
+  
+  .featureCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    border-color: #E0E8FF;
+  }
+  
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 确保标签在右上角时标题不受影响 */
+    margin-bottom: 8px;
+  }
+  
+  .featureTitle {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .featureTag {
+    background-color: #FFEFEF; /* 示例标签背景 */
+    color: #F53F3F; /* 示例标签文字颜色 */
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    white-space: nowrap; /* 防止标签文字换行 */
+  }
+  /* 特定标签样式 */
+  .featureTag:where(:first-child) { /* 假设 "上新" 标签颜色不同 */
+    background-color: #E8FFEA;
+    color: #00B42A;
+  }
+  
+  
+  .featureDescription {
+    font-size: 14px;
+    color: #86909C; /* 描述文字颜色 */
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex-grow: 1; /* 让描述占据多余空间 */
+  }
+  
+  .featureLink {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ve-primary-blue);
+    display: inline-flex; /* 使图标和文字对齐 */
+    align-items: center;
+  }
+  
+  .featureLink i {
+    font-size: 12px;
+    margin-left: 6px;
+    transition: transform 0.2s ease;
+  }
+  
+  .featureCard:hover .featureLink i {
+    transform: translateX(3px);
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 1024px) {
+    .featuresContainer {
+      grid-template-columns: repeat(2, 1fr); /* 平板两列 */
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 640px) { /* 更小的屏幕，单列 */
+    .featuresContainer {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .featureCard {
+      padding: 20px;
+    }
+  }
+```
+
+### 

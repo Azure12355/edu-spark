@@ -83,8 +83,8 @@ const HeroSection: React.FC = () => {
           <Image
             src="/images/ai.webp"
             alt="AI 助力教育行业图示"
-            width={420}
-            height={420}
+            width={380}
+            height={380}
             className={styles.heroImage}
             priority
           />
