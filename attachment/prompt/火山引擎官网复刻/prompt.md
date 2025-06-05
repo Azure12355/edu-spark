@@ -2487,4 +2487,138 @@ export default Header;
 }
 ```
 
+## FloatingSidebar优化
+帮我优化我的FloatingSidebar部分的布局和样式
+- 调整FloatingSidebar部分的整体的布局，让整体看起来更加紧凑、优雅、美观。
+- 保持整体的样式和配色不变，采用高级的现代感科技感的渐变的文字和按钮，并且契合主题
+- 使用高级的动画库和效果，为我的FloatingSidebar部分的卡片设计一个高级优雅的入场动画
+- 优化响应式布局，实现各个尺寸界面的完美适配
+- 输出详细完整的修改后的react代码和样式代码
+
+### src/components/layout/FloatingSidebar/FloatingSidebar.tsx
+```tsx
+// src/components/layout/FloatingSidebar/FloatingSidebar.tsx
+"use client";
+import React, { useState, useEffect } from 'react';
+import styles from './FloatingSidebar.module.css';
+
+const FloatingSidebar: React.FC = () => {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <aside className={styles.floatingSidebar}>
+      <div className={styles.consultBtn}>
+        <i className="fas fa-headset"></i>
+        <span>售前咨询</span>
+      </div>
+      <div className={styles.sidebarIcon} title="售后">
+        <i className="fas fa-tools"></i>
+        <span>售后</span>
+      </div>
+      <div className={styles.sidebarIcon} title="活动">
+        <i className="fas fa-gift"></i>
+        <span>活动</span>
+      </div>
+      <div className={styles.sidebarIcon} title="调研">
+        <i className="fas fa-comment-dots"></i>
+        <span>调研</span>
+      </div>
+      {showBackToTop && (
+        <div 
+          className={`${styles.sidebarIcon} ${styles.backToTop}`} 
+          title="返回顶部"
+          onClick={scrollToTop}
+        >
+          <i className="fas fa-arrow-up"></i>
+        </div>
+      )}
+    </aside>
+  );
+};
+
+export default FloatingSidebar;
+```
+
+### src/components/layout/FloatingSidebar/FloatingSidebar.module.css
+```tsx
+/* src/components/layout/FloatingSidebar/FloatingSidebar.module.css */
+.floatingSidebar {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.consultBtn {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 30px;
+    box-sizing: content-box;
+    text-align: center;
+}
+.consultBtn i {
+    writing-mode: horizontal-tb;
+    margin-bottom: 5px;
+}
+.consultBtn span {
+    display: block;
+    max-height: 60px;
+}
+.sidebarIcon {
+    background-color: var(--white);
+    color: var(--text-medium);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 12px;
+}
+.sidebarIcon i {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+.sidebarIcon:hover {
+    color: var(--primary-blue);
+}
+
+```
+
 ##
