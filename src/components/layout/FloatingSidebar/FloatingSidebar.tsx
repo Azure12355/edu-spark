@@ -12,15 +12,20 @@ interface SidebarItemData {
   title: string;
   isPrimary?: boolean; // 是否是主要的“售前咨询”按钮
   hasNotification?: boolean; // 是否有通知点
-  onClick?: () => void; // 可选的点击处理
+  onClick?: () => void; // 可选的点击处理 (非 onConsultClick 的其他按钮)
 }
 
-const sidebarItemsTop: SidebarItemData[] = [
+// 声明一个类型给父组件传递的 onConsultClick prop
+interface FloatingSidebarProps {
+  onConsultClick: () => void;
+}
+
+const sidebarItemsTopData: SidebarItemData[] = [ // 重命名以区分
   { id: 'consult', iconClass: 'fas fa-headset', text: '售前咨询', title: '售前咨询', isPrimary: true },
 ];
 
 // 其他图标按钮组合在一个容器里
-const sidebarItemsGroup: SidebarItemData[] = [
+const sidebarItemsGroupData: SidebarItemData[] = [ // 重命名以区分
   { id: 'after-sales', iconClass: 'fas fa-tools', text: '售后', title: '售后服务' },
   { id: 'activity', iconClass: 'fas fa-gift', text: '活动', title: '最新活动' },
   { id: 'survey', iconClass: 'fas fa-comment-dots', text: '调研', title: '参与调研', hasNotification: true },
@@ -38,7 +43,7 @@ const sidebarVariants = {
       stiffness: 150,
       damping: 20,
       staggerChildren: 0.1, // 子元素依次入场
-      delayChildren: 0.5, // 整体延迟后子元素开始动画
+      delayChildren: 0.5, // 整体延迟后子元素开始动画 (可以根据需要调整或移除)
     },
   },
 };
@@ -60,18 +65,14 @@ const backToTopVariants = {
 };
 
 
-const FloatingSidebar: React.FC = () => {
+const FloatingSidebar: React.FC<FloatingSidebarProps> = ({ onConsultClick }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [isMounted, setIsMounted] = useState(false); // 用于确保只在客户端执行 useEffect
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true); // 组件已挂载
+    setIsMounted(true);
     const handleScroll = () => {
-      if (window.pageYOffset > 300) {
-        setShowBackToTop(true);
-      } else {
-        setShowBackToTop(false);
-      }
+      setShowBackToTop(window.pageYOffset > 300);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -86,7 +87,7 @@ const FloatingSidebar: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  if (!isMounted) { // 防止水合错误，Framer Motion 的动画最好在客户端渲染后执行
+  if (!isMounted) {
       return null;
   }
 
@@ -95,34 +96,39 @@ const FloatingSidebar: React.FC = () => {
       className={styles.floatingSidebar}
       variants={sidebarVariants}
       initial="hidden"
-      animate="visible"
+      animate="visible" // 或者使用 whileInView 如果你希望它只在视口内动画
     >
-      {sidebarItemsTop.map((item) => (
+      {/* "售前咨询" 按钮 */}
+      {sidebarItemsTopData.map((item) => (
         <motion.div
           key={item.id}
-          className={`${styles.sidebarButton} ${item.isPrimary ? styles.consultBtn : styles.sidebarIconRegular}`}
+          className={`${styles.sidebarButton} ${item.isPrimary ? styles.consultBtn : ''}`} // 移除了 .sidebarIconRegular
           title={item.title}
-          onClick={item.onClick}
+          onClick={item.isPrimary ? onConsultClick : item.onClick} // 使用传入的 onConsultClick
           variants={itemVariants}
-          whileHover={{ scale: 1.05, y: -2, boxShadow: "0 6px 15px rgba(0, 82, 255, 0.2)" }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={item.isPrimary ? 
+            { scale: 1.03, y: -2, boxShadow: "0 8px 18px rgba(22, 100, 255, 0.25)" } :
+            { scale: 1.1, y: -2, color: 'var(--ve-primary-blue)' }
+          }
+          whileTap={item.isPrimary ? { scale: 0.97 } : {scale: 0.9}}
         >
           <i className={item.iconClass}></i>
           {item.isPrimary && <span className={styles.consultText}>{item.text}</span>}
-          {!item.isPrimary && <span>{item.text}</span>}
+          {/* 对于非 primary 按钮，如果这个 map 循环将来可能包含非 primary，可以取消注释下面的行 */}
+          {/* {!item.isPrimary && <span>{item.text}</span>} */}
           {item.hasNotification && <span className={styles.notificationDot}></span>}
         </motion.div>
       ))}
 
       {/* 图标按钮组 */}
       <motion.div className={styles.iconGroupContainer} variants={itemVariants}>
-        {sidebarItemsGroup.map((item) => (
+        {sidebarItemsGroupData.map((item) => (
             <motion.div
             key={item.id}
             className={`${styles.sidebarButton} ${styles.sidebarIconRegular}`}
             title={item.title}
-            onClick={item.onClick}
-            variants={itemVariants} // 可以使用父级的 stagger, 或者为每个item单独设置
+            onClick={item.onClick} // 这里使用 item 定义的 onClick
+            // variants={itemVariants} // 可以继承父级的 stagger, 或为每个 item 单独设置动画 (如果需要更复杂的延迟)
             whileHover={{ scale: 1.1, y: -2, color: 'var(--ve-primary-blue)' }}
             whileTap={{ scale: 0.9 }}
             >
@@ -134,6 +140,7 @@ const FloatingSidebar: React.FC = () => {
       </motion.div>
 
 
+      {/* 返回顶部按钮 */}
       <AnimatePresence>
         {showBackToTop && (
           <motion.div
@@ -148,8 +155,7 @@ const FloatingSidebar: React.FC = () => {
             whileTap={{ scale: 0.9 }}
           >
             <i className="fas fa-arrow-up"></i>
-            {/* 返回顶部按钮通常不带文字，如果需要可以取消注释 */}
-            {/* <span>顶部</span> */}
+            {/* 通常返回顶部按钮没有文字 */}
           </motion.div>
         )}
       </AnimatePresence>

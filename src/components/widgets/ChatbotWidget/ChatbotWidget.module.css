@@ -1,0 +1,381 @@
+/* src/components/widgets/ChatbotWidget/ChatbotWidget.module.css */
+.chatbotWidget {
+    position: fixed;
+    /* 初始位置调整到 FloatingSidebar 左侧 */
+    bottom: 20px;
+    right: calc(24px + 50px + 16px); /* 假设 FloatingSidebar 右边距24px, 宽度50px, 额外间距16px */
+    width: 420px; /* 适当增加宽度 */
+    /* 高度填充：使用 calc 和视口单位，减去 Header 和上下间距 */
+    /* 注意：var(--ve-header-height) 需要在 globals.css 中定义，并且 Header 组件高度固定 */
+    height: calc(100vh - var(--ve-header-height, 64px) - 20px - 20px); /* 顶部Header高度 + 底部间距 + 顶部间距 */
+    max-height: 700px; /* 限制最大高度，防止过高 */
+    min-height: 500px; /* 保持一个最小高度 */
+  
+    background: linear-gradient(160deg, #f9fafc 0%, #ffffff 100%);
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0, 82, 255, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    z-index: 990; /* 比 FloatingSidebar (998) 低，比 Header (1000) 低 */
+    overflow: hidden;
+    transition: width 0.3s ease, height 0.3s ease, right 0.3s ease, bottom 0.3s ease; /* 添加 right, bottom 过渡 */
+  }
+  
+  .chatbotWidget.maximized {
+    width: 60vw;
+    height: calc(100vh - var(--ve-header-height, 64px) - 40px); /* 上下各20px间距 */
+    max-width: 900px;
+    max-height: calc(100vh - var(--ve-header-height, 64px) - 40px);
+    bottom: 20px; /* 固定底部间距 */
+    /* right: 50%; transform: translateX(50%); // 尝试居中 */
+    /* 为了保持在 FloatingSidebar 左侧，最大化时可能也需要调整 right */
+    right: calc(50% - (60vw / 2)); /* 粗略居中，或根据实际情况调整 */
+    /* 如果希望最大化时也考虑 FloatingSidebar，需要更复杂的计算或JS辅助 */
+  }
+  
+  
+  .widgetHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px; /* 头部内边距 */
+    background-color: rgba(250,251,253,0.85);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #e8edf3;
+    flex-shrink: 0;
+  }
+  .headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px; /* 标题字号 */
+    font-weight: 600;
+    color: #1e293b; /* 深一点的标题颜色 */
+  }
+  .headerTitle img { /* 确保图片路径正确 */
+    border-radius: 4px;
+  }
+  .headerControls {
+    display: flex;
+    gap: 10px;
+  }
+  .controlButton {
+    background: none;
+    border: none;
+    color: #64748b; /* 控制按钮颜色 */
+    font-size: 16px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 50%; /* 圆形按钮 */
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+  .controlButton:hover {
+    color: #0f172a;
+    background-color: rgba(0,0,0,0.07);
+  }
+  
+  .chatBody {
+    flex-grow: 1;
+    padding: 18px; /* 聊天区域内边距 */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 #e2e8f0;
+  }
+  .chatBody::-webkit-scrollbar { width: 6px; }
+  .chatBody::-webkit-scrollbar-thumb { background-color: #94a3b8; border-radius: 3px; }
+  .chatBody::-webkit-scrollbar-track { background-color: #e2e8f0; }
+  
+  .messageBubble {
+    max-width: 88%; /* 气泡最大宽度 */
+    padding: 12px 16px;
+    border-radius: 14px;
+    line-height: 1.65;
+    font-size: 14.5px; /* 消息字体稍大 */
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03); /* 轻微阴影 */
+  }
+  .messageBubble.user {
+    background: linear-gradient(135deg, var(--ve-primary-blue) 0%, #4a70ff 100%);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+  }
+  .messageBubble.assistant {
+    background-color: #FFFFFF; /* 助手消息用纯白背景，增加对比 */
+    color: #334155;
+    align-self: flex-start;
+    border: 1px solid #e2e8f0; /* 助手消息加边框 */
+    border-bottom-left-radius: 5px;
+  }
+  .assistantMsgHeader {
+    margin-bottom: 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+  }
+  .statusTagComplete, .statusTagThinking {
+    background-color: #f1f5f9; /* 标签背景 */
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: #475569; /* 标签文字颜色 */
+    border: 1px solid #e2e8f0;
+    display: inline-flex; /* 让图标和文字对齐 */
+    align-items: center;
+  }
+  .statusTagComplete[style*="cursor: pointer"]:hover { /* 可点击标签的hover效果 */
+    border-color: #cbd5e1;
+    background-color: #e9eff6;
+  }
+  .statusTagThinking {
+    color: var(--ve-primary-blue);
+    border-color: transparent; /* 思考中标签无边框 */
+    background-color: #e0e7ff; /* 思考中标签不同背景 */
+  }
+  
+  .messageContent {
+    white-space: pre-wrap;
+  }
+  /* Markdown 渲染样式 */
+  .messageContent p { margin-bottom: 0.5em; }
+  .messageContent p:last-child { margin-bottom: 0; }
+  .messageContent ul, .messageContent ol { margin-left: 1.5em; margin-bottom: 0.5em; }
+  .messageContent code {
+    background-color: #f1f5f9;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+    border: 1px solid #e2e8f0;
+  }
+  .messageContent pre {
+    background-color: #f8fafc;
+    padding: 0.8em;
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+  }
+  .messageContent pre code {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+  .messageContent table {
+      border-collapse: collapse;
+      margin: 1em 0;
+      width: 100%;
+      font-size: 0.9em;
+  }
+  .messageContent th, .messageContent td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5em 0.75em;
+  }
+  .messageContent th {
+      background-color: #f1f5f9;
+  }
+  
+  
+  .thinkingPanel {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: rgba(241, 245, 249, 0.7); /* 思考面板背景更淡 */
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1; /* 虚线边框 */
+    font-size: 13px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .thinkingPanel h4 {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .thinkingPanel pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #475569;
+    font-family: inherit;
+    font-size: 0.95em; /* 思考内容文字略小 */
+    line-height: 1.5;
+  }
+  
+  
+  .messageActions {
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
+  }
+  .messageActions button {
+    background: none;
+    border: none;
+    color: #94a3b8; /* 操作按钮颜色 */
+    font-size: 14px;
+    cursor: pointer;
+    padding: 3px;
+    transition: color 0.2s ease;
+  }
+  .messageActions button:hover {
+    color: #64748b;
+  }
+  
+  .quickActions {
+    padding: 10px 18px; /* 快捷操作区内边距 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-top: 1px solid #e8edf3;
+    flex-shrink: 0;
+    background-color: #f8fafc; /* 快捷操作区背景 */
+  }
+  .quickQuestionBtn {
+    background-color: #eef2ff; /* 快捷问题按钮不同背景 */
+    border: 1px solid #dbe1f0;
+    color: #4338ca; /* 文字颜色 */
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quickQuestionBtn:hover {
+    background-color: #e0e7ff;
+    border-color: #c7d2fe;
+    color: #3730a3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .quickQuestionBtn i {
+    font-size: 10px;
+    margin-left: 6px;
+    opacity: 0.8;
+  }
+  
+  .inputArea {
+    display: flex;
+    align-items: flex-end;
+    padding: 14px 18px; /* 输入区内边距 */
+    border-top: 1px solid #e8edf3;
+    background-color: #f8fafc;
+    flex-shrink: 0;
+  }
+  .inputArea textarea {
+    flex-grow: 1;
+    border: 1px solid #cbd5e1; /* 输入框边框颜色 */
+    border-radius: 10px; /* 输入框圆角 */
+    padding: 12px 14px; /* 输入框内边距 */
+    font-size: 14.5px;
+    resize: none;
+    max-height: 120px;
+    line-height: 1.6;
+    background-color: var(--white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .inputArea textarea::placeholder {
+      color: #94a3b8;
+  }
+  .inputArea textarea:focus {
+    outline: none;
+    border-color: var(--ve-primary-blue);
+    box-shadow: 0 0 0 3px rgba(22, 100, 255, 0.15); /* 焦点阴影 */
+  }
+  .sendButton {
+    background: linear-gradient(135deg, var(--ve-primary-blue) 0%, #3b82f6 100%); /* 发送按钮渐变 */
+    color: white;
+    border: none;
+    border-radius: 10px; /* 发送按钮圆角 */
+    width: 42px; /* 发送按钮尺寸 */
+    height: 42px;
+    margin-left: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 3px 8px rgba(22, 100, 255, 0.25);
+  }
+  .sendButton:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+  .sendButton:active:not(:disabled) {
+    transform: scale(0.95);
+    filter: brightness(1.05);
+  }
+  .sendButton:disabled {
+    background: #94a3b8; /* 禁用状态颜色 */
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  .footerInfo {
+    padding: 10px 18px; /* 页脚信息内边距 */
+    font-size: 11.5px; /* 字体大小 */
+    color: #94a3b8;
+    text-align: center;
+    background-color: #f1f5f9;
+    border-top: 1px solid #e8edf3;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .promoTag {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(2deg); /* 垂直居中并旋转 */
+    right: 18px;
+    background-color: #facc15; /* 黄色促销标签 */
+    color: #713f12; /* 深棕色文字 */
+    padding: 3px 8px;
+    font-size: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .thinkingGlobalPlaceholder {
+      align-self: flex-start;
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 8px 0;
+  }
+  
+  
+  /* H5 响应式调整: 当宽度小于等于 768px (典型的移动设备断点) */
+  @media (max-width: 768px) {
+    .chatbotWidget, .chatbotWidget.maximized { /* H5 界面占据整个屏幕 */
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      z-index: 1010; /* 比其他元素更高，确保覆盖 */
+    }
+    /* 确保头部内元素在全屏时有合适的间距 */
+    .widgetHeader { padding: 12px 15px; }
+    .headerTitle { font-size: 16px; }
+    .headerTitle img { width: 24px; height: 24px; }
+    .controlButton { font-size: 15px; padding: 5px; width:30px; height:30px; }
+  
+    .chatBody { padding: 15px; gap: 12px; }
+    .messageBubble { padding: 10px 14px; font-size: 14px; }
+    .messageBubble.user { max-width: 90%; }
+    .messageBubble.assistant { max-width: 90%; }
+    
+    .quickActions { padding: 10px 15px; gap: 8px; }
+    .quickQuestionBtn { padding: 6px 12px; font-size: 12px; }
+    
+    .inputArea { padding: 10px 15px; }
+    .inputArea textarea { padding: 10px 12px; font-size: 14px; max-height: 90px; }
+    .sendButton { width: 38px; height: 38px; font-size: 17px; margin-left: 8px; }
+    
+    .footerInfo { padding: 8px 15px; font-size: 11px; }
+    .promoTag { right: 15px; }
+  }
