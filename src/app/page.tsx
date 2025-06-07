@@ -14,7 +14,7 @@ import QuickExperienceSection from '@/components/sections/QuickExperienceSection
 import EduSparkScenariosSection from '@/components/sections/EduSparkScenariosSection/EduSparkScenariosSection';
 import CoreTechnologySection from '@/components/sections/CoreTechnologySection/CoreTechnologySection';
 import PlatformAdvantagesSection from '@/components/sections/PlatformAdvantagesSection/PlatformAdvantagesSection';
-import FullLifecycleSecuritySection from '@/components/sections/FullLifecycleSecuritySection/FullLifecycleSecuritySection';
+import TeachingLearningLoopSection from '@/components/sections/TeachingLearningLoopSection/TeachingLearningLoopSection';
 import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
 import PricingSection from '@/components/sections/PricingSection/PricingSection';
 
@@ -48,7 +48,7 @@ export default function HomePage() {
         <EduSparkScenariosSection />
         <CoreTechnologySection />
         <PlatformAdvantagesSection />
-        <FullLifecycleSecuritySection />
+        <TeachingLearningLoopSection />
         <ProductDiagramSection />
         <PricingSection />
         {/* 
