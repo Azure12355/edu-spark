@@ -2,6 +2,7 @@
   "name": "edu-spark",
   "version": "0.1.0",
   "private": true,
+  "description": "EduSpark 是一款基于开源大模型的教学实训智能体软件，旨在通过 AI 赋能教师和学生，提升备课效率，提供个性化练习与指导，推动教育数字化转型。",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

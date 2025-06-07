@@ -6,13 +6,14 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Header.module.css';
 
+// 更新导航链接以匹配 EduSpark 需求
 const navLinksData = [
-  { href: "#", text: "最新活动", active: true, newIndicator: true },
-  { href: "#", text: "大模型", dropdown: true },
-  { href: "#", text: "产品", dropdown: true },
-  { href: "#", text: "解决方案", dropdown: true },
-  { href: "#", text: "定价", dropdown: true },
-  { href: "#", text: "生态与合作", dropdown: true },
+  { href: "#", text: "首页", active: true },
+  { href: "#", text: "教师中心", dropdown: true },
+  { href: "#", text: "学生中心", dropdown: true },
+  { href: "#", text: "课程广场", newIndicator: true },
+  { href: "#", text: "数据看板" },
+  { href: "#", text: "关于我们" },
 ];
 
 // Framer Motion 动画变体
@@ -55,10 +56,9 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20); // 滚动超过20px时，Header有细微变化
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    // 在移动菜单打开时禁用页面滚动
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
     }
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.body.style.overflow = ''; // 清理
+      document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
 
@@ -80,9 +80,10 @@ const Header: React.FC = () => {
     >
       <div className={styles.veHeaderContainer}>
         <Link href="/" className={styles.veLogo}>
+          {/* 假设 Logo 位于 public/images/logo.svg */}
           <Image
-            src="/icon.svg"
-            alt="火山引擎 Logo"
+            src="/images/logo.svg" 
+            alt="EduSpark Logo"
             width={115}
             height={28}
             priority
@@ -109,7 +110,7 @@ const Header: React.FC = () => {
           </ul>
         </nav>
 
-        {/* Header Actions (Desktop) */}
+        {/* Header Actions (Desktop) - 更新为 EduSpark 的操作 */}
         <div className={`${styles.veHeaderActions} ${styles.desktopActions}`}>
           <motion.div 
             className={styles.veSearchBar}
@@ -118,7 +119,7 @@ const Header: React.FC = () => {
             transition={{ delay: 0.8 }}
           >
             <i className={`fas fa-search ${styles.veSearchIcon}`}></i>
-            <input type="text" placeholder="请输入关键字" />
+            <input type="text" placeholder="搜索课程或功能..." />
           </motion.div>
           <motion.div
             initial={{ opacity:0 }}
@@ -126,8 +127,8 @@ const Header: React.FC = () => {
             transition={{ delay: 0.9 }}
           >
             <Link href="#" className={styles.veActionLink}>文档</Link>
-            <Link href="#" className={styles.veActionLink}>备案</Link>
-            <Link href="#" className={`${styles.veActionLink} ${styles.consoleLink}`}>控制台</Link>
+            <Link href="#" className={styles.veActionLink}>定价</Link>
+            <Link href="#" className={`${styles.veActionLink} ${styles.consoleLink}`}>登录/注册</Link>
           </motion.div>
         </div>
 
@@ -157,8 +158,8 @@ const Header: React.FC = () => {
             <div className={styles.mobileNavHeader}>
                 <Link href="/" className={styles.veLogoMobile} onClick={toggleMobileMenu}>
                 <Image
-                    src="/icon.svg"
-                    alt="火山引擎 Logo"
+                    src="/images/logo.svg"
+                    alt="EduSpark Logo"
                     width={100}
                     height={24}
                 />
@@ -179,7 +180,6 @@ const Header: React.FC = () => {
                   <motion.li 
                     key={link.text}
                     variants={mobileNavLinkVariants}
-                    // stagger aniamtion will be handled by parent
                   >
                     <Link href={link.href} className={`${styles.veNavLink} ${link.active ? styles.active : ''}`} onClick={toggleMobileMenu}>
                       {link.text}
@@ -196,8 +196,8 @@ const Header: React.FC = () => {
                 <input type="text" placeholder="搜索..." />
               </div>
               <Link href="#" className={styles.veActionLinkMobile} onClick={toggleMobileMenu}>文档</Link>
-              <Link href="#" className={styles.veActionLinkMobile} onClick={toggleMobileMenu}>备案</Link>
-              <Link href="#" className={`${styles.veActionLinkMobile} ${styles.consoleLinkMobile}`} onClick={toggleMobileMenu}>控制台</Link>
+              <Link href="#" className={styles.veActionLinkMobile} onClick={toggleMobileMenu}>定价</Link>
+              <Link href="#" className={`${styles.veActionLinkMobile} ${styles.consoleLinkMobile}`} onClick={toggleMobileMenu}>登录/注册</Link>
             </div>
           </motion.div>
         )}

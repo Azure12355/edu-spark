@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css"; // 引入全局样式
 
 export const metadata: Metadata = {
-  title: "火山引擎 - 大模型",
-  description: "火山引擎一站式大模型开发平台",
+  title: "EduSpark - AI赋能教育",
+  description: "EduSpark 是一款基于开源大模型的教学实训智能体软件，旨在通过 AI 赋能教师和学生，提升备课效率，提供个性化练习与指导，推动教育数字化转型。",
 };
 
 export default function RootLayout({
