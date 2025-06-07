@@ -82,10 +82,10 @@ const Header: React.FC = () => {
         <Link href="/" className={styles.veLogo}>
           {/* 假设 Logo 位于 public/images/logo.svg */}
           <Image
-            src="/images/logo.svg" 
+            src="/EduSpark-icon-font.png" 
             alt="EduSpark Logo"
-            width={115}
-            height={28}
+            width={200}
+            height={36}
             priority
           />
         </Link>
@@ -158,10 +158,10 @@ const Header: React.FC = () => {
             <div className={styles.mobileNavHeader}>
                 <Link href="/" className={styles.veLogoMobile} onClick={toggleMobileMenu}>
                 <Image
-                    src="/images/logo.svg"
+                    src="/EduSpark-icon-font.png"
                     alt="EduSpark Logo"
-                    width={100}
-                    height={24}
+                    width={150}
+                    height={20}
                 />
                 </Link>
                  <button

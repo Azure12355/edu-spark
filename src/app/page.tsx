@@ -16,7 +16,7 @@ import CoreTechnologySection from '@/components/sections/CoreTechnologySection/C
 import PlatformAdvantagesSection from '@/components/sections/PlatformAdvantagesSection/PlatformAdvantagesSection';
 import TeachingLearningLoopSection from '@/components/sections/TeachingLearningLoopSection/TeachingLearningLoopSection';
 import TechnicalArchitectureSection from '@/components/sections/TechnicalArchitectureSection/TechnicalArchitectureSection';
-import PricingSection from '@/components/sections/PricingSection/PricingSection';
+import ModelAndSubjectCatalogSection from '@/components/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection';
 
 // 小组件 (Widgets)
 import ChatbotWidget from '@/components/widgets/ChatbotWidget/ChatbotWidget'; // 引入 ChatbotWidget
@@ -50,7 +50,7 @@ export default function HomePage() {
         <PlatformAdvantagesSection />
         <TeachingLearningLoopSection />
         <TechnicalArchitectureSection />
-        <PricingSection />
+        <ModelAndSubjectCatalogSection />
         {/* 
           您可以继续在这里添加网站的其他 Section 组件。
           例如：

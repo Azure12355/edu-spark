@@ -1,0 +1,189 @@
+/* src/components/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection.module.css */
+.catalogSection {
+  min-height: calc(100vh - var(--ve-header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(180deg, #FDFEFF 0%, #F4F7FF 100%);
+  padding: 60px 0;
+  overflow: hidden;
+}
+.fullHeightContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.mainSectionTitle {
+  margin-bottom: 12px;
+  font-size: 30px;
+  background: #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.catalogLink {
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+.catalogLink a {
+  color: var(--ve-primary-blue);
+  transition: color 0.3s ease;
+}
+.catalogLink a:hover {
+  color: #0042d1;
+}
+
+.catalogTabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.tabBtn {
+  padding: 10px 22px;
+  border: 1px solid #DCE4F2;
+  background-color: var(--white);
+  color: #5A6881;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.tabBtn:hover {
+  color: var(--ve-primary-blue);
+  border-color: #AFC8FF;
+  background-color: #F8FBFF;
+}
+.tabBtn.active {
+  background: var(--ve-primary-blue);
+  color: var(--white);
+  border-color: transparent;
+  box-shadow: 0 3px 8px rgba(22, 100, 255, 0.2);
+}
+
+.catalogTableWrapper {
+  width: 100%;
+}
+
+.catalogTableContainer {
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 8px 24px rgba(100, 120, 180, 0.07);
+  border: 1px solid #E8EDF5;
+  position: relative;
+}
+
+.scrollableTable {
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ve-primary-blue) #E8EDF5;
+}
+.scrollableTable::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollableTable::-webkit-scrollbar-track {
+  background: #F4F7FC;
+  border-radius: 4px;
+}
+.scrollableTable::-webkit-scrollbar-thumb {
+  background-color: var(--ve-primary-blue);
+  border-radius: 4px;
+  border: 2px solid #F4F7FC;
+}
+
+
+.catalogTableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+.catalogTableContainer th, .catalogTableContainer td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #F0F3F8;
+  white-space: nowrap;
+}
+.catalogTableContainer th {
+  background-color: #F9FBFE;
+  font-weight: 500;
+  color: #475569;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.catalogTableContainer td:first-child {
+  font-weight: 500;
+  color: #344054;
+}
+.catalogTableContainer td strong {
+  color: #1D2129;
+  font-weight: 600;
+}
+.catalogTableContainer td .descriptionText {
+  white-space: normal;
+  display: block;
+  max-width: 250px;
+}
+
+.newBadgeTable {
+  background-color: #E6FFFB;
+  color: #00B42A;
+  border: 1px solid #ABE8D1;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  margin-left: 6px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+.hotBadgeTable {
+  background-color: #FFF1F0;
+  color: #F53F3F;
+  border: 1px solid #FFCCC7;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  margin-left: 6px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.noDataCell {
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 0 !important;
+    font-style: italic;
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .catalogSection { min-height: auto; padding: 60px 15px; }
+  .catalogTabs { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+  .catalogTabs::-webkit-scrollbar { display: none; }
+  .tabBtn { padding: 9px 18px; font-size: 14px; }
+}
+
+@media (max-width: 768px) {
+  .mainSectionTitle { font-size: 26px; }
+  .catalogLink { margin-bottom: 30px; }
+  .catalogTabs { margin-bottom: 30px; }
+  .tabBtn { padding: 8px 16px; }
+  .catalogTableContainer table { min-width: 600px; }
+  .catalogTableContainer th, .catalogTableContainer td { padding: 12px 10px; font-size: 13px; }
+}
