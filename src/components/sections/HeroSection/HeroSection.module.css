@@ -151,11 +151,13 @@
 .primaryBtn {
   color: var(--white);
   /* 更明亮、更有活力的渐变 */
-  background: linear-gradient(95deg, #5A72FF 0%, #7B61FF 100%);
+  /* background: linear-gradient(95deg, #5A72FF 0%, #7B61FF 100%); */
+  background-color: var(--ve-primary-blue);
   box-shadow: 0 6px 20px rgba(90, 114, 255, 0.35); /* 调整阴影 */
 }
 .primaryBtn:hover {
-  background: linear-gradient(95deg, #4D62E0 0%, #6A50E0 100%);
+  /* background: linear-gradient(95deg, #4D62E0 0%, #6A50E0 100%); */
+  background-color: var(--ve-primary-blue);
   box-shadow: 0 8px 25px rgba(90, 114, 255, 0.45);
 }
 
@@ -180,7 +182,7 @@
   max-width: 100%;
   height: auto;
   display: block;
-  /* filter: drop-shadow(0 10px 25px rgba(0, 50, 150, 0.2)); 可选：给图片加投影 */
+  /* filter: drop-shadow(0 10px 25px rgba(0, 50, 150, 0.2));  */
 }
 
 /* 响应式调整 */

@@ -81,7 +81,7 @@ const HeroSection: React.FC = () => {
           transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <Image
-            src="/images/hero.png"
+            src="/images/HeroSection/banner.png"
             alt="AI 助力教育行业图示"
             width={480}
             height={480}
