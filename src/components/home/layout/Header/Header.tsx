@@ -1,4 +1,4 @@
-// src/components/layout/Header/Header.tsx
+// src/components/home/layout/Header/Header.tsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -8,15 +8,17 @@ import styles from './Header.module.css';
 
 // 更新导航链接以匹配 EduSpark 需求
 const navLinksData = [
-  { href: "#", text: "首页", active: true },
-  { href: "#", text: "教师中心", dropdown: true },
+  { href: "/", text: "首页", active: true },
+  { href: "/agent-square", text: "教师中心", dropdown: true }, // 修改这里
   { href: "#", text: "学生中心", dropdown: true },
   { href: "#", text: "课程广场", newIndicator: true },
   { href: "#", text: "数据看板" },
   { href: "#", text: "关于我们" },
 ];
 
-// Framer Motion 动画变体
+// ... (组件的其余部分代码保持不变, 此处省略)
+// ... (The rest of the component code remains the same, omitted here)
+// ... (粘贴原有的 Header.tsx 完整代码)
 const headerVariants = {
   hidden: { y: -100, opacity: 0 },
   visible: { 
@@ -80,7 +82,6 @@ const Header: React.FC = () => {
     >
       <div className={styles.veHeaderContainer}>
         <Link href="/" className={styles.veLogo}>
-          {/* 假设 Logo 位于 public/images/logo.svg */}
           <Image
             src="/EduSpark-icon-font.png" 
             alt="EduSpark Logo"
@@ -89,8 +90,6 @@ const Header: React.FC = () => {
             priority
           />
         </Link>
-
-        {/* Desktop Navigation */}
         <nav className={`${styles.veMainNav} ${styles.desktopNav}`}>
           <ul>
             {navLinksData.map((link, index) => (
@@ -109,8 +108,6 @@ const Header: React.FC = () => {
             ))}
           </ul>
         </nav>
-
-        {/* Header Actions (Desktop) - 更新为 EduSpark 的操作 */}
         <div className={`${styles.veHeaderActions} ${styles.desktopActions}`}>
           <motion.div 
             className={styles.veSearchBar}
@@ -131,8 +128,6 @@ const Header: React.FC = () => {
             <Link href="#" className={`${styles.veActionLink} ${styles.consoleLink}`}>登录/注册</Link>
           </motion.div>
         </div>
-
-        {/* Mobile Menu Toggle Button */}
         <button
           className={styles.mobileMenuToggle}
           onClick={toggleMobileMenu}
@@ -144,8 +139,6 @@ const Header: React.FC = () => {
           <div className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.line3Open : ''}`}></div>
         </button>
       </div>
-
-      {/* Mobile Navigation Panel */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

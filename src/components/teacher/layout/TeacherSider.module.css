@@ -1,0 +1,93 @@
+/* src/components/teacher/layout/TeacherSider.module.css (Final Version) */
+
+.siderContainer {
+    width: 256px;
+    flex-shrink: 0; /* Sider 宽度固定，不收缩 */
+    
+    /* Flexbox 布局 */
+    display: flex;
+    flex-direction: column;
+    
+    /* 视觉样式 */
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden; /* 确保圆角裁剪内部内容 */
+  }
+  
+  .scrollableArea {
+    flex: 1 1 0; /* 占据所有可用空间，并允许收缩 */
+    min-height: 0; /* 最关键的修复：允许 flex item 收缩到比其内容更小 */
+    overflow-y: auto; /* 仅在此区域应用垂直滚动 */
+    padding: 16px 0;
+  }
+  
+  .scrollableArea::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollableArea::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    border-radius: 3px;
+  }
+  .scrollableArea::-webkit-scrollbar-track {
+    background-color: transparent;
+    margin: 16px 0;
+  }
+  
+  .menu {
+    border-right: none !important;
+    padding: 0 8px;
+  }
+  
+  .footerArea {
+    flex-shrink: 0; /* 页脚不收缩 */
+    padding: 16px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* ... 以下为页脚内部样式，无需修改 ... */
+  .issuesButton {
+    border-radius: 6px !important;
+    height: 36px !important;
+    padding: 0 12px !important;
+  }
+  .issuesButton .ant-space-item {
+    display: flex;
+    align-items: center;
+  }
+  .issuesAvatar {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #a61d24 !important;
+    font-weight: bold;
+    font-size: 12px !important;
+  }
+  .issuesText {
+    color: white !important;
+    font-size: 14px;
+  }
+  .promoCard {
+    background: linear-gradient(135deg, #4381FF 0%, #0052FF 100%);
+    color: white;
+    border: none;
+  }
+  .promoCard :global(.ant-card-body) {
+    padding: 16px !important;
+  }
+  .promoTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .promoDesc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 12px;
+  }
+  .promoButton {
+    background: #ffffff !important;
+    color: var(--ant-color-primary) !important;
+    font-weight: 500;
+    border: none;
+  }
