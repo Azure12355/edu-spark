@@ -108,7 +108,87 @@ pnpm dev
 
 现在，打开你的浏览器并访问 [http://localhost:3000](http://localhost:3000)，你就能看到运行中的项目啦！🎉
 
----
+
+
+
+## 🐳 Docker 部署 (Docker Deployment)
+
+对于生产环境或需要更高可移植性的场景，我们强烈推荐使用 Docker 进行部署。本项目已包含一个经过优化的、采用多阶段构建的 `Dockerfile`，可以生成一个轻量且安全的生产镜像。
+
+### 1. 环境准备
+
+*   **本地**: 确保你的电脑上已经安装了 [Docker Desktop](https://www.docker.com/products/docker-desktop/)。
+*   **服务器**: 你的目标服务器（如阿里云 ECS）需要安装 [Docker Engine](https://docs.docker.com/engine/install/)。
+
+### 2. Dockerfile 解析
+
+项目根目录下的 `Dockerfile` 文件定义了镜像的构建过程：
+*   **多阶段构建 (Multi-stage builds)**:
+    1.  **Builder 阶段**: 在一个完整的 Node.js 环境中安装所有依赖并执行 `pnpm run build`。
+    2.  **Runner 阶段**: 在一个干净、轻量的 `node:20-alpine` 镜像中，只从上一阶段复制出运行所必需的构建产物 (`.next`) 和生产依赖 (`node_modules`)。
+*   **安全与高效**: 这种方式可以确保最终镜像体积最小，并且不包含任何开发工具或源代码，更加安全。
+
+### 3. 构建 Docker 镜像 🏗️
+
+在你的本地机器上（例如 macOS），打开终端并进入项目根目录，运行以下命令来构建镜像。
+
+> **跨平台构建**:
+> 此命令使用 `--platform linux/amd64` 参数，确保即使你在 M1/M2/M3 Mac (ARM64) 上构建，生成的镜像也能在标准的 x86-64 Linux 服务器上运行。
+
+```bash
+docker build \
+  --platform linux/amd64 \
+  --build-arg ZHIPUAI_API_KEY_ARG="你的智谱AI_API_KEY" \
+  -t your-dockerhub-username/volcano-engine:1.0.0 \
+  .
+```
+
+*   `--build-arg ZHIPUAI_API_KEY_ARG`: **(构建时使用)** 这是在构建过程中安全传递 API Key 的方式，它**不会**被存储在最终的镜像层中。
+*   `-t your-dockerhub-username/volcano-engine:1.0.0`: 为你的镜像打上一个标签，格式通常为 `[仓库用户名]/[镜像名]:[版本号]`。
+*   `.`: 表示 `Dockerfile` 在当前目录。
+
+### 4. 推送镜像到镜像仓库 ☁️
+
+为了让你的服务器可以访问到这个镜像，你需要将它推送到一个镜像仓库，例如 [Docker Hub](https://hub.docker.com/)。
+
+```bash
+# 登录你的 Docker Hub 账户
+docker login
+
+# 推送你刚刚构建的镜像
+docker push your-dockerhub-username/volcano-engine:1.0.0
+```
+
+### 5. 在服务器上部署并运行 🚀
+
+现在，SSH 连接到你的 Linux 服务器，并执行以下命令来拉取并运行你的应用容器。
+
+```bash
+docker run -d \
+  --name volcano-engine-app \
+  -p 3000:3000 \
+  -e ZHIPUAI_API_KEY="你的智谱AI_API_KEY" \
+  --restart always \
+  your-dockerhub-username/volcano-engine:1.0.0
+```
+
+*   `-d`: 在后台运行容器。
+*   `--name volcano-engine-app`: 为容器指定一个友好的名称。
+*   `-p 3000:3000`: 将服务器的 3000 端口映射到容器内部的 3000 端口。
+*   `-e ZHIPUAI_API_KEY`: **(运行时使用)** 这是在容器运行时注入环境变量的安全方式。你的 Next.js 应用将通过 `process.env` 读取此变量。
+*   `--restart always`: 确保在服务器重启或容器意外崩溃时，Docker 会自动重启它。
+
+部署完成后，你就可以通过 `http://你的服务器IP:3000` 访问你的应用了！
+
+> #### 💡 提示: `--build-arg` vs `-e`
+> *   `--build-arg` (构建参数) 用于在 `docker build` 期间向 `Dockerfile` 传递变量，它**只在构建过程中存在**。
+> *   `-e` (环境变量) 用于在 `docker run` 期间向正在运行的**容器**传递变量，它在容器的整个生命周期中都存在。
+>
+> 我们同时使用这两者，是因为 ZhipuAI 的 SDK 在**构建时**和**运行时**都需要 API Key。这种分离确保了构建过程能成功，同时运行时也能安全地获取到密钥，并且密钥本身不会被硬编码进镜像里。
+
+### 生产环境建议
+
+在真实的生产环境中，建议使用 Nginx 或 Caddy 等 Web 服务器作为反向代理，将 80/443 端口的流量转发到 Docker 容器的 3000 端口，并配置域名和 SSL/TLS 证书以启用 HTTPS。
 
 ## 📂 项目结构解析
 
