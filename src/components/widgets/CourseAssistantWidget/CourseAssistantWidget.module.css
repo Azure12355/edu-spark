@@ -1,4 +1,4 @@
-/* ... .chatbotWidget to .statusTagThinking styles remain unchanged ... */
+/* src/components/widgets/CourseAssistantWidget/CourseAssistantWidget.module.css */
 .chatbotWidget {
   position: fixed;
   bottom: 20px;
@@ -121,8 +121,6 @@
   background-color: #eef2ff;
 }
 
-/* === Markdown & Code Highlighting Styles === */
-
 .messageContent {
   /* Container for markdown content */
 }
@@ -141,18 +139,12 @@
   margin-bottom: 0 !important;
 }
 
-/* === Bug Fix & Enhancements === */
-
-
-
-/* **关键修正 1: 修复用户气泡(蓝色)内的样式冲突** */
+/* User bubble内的样式冲突修复 */
 .user .messageContent  {
-  background-color: transparent !important; /* 使用半透明背景而不是白色 */
-  color: #fff !important; /* 确保代码文字是白色 */
+  background-color: transparent !important;
+  color: #fff !important;
 }
 
-
-/* General style adjustments for better integration */
 .messageContent :global(.markdown-body h1),
 .messageContent :global(.markdown-body h2),
 .messageContent :global(.markdown-body h3) {
@@ -167,7 +159,7 @@
     border-bottom-color: rgba(255,255,255,0.3);
 }
 
-/* **关键修正 2: 美化 react-syntax-highlighter 的输出** */
+/* 美化 react-syntax-highlighter 的输出 */
 .messageContent :global(.markdown-body div[class*="language-"]) {
   border-radius: 6px;
   margin: 0.8em 0;
@@ -175,25 +167,23 @@
   border: 1px solid var(--border-color);
 }
 .messageContent :global(.markdown-body div[class*="language-"] code) {
-  text-shadow: none !important; /* 移除某些主题可能带有的文字阴影 */
+  text-shadow: none !important;
 }
 
-/* **关键修正 3: 美化 Mermaid 图表输出** */
+/* 美化 Mermaid 图表输出 */
 .messageContent :global(.mermaid) {
   margin-bottom: 0.8em;
-  text-align: center; /* 居中图表 */
+  text-align: center;
   background-color: #fafbfc;
   padding: 10px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
 }
 .messageContent :global(.mermaid svg) {
-  max-width: 100%; /* 防止 SVG 过宽撑破容器 */
-  height: auto !important; /* 保持宽高比 */
+  max-width: 100%;
+  height: auto !important;
 }
 
-
-/* ... all other styles from .typingIndicator to the end remain the same ... */
 .typingIndicator {
   display: inline-block;
   width: 8px;
@@ -371,4 +361,3 @@
   .sendButton { width: 40px; height: 40px; margin-left: 8px; }
   .footerInfo { padding: 8px 15px; font-size: 11px; }
 }
-

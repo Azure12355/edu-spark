@@ -1,4 +1,4 @@
-// src/components/widgets/ChatbotWidget/ChatbotWidget.tsx
+// src/components/widgets/CourseAssistantWidget/CourseAssistantWidget.tsx
 "use client";
 
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
@@ -6,14 +6,12 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
-// **关键修正 1: 引入代码高亮和 Mermaid 库**
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'; // 选择一个亮色主题
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mermaid from 'mermaid';
 
 import 'github-markdown-css/github-markdown-light.css';
-import styles from './ChatbotWidget.module.css';
+import styles from './CourseAssistantWidget.module.css';
 
 interface Message {
   id: string;
@@ -24,12 +22,12 @@ interface Message {
   isComplete?: boolean;
 }
 
-const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const CourseAssistantWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   const initialMessages: Message[] = [
     { 
       id: 'init-assistant', 
       role: 'assistant', 
-      content: '我是火山引擎的智能助手，能为您解答各类问题。试试问我：“用 mermaid 画一个流程图” 或 “给我一段 javascript 的 hello world 代码”', 
+      content: "你好！我是 EduSpark 智能助教。无论是**解答课程疑问**，还是**生成练习题**，我都在这里为你服务。试试问我：“请用Python写一个快速排序” 或 “帮我出5道关于牛顿第二定律的选择题”。", 
       isComplete: true 
     }
   ];
@@ -43,25 +41,17 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // **关键修正 2: 使用 useEffect 处理 Mermaid 图表渲染**
   useEffect(() => {
-    // 初始化 Mermaid 配置
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'neutral', // 使用中性主题，适配我们的背景
+      theme: 'neutral',
       securityLevel: 'loose',
     });
     
-    // 每次消息更新后，查找并渲染 Mermaid 图表
-    // 我们需要给它一点延迟，以确保 React 完成 DOM 更新
     const timer = setTimeout(() => {
         try {
-            mermaid.run({
-                nodes: document.querySelectorAll('.mermaid'),
-            });
-        } catch(e) {
-            console.error("Mermaid rendering error:", e);
-        }
+            mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+        } catch(e) { console.error("Mermaid rendering error:", e); }
     }, 100);
 
     return () => clearTimeout(timer);
@@ -183,11 +173,10 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
           animate="visible"
           exit="exit"
         >
-          {/* Header */}
           <header className={styles.widgetHeader}>
             <div className={styles.headerTitle}>
-              <Image src="/images/Chat/robot.png" alt="智能助手" width={26} height={26} />
-              火山智能助手
+              <Image src="/images/Chat/robot.png" alt="智能助教" width={26} height={26} />
+              EduSpark 智能助教
             </div>
             <div className={styles.headerControls}>
               <button onClick={() => setIsMaximized(!isMaximized)} className={styles.controlButton} title={isMaximized ? "还原" : "最大化"}>
@@ -199,7 +188,6 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
             </div>
           </header>
 
-          {/* Chat Body */}
           <main className={styles.chatBody} ref={chatBodyRef}>
             {messages.map(msg => (
               <motion.div
@@ -209,13 +197,12 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
               >
-                {/* ... (assistant header logic remains the same) ... */}
                 {msg.role === 'assistant' && (msg.isThinking || msg.isComplete) && (
                   <div className={styles.assistantMsgHeader}>
                     {msg.isThinking && !msg.isComplete && (
                       <span className={styles.statusTagThinking}>
                         <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
-                        正在生成...
+                        正在思考...
                       </span>
                     )}
                     {msg.isComplete && !msg.thinkingText && (
@@ -235,7 +222,6 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                 
                 <div className={`${styles.messageContent} markdown-body`}>
                   {msg.content ? (
-                    // **关键修正 3: 使用 components prop 自定义渲染器**
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -250,7 +236,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                           
                           return !inline && match ? (
                             <SyntaxHighlighter
-                              // @ts-ignore
+                            // @ts-ignore
                               style={oneLight}
                               language={language}
                               PreTag="div"
@@ -273,7 +259,6 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                   )}
                 </div>
                 
-                {/* ... (thinking panel and message actions remain the same) ... */}
                 <AnimatePresence>
                 {showThinkingPanelId === msg.id && msg.thinkingText && (
                   <motion.div 
@@ -283,7 +268,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                     exit={{ height: 0, opacity: 0, marginTop: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
-                    <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>模型的思考过程：</h4>
+                    <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>助教的思考过程：</h4>
                     <pre>{msg.thinkingText}</pre>
                   </motion.div>
                 )}
@@ -300,9 +285,8 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
             ))}
           </main>
           
-          {/* ... (quick actions, input area, and footer remain the same) ... */}
           <section className={styles.quickActions}>
-            {["你是谁？", "讲解下火山引擎", "热门产品"].map(q => (
+            {["生成一份Java学习大纲", "解释一下什么是递归", "给我出几道高数题"].map(q => (
               <button key={q} onClick={() => handleQuickQuestion(q)} className={styles.quickQuestionBtn}>
                 {q} <i className="fas fa-arrow-right"></i>
               </button>
@@ -313,7 +297,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="请输入您的问题，例如“介绍一下大模型服务平台”"
+              placeholder="输入你的问题，比如“解释一下什么是闭包”..."
               rows={1}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -328,7 +312,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
             </button>
           </form>
           <footer className={styles.footerInfo}>
-            模型输出由AI生成，可能存在不准确之处，请谨慎参考
+            AI生成内容仅供参考，请谨慎采纳
             <span className={styles.promoTag}>Beta</span>
           </footer>
         </motion.div>
@@ -337,4 +321,4 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   );
 };
 
-export default ChatbotWidget;
+export default CourseAssistantWidget;

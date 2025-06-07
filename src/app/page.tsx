@@ -1,5 +1,5 @@
 // src/app/page.tsx
-"use client"; // 因为要使用 useState 来管理 ChatbotWidget 的状态
+"use client"; // 因为要使用 useState 来管理 CourseAssistantWidget 的状态
 import React, { useState } from 'react'; // 引入 useState
 
 // 布局组件
@@ -19,10 +19,10 @@ import TechnicalArchitectureSection from '@/components/sections/TechnicalArchite
 import ModelAndSubjectCatalogSection from '@/components/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection';
 
 // 小组件 (Widgets)
-import ChatbotWidget from '@/components/widgets/ChatbotWidget/ChatbotWidget'; // 引入 ChatbotWidget
+import CourseAssistantWidget from '@/components/widgets/CourseAssistantWidget/CourseAssistantWidget'; // 引入 CourseAssistantWidget
 
 export default function HomePage() {
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false); // 状态来控制 ChatbotWidget 的显隐
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false); // 状态来控制 CourseAssistantWidget 的显隐
 
   const handleOpenChatbot = () => {
     setIsChatbotOpen(true);
@@ -63,12 +63,12 @@ export default function HomePage() {
       <Footer />
 
       {/* 
-        渲染 ChatbotWidget。
+        渲染 CourseAssistantWidget。
         它的显示与否 (`isOpen`) 由本组件 (HomePage) 的 isChatbotOpen 状态控制。
-        同时，将关闭浮窗的函数 (handleCloseChatbot) 传递给 ChatbotWidget，
-        以便 ChatbotWidget 内部的关闭按钮可以调用它来改变 isChatbotOpen 状态。
+        同时，将关闭浮窗的函数 (handleCloseChatbot) 传递给 CourseAssistantWidget，
+        以便 CourseAssistantWidget 内部的关闭按钮可以调用它来改变 isChatbotOpen 状态。
       */}
-      <ChatbotWidget isOpen={isChatbotOpen} onClose={handleCloseChatbot} />
+      <CourseAssistantWidget isOpen={isChatbotOpen} onClose={handleCloseChatbot} />
     </>
   );
 }
