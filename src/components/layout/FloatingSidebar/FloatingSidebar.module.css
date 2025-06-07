@@ -1,193 +1,187 @@
 /* src/components/layout/FloatingSidebar/FloatingSidebar.module.css */
 .floatingSidebar {
-    position: fixed;
-    right: 24px; /* 稍微增加与边缘的距离 */
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 998; /* 比 Header 低一点，但高于普通内容 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px; /* 按钮之间的间距 */
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebarButton {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+}
+
+.consultBtn {
+  background: linear-gradient(135deg, var(--ve-primary-blue, #1664FF) 0%, #3A79FF 100%);
+  color: var(--white);
+  padding: 16px 10px;
+  border-radius: 22px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 44px;
+  min-height: 110px;
+  box-shadow: 0 4px 12px rgba(22, 100, 255, 0.2);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  flex-direction: row;
+}
+.consultBtn i {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.consultText {
+  display: block;
+  line-height: 1.4;
+}
+
+.iconGroupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  padding: 12px 0;
+  border-radius: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  width: 50px;
+}
+
+
+.sidebarIconRegular {
+  background-color: transparent;
+  color: #4E5969;
+  width: 100%;
+  height: auto;
+  padding: 8px 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 11px;
+}
+.sidebarIconRegular i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+.sidebarIconRegular:hover {
+  color: var(--ve-primary-blue);
+}
+.sidebarIconRegular:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background-color: #E5EAF3;
+}
+.iconGroupContainer .sidebarIconRegular:last-child::after {
+    display: none;
+}
+
+.notificationDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  background-color: var(--ve-red-accent, #F53F3F);
+  border-radius: 50%;
+  border: 1px solid var(--white);
+}
+
+.backToTop {
+  margin-top: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #344054;
+}
+.backToTop i {
+  font-size: 20px;
+  margin-bottom: 0;
+}
+.backToTop:hover {
+  color: var(--ve-primary-blue);
+  background-color: var(--white);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .floatingSidebar {
+    right: 12px;
+    gap: 8px;
   }
-  
-  .sidebarButton { /* 通用按钮样式 */
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑过渡 */
-    position: relative; /* 用于通知点定位 */
-  }
-  
   .consultBtn {
-    /* 科技感渐变背景 */
-    background: linear-gradient(135deg, var(--ve-primary-blue, #1664FF) 0%, #3A79FF 100%);
-    color: var(--white);
-    padding: 16px 10px; /* 调整内边距使文字竖排更舒适 */
-    border-radius: 22px; /* 更圆润的胶囊形状 */
-    font-size: 15px; /* 字体稍大 */
-    font-weight: 500;
-    width: 44px; /* 固定宽度 */
-    min-height: 110px; /* 确保足够高度容纳图标和文字 */
-    box-shadow: 0 4px 12px rgba(22, 100, 255, 0.2);
-    writing-mode: vertical-rl; /* 保持文字竖排 */
-    text-orientation: mixed;
-    flex-direction: row; /* For vertical writing mode, this stacks children top-to-bottom */
+    width: 40px;
+    min-height: 100px;
+    padding: 12px 8px;
+    font-size: 14px;
   }
-  .consultBtn i {
-    /* writing-mode: horizontal-tb; */ /* Removed to allow vertical orientation */
-    font-size: 20px; /* 图标稍大 */
-    margin-bottom: 8px; /* 图标与文字间距 */
-  }
-  .consultText { /* 确保文字竖排 */
-    display: block;
-    line-height: 1.4; /* 调整行高 */
-  }
-  
-  /* 其他图标按钮组合在一个白色圆角容器中 */
+  .consultBtn i { font-size: 18px; margin-bottom: 6px; }
+
   .iconGroupContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px; /* 组内图标间距 */
-    background-color: rgba(255, 255, 255, 0.95); /* 轻微透明的背景 */
-    backdrop-filter: blur(5px); /* 毛玻璃效果 */
-    padding: 12px 0; /* 上下内边距 */
-    border-radius: 25px; /* 整体容器的圆角 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    width: 50px; /* 固定容器宽度 */
+    width: 46px;
+    padding: 10px 0;
+    border-radius: 23px;
+    gap: 10px;
   }
-  
-  
-  .sidebarIconRegular {
-    background-color: transparent; /* 在 group 内的图标背景透明 */
-    color: #4E5969; /* 图标和文字颜色 */
-    width: 100%; /* 撑满 group 容器宽度 */
-    height: auto; /* 高度由内容决定 */
-    padding: 8px 0; /* 上下内边距 */
-    border-radius: 0; /* 移除单个图标的圆角，由group控制 */
-    box-shadow: none; /* 移除单个图标的阴影，由group控制 */
-    font-size: 11px; /* 文字大小 */
-  }
-  .sidebarIconRegular i {
-    font-size: 18px; /* 图标大小 */
-    margin-bottom: 4px; /* 图标和文字间距 */
-  }
-  .sidebarIconRegular:hover {
-    color: var(--ve-primary-blue);
-    /* background-color: rgba(22, 100, 255, 0.05); 轻微 hover 背景 */
-  }
-  .sidebarIconRegular:not(:last-child)::after { /* 组内图标之间的分割线 */
-    content: '';
-    position: absolute;
-    bottom: -6px; /* 分割线在按钮下方 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%; /* 分割线宽度 */
-    height: 1px;
-    background-color: #E5EAF3; /* 分割线颜色 */
-  }
-  .iconGroupContainer .sidebarIconRegular:last-child::after {
-      display: none; /* 最后一个不显示分割线 */
-  }
-  
-  
-  .notificationDot {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 7px;
-    height: 7px;
-    background-color: var(--ve-red-accent, #F53F3F);
-    border-radius: 50%;
-    border: 1px solid var(--white); /* 给红点一个白色边框增加对比 */
-  }
+  .sidebarIconRegular i { font-size: 16px; }
+  .sidebarIconRegular span { display: none; }
   
   .backToTop {
-    /* 返回顶部按钮从 iconGroupContainer 中独立出来，以便单独控制其动画和位置 */
-    margin-top: 8px; /* 与上方按钮组的间距 */
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    width: 50px; /* 与 group 宽度一致 */
-    height: 50px; /* 圆形按钮 */
-    border-radius: 50%;
-    color: #344054; /* 返回顶部图标颜色 */
+    width: 46px;
+    height: 46px;
   }
-  .backToTop i {
-    font-size: 20px;
-    margin-bottom: 0; /* 返回顶部通常只有图标 */
+  .backToTop i { font-size: 18px; }
+
+  .notificationDot {
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
   }
-  .backToTop:hover {
-    color: var(--ve-primary-blue);
-    background-color: var(--white); /* hover 时背景更实 */
-  }
-  
-  /* 响应式调整 */
-  @media (max-width: 768px) { /* 在移动端可以考虑隐藏或缩小侧边栏 */
+}
+
+@media (max-width: 480px) {
     .floatingSidebar {
-      right: 12px; /* 离边缘更近 */
-      gap: 8px;
+        right: 8px;
+        gap: 6px;
     }
     .consultBtn {
-      width: 40px;
-      min-height: 100px;
-      padding: 12px 8px;
-      font-size: 14px;
+        width: 36px;
+        min-height: 90px;
+        padding: 10px 6px;
+        font-size: 13px;
+        border-radius: 18px;
     }
-    .consultBtn i { font-size: 18px; margin-bottom: 6px; }
-  
+    .consultBtn i { font-size: 16px; }
+
     .iconGroupContainer {
-      width: 46px;
-      padding: 10px 0;
-      border-radius: 23px;
-      gap: 10px;
+        width: 42px;
+        border-radius: 21px;
+        padding: 8px 0;
+        gap: 8px;
     }
-    .sidebarIconRegular i { font-size: 16px; }
-    .sidebarIconRegular span { display: none; } /* 移动端可以考虑只显示图标 */
+    .sidebarIconRegular i { font-size: 15px; }
     
     .backToTop {
-      width: 46px;
-      height: 46px;
+        width: 42px;
+        height: 42px;
     }
-    .backToTop i { font-size: 18px; }
-  
-    .notificationDot {
-      top: 4px;
-      right: 4px;
-      width: 6px;
-      height: 6px;
-    }
-  }
-  
-  @media (max-width: 480px) { /* 更小屏幕，可以进一步缩小 */
-      .floatingSidebar {
-          right: 8px;
-          gap: 6px;
-      }
-      .consultBtn {
-          width: 36px;
-          min-height: 90px;
-          padding: 10px 6px;
-          font-size: 13px;
-          border-radius: 18px;
-      }
-      .consultBtn i { font-size: 16px; }
-  
-      .iconGroupContainer {
-          width: 42px;
-          border-radius: 21px;
-          padding: 8px 0;
-          gap: 8px;
-      }
-      .sidebarIconRegular i { font-size: 15px; }
-      
-      .backToTop {
-          width: 42px;
-          height: 42px;
-      }
-       .backToTop i { font-size: 16px; }
-  }
+     .backToTop i { font-size: 16px; }
+}
