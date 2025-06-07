@@ -47,6 +47,18 @@ body {
   --ve-white: #FFFFFF;
   --ve-red-accent: #F53F3F; /* 导航栏 NEW 指示器 */
   --ve-header-height: 60px;
+
+  --widget-bg: linear-gradient(165deg, #fdfdff 0%, #f7f9fc 100%);
+  --header-bg: rgba(250, 251, 253, 0.85);
+  --border-color: #e8edf3;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-light: #64748b;
+  --user-bubble-bg: linear-gradient(135deg, var(--ve-primary-blue) 0%, #4a70ff 100%);
+  --assistant-bubble-bg: #FFFFFF;
+  --input-bg: #f8fafc;
+  --focus-ring-color: rgba(22, 100, 255, 0.15);
+  --link-color: #1664ff;
 }
 
 body {
