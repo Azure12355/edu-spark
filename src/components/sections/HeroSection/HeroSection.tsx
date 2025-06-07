@@ -1,6 +1,6 @@
 // src/components/sections/HeroSection/HeroSection.tsx
 "use client"
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './HeroSection.module.css';
@@ -30,12 +30,6 @@ const itemVariants = {
 };
 
 const HeroSection: React.FC = () => {
-
-  useEffect(() => {
-    console.log(motion);
-    
-  },[motion])
-
   return (
     <section className={styles.heroSection}>
       <div className={styles.videoBackgroundContainer}>
@@ -62,16 +56,16 @@ const HeroSection: React.FC = () => {
         <div className={styles.heroText}>
           <motion.div variants={itemVariants} className={styles.newAnnouncementContainer}>
             <span className={styles.newTag}>NEW</span>
-            <span className={styles.newAnnouncement}>Prompt优解限时免费60天 <i className="fas fa-chevron-right"></i></span>
+            <span className={styles.newAnnouncement}>《嵌入式Linux》课程智能体已上线 <i className="fas fa-chevron-right"></i></span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className={styles.mainTitle}>火山引擎</motion.h1>
-          <motion.h2 variants={itemVariants} className={styles.subTitle}>一站式大模型开发平台</motion.h2>
+          <motion.h1 variants={itemVariants} className={styles.mainTitle}>EduSpark</motion.h1>
+          <motion.h2 variants={itemVariants} className={styles.subTitle}>点亮教学灵感，激发求知火花</motion.h2>
           <motion.p variants={itemVariants} className={styles.description}>
-            模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障
+            为教师提供智能备课与学情分析，为学生打造个性化实时练习与辅导。开启教学新范式，培养未来高素质人才。
           </motion.p>
           <motion.div variants={itemVariants} className={styles.heroButtons}>
-            <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>立即体验</a>
-            <a href="#" className={`${styles.heroBtn} ${styles.secondaryBtn}`}>API文档</a>
+            <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>教师快速备课</a>
+            <a href="#" className={`${styles.heroBtn} ${styles.secondaryBtn}`}>学生在线实训</a>
           </motion.div>
         </div>
         <motion.div
@@ -80,9 +74,10 @@ const HeroSection: React.FC = () => {
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
+          {/* 沿用参考项目的图片作为占位符 */}
           <Image
             src="/images/HeroSection/banner.png"
-            alt="AI 助力教育行业图示"
+            alt="AI 赋能教育实训图示"
             width={480}
             height={480}
             className={styles.heroImage}
@@ -94,4 +89,4 @@ const HeroSection: React.FC = () => {
   );
 };
 
-export default HeroSection; // <--- 确保这一行存在且正确！
+export default HeroSection;

@@ -1,6 +1,5 @@
 /* src/components/sections/HeroSection/HeroSection.module.css */
 .heroSection {
-  /* padding: 80px 0 100px; 增加上下padding，使其更舒展 */
   padding: clamp(60px, 10vh, 100px) 0 clamp(80px, 12vh, 120px); /* 响应式padding */
   position: relative;
   overflow: hidden;
@@ -31,15 +30,12 @@
   min-height: 100%;
 }
 
-/* 新增：视频遮罩层 */
 .videoOverlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: rgba(10, 20, 40, 0.3); 深色遮罩 */
-  /* background: linear-gradient(180deg, rgba(20, 30, 60, 0.2) 0%, rgba(10, 15, 30, 0.5) 100%); 从上到下渐变遮罩 */
   z-index: 1; /* 在视频之上，内容之下 */
 }
 
@@ -99,18 +95,16 @@
   font-weight: 700; /* 加粗 */
   margin-bottom: 16px; /* 调整间距 */
   line-height: 1.15; /* 调整行高 */
-  /* 保持渐变色，或根据背景调整 */
-  background: linear-gradient(90deg, #3a50f8 0%, #7739f4 50%, #c0a0fb 100%); /* 调整为更亮的渐变，适应深色背景 */
+  background: linear-gradient(90deg, #3a50f8 0%, #7739f4 50%, #c0a0fb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
   display: block; /* 确保渐变生效 */
-  /* letter-spacing: -1px; */ /* 可选：调整字间距 */
 }
 
 .subTitle {
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(26px, 4vw, 40px);
   color: #04073f; /* 副标题颜色调整为非常浅的灰色 */
   margin: 0 0 24px; /* 调整间距 */
   font-weight: 500;
@@ -136,7 +130,7 @@
   font-size: 17px; /* 增大按钮文字大小 */
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.3s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); /* 添加更平滑的transform过渡 */
+  transition: all 0.3s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   border: 1px solid transparent;
   cursor: pointer;
   display: inline-flex;
@@ -150,13 +144,10 @@
 
 .primaryBtn {
   color: var(--white);
-  /* 更明亮、更有活力的渐变 */
-  /* background: linear-gradient(95deg, #5A72FF 0%, #7B61FF 100%); */
   background-color: var(--ve-primary-blue);
   box-shadow: 0 6px 20px rgba(90, 114, 255, 0.35); /* 调整阴影 */
 }
 .primaryBtn:hover {
-  /* background: linear-gradient(95deg, #4D62E0 0%, #6A50E0 100%); */
   background-color: var(--ve-primary-blue);
   box-shadow: 0 8px 25px rgba(90, 114, 255, 0.45);
 }
@@ -176,13 +167,11 @@
 .heroImageContainer {
   flex-shrink: 0;
   margin-left: auto; /* 将图片推到右侧 */
-  /* perspective: 1000px; 可选：为3D效果准备 */
 }
 .heroImage {
   max-width: 100%;
   height: auto;
   display: block;
-  /* filter: drop-shadow(0 10px 25px rgba(0, 50, 150, 0.2));  */
 }
 
 /* 响应式调整 */
@@ -195,23 +184,17 @@
     gap: 40px;
   }
   .heroText {
-    max-width: 520px; /* 在平板上文本区域依然可以宽一些 */
-  }
-  .mainTitle {
-    /* font-size: clamp(36px, 5.5vw, 60px); 已经在上面用clamp了，这里可以微调 */
-  }
-  .subTitle {
-    /* font-size: clamp(24px, 3.5vw, 40px); */
+    max-width: 520px;
   }
   .heroImageContainer {
-    max-width: 40%; /* 图片在平板上稍小 */
+    max-width: 40%;
   }
 }
 
 @media (max-width: 768px) {
   .heroSection {
-    min-height: auto; /* 移动端高度由内容决定 */
-    padding: 60px 0; /* 调整移动端padding */
+    min-height: auto;
+    padding: 60px 0;
   }
   .heroContent {
     flex-direction: column;
@@ -219,19 +202,14 @@
   }
   .heroText {
     max-width: 100%;
-    margin-bottom: 40px; /* 增大与图片间距 */
-    order: 1; /* 文本在图片之上（因为图片会是背景的一部分或消失） */
-  }
-  .mainTitle, .subTitle, .description, .newAnnouncement {
-    /* 确保在移动端文本依然清晰 */
+    margin-bottom: 40px;
+    order: 1;
   }
   .newAnnouncementContainer, .heroButtons {
     justify-content: center;
   }
   .heroImageContainer {
-    order: 2; /* 图片在文本下方或不显示 */
-    display: none; /* 移动端通常会隐藏右侧大图以节省空间，依赖背景视频或纯色 */
-    /* 如果坚持显示，则调整大小: */
-    /* max-width: 280px; margin-top: 30px; */
+    order: 2;
+    display: none;
   }
 }
