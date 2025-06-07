@@ -7,9 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-// **关键修正 1**: 引入专业的Markdown样式库作为基础
-import 'github-markdown-css/github-markdown-light.css';
+// **关键修正 1: 引入代码高亮和 Mermaid 库**
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'; // 选择一个亮色主题
+import mermaid from 'mermaid';
 
+import 'github-markdown-css/github-markdown-light.css';
 import styles from './ChatbotWidget.module.css';
 
 interface Message {
@@ -26,7 +29,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
     { 
       id: 'init-assistant', 
       role: 'assistant', 
-      content: '我是火山引擎的智能助手，能为您解答各类问题。若您有需求，随时都能问我！', 
+      content: '我是火山引擎的智能助手，能为您解答各类问题。试试问我：“用 mermaid 画一个流程图” 或 “给我一段 javascript 的 hello world 代码”', 
       isComplete: true 
     }
   ];
@@ -39,6 +42,30 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // **关键修正 2: 使用 useEffect 处理 Mermaid 图表渲染**
+  useEffect(() => {
+    // 初始化 Mermaid 配置
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'neutral', // 使用中性主题，适配我们的背景
+      securityLevel: 'loose',
+    });
+    
+    // 每次消息更新后，查找并渲染 Mermaid 图表
+    // 我们需要给它一点延迟，以确保 React 完成 DOM 更新
+    const timer = setTimeout(() => {
+        try {
+            mermaid.run({
+                nodes: document.querySelectorAll('.mermaid'),
+            });
+        } catch(e) {
+            console.error("Mermaid rendering error:", e);
+        }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [messages]);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -64,13 +91,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
     setMessages(prev => [
       ...prev,
       newUserMessage,
-      {
-        id: assistantMsgId,
-        role: 'assistant',
-        content: '',
-        isThinking: true,
-        isComplete: false,
-      }
+      { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false }
     ]);
     setInputValue('');
 
@@ -85,9 +106,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         body: JSON.stringify({ messages: apiMessagesHistory }),
       });
 
-      if (!response.ok || !response.body) {
-        throw new Error('API request failed');
-      }
+      if (!response.ok || !response.body) throw new Error('API request failed');
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -104,19 +123,12 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
           if (line.startsWith('data: ')) {
             const jsonDataString = line.substring('data: '.length).trim();
             if (jsonDataString === '[DONE]') break;
-            
             try {
               const parsedChunk = JSON.parse(jsonDataString);
               const deltaContent = parsedChunk.choices?.[0]?.delta?.content || '';
               if (deltaContent) {
                 accumulatedContent += deltaContent;
-                setMessages(prev =>
-                  prev.map(msg =>
-                    msg.id === assistantMsgId
-                      ? { ...msg, content: accumulatedContent, isThinking: true }
-                      : msg
-                  )
-                );
+                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: accumulatedContent, isThinking: true } : msg));
               }
             } catch (error) { /* 忽略不完整的JSON块 */ }
           }
@@ -136,34 +148,11 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         finalDisplayText = (accumulatedContent.substring(0, thinkStartIndex) + accumulatedContent.substring(thinkEndIndex + thinkEndTag.length)).trim();
       }
       
-      setMessages(prev =>
-        prev.map(msg =>
-          msg.id === assistantMsgId
-            ? { 
-                ...msg, 
-                content: finalDisplayText,
-                thinkingText: finalThinkingText,
-                isThinking: false, 
-                isComplete: true 
-              }
-            : msg
-        )
-      );
+      setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: finalDisplayText, thinkingText: finalThinkingText, isThinking: false, isComplete: true } : msg));
 
     } catch (error) {
       console.error("Error handling stream:", error);
-      setMessages(prev =>
-        prev.map(msg =>
-          msg.id === assistantMsgId
-            ? {
-                ...msg,
-                content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`,
-                isThinking: false,
-                isComplete: true,
-              }
-            : msg
-        )
-      );
+      setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
     } finally {
       setIsSending(false);
     }
@@ -197,7 +186,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
           {/* Header */}
           <header className={styles.widgetHeader}>
             <div className={styles.headerTitle}>
-              <Image src="/robot.svg" alt="智能助手" width={26} height={26} />
+              <Image src="/images/Chat/robot.png" alt="智能助手" width={26} height={26} />
               火山智能助手
             </div>
             <div className={styles.headerControls}>
@@ -220,6 +209,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
               >
+                {/* ... (assistant header logic remains the same) ... */}
                 {msg.role === 'assistant' && (msg.isThinking || msg.isComplete) && (
                   <div className={styles.assistantMsgHeader}>
                     {msg.isThinking && !msg.isComplete && (
@@ -243,10 +233,39 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                   </div>
                 )}
                 
-                {/* **关键修正 2**: 添加 'markdown-body' 类，以激活github-markdown-css的样式 */}
                 <div className={`${styles.messageContent} markdown-body`}>
                   {msg.content ? (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    // **关键修正 3: 使用 components prop 自定义渲染器**
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // @ts-ignore
+                        code({ node, inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || '');
+                          const language = match ? match[1] : '';
+                          
+                          if (language === 'mermaid') {
+                            return <pre className="mermaid">{String(children)}</pre>;
+                          }
+                          
+                          return !inline && match ? (
+                            <SyntaxHighlighter
+                              // @ts-ignore
+                              style={oneLight}
+                              language={language}
+                              PreTag="div"
+                              {...props}
+                            >
+                              {String(children).replace(/\n$/, '')}
+                            </SyntaxHighlighter>
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        }
+                      }}
+                    >
                       {msg.isThinking ? msg.content.replace(/<think>[\s\S]*?<\/think>/g, '') : msg.content}
                     </ReactMarkdown>
                   ) : (
@@ -254,6 +273,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                   )}
                 </div>
                 
+                {/* ... (thinking panel and message actions remain the same) ... */}
                 <AnimatePresence>
                 {showThinkingPanelId === msg.id && msg.thinkingText && (
                   <motion.div 
@@ -280,7 +300,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
             ))}
           </main>
           
-          {/* Quick Actions & Input Area (no changes) */}
+          {/* ... (quick actions, input area, and footer remain the same) ... */}
           <section className={styles.quickActions}>
             {["你是谁？", "讲解下火山引擎", "推荐一些热门产品"].map(q => (
               <button key={q} onClick={() => handleQuickQuestion(q)} className={styles.quickQuestionBtn}>

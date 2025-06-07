@@ -1,6 +1,6 @@
 /* src/components/widgets/ChatbotWidget/ChatbotWidget.module.css */
 
-/* :root 定义了整个组件的颜色和尺寸变量，确保风格统一 */
+/* :root and other base styles remain unchanged */
 :root {
   --widget-bg: linear-gradient(165deg, #fdfdff 0%, #f7f9fc 100%);
   --header-bg: rgba(250, 251, 253, 0.85);
@@ -15,7 +15,7 @@
   --link-color: #1664ff;
 }
 
-/* ... 从 .chatbotWidget 到 .statusTagThinking 的样式保持不变 ... */
+/* ... .chatbotWidget to .statusTagThinking styles remain unchanged ... */
 .chatbotWidget {
   position: fixed;
   bottom: 20px;
@@ -138,100 +138,79 @@
   background-color: #eef2ff;
 }
 
-/* === 关键修正: 使用覆盖样式来整合 github-markdown-css === */
+/* === Markdown & Code Highlighting Styles === */
 
 .messageContent {
-  /* 这个容器本身不需要太多样式 */
+  /* Container for markdown content */
 }
 
-/*
- * 1. 基础整合 (Integration)
- *    覆盖 github-markdown-css 的默认背景、颜色和字体，使其融入我们的气泡。
- */
+/* Base integration for github-markdown-css */
 .messageContent :global(.markdown-body) {
-  background-color: transparent !important; /* 强制背景透明，显示气泡颜色 */
-  color: inherit;                           /* 继承气泡的文字颜色 (白色或深灰色) */
-  font-family: inherit;                     /* 继承组件的字体 */
-  font-size: 1em;                           /* 字体大小与气泡一致 */
+  background-color: transparent !important;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1em;
   line-height: 1.65;
-  padding: 0;                               /* 移除库自带的内边距 */
+  padding: 0;
 }
 
-/* 
- * 2. 元素微调 (Refinements)
- *    针对特定元素进行微调，使其更符合聊天场景的视觉风格。
- */
-
-/* 段落间距调整，使其在聊天中不那么宽 */
-.messageContent :global(.markdown-body p) {
-  margin-top: 0;
-  margin-bottom: 0.8em;
-}
 .messageContent :global(.markdown-body > *:last-child) {
   margin-bottom: 0 !important;
 }
 
-/* 列表缩进和间距 */
-.messageContent :global(.markdown-body ul),
-.messageContent :global(.markdown-body ol) {
-  padding-left: 2em;
-  margin-bottom: 0.8em;
+/* === Bug Fix & Enhancements === */
+
+
+
+/* **关键修正 1: 修复用户气泡(蓝色)内的样式冲突** */
+.user .messageContent  {
+  background-color: transparent !important; /* 使用半透明背景而不是白色 */
+  color: #fff !important; /* 确保代码文字是白色 */
 }
 
-/* 标题间距，减小标题和上方内容的距离 */
+
+/* General style adjustments for better integration */
 .messageContent :global(.markdown-body h1),
 .messageContent :global(.markdown-body h2),
 .messageContent :global(.markdown-body h3) {
   margin-top: 1.2em;
   margin-bottom: 0.6em;
   padding-bottom: 0.3em;
-  border-bottom-color: var(--border-color); /* 统一边框颜色 */
+  border-bottom-color: var(--border-color);
 }
 .user .messageContent :global(.markdown-body h1),
 .user .messageContent :global(.markdown-body h2),
 .user .messageContent :global(.markdown-body h3) {
-    border-bottom-color: rgba(255,255,255,0.3); /* 用户气泡内的标题下划线 */
+    border-bottom-color: rgba(255,255,255,0.3);
 }
 
-/* 链接颜色 */
-.messageContent :global(.markdown-body a) {
-  color: var(--link-color);
-}
-.user .messageContent :global(.markdown-body a) {
-    color: #fff;
-    font-weight: 600;
-    text-decoration: underline;
-}
-
-/* 代码块样式与我们的设计系统统一 */
-.messageContent :global(.markdown-body pre) {
-  background-color: #f6f8fa !important; /* 覆盖库的默认背景 */
-  border: 1px solid var(--border-color);
+/* **关键修正 2: 美化 react-syntax-highlighter 的输出** */
+.messageContent :global(.markdown-body div[class*="language-"]) {
   border-radius: 6px;
+  margin: 0.8em 0;
+  font-size: 0.9em;
+  border: 1px solid var(--border-color);
 }
-/* 用户气泡内的代码块 */
-.user .messageContent :global(.markdown-body pre) {
-  background-color: rgba(0,0,0,0.2) !important;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* 引用块样式 */
-.messageContent :global(.markdown-body blockquote) {
-  border-left-color: var(--border-color); /* 统一边框颜色 */
-  color: var(--text-light);
+.messageContent :global(.markdown-body div[class*="language-"] code) {
+  text-shadow: none !important; /* 移除某些主题可能带有的文字阴影 */
 }
 
-/* 表格边框颜色 */
-.messageContent :global(.markdown-body table tr) {
-  border-top-color: var(--border-color);
+/* **关键修正 3: 美化 Mermaid 图表输出** */
+.messageContent :global(.mermaid) {
+  margin-bottom: 0.8em;
+  text-align: center; /* 居中图表 */
+  background-color: #fafbfc;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
 }
-.messageContent :global(.markdown-body table th),
-.messageContent :global(.markdown-body table td) {
-  border-color: var(--border-color);
+.messageContent :global(.mermaid svg) {
+  max-width: 100%; /* 防止 SVG 过宽撑破容器 */
+  height: auto !important; /* 保持宽高比 */
 }
 
-/* === 样式覆盖结束 === */
 
+/* ... all other styles from .typingIndicator to the end remain the same ... */
 .typingIndicator {
   display: inline-block;
   width: 8px;
@@ -241,7 +220,6 @@
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* ... 从 .thinkingPanel 到文件末尾的样式保持不变 ... */
 .thinkingPanel {
   padding: 14px;
   background-color: #f8fafc;
@@ -410,3 +388,4 @@
   .sendButton { width: 40px; height: 40px; margin-left: 8px; }
   .footerInfo { padding: 8px 15px; font-size: 11px; }
 }
+
