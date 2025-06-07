@@ -11,7 +11,7 @@ import Footer from '@/components/layout/Footer/Footer';
 import HeroSection from '@/components/sections/HeroSection/HeroSection';
 import HeroFeaturesSection from '@/components/sections/HeroFeaturesSection/HeroFeaturesSection';
 import QuickExperienceSection from '@/components/sections/QuickExperienceSection/QuickExperienceSection';
-import DoubaoScenariosSection from '@/components/sections/DoubaoScenariosSection/DoubaoScenariosSection';
+import EduSparkScenariosSection from '@/components/sections/EduSparkScenariosSection/EduSparkScenariosSection';
 import SystemCapacitySection from '@/components/sections/SystemCapacitySection/SystemCapacitySection';
 import CapabilitySupportSection from '@/components/sections/CapabilitySupportSection/CapabilitySupportSection';
 import FullLifecycleSecuritySection from '@/components/sections/FullLifecycleSecuritySection/FullLifecycleSecuritySection';
@@ -45,7 +45,7 @@ export default function HomePage() {
         <HeroSection />
         <HeroFeaturesSection />
         <QuickExperienceSection />
-        <DoubaoScenariosSection />
+        <EduSparkScenariosSection />
         <SystemCapacitySection />
         <CapabilitySupportSection />
         <FullLifecycleSecuritySection />

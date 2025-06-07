@@ -1,4 +1,4 @@
-/* src/components/sections/DoubaoScenariosSection/DoubaoScenariosSection.module.css */
+/* src/components/sections/EduSparkScenariosSection/EduSparkScenariosSection.module.css */
 .scenariosSection {
   background: linear-gradient(180deg, #FDFEFF 0%, #F4F7FF 100%);
   padding: 80px 0;
@@ -13,7 +13,6 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: block; /* 如果是 text-center, 这需要被 text-align: center 的父级包裹 */
-  /* justify-content: center; /* 这行对 display: block 无效 */
 }
 
 .sectionSubtitle {
@@ -218,16 +217,13 @@
     transform: scale(1.03);
 }
 
-
-/* ---------- 移动端响应式修复与优化 ---------- */
-@media (max-width: 1024px) { /* 平板断点，Tab可能需要滚动 */
+@media (max-width: 1024px) {
   .tabsContainer {
-    justify-content: flex-start; /* 改为左对齐以配合横向滚动 */
-    flex-wrap: nowrap; /* 禁止换行，启用横向滚动 */
-    overflow-x: auto; /* 允许横向滚动 */
-    padding-bottom: 16px; /* 为滚动条留出空间，并调整与下方内容的间距 */
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 16px;
     margin-bottom: 40px;
-    /* 自定义滚动条样式 (可选) */
     scrollbar-width: thin;
     scrollbar-color: var(--ve-primary-blue) #f0f0f0;
   }
@@ -241,10 +237,10 @@
   .tabsContainer::-webkit-scrollbar-track {
     background-color: #f0f0f0;
   }
-  .tabsContainer::after { /* 平板及以上，Tab底部横线保持 */
+  .tabsContainer::after {
     content: '';
     position: absolute;
-    bottom: 0px; /* 调整位置到滚动条下方一点 */
+    bottom: 0px;
     left: 0;
     right: 0;
     height: 1px;
@@ -252,91 +248,91 @@
   }
 
   .tabButton {
-    flex-shrink: 0; /* 防止Tab按钮在flex容器中被压缩 */
+    flex-shrink: 0;
   }
 
   .cardContainerWrapper {
-    padding: 32px; /* 平板上的内边距 */
-    min-height: auto; /* 高度由内容决定 */
+    padding: 32px;
+    min-height: auto;
   }
   .scenarioCard {
-    flex-direction: column; /* 卡片内容垂直堆叠 */
-    padding: 0; /* 移除内部scenarioCard的padding，由wrapper控制 */
-    gap: 32px; /* 文本和图片间距 */
-    height: auto; /* 高度由内容决定 */
-    position: relative; /* 改为relative，因为AnimatePresence的切换是父级控制 */
+    flex-direction: column;
+    padding: 0;
+    gap: 32px;
+    height: auto;
+    position: relative;
   }
   .cardTextContent {
     max-width: 100%;
-    order: 2; /* 文本内容在图片下方 */
-    text-align: center; /* 文本居中 */
+    order: 2;
+    text-align: center;
   }
   .descriptionList li {
-    text-align: left; /* 列表项保持左对齐，但在居中容器内 */
-    justify-content: flex-start; /* 确保图标和文本从左开始 */
-    max-width: 500px; /* 限制列表项最大宽度，使其在居中时美观 */
+    text-align: left;
+    justify-content: flex-start;
+    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
   }
   .relatedProductsList, .cardButtons {
-    justify-content: center; /* 相关产品和按钮居中 */
+    justify-content: center;
   }
   .cardImageWrapper {
-    order: 1; /* 图片在文本内容上方 */
+    order: 1;
     width: 100%;
-    max-width: 480px; /* 图片最大宽度 */
+    max-width: 480px;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media (max-width: 767px) { /* 手机断点 */
+@media (max-width: 767px) {
   .scenariosSection {
     padding: 60px 0;
   }
   .mainSectionTitle {
-    font-size: 28px; /* 调整标题大小 */
+    font-size: 28px;
   }
   .sectionSubtitle {
     font-size: 15px;
     margin-bottom: 32px;
-    padding: 0 15px; /* 确保副标题在小屏幕不贴边 */
+    padding: 0 15px;
   }
   .tabsContainer {
-    padding-left: 15px; /* 给左侧滚动留出边距 */
-    padding-right: 15px; /* 给右侧滚动留出边距 */
-    margin-left: -15px; /* 通过负margin使滚动区域视觉上撑满 */
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -15px;
     margin-right: -15px;
-    gap: 8px; /* 进一步缩小Tab间距 */
+    gap: 8px;
     margin-bottom: 32px;
-    padding-bottom: 12px; /* 滚动条空间 */
+    padding-bottom: 12px;
   }
-   .tabsContainer::after { /* 手机上Tab底部横线保持 */
-     bottom: -4px; /* 调整位置 */
+   .tabsContainer::after {
+     bottom: -4px;
    }
   .tabButton {
-    padding: 10px 18px; /* 缩小Tab按钮padding */
+    padding: 10px 18px;
     font-size: 15px;
   }
-  .activeTabIndicator { /* 调整指示器使其在小按钮上看起来合适 */
+  .activeTabIndicator {
     left: 10%;
     right: 10%;
     height: 2px;
   }
 
   .cardContainerWrapper {
-    padding: 24px 20px; /* 调整卡片容器内边距 */
-    border-radius: 12px; /* 缩小圆角 */
+    padding: 24px 20px;
+    border-radius: 12px;
   }
   .scenarioCard {
-    gap: 24px; /* 文本和图片间距 */
+    gap: 24px;
   }
   .cardTitle {
-    font-size: 22px; /* 调整卡片标题大小 */
+    font-size: 22px;
     margin-bottom: 16px;
   }
   .descriptionList li {
-    font-size: 14px; /* 调整描述文字大小 */
+    font-size: 14px;
     margin-bottom: 10px;
   }
   .descriptionList li i {
@@ -350,14 +346,14 @@
   }
   .cardBtn {
     font-size: 15px;
-    padding: 10px 24px; /* 调整按钮padding */
+    padding: 10px 24px;
   }
   .cardImageWrapper {
-    max-width: 100%; /* 图片宽度可以撑满 */
-    padding: 0 10px; /* 给图片左右一点空间，防止贴边 */
+    max-width: 100%;
+    padding: 0 10px;
     box-sizing: border-box;
   }
   .scenarioImage {
-    border-radius: 8px; /* 图片圆角缩小 */
+    border-radius: 8px;
   }
 }
