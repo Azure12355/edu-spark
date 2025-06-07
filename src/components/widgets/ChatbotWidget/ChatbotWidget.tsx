@@ -302,7 +302,7 @@ const ChatbotWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
           
           {/* ... (quick actions, input area, and footer remain the same) ... */}
           <section className={styles.quickActions}>
-            {["你是谁？", "讲解下火山引擎", "推荐一些热门产品"].map(q => (
+            {["你是谁？", "讲解下火山引擎", "热门产品"].map(q => (
               <button key={q} onClick={() => handleQuickQuestion(q)} className={styles.quickQuestionBtn}>
                 {q} <i className="fas fa-arrow-right"></i>
               </button>

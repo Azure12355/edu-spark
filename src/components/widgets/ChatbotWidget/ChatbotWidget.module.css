@@ -278,7 +278,7 @@
 .quickQuestionBtn {
   background-color: #eef2ff;
   border: 1px solid transparent;
-  color: #4338ca;
+  color: var(--ve-primary-blue);
   padding: 8px 16px;
   border-radius: 99px;
   font-size: 13px;
