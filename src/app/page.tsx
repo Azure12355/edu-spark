@@ -3,20 +3,20 @@
 import React, { useState } from 'react'; // 引入 useState
 
 // 布局组件
-import Header from '@/components/layout/Header/Header';
-import FloatingSidebar from '@/components/layout/FloatingSidebar/FloatingSidebar';
-import Footer from '@/components/layout/Footer/Footer';
+import Header from '@/components/home/layout/Header/Header';
+import FloatingSidebar from '@/components/common/FloatingSidebar/FloatingSidebar';
+import Footer from '@/components/home/layout/Footer/Footer';
 
 // 页面区域 (Sections) 组件
-import HeroSection from '@/components/sections/HeroSection/HeroSection';
-import HeroFeaturesSection from '@/components/sections/HeroFeaturesSection/HeroFeaturesSection';
-import QuickExperienceSection from '@/components/sections/QuickExperienceSection/QuickExperienceSection';
-import EduSparkScenariosSection from '@/components/sections/EduSparkScenariosSection/EduSparkScenariosSection';
-import CoreTechnologySection from '@/components/sections/CoreTechnologySection/CoreTechnologySection';
-import PlatformAdvantagesSection from '@/components/sections/PlatformAdvantagesSection/PlatformAdvantagesSection';
-import TeachingLearningLoopSection from '@/components/sections/TeachingLearningLoopSection/TeachingLearningLoopSection';
-import TechnicalArchitectureSection from '@/components/sections/TechnicalArchitectureSection/TechnicalArchitectureSection';
-import ModelAndSubjectCatalogSection from '@/components/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection';
+import HeroSection from '@/components/home/sections/HeroSection/HeroSection';
+import HeroFeaturesSection from '@/components/home/sections/HeroFeaturesSection/HeroFeaturesSection';
+import QuickExperienceSection from '@/components/home/sections/QuickExperienceSection/QuickExperienceSection';
+import EduSparkScenariosSection from '@/components/home/sections/EduSparkScenariosSection/EduSparkScenariosSection';
+import CoreTechnologySection from '@/components/home/sections/CoreTechnologySection/CoreTechnologySection';
+import PlatformAdvantagesSection from '@/components/home/sections/PlatformAdvantagesSection/PlatformAdvantagesSection';
+import TeachingLearningLoopSection from '@/components/home/sections/TeachingLearningLoopSection/TeachingLearningLoopSection';
+import TechnicalArchitectureSection from '@/components/home/sections/TechnicalArchitectureSection/TechnicalArchitectureSection';
+import ModelAndSubjectCatalogSection from '@/components/home/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection';
 
 // 小组件 (Widgets)
 import CourseAssistantWidget from '@/components/widgets/CourseAssistantWidget/CourseAssistantWidget'; // 引入 CourseAssistantWidget

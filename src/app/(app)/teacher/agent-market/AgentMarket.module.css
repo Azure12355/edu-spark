@@ -1,0 +1,22 @@
+.pageContainer {
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+  }
+  
+  .pageHeader {
+    margin-bottom: 24px;
+  }
+  
+  .filterBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .agentGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
