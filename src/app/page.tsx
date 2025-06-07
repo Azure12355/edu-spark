@@ -12,7 +12,7 @@ import HeroSection from '@/components/sections/HeroSection/HeroSection';
 import HeroFeaturesSection from '@/components/sections/HeroFeaturesSection/HeroFeaturesSection';
 import QuickExperienceSection from '@/components/sections/QuickExperienceSection/QuickExperienceSection';
 import EduSparkScenariosSection from '@/components/sections/EduSparkScenariosSection/EduSparkScenariosSection';
-import SystemCapacitySection from '@/components/sections/SystemCapacitySection/SystemCapacitySection';
+import CoreTechnologySection from '@/components/sections/CoreTechnologySection/CoreTechnologySection';
 import CapabilitySupportSection from '@/components/sections/CapabilitySupportSection/CapabilitySupportSection';
 import FullLifecycleSecuritySection from '@/components/sections/FullLifecycleSecuritySection/FullLifecycleSecuritySection';
 import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
@@ -46,7 +46,7 @@ export default function HomePage() {
         <HeroFeaturesSection />
         <QuickExperienceSection />
         <EduSparkScenariosSection />
-        <SystemCapacitySection />
+        <CoreTechnologySection />
         <CapabilitySupportSection />
         <FullLifecycleSecuritySection />
         <ProductDiagramSection />

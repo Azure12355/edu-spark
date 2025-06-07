@@ -1,11 +1,11 @@
-// src/components/sections/SystemCapacitySection/SystemCapacitySection.tsx
+// src/components/sections/CoreTechnologySection/CoreTechnologySection.tsx
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from './SystemCapacitySection.module.css';
+import styles from './CoreTechnologySection.module.css';
 
-interface CapacityTab {
+interface TechTab {
   id: string;
   title: string;
   subtitle: string;
@@ -13,27 +13,27 @@ interface CapacityTab {
   imageAlt: string;
 }
 
-const capacityTabsData: CapacityTab[] = [
+const techTabsData: TechTab[] = [
   {
-    id: 'gpu',
-    title: '充沛GPU算力',
-    subtitle: '提供海量、高性能的GPU集群，支持万卡级别并行训练，加速大模型研发迭代。',
-    imageSrc: '/images/SystemCapacitySection/CPU算力.jpg', // 替换为对应图片
-    imageAlt: '充沛GPU算力图示',
+    id: 'knowledge-understanding',
+    title: '多维知识理解',
+    subtitle: '基于深度语义分析，精准解析课程大纲、本地知识库与学生提问，构建全面的学科知识图谱。',
+    imageSrc: '/images/SystemCapacitySection/CPU算力.jpg', // 占位图，应替换为知识图谱或数据处理相关图片
+    imageAlt: '多维知识理解技术图示',
   },
   {
-    id: 'throughput',
-    title: '超高吞吐能力',
-    subtitle: '具备强大数据吞吐，优化网络与存储架构，保障业务繁忙时仍畅行无阻。',
-    imageSrc: '/images/SystemCapacitySection/吞吐量.jpg', // 替换为对应图片
-    imageAlt: '超高吞吐能力图示',
+    id: 'dynamic-generation',
+    title: '动态内容生成',
+    subtitle: '结合教学目标与学生学情，动态生成个性化的练习题、教学案例与纠错建议，实现千人千面的自适应学习。',
+    imageSrc: '/images/SystemCapacitySection/吞吐量.jpg', // 占位图，应替换为个性化学习路径或动态内容生成图片
+    imageAlt: '动态内容生成技术图示',
   },
   {
-    id: 'scheduling',
-    title: '极致调度能力',
-    subtitle: '灵活配置GPU算力资源，智能任务调度与弹性伸缩，精准应对业务高峰。',
-    imageSrc: '/images/SystemCapacitySection/极致调度.jpg', // 替换为对应图片
-    imageAlt: '极致调度能力图示',
+    id: 'learning-analytics',
+    title: '大规模学情分析',
+    subtitle: '运用自动化评估技术，高效处理海量练习数据，深度挖掘学生知识点掌握情况，为教学优化提供数据支撑。',
+    imageSrc: '/images/SystemCapacitySection/极致调度.jpg', // 占位图，应替换为数据看板或分析图表图片
+    imageAlt: '大规模学情分析技术图示',
   },
 ];
 
@@ -60,10 +60,10 @@ const contentVariants = {
 };
 
 
-const SystemCapacitySection: React.FC = () => {
-  const [activeTabId, setActiveTabId] = useState<string>(capacityTabsData[0].id);
+const CoreTechnologySection: React.FC = () => {
+  const [activeTabId, setActiveTabId] = useState<string>(techTabsData[0].id);
 
-  const activeTabData = capacityTabsData.find(tab => tab.id === activeTabId) || capacityTabsData[0];
+  const activeTabData = techTabsData.find(tab => tab.id === activeTabId) || techTabsData[0];
 
   return (
     <motion.section
@@ -78,20 +78,20 @@ const SystemCapacitySection: React.FC = () => {
           className={`section-title-global text-center ${styles.mainSectionTitle}`}
           variants={titleMainVariants}
         >
-          强大系统承载力，保障大模型落地
+          核心技术架构，保障智能教学体验
         </motion.h2>
         <motion.p
           className={`text-center ${styles.videoLink}`}
-          variants={titleMainVariants} // 可以复用标题动画
-          custom={0.1} // 动画延迟
+          variants={titleMainVariants}
+          custom={0.1}
         >
-          <a href="#" className="link-arrow">完整视频介绍 <i className="fas fa-chevron-right"></i></a>
+          <a href="#" className="link-arrow">查看技术白皮书 <i className="fas fa-chevron-right"></i></a>
         </motion.p>
 
         <div className={styles.capacityContent}>
           {/* Left Column: Tabs */}
           <motion.div className={styles.capacityTabsNav} variants={{ visible: { transition: { staggerChildren: 0.1 }}}}>
-            {capacityTabsData.map((tab, index) => (
+            {techTabsData.map((tab) => (
               <motion.button
                 key={tab.id}
                 className={`${styles.tabNavItem} ${activeTabId === tab.id ? styles.active : ''}`}
@@ -102,7 +102,7 @@ const SystemCapacitySection: React.FC = () => {
               >
                 {tab.title}
                 {activeTabId === tab.id && (
-                  <motion.div className={styles.activeTabLine} layoutId="activeCapacityTabLine" />
+                  <motion.div className={styles.activeTabLine} layoutId="activeTechTabLine" />
                 )}
               </motion.button>
             ))}
@@ -112,7 +112,7 @@ const SystemCapacitySection: React.FC = () => {
           <div className={styles.capacityTabContent}>
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeTabData.id} // Key change triggers AnimatePresence
+                key={activeTabData.id}
                 className={styles.tabContentInner}
                 variants={contentVariants}
                 initial="initial"
@@ -124,7 +124,7 @@ const SystemCapacitySection: React.FC = () => {
                   <Image
                     src={activeTabData.imageSrc}
                     alt={activeTabData.imageAlt}
-                    width={520} // 统一图片尺寸
+                    width={520}
                     height={380}
                     className={styles.capacityImage}
                     priority={activeTabData.id === activeTabId}
@@ -139,4 +139,4 @@ const SystemCapacitySection: React.FC = () => {
   );
 };
 
-export default SystemCapacitySection;
+export default CoreTechnologySection;
