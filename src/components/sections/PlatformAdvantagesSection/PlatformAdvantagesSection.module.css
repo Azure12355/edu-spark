@@ -1,5 +1,7 @@
-/* src/components/sections/CapabilitySupportSection/CapabilitySupportSection.module.css */
-
+/* src/components/sections/PlatformAdvantagesSection/PlatformAdvantagesSection.module.css */
+.platformAdvantagesSection {
+    background-color: #F9FAFB; /* 使用一个非常浅的灰色背景 */
+}
 
 .capabilityCards {
     display: grid;
@@ -15,7 +17,14 @@
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.capabilityCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 82, 255, 0.08);
+}
+
 .cardImageContainer {
     width: 100%;
     margin-bottom: 15px;
@@ -25,7 +34,7 @@
 .cardImage {
     width: 100%;
     height: auto; /* Maintain aspect ratio */
-    max-height: 120px; /* As per original CSS */
+    max-height: 120px;
     object-fit: cover;
     display: block;
 }
@@ -41,7 +50,7 @@
     margin-bottom: 15px;
     line-height: 1.6;
     flex-grow: 1; /* Make p take available space to align ul at bottom */
-    min-height: 60px; /* As per original CSS */
+    min-height: 60px;
 }
 .capabilityCard ul {
     list-style: none;
