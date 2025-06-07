@@ -2,7 +2,6 @@
 .heroFeaturesSection {
   padding: 60px 0; /* 增加上下内边距，使其更舒展 */
   background: linear-gradient(180deg, var(--white) 0%, #f8faff 100%); /* 非常淡的背景渐变 */
-  /* border-bottom: 1px solid #eef2f8; */ /* 底部可以不要分割线，或用更淡的 */
 }
 
 .featuresContainer {
@@ -14,7 +13,6 @@
 /* 用于Framer Motion的包裹层，不直接应用卡片样式 */
 .cardMotionWrapper {
   /* 可以留空，或者只设置 display: flex 如果需要 */
-  /* display: flex; */
 }
 
 .featureCard {
@@ -53,13 +51,10 @@
   font-weight: 600; /* 加粗 */
   margin: 0;
   line-height: 1.3;
-  /* 科技感渐变文字 */
-  /* background: linear-gradient(90deg, #2a52c8 0%, #5a85e8 100%); */
   background: var(--primary-blue);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* text-fill-color: transparent; */
   display: inline-block; /* 需要display:inline-block或block使渐变生效 */
 }
 
@@ -111,12 +106,10 @@
   align-items: center;
   padding: 6px 0; /* 给链接一点垂直空间，方便点击 */
   position: relative; /* 用于伪元素下划线 */
-  /* 链接文字也来点渐变 */
   background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3f80ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* text-fill-color: transparent; */
 }
 /* 优雅的下划线效果 */
 .featureLink::after {
@@ -139,7 +132,6 @@
   font-size: 13px; /* 箭头大小 */
   margin-left: 8px; /* 箭头与文字间距 */
   transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-  /* 箭头颜色跟随文字渐变（通过继承实现） */
   color: var(--ve-primary-blue); /* 提供一个基础颜色以防渐变不生效 */
 }
 
@@ -174,7 +166,7 @@
     font-size: 18px;
   }
   .featureDescription {
-    font-size: 13px;
+    font-s_size: 13px;
     margin-bottom: 16px;
   }
   .featureLink {

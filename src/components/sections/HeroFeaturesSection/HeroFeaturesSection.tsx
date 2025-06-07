@@ -11,37 +11,38 @@ interface FeatureItem {
   linkText: string;
   href: string;
   tag?: string;
-  tagType?: 'hot' | 'new' | 'default'; // 新增 tagType 用于区分标签样式
+  tagType?: 'hot' | 'new' | 'default';
 }
 
+// 适配 EduSpark 的功能卡片数据
 const features: FeatureItem[] = [
   {
-    title: "大模型特惠",
-    description: "限量秒杀！19.9元起1000万tokens",
-    linkText: "立即抢购",
-    href: "#",
-    tag: "限时特惠",
+    title: "教师智能备课",
+    description: "上传课程大纲，一键生成包含知识点、实训任务的完整教案。",
+    linkText: "开始备课",
+    href: "/teacher/dashboard", // 假设的教师端链接
+    tag: "效率提升",
     tagType: "hot"
   },
   {
-    title: "定价与计费",
-    description: "各模型定价与计费方式",
-    linkText: "了解详情",
-    href: "#"
-  },
-  {
-    title: "体验中心",
-    description: "DeepSeek-R1/0528 上线",
-    linkText: "免费体验",
-    href: "#",
-    tag: "上新",
+    title: "学生在线练习",
+    description: "选择学科，进行实时练习与评测，获取即时反馈和纠错指导。",
+    linkText: "开始学习",
+    href: "/student/dashboard", // 假设的学生端链接
+    tag: "个性化",
     tagType: "new"
   },
   {
-    title: "API文档",
-    description: "快速入门与调用",
+    title: "课程资源广场",
+    description: "探索由AI和教师社区共同创建的丰富课程、题库和教学资源。",
+    linkText: "浏览课程",
+    href: "/courses" // 假设的课程广场链接
+  },
+  {
+    title: "使用指南与文档",
+    description: "查看详细的功能介绍和API文档，快速上手 EduSpark 的所有功能。",
     linkText: "查看文档",
-    href: "#"
+    href: "/docs" // 假设的文档链接
   }
 ];
 
