@@ -11,7 +11,7 @@
     flex: 1; /* 关键：让主区域占据 Header 下方的所有剩余空间 */
     display: flex;
     gap: 16px;
-    padding: 16px 24px 24px; /* 对应之前的 margin */
+    padding: 10px 10px 10px; /* 对应之前的 margin */
     min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
   }
   
