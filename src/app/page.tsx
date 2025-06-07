@@ -15,7 +15,7 @@ import EduSparkScenariosSection from '@/components/sections/EduSparkScenariosSec
 import CoreTechnologySection from '@/components/sections/CoreTechnologySection/CoreTechnologySection';
 import PlatformAdvantagesSection from '@/components/sections/PlatformAdvantagesSection/PlatformAdvantagesSection';
 import TeachingLearningLoopSection from '@/components/sections/TeachingLearningLoopSection/TeachingLearningLoopSection';
-import ProductDiagramSection from '@/components/sections/ProductDiagramSection/ProductDiagramSection';
+import TechnicalArchitectureSection from '@/components/sections/TechnicalArchitectureSection/TechnicalArchitectureSection';
 import PricingSection from '@/components/sections/PricingSection/PricingSection';
 
 // 小组件 (Widgets)
@@ -49,7 +49,7 @@ export default function HomePage() {
         <CoreTechnologySection />
         <PlatformAdvantagesSection />
         <TeachingLearningLoopSection />
-        <ProductDiagramSection />
+        <TechnicalArchitectureSection />
         <PricingSection />
         {/* 
           您可以继续在这里添加网站的其他 Section 组件。

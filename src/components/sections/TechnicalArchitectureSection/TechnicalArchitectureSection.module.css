@@ -1,0 +1,325 @@
+/* src/components/sections/TechnicalArchitectureSection/TechnicalArchitectureSection.module.css */
+.technicalArchitectureSection {
+  min-height: calc(100vh - var(--ve-header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(180deg, #F8FAFD 0%, #FFFFFF 100%);
+  padding: 60px 0;
+  overflow: hidden;
+}
+.fullHeightContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.mainSectionTitle {
+  margin-bottom: 40px;
+  font-size: 30px;
+  color: #1D2129;
+  background: #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 32px;
+  background: var(--white);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(90, 110, 170, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.diagramContainer {
+  flex: 2.3;
+  background: linear-gradient(145deg, #F7F9FC 0%, #EFF3F9 100%);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #E8EDF5;
+}
+
+.diagramRow {
+  margin-bottom: 20px;
+  position: relative;
+}
+.diagramRow:last-child {
+  margin-bottom: 0;
+}
+
+.rowLabel {
+  font-size: 12px;
+  color: #86909C;
+  margin-bottom: 8px;
+  padding-left: 2px;
+  font-weight: 500;
+}
+
+.rowContent {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.diagramBox {
+  background-color: var(--white);
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(100, 120, 180, 0.05);
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid #E0E8F3;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.interactiveBox:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 5px 10px rgba(0, 82, 255, 0.08);
+  border-color: #AFC8FF;
+}
+
+.customIcon {
+  margin-right: 6px;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 新增的图标颜色 */
+.iconNextJs { color: #000000; }
+.iconSpringBoot { color: #6DB33F; }
+.iconJava { color: #f89820; }
+.iconAlibaba { color: #FF6A00; }
+.iconDocker { color: #2496ED; }
+.iconNginx { color: #009639; }
+.iconPostgres { color: #336791; }
+
+.largeBox {
+  flex: 1;
+  padding: 14px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.fullWidthBox {
+  width: 100%;
+  justify-content: center;
+}
+
+.platformFeaturesRow .rowContent {
+  justify-content: flex-start;
+  gap: 8px;
+}
+.featureBox {
+  flex-grow: 1;
+  flex-basis: auto;
+  min-width: 80px;
+  padding: 8px 10px;
+  font-size: 12px;
+  background-color: #F9FBFE;
+}
+
+.baseModelCategory {
+  flex: 1;
+  padding: 14px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.thirdPartyCategoryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+}
+.thirdPartyTitle {
+  font-weight: 500;
+  font-size: 14px;
+}
+.thirdPartyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+.thirdPartyItem {
+  background-color: #F0F3F8;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  text-align: center;
+  color: #5A6881;
+}
+
+/* Info Panel Styles */
+.infoPanel {
+  flex: 1;
+  background-color: var(--white);
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(100, 120, 180, 0.07);
+  border: 1px solid #F0F3F8;
+}
+
+.panelTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, #2a51c7 0%, #4058b1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.panelDescription {
+  font-size: 13px;
+  color: #5A6881;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.panelSubtitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #344054;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.panelSubtitle:first-of-type {
+  margin-top: 0;
+}
+
+.advantagesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.advantagesList li {
+  font-size: 13px;
+  color: #5A6881;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+.advantagesList li i {
+  color: var(--ve-primary-blue);
+  margin-right: 8px;
+  font-size: 15px;
+}
+
+.consultButton {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(90deg, var(--ve-primary-blue) 0%, #3A79FF 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 24px;
+  box-shadow: 0 4px 10px rgba(22, 100, 255, 0.18);
+}
+.consultButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(22, 100, 255, 0.25);
+}
+
+.relatedCapabilities {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.capabilityItem {
+  background-color: #F9FBFE;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, border-left-color 0.2s ease;
+  border: 1px solid #F0F3F8;
+  border-left: 3px solid transparent;
+}
+.interactiveItem:hover {
+  background-color: #EFF5FF;
+  transform: translateX(3px);
+  border-left-color: var(--ve-primary-blue);
+  padding-left: 9px;
+}
+.capabilityItem .customIcon {
+  font-size: 15px;
+  margin-right: 8px;
+}
+
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .technicalArchitectureSection {
+    min-height: auto;
+    padding: 60px 15px;
+  }
+  .contentWrapper {
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+  }
+  .diagramContainer, .infoPanel {
+    padding: 20px;
+  }
+  .platformFeaturesRow .rowContent {
+      justify-content: space-around;
+  }
+  .featureBox {
+    flex-basis: calc(25% - 8px);
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainSectionTitle {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+  .contentWrapper { padding: 16px; }
+  .diagramContainer, .infoPanel { padding: 16px; }
+
+  .diagramRow.platformFeaturesRow .rowContent {
+    justify-content: space-around;
+  }
+  .featureBox {
+    flex-basis: calc(33.333% - 6px);
+  }
+  .largeBox, .baseModelCategory {
+    width: 100%;
+    flex: none;
+  }
+  .thirdPartyGrid {
+    grid-template-columns: 1fr;
+  }
+  .panelTitle { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+    .featureBox {
+        flex-basis: calc(50% - 4px);
+    }
+}
