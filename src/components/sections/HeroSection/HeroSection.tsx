@@ -64,8 +64,8 @@ const HeroSection: React.FC = () => {
             <span className={styles.newTag}>NEW</span>
             <span className={styles.newAnnouncement}>Prompt优解限时免费60天 <i className="fas fa-chevron-right"></i></span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className={styles.mainTitle}>EduSpark</motion.h1>
-          <motion.h2 variants={itemVariants} className={styles.subTitle}>Agent助力教育行业</motion.h2>
+          <motion.h1 variants={itemVariants} className={styles.mainTitle}>火山引擎</motion.h1>
+          <motion.h2 variants={itemVariants} className={styles.subTitle}>一站式大模型开发平台</motion.h2>
           <motion.p variants={itemVariants} className={styles.description}>
             模型能力拓展 | 专业算法服务 | 安全可信会话无痕 | 高并发算力保障
           </motion.p>
