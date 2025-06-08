@@ -12,6 +12,8 @@ import {
   HddOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
+  PlusOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
 import { DEFAULT_AGENT_ID } from './agentExperienceData'; // 引入默认ID
 
@@ -70,6 +72,31 @@ export const teacherSiderNavItems: TeacherSiderItem[] = [
         label: '我的教案库',
         icon: React.createElement(HddOutlined),
         href: '/teacher/lesson-prep/list',
+      },
+    ],
+  },
+  {
+    key: 'course-center',
+    label: '课程中心',
+    icon: React.createElement(BookOutlined),
+    children: [
+      {
+        key: 'my-courses',
+        label: '加入的课程',
+        icon: React.createElement(TeamOutlined),
+        href: '/teacher/course-center/my-courses',
+      },
+      {
+        key: 'created-courses',
+        label: '创建的课程',
+        icon: React.createElement(BookOutlined),
+        href: '/teacher/course-center/created-courses',
+      },
+      {
+        key: 'create-course',
+        label: '创建新课程',
+        icon: React.createElement(PlusOutlined),
+        href: '/teacher/course-center/create-courses',
       },
     ],
   },
