@@ -1,5 +1,5 @@
 // src/app/teacher/agent-experience/[agentId]/page.tsx
-// 这个文件现在是服务器组件，所以移除了 "use client"
+// 这个文件是服务器组件，所以移除了 "use client"
 
 import React from 'react';
 import { notFound } from 'next/navigation';
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
   }));
 }
 
-const AgentExperiencePage: React.FC<AgentExperiencePageProps> = ({ params }) => {
+// 关键改动：将组件声明为 async，这样就可以在内部安全地访问 params
+const AgentExperiencePage: React.FC<AgentExperiencePageProps> = async ({ params }) => {
   const { agentId } = params;
   const currentAgent = agentInfos.find((agent) => agent.id === agentId);
 

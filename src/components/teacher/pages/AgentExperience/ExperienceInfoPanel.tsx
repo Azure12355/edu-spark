@@ -1,46 +1,59 @@
 // src/components/teacher/pages/AgentExperience/ExperienceInfoPanel.tsx
 "use client";
 import React from 'react';
-import { Button, Typography, Space, Tag } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
+import { Button, Typography, Space, Tag, Tooltip } from 'antd';
+import { CopyOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { AgentInfo } from '@/lib/agentExperienceData';
 import styles from './ExperienceInfoPanel.module.css';
 
 const { Title, Text } = Typography;
 
-interface ExperienceInfoPanelProps {
-  agent: AgentInfo;
+interface InfoRowProps {
+    label: string;
+    children: React.ReactNode;
+    isCollapsed: boolean;
 }
-
-const InfoRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
+const InfoRow: React.FC<InfoRowProps> = ({ label, children, isCollapsed }) => (
   <div className={styles.infoRow}>
     <Text type="secondary" className={styles.infoLabel}>{label}</Text>
-    <div className={styles.infoValue}>{children}</div>
+    {!isCollapsed && <div className={styles.infoValue}>{children}</div>}
   </div>
 );
 
-const ExperienceInfoPanel: React.FC<ExperienceInfoPanelProps> = ({ agent }) => {
+interface ExperienceInfoPanelProps {
+  agent: AgentInfo;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
+}
+
+const ExperienceInfoPanel: React.FC<ExperienceInfoPanelProps> = ({ agent, isCollapsed, onToggleCollapse }) => {
   return (
-    <aside className={styles.panel}>
+    <aside className={`${styles.panel} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.panelHeader}>
-        <Title level={5} style={{ margin: 0 }}>基本信息</Title>
-        <Button icon={<CopyOutlined />}>复制</Button>
+        {!isCollapsed && <Title level={5} style={{ margin: 0 }}>基本信息</Title>}
+        <Button 
+            className={styles.collapseButton}
+            icon={isCollapsed ? <LeftOutlined /> : <RightOutlined />} 
+            onClick={onToggleCollapse} 
+        />
       </div>
 
       <div className={styles.panelContent}>
-        <InfoRow label="应用ID">
-          <Text copyable={{ tooltips: ['复制', '已复制'] }}>{`bot-${agent.id}`}</Text>
+        <InfoRow label="ID" isCollapsed={isCollapsed}>
+            <Tooltip title={agent.id} placement="left">
+                <Text copyable={{ tooltips: ['复制', '已复制'] }}>{`bot-...${agent.id.slice(-6)}`}</Text>
+            </Tooltip>
         </InfoRow>
-        <InfoRow label="贡献者">
+        <InfoRow label="贡献者" isCollapsed={isCollapsed}>
           <Text>{agent.contributor}</Text>
         </InfoRow>
-        <InfoRow label="更新时间">
+        <InfoRow label="更新时间" isCollapsed={isCollapsed}>
           <Text>{agent.updateTime}</Text>
         </InfoRow>
-        <InfoRow label="使用模型">
+        <InfoRow label="使用模型" isCollapsed={isCollapsed}>
           <Tag color="blue">{agent.model}</Tag>
         </InfoRow>
-        <InfoRow label="标签">
+        <InfoRow label="标签" isCollapsed={isCollapsed}>
           <Space size={[0, 8]} wrap>
             {agent.tags.map(tag => (
               <Tag key={tag.text} color={tag.type}>{tag.text}</Tag>
@@ -48,6 +61,12 @@ const ExperienceInfoPanel: React.FC<ExperienceInfoPanelProps> = ({ agent }) => {
           </Space>
         </InfoRow>
       </div>
+
+      {!isCollapsed && (
+        <div className={styles.panelFooter}>
+            <Button icon={<CopyOutlined />} block>复制智能体</Button>
+        </div>
+      )}
     </aside>
   );
 };

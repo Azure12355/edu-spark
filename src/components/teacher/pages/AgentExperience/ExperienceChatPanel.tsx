@@ -9,38 +9,23 @@ import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mermaid from 'mermaid';
 import { Button } from 'antd';
 import { PaperClipOutlined, SendOutlined } from '@ant-design/icons';
-import type { AgentInfo } from '@/lib/agentExperienceData';
+import type { AgentInfo, Message } from '@/lib/agentExperienceData';
 import styles from './ExperienceChatPanel.module.css';
 import 'github-markdown-css/github-markdown-light.css';
 
-// 关键：复用 CourseAssistantWidget 的 Message 结构
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  thinkingText?: string | null;
-  isThinking?: boolean;
-  isComplete?: boolean;
-}
-
 interface ExperienceChatPanelProps {
   agent: AgentInfo;
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
-const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messages, setMessages }) => {
   const [inputValue, setInputValue] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    setMessages([{ id: 'init-assistant', role: 'assistant', content: agent.welcomeMessage, isComplete: true }]);
-    setInputValue('');
-    inputRef.current?.focus();
-  }, [agent]);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -56,7 +41,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
       console.error("Mermaid rendering error:", e);
     }
   }, [messages]);
-  
+
   const handleSubmit = async (e?: FormEvent) => {
     if (e) e.preventDefault();
     const userMessageContent = inputValue.trim();
@@ -73,14 +58,12 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
     ]);
     setInputValue('');
 
-    const apiMessagesHistory = messages.slice(1) // Exclude initial welcome message
+    const apiMessagesHistory = messages.slice(1)
       .concat(newUserMessage)
       .filter(msg => msg.role === 'user' || (msg.role === 'assistant' && msg.isComplete))
       .map(({ role, content }) => ({ role, content }));
-    
-    // 模拟思考过程
+      //@ts-ignore
     apiMessagesHistory.unshift({ role: 'system', content: `You are the AI assistant "${agent.name}". Your description is: "${agent.description}". Respond to the user in a helpful and engaging manner, consistent with your persona.` });
-
 
     try {
       const response = await fetch('/api/chat', {
@@ -90,7 +73,6 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
       });
 
       if (!response.ok || !response.body) throw new Error('API request failed');
-
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let accumulatedContent = '';
@@ -98,10 +80,8 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split('\n\n');
-
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const jsonDataString = line.substring('data: '.length).trim();
@@ -113,11 +93,11 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
                 accumulatedContent += deltaContent;
                 setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: accumulatedContent, isThinking: true } : msg));
               }
-            } catch (error) { /* Ignore incomplete JSON */ }
+            } catch (error) { /* Ignore */ }
           }
         }
       }
-      
+
       const thinkStartTag = "<think>";
       const thinkEndTag = "</think>";
       let finalThinkingText: string | null = null;
@@ -125,7 +105,6 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
 
       const thinkStartIndex = accumulatedContent.indexOf(thinkStartTag);
       const thinkEndIndex = accumulatedContent.indexOf(thinkEndTag);
-      
       if (thinkStartIndex !== -1 && thinkEndIndex > thinkStartIndex) {
         finalThinkingText = accumulatedContent.substring(thinkStartIndex + thinkStartTag.length, thinkEndIndex).trim();
         finalDisplayText = (accumulatedContent.substring(0, thinkStartIndex) + accumulatedContent.substring(thinkEndIndex + thinkEndTag.length)).trim();
@@ -134,7 +113,6 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
       setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: finalDisplayText, thinkingText: finalThinkingText, isThinking: false, isComplete: true } : msg));
 
     } catch (error) {
-      console.error("Error handling stream:", error);
       setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
     } finally {
       setIsSending(false);
@@ -152,7 +130,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
   const toggleThinkingPanel = (messageId: string) => {
     setShowThinkingPanelId(prevId => (prevId === messageId ? null : messageId));
   };
-
+  
   return (
     <main className={styles.chatPanel}>
       <div className={styles.chatHeader}>
@@ -167,9 +145,11 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
       <div className={styles.chatBody} ref={chatBodyRef}>
         {messages.length === 1 && messages[0].id === 'init-assistant' ? (
              <div className={styles.welcomeScreen}>
-                <div className={styles.welcomeIcon}>{agent.icon}</div>
+                <div className={styles.welcomeIcon}>
+                  {agent.icon === '📄' ? <img src="/file.svg" alt="file icon" width="64"/> : agent.icon}
+                </div>
                 <h2 className={styles.welcomeTitle}>{agent.name}</h2>
-                <p className={styles.welcomeMessage}>{agent.welcomeMessage}</p>
+                <p className={styles.welcomeMessage}>{messages[0].content}</p>
                 <div className={styles.promptSuggestions}>
                     {agent.promptSuggestions.map((prompt, index) => (
                         <button key={index} className={styles.suggestionButton} onClick={() => handleQuickQuestion(prompt)}>

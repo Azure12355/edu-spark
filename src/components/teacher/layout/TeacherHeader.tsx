@@ -10,8 +10,18 @@ import styles from './TeacherHeader.module.css';
 const TeacherHeader: React.FC = () => {
   const pathname = usePathname();
 
-  // 根据当前路径确定选中的菜单项
-  const selectedKey = teacherHeaderNavItems.find(item => pathname.startsWith(item.href))?.key || 'workbench';
+  let selectedKey = 'workbench'; // 默认key
+
+  // 关键改动：更智能地判断当前选中的菜单项
+  if (pathname.startsWith('/teacher/agent-experience')) {
+    selectedKey = 'agentExperience';
+  } else {
+    // 使用之前的逻辑作为回退
+    const currentItem = teacherHeaderNavItems.find(item => pathname.startsWith(item.href));
+    if (currentItem) {
+      selectedKey = currentItem.key;
+    }
+  }
 
   const menuItems = teacherHeaderNavItems.map(item => ({
     key: item.key,
@@ -23,7 +33,6 @@ const TeacherHeader: React.FC = () => {
       <div className={styles.logo}>
         <Link href="/teacher/dashboard" style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/EduSpark-icon.png" alt="EduSpark Logo" style={{ height: 28, width: 28, marginRight: 8 }} />
-          {/* 修改 Logo 文本以符合项目名 */}
           <span className={styles.logoText}>EduSpark</span>
         </Link>
       </div>

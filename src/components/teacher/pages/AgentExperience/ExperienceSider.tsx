@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button, Typography, Collapse, Tooltip, Avatar } from 'antd';
-import { PlusOutlined, ClockCircleOutlined, AppstoreOutlined, FireOutlined, UserOutlined } from '@ant-design/icons';
+import { PlusOutlined, ClockCircleOutlined, AppstoreOutlined, FireOutlined, UserOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { AgentInfo, ConversationHistory } from '@/lib/agentExperienceData';
 import styles from './ExperienceSider.module.css';
 
@@ -14,14 +14,20 @@ interface ExperienceSiderProps {
   currentAgentId: string;
   agents: AgentInfo[];
   history: ConversationHistory[];
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
+  onLoadHistory: (historyId: string) => void;
 }
 
-const ExperienceSider: React.FC<ExperienceSiderProps> = ({ currentAgentId, agents, history }) => {
+const ExperienceSider: React.FC<ExperienceSiderProps> = ({ currentAgentId, agents, history, isCollapsed, onToggleCollapse, onLoadHistory }) => {
+  // 根据当前智能体过滤对话历史
+  const agentSpecificHistory = history.filter(h => h.agentId === currentAgentId);
+    
   return (
-    <aside className={styles.sider}>
+    <aside className={`${styles.sider} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.siderHeader}>
         <Button type="primary" icon={<PlusOutlined />} block>
-          创建新对话
+          {!isCollapsed && '创建新对话'}
         </Button>
       </div>
 
@@ -35,17 +41,18 @@ const ExperienceSider: React.FC<ExperienceSiderProps> = ({ currentAgentId, agent
           <Panel
             header={
               <div className={styles.panelHeader}>
-                <ClockCircleOutlined /> 最近对话
+                <ClockCircleOutlined /> {!isCollapsed && '最近对话'}
               </div>
             }
             key="recent"
+            collapsible={isCollapsed ? 'disabled' : undefined}
           >
             <div className={styles.historyList}>
-              {history.map((item) => (
+              {agentSpecificHistory.map((item) => (
                 <Tooltip key={item.id} title={item.title} placement="right">
-                  <Link href={`/teacher/agent-experience/${item.agentId}?hist=${item.id}`} className={styles.historyItem}>
-                    <Text ellipsis>{item.title}</Text>
-                  </Link>
+                  <div onClick={() => onLoadHistory(item.id)} className={styles.historyItem}>
+                    <Text ellipsis>{isCollapsed ? ' ' : item.title}</Text>
+                  </div>
                 </Tooltip>
               ))}
             </div>
@@ -54,39 +61,53 @@ const ExperienceSider: React.FC<ExperienceSiderProps> = ({ currentAgentId, agent
           <Panel
             header={
               <div className={styles.panelHeader}>
-                <AppstoreOutlined /> 应用广场
+                <AppstoreOutlined /> {!isCollapsed && '应用广场'}
               </div>
             }
             key="apps"
+            collapsible={isCollapsed ? 'disabled' : undefined}
           >
             <div className={styles.agentList}>
               {agents.map((agent) => (
-                <Link
-                  key={agent.id}
-                  href={`/teacher/agent-experience/${agent.id}`}
-                  className={`${styles.agentItem} ${currentAgentId === agent.id ? styles.active : ''}`}
-                >
-                  <span className={styles.agentIcon}>{agent.icon}</span>
-                  <div className={styles.agentInfo}>
-                    <Text ellipsis className={styles.agentName}>
-                      {agent.name}
-                      {agent.tags.some(t => t.text.includes('多模态')) && <FireOutlined style={{ color: '#FAAD14', marginLeft: 4 }}/>}
-                    </Text>
-                  </div>
-                </Link>
+                <Tooltip key={agent.id} title={agent.name} placement="right">
+                    <Link
+                    href={`/teacher/agent-experience/${agent.id}`}
+                    className={`${styles.agentItem} ${currentAgentId === agent.id ? styles.active : ''}`}
+                    >
+                    <span className={styles.agentIcon}>{agent.icon}</span>
+                    {!isCollapsed && (
+                        <div className={styles.agentInfo}>
+                            <Text ellipsis className={styles.agentName}>
+                                {agent.name}
+                                {agent.tags.some(t => t.text.includes('多模态')) && <FireOutlined style={{ color: '#FAAD14', marginLeft: 4 }}/>}
+                            </Text>
+                        </div>
+                    )}
+                    </Link>
+                </Tooltip>
               ))}
-              <Link href="/teacher/agent-square" className={styles.moreAppsLink}>
-                更多开放应用...
-              </Link>
+              {!isCollapsed && (
+                <Link href="/teacher/agent-square" className={styles.moreAppsLink}>
+                    更多开放应用...
+                </Link>
+              )}
             </div>
           </Panel>
         </Collapse>
       </div>
       
-      {/* 新增底部用户区域 */}
       <div className={styles.siderFooter}>
-        <Avatar icon={<UserOutlined />} />
-        <Text style={{ fontWeight: 500 }}>王老师</Text>
+        {!isCollapsed && (
+            <div className={styles.userInfo}>
+                <Avatar icon={<UserOutlined />} />
+                <Text style={{ fontWeight: 500 }}>王老师</Text>
+            </div>
+        )}
+        <Button 
+            className={styles.collapseButton}
+            icon={isCollapsed ? <RightOutlined /> : <LeftOutlined />} 
+            onClick={onToggleCollapse}
+        />
       </div>
     </aside>
   );
