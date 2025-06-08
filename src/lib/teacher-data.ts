@@ -43,7 +43,7 @@ export interface Agent {
       releaseDate: '2024-11-06',
     },
     {
-      id: '1840...',
+      id: '1812...',
       author: '智谱清言',
       avatarColor: '#FAAD14',
       avatarText: '景',
@@ -53,7 +53,7 @@ export interface Agent {
       releaseDate: '2025-04-01',
     },
     {
-      id: '1457...',
+      id: '1237...',
       author: '智谱清言',
       avatarColor: '#52C41A',
       avatarText: '市',
@@ -63,7 +63,7 @@ export interface Agent {
       releaseDate: '2024-11-06',
     },
     {
-      id: '1f40...',
+      id: '1953...',
       author: '智谱清言',
       avatarColor: '#FA8C16',
       avatarText: '作',
@@ -73,7 +73,7 @@ export interface Agent {
       releaseDate: '2025-04-01',
     },
     {
-      id: '1833...',
+      id: '1693...',
       author: '智谱清言',
       avatarColor: '#1677FF',
       avatarText: '教',
@@ -83,7 +83,7 @@ export interface Agent {
       releaseDate: '2025-04-01',
     },
     {
-      id: '1840...',
+      id: '19320...',
       author: '智谱清言',
       avatarColor: '#531DAB',
       avatarText: '翻',
@@ -93,7 +93,7 @@ export interface Agent {
       releaseDate: '2024-11-06',
     },
       {
-      id: '6594...',
+      id: '65394...',
       author: '智谱清言',
       avatarColor: '#000000',
       avatarText: 'C',
