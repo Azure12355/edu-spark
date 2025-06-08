@@ -1,0 +1,22 @@
+/* src/components/teacher/pages/AgentExperience/AdvancedInput/FunctionToolbar.module.css */
+.toolbarWrapper {
+    margin-bottom: 12px;
+    padding: 0 12px; /* 给左右留出一点空间 */
+  }
+  
+  .funcButton {
+    background-color: var(--white);
+    border: 1px solid #E5E6EB;
+    color: var(--text-medium);
+    font-weight: 500;
+    border-radius: 99px; /* 圆角胶囊形状 */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .funcButton:hover {
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+    box-shadow: 0 2px 8px rgba(0, 82, 255, 0.08);
+    transform: translateY(-1px);
+  }

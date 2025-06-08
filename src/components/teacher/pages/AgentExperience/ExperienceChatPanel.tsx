@@ -7,11 +7,13 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mermaid from 'mermaid';
-import { Button } from 'antd';
-import { PaperClipOutlined, SendOutlined } from '@ant-design/icons';
 import type { AgentInfo, Message } from '@/lib/agentExperienceData';
 import styles from './ExperienceChatPanel.module.css';
 import 'github-markdown-css/github-markdown-light.css';
+
+// 引入新组件
+import FunctionToolbar from './AdvancedInput/FunctionToolbar';
+import AdvancedInput from './AdvancedInput/AdvancedInput';
 
 interface ExperienceChatPanelProps {
   agent: AgentInfo;
@@ -43,7 +45,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
   }, [messages]);
 
   const handleSubmit = async (e?: FormEvent) => {
-    if (e) e.preventDefault();
+    if(e) e.preventDefault(); // 支持从 form 提交
     const userMessageContent = inputValue.trim();
     if (!userMessageContent || isSending) return;
 
@@ -62,7 +64,6 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
       .concat(newUserMessage)
       .filter(msg => msg.role === 'user' || (msg.role === 'assistant' && msg.isComplete))
       .map(({ role, content }) => ({ role, content }));
-      //@ts-ignore
     apiMessagesHistory.unshift({ role: 'system', content: `You are the AI assistant "${agent.name}". Your description is: "${agent.description}". Respond to the user in a helpful and engaging manner, consistent with your persona.` });
 
     try {
@@ -116,6 +117,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
       setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
     } finally {
       setIsSending(false);
+      // @ts-ignore
       inputRef.current?.focus();
     }
   };
@@ -123,6 +125,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
   const handleQuickQuestion = (question: string) => {
     setInputValue(question);
     setTimeout(() => {
+       // @ts-ignore
       inputRef.current?.focus();
     }, 50);
   };
@@ -216,27 +219,18 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
             ))
         )}
       </div>
-      <div className={styles.inputWrapper}>
-        <form onSubmit={handleSubmit} className={styles.inputArea}>
-            <textarea
-                ref={inputRef}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="请输入问题，体验智能体能力"
-                rows={1}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit();
-                    }
-                }}
-                disabled={isSending}
-            />
-            <Button className={styles.attachButton} icon={<PaperClipOutlined />} />
-            <Button type="primary" htmlType="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()} icon={<SendOutlined />} />
-        </form>
+      
+      {/* 替换旧的 inputWrapper 为新组件 */}
+      <div className={styles.inputSection}>
+        <FunctionToolbar />
+        <AdvancedInput 
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            isSending={isSending}
+            onSubmit={handleSubmit}
+        />
         <p className={styles.footerInfo}>
-            该回复由AI生成，内容可能包含不准确信息，请谨慎辨别。
+            服务生成的所有内容均由人工智能模型生成，其生成内容的准确性和完整性无法保证，不代表我们的态度或观点
         </p>
       </div>
     </main>
