@@ -64,6 +64,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent, messag
       .concat(newUserMessage)
       .filter(msg => msg.role === 'user' || (msg.role === 'assistant' && msg.isComplete))
       .map(({ role, content }) => ({ role, content }));
+      //@ts-ignore
     apiMessagesHistory.unshift({ role: 'system', content: `You are the AI assistant "${agent.name}". Your description is: "${agent.description}". Respond to the user in a helpful and engaging manner, consistent with your persona.` });
 
     try {
