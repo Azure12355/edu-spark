@@ -13,6 +13,7 @@ import {
   QuestionCircleOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
+import { DEFAULT_AGENT_ID } from './agentExperienceData'; // 引入默认ID
 
 /**
  * 定义顶部导航栏菜单项的类型
@@ -39,11 +40,13 @@ export interface TeacherSiderItem {
 export const teacherHeaderNavItems: TeacherHeaderItem[] = [
   { key: 'workbench', label: '我的工作台', href: '/teacher/dashboard' },
   { key: 'agentSquare', label: '智能体广场', href: '/teacher/agent-square' },
-  { key: 'docs', label: '使用指南', href: '/docs' }, // 假设有一个文档页
-  { key: 'community', label: '交流社区', href: '/community' }, // 假设有一个社区页
+  // 新增智能体体验中心入口
+  { key: 'agentExperience', label: '智能体体验中心', href: `/teacher/agent-experience/${DEFAULT_AGENT_ID}` },
+  { key: 'docs', label: '使用指南', href: '/docs' },
+  { key: 'community', label: '交流社区', href: '/community' },
 ];
 
-// 侧边栏导航数据
+// 侧边栏导航数据 (保持不变)
 export const teacherSiderNavItems: TeacherSiderItem[] = [
   {
     key: 'dashboard',
@@ -114,6 +117,7 @@ export const teacherSiderNavItems: TeacherSiderItem[] = [
       },
     ],
   },
+
   {
     key: 'settings',
     label: '个人设置',

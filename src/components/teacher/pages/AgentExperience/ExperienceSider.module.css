@@ -1,0 +1,106 @@
+/* src/components/teacher/pages/AgentExperience/ExperienceSider.module.css */
+.sider {
+    width: 280px;
+    background-color: var(--white);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .siderHeader {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+  }
+  
+  .siderContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  
+  .siderContent::-webkit-scrollbar {
+    width: 6px;
+  }
+  .siderContent::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    border-radius: 3px;
+  }
+  .siderContent::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .collapseContainer :global(.ant-collapse-item) {
+    border-bottom: none !important;
+  }
+  
+  .collapseContainer :global(.ant-collapse-content-box) {
+    padding: 0 !important;
+  }
+  
+  .panelHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-medium);
+  }
+  
+  .historyList,
+  .agentList {
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px 8px 16px;
+  }
+  
+  .historyItem {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    color: var(--text-dark);
+  }
+  
+  .historyItem:hover {
+    background-color: var(--bg-light-gray);
+  }
+  
+  .agentItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    color: var(--text-dark);
+  }
+  .agentItem:hover {
+    background-color: var(--bg-light-gray);
+  }
+  .agentItem.active {
+    background-color: var(--light-blue);
+    font-weight: 500;
+  }
+  .agentIcon {
+    font-size: 18px;
+  }
+  .agentInfo {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  .agentName {
+    font-weight: 500;
+  }
+  .moreAppsLink {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--primary-blue);
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .moreAppsLink:hover {
+    background-color: var(--bg-light-gray);
+  }

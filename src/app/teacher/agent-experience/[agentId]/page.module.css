@@ -1,0 +1,8 @@
+/* src/app/teacher/agent-experience/[agentId]/page.module.css */
+.pageWrapper {
+    display: flex;
+    height: calc(100vh - 64px - 20px); /* 总视口高度 - Header高度 - 上下margin */
+    width: 100%;
+    background-color: var(--white);
+    overflow: hidden; /* 防止内部滚动条影响布局 */
+  }

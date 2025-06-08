@@ -1,0 +1,37 @@
+/* src/components/teacher/pages/AgentExperience/ExperienceInfoPanel.module.css */
+.panel {
+    width: 320px;
+    background-color: var(--white);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .panelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+  }
+  
+  .panelContent {
+    padding: 16px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .infoRow {
+    margin-bottom: 20px;
+  }
+  .infoRow:last-child {
+    margin-bottom: 0;
+  }
+  
+  .infoLabel {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
