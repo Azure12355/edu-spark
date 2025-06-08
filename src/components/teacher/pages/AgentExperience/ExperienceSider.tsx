@@ -2,8 +2,8 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import { Button, Typography, Collapse, Tooltip } from 'antd';
-import { PlusOutlined, ClockCircleOutlined, AppstoreOutlined, FireOutlined } from '@ant-design/icons';
+import { Button, Typography, Collapse, Tooltip, Avatar } from 'antd';
+import { PlusOutlined, ClockCircleOutlined, AppstoreOutlined, FireOutlined, UserOutlined } from '@ant-design/icons';
 import type { AgentInfo, ConversationHistory } from '@/lib/agentExperienceData';
 import styles from './ExperienceSider.module.css';
 
@@ -81,6 +81,12 @@ const ExperienceSider: React.FC<ExperienceSiderProps> = ({ currentAgentId, agent
             </div>
           </Panel>
         </Collapse>
+      </div>
+      
+      {/* 新增底部用户区域 */}
+      <div className={styles.siderFooter}>
+        <Avatar icon={<UserOutlined />} />
+        <Text style={{ fontWeight: 500 }}>王老师</Text>
       </div>
     </aside>
   );

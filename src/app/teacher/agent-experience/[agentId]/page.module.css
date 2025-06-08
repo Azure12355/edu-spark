@@ -1,8 +1,9 @@
 /* src/app/teacher/agent-experience/[agentId]/page.module.css */
 .pageWrapper {
     display: flex;
-    height: calc(100vh - 64px - 20px); /* 总视口高度 - Header高度 - 上下margin */
+    height: 100%; /* 占满父级 .contentWrapper 的全部高度 */
     width: 100%;
-    background-color: var(--white);
+    /* 应用一个优雅、微妙的背景渐变 */
+    background: linear-gradient(165deg, #fdfdff 0%, #f7f9fc 100%);
     overflow: hidden; /* 防止内部滚动条影响布局 */
   }

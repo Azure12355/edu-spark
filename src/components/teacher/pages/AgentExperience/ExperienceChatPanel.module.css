@@ -4,16 +4,24 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: var(--bg-light-gray);
+    background-color: transparent; /* 使用父级的渐变背景 */
     position: relative;
     min-width: 0;
   }
   
   .chatHeader {
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--white);
+    padding: 20px 32px;
     flex-shrink: 0;
+    position: relative;
+  }
+  .chatHeader::after { /* 现代感底部分割线 */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(229, 230, 235, 0) 0%, #E5E6EB 50%, rgba(229, 230, 235, 0) 100%);
   }
   
   .agentTitle {
@@ -23,11 +31,20 @@
   }
   .agentIcon {
       font-size: 32px;
+      background: var(--white);
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
   }
   .agentName {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
+      color: var(--text-dark);
   }
   .agentDesc {
       margin: 0;
@@ -38,51 +55,26 @@
   
   .chatBody {
     flex-grow: 1;
-    padding: 24px;
+    padding: 24px 32px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
   }
   
   .chatBody::-webkit-scrollbar { width: 6px; }
-  .chatBody::-webkit-scrollbar-thumb { background-color: #bdc5d1; border-radius: 3px; }
+  .chatBody::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
   .chatBody::-webkit-scrollbar-track { background-color: transparent; }
   
-  /* 欢迎界面样式 */
   .welcomeScreen {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding-bottom: 5%;
+      flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-bottom: 5%;
   }
-  .welcomeIcon {
-      font-size: 64px;
-      margin-bottom: 24px;
-  }
-  .welcomeTitle {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 8px;
-  }
-  .welcomeMessage {
-      max-width: 450px;
-      color: var(--text-medium);
-      margin-bottom: 32px;
-      line-height: 1.7;
-  }
-  .promptSuggestions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 500px;
-  }
+  .welcomeIcon { font-size: 64px; margin-bottom: 24px; }
+  .welcomeTitle { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+  .welcomeMessage { max-width: 450px; color: var(--text-medium); margin-bottom: 32px; line-height: 1.7; }
+  .promptSuggestions { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 500px; }
   .suggestionButton {
-      background-color: var(--white);
+      background-color: rgba(255, 255, 255, 0.8);
       border: 1px solid var(--border-color);
       padding: 12px 16px;
       border-radius: 8px;
@@ -90,97 +82,70 @@
       transition: all 0.2s;
       text-align: left;
       font-size: 14px;
+      backdrop-filter: blur(3px);
   }
-  .suggestionButton:hover {
-      border-color: var(--primary-blue);
-      box-shadow: 0 4px 10px rgba(0, 82, 255, 0.08);
-      transform: translateY(-2px);
-  }
+  .suggestionButton:hover { border-color: var(--primary-blue); box-shadow: 0 4px 10px rgba(0, 82, 255, 0.08); transform: translateY(-2px); }
   
-  /* 消息气泡样式 */
   .messageBubble {
     max-width: 80%;
     padding: 12px 18px;
-    border-radius: 12px;
+    border-radius: 16px;
     line-height: 1.6;
     font-size: 15px;
     word-wrap: break-word;
     background-color: var(--white);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
   }
   .messageBubble.user {
     background: var(--user-bubble-bg);
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
+    border: none;
   }
-  .messageBubble.assistant {
-    color: var(--text-secondary);
-    align-self: flex-start;
-    border: 1px solid var(--border-color);
-    border-bottom-left-radius: 4px;
-  }
+  .messageBubble.assistant { color: var(--text-secondary); align-self: flex-start; border-bottom-left-radius: 4px; }
   
-  .messageContent { /* 与 CourseAssistantWidget 样式兼容 */ }
-  .messageContent :global(.markdown-body) {
-    background-color: transparent !important;
-    color: inherit;
-    font-family: inherit;
-    font-size: 1em;
-    line-height: 1.65;
-    padding: 0;
+  .statusTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-medium);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    background-color: var(--bg-light-gray);
+    transition: background-color 0.2s;
   }
-  .messageContent :global(.markdown-body > *:last-child) { margin-bottom: 0 !important; }
+  .statusTag:hover { background-color: #e9ecef; }
+  .chevronOpen { transform: rotate(90deg); }
+  .statusTag i { transition: transform 0.2s; }
+  
+  .thinkingPanel {
+    background-color: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+  }
+  .thinkingPanel h4 { font-size: 14px; margin: 0 0 8px 0; font-weight: 600; }
+  .thinkingPanel pre { font-size: 13px; white-space: pre-wrap; word-break: break-all; margin: 0; }
+  
+  .messageContent {}
+  .messageContent :global(.markdown-body) { background-color: transparent !important; color: inherit; font-size: 1em; padding: 0; }
   .user .messageContent :global(.markdown-body) { color: #fff !important; }
-  .user .messageContent :global(.markdown-body h1),
-  .user .messageContent :global(.markdown-body h2),
-  .user .messageContent :global(.markdown-body h3) {
-      border-bottom-color: rgba(255,255,255,0.3);
-  }
+  .user .messageContent :global(.markdown-body a) { color: #c0d8ff !important; text-decoration: underline; }
   .messageContent :global(div[class*="language-"]) { border-radius: 6px; margin: 0.8em 0; font-size: 0.9em; }
   
   .typingIndicator { display: inline-block; width: 8px; height: 1.5em; background-color: currentColor; animation: blink 1s infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   
-  /* 输入区域 */
-  .inputWrapper {
-    flex-shrink: 0;
-    padding: 16px 24px;
-    background-color: var(--white);
-    border-top: 1px solid var(--border-color);
-  }
-  .inputArea {
-    display: flex;
-    gap: 12px;
-  }
-  .inputArea textarea {
-    flex-grow: 1;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-light-gray);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 14px;
-    resize: none;
-    max-height: 200px;
-    line-height: 1.6;
-    transition: all 0.2s ease;
-    font-family: inherit;
-  }
-  .inputArea textarea:focus {
-    outline: none;
-    border-color: var(--primary-blue);
-    background-color: var(--white);
-    box-shadow: 0 0 0 3px var(--focus-ring-color);
-  }
-  .attachButton {
-      flex-shrink: 0;
-  }
-  .sendButton {
-      flex-shrink: 0;
-  }
-  .footerInfo {
-    font-size: 12px;
-    color: var(--text-light);
-    text-align: center;
-    margin-top: 12px;
-  }
+  .inputWrapper { flex-shrink: 0; padding: 16px 32px; background-color: transparent; }
+  .inputArea { display: flex; gap: 12px; background: var(--white); padding: 8px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.07); border: 1px solid var(--border-color); }
+  .inputArea textarea { flex-grow: 1; border: none; background-color: transparent; padding: 10px; font-size: 15px; resize: none; max-height: 200px; line-height: 1.6; font-family: inherit; }
+  .inputArea textarea:focus { outline: none; }
+  .attachButton { flex-shrink: 0; background: transparent !important; border: none; color: var(--text-medium); font-size: 16px; }
+  .sendButton { flex-shrink: 0; }
+  .footerInfo { font-size: 12px; color: var(--text-light); text-align: center; margin-top: 12px; }

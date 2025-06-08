@@ -1,22 +1,26 @@
 // src/components/teacher/pages/AgentExperience/ExperienceChatPanel.tsx
 "use client";
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mermaid from 'mermaid';
 import { Button } from 'antd';
-import { PaperClipOutlined } from '@ant-design/icons';
+import { PaperClipOutlined, SendOutlined } from '@ant-design/icons';
 import type { AgentInfo } from '@/lib/agentExperienceData';
 import styles from './ExperienceChatPanel.module.css';
 import 'github-markdown-css/github-markdown-light.css';
 
+// 关键：复用 CourseAssistantWidget 的 Message 结构
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  thinkingText?: string | null;
+  isThinking?: boolean;
+  isComplete?: boolean;
 }
 
 interface ExperienceChatPanelProps {
@@ -27,48 +31,56 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
+
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // 当 agent 改变时，重置聊天界面
   useEffect(() => {
-    setMessages([{ id: 'init-assistant', role: 'assistant', content: agent.welcomeMessage }]);
+    setMessages([{ id: 'init-assistant', role: 'assistant', content: agent.welcomeMessage, isComplete: true }]);
     setInputValue('');
     inputRef.current?.focus();
   }, [agent]);
-  
-  // 滚动到底部
+
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
-  }, [messages]);
-  
-  // Mermaid 图表渲染
+  }, [messages, showThinkingPanelId]);
+
   useEffect(() => {
     mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
     try {
-        mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
-    } catch(e) { console.error("Mermaid rendering error:", e); }
+      mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+    } catch (e) {
+      console.error("Mermaid rendering error:", e);
+    }
   }, [messages]);
-
+  
   const handleSubmit = async (e?: FormEvent) => {
     if (e) e.preventDefault();
     const userMessageContent = inputValue.trim();
     if (!userMessageContent || isSending) return;
 
     setIsSending(true);
-    const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: userMessageContent };
-    
-    // 将用户消息和AI思考占位符一起更新
+    const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: userMessageContent, isComplete: true };
+    const assistantMsgId = `assistant-${Date.now()}`;
+
     setMessages(prev => [
       ...prev,
       newUserMessage,
-      { id: `assistant-${Date.now()}`, role: 'assistant', content: '' }
+      { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false }
     ]);
     setInputValue('');
 
-    const apiMessagesHistory = [...messages, newUserMessage].map(({ role, content }) => ({ role, content }));
+    const apiMessagesHistory = messages.slice(1) // Exclude initial welcome message
+      .concat(newUserMessage)
+      .filter(msg => msg.role === 'user' || (msg.role === 'assistant' && msg.isComplete))
+      .map(({ role, content }) => ({ role, content }));
+    
+    // 模拟思考过程
+    apiMessagesHistory.unshift({ role: 'system', content: `You are the AI assistant "${agent.name}". Your description is: "${agent.description}". Respond to the user in a helpful and engaging manner, consistent with your persona.` });
+
 
     try {
       const response = await fetch('/api/chat', {
@@ -77,22 +89,11 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
         body: JSON.stringify({ messages: apiMessagesHistory }),
       });
 
-      if (!response.ok || !response.body) throw new Error('API请求失败');
+      if (!response.ok || !response.body) throw new Error('API request failed');
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let accumulatedContent = '';
-      
-      const updateAssistantMessage = (content: string) => {
-          setMessages(prev => {
-              const lastMsgIndex = prev.length - 1;
-              const newMessages = [...prev];
-              if(newMessages[lastMsgIndex].role === 'assistant') {
-                  newMessages[lastMsgIndex] = { ...newMessages[lastMsgIndex], content };
-              }
-              return newMessages;
-          });
-      };
 
       while (true) {
         const { value, done } = await reader.read();
@@ -110,19 +111,31 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
               const deltaContent = parsedChunk.choices?.[0]?.delta?.content || '';
               if (deltaContent) {
                 accumulatedContent += deltaContent;
-                updateAssistantMessage(accumulatedContent);
+                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: accumulatedContent, isThinking: true } : msg));
               }
-            } catch (error) { /* 忽略不完整的JSON块 */ }
+            } catch (error) { /* Ignore incomplete JSON */ }
           }
         }
       }
+      
+      const thinkStartTag = "<think>";
+      const thinkEndTag = "</think>";
+      let finalThinkingText: string | null = null;
+      let finalDisplayText = accumulatedContent;
+
+      const thinkStartIndex = accumulatedContent.indexOf(thinkStartTag);
+      const thinkEndIndex = accumulatedContent.indexOf(thinkEndTag);
+      
+      if (thinkStartIndex !== -1 && thinkEndIndex > thinkStartIndex) {
+        finalThinkingText = accumulatedContent.substring(thinkStartIndex + thinkStartTag.length, thinkEndIndex).trim();
+        finalDisplayText = (accumulatedContent.substring(0, thinkStartIndex) + accumulatedContent.substring(thinkEndIndex + thinkEndTag.length)).trim();
+      }
+      
+      setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: finalDisplayText, thinkingText: finalThinkingText, isThinking: false, isComplete: true } : msg));
+
     } catch (error) {
-        setMessages(prev => {
-            const lastMsgIndex = prev.length - 1;
-            const newMessages = [...prev];
-            newMessages[lastMsgIndex] = { ...newMessages[lastMsgIndex], content: `抱歉，处理您的请求时发生了错误。`};
-            return newMessages;
-        });
+      console.error("Error handling stream:", error);
+      setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
     } finally {
       setIsSending(false);
       inputRef.current?.focus();
@@ -132,9 +145,12 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
   const handleQuickQuestion = (question: string) => {
     setInputValue(question);
     setTimeout(() => {
-        inputRef.current?.focus();
-        handleSubmit();
-    }, 100);
+      inputRef.current?.focus();
+    }, 50);
+  };
+  
+  const toggleThinkingPanel = (messageId: string) => {
+    setShowThinkingPanelId(prevId => (prevId === messageId ? null : messageId));
   };
 
   return (
@@ -149,8 +165,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
           </div>
       </div>
       <div className={styles.chatBody} ref={chatBodyRef}>
-        {messages.length === 1 ? (
-            // 欢迎界面
+        {messages.length === 1 && messages[0].id === 'init-assistant' ? (
              <div className={styles.welcomeScreen}>
                 <div className={styles.welcomeIcon}>{agent.icon}</div>
                 <h2 className={styles.welcomeTitle}>{agent.name}</h2>
@@ -164,9 +179,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
                 </div>
             </div>
         ) : (
-            // 对话消息
-            messages.map((msg, index) => (
-              index > 0 && // 不显示第一条欢迎消息
+            messages.slice(1).map((msg) => (
               <motion.div
                 key={msg.id}
                 className={`${styles.messageBubble} ${styles[msg.role]}`}
@@ -174,13 +187,18 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
               >
+                 {msg.role === 'assistant' && msg.thinkingText && (
+                  <div className={styles.statusTag} onClick={() => toggleThinkingPanel(msg.id)}>
+                      <i className={`fas fa-chevron-right ${showThinkingPanelId === msg.id ? styles.chevronOpen : ''}`}></i>
+                      点击{showThinkingPanelId === msg.id ? '收起' : '展开'}思考过程
+                  </div>
+                )}
                 <div className={`${styles.messageContent} markdown-body`}>
                   {msg.content ? (
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
-                        // @ts-ignore
-                        code({ node, inline, className, children, ...props }) {
+                        code({ node, inline, className, children, ...props }: any) {
                           const match = /language-(\w+)/.exec(className || '');
                           if (match && match[1] === 'mermaid') {
                             return <pre className="mermaid">{String(children)}</pre>;
@@ -201,6 +219,19 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
                     <span className={styles.typingIndicator}></span>
                   )}
                 </div>
+                <AnimatePresence>
+                {showThinkingPanelId === msg.id && msg.thinkingText && (
+                  <motion.div 
+                    className={styles.thinkingPanel}
+                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                    animate={{ height: 'auto', opacity: 1, marginTop: '12px' }}
+                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                  >
+                    <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>助教的思考过程：</h4>
+                    <pre>{msg.thinkingText}</pre>
+                  </motion.div>
+                )}
+                </AnimatePresence>
               </motion.div>
             ))
         )}
@@ -222,9 +253,7 @@ const ExperienceChatPanel: React.FC<ExperienceChatPanelProps> = ({ agent }) => {
                 disabled={isSending}
             />
             <Button className={styles.attachButton} icon={<PaperClipOutlined />} />
-            <Button type="primary" htmlType="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()}>
-                发送
-            </Button>
+            <Button type="primary" htmlType="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()} icon={<SendOutlined />} />
         </form>
         <p className={styles.footerInfo}>
             该回复由AI生成，内容可能包含不准确信息，请谨慎辨别。

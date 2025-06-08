@@ -1,38 +1,47 @@
-/* src/app/(teacher)/layout.module.css */
+/* src/app/teacher/layout.module.css */
 
 .teacherLayout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #F5F7FA;
-  }
-  
-  .mainWrapper {
-    flex: 1; /* 关键：让主区域占据 Header 下方的所有剩余空间 */
-    display: flex;
-    gap: 16px;
-    padding: 10px 10px 10px; /* 对应之前的 margin */
-    min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
-  }
-  
-  .contentWrapper {
-    flex: 1; /* 占据 Sider 旁边的所有剩余空间 */
-    min-width: 0; /* 关键：防止 flex item 内容溢出 */
-    background-color: #ffffff;
-    border-radius: 8px;
-    position: relative;
-    overflow-y: auto; /* 内容区自身滚动 */
-    padding: 24px;
-  }
-  
-  /* 美化内容区滚动条 */
-  .contentWrapper::-webkit-scrollbar {
-    width: 8px;
-  }
-  .contentWrapper::-webkit-scrollbar-thumb {
-    background-color: #d9d9d9;
-    border-radius: 4px;
-  }
-  .contentWrapper::-webkit-scrollbar-track {
-    background-color: #f5f5f5;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* 应用一个非常微妙的全局背景色 */
+  background-color: #F7F8FA; 
+}
+
+.mainWrapper {
+  flex: 1; /* 关键：让主区域占据 Header 下方的所有剩余空间 */
+  display: flex;
+  gap: 16px;
+  padding: 0 10px 10px; /* 顶部 padding 设为0，因为 Header 已经有 margin-bottom */
+  min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
+  margin-top: 10px;
+  /* 新增：为非体验中心页面提供默认背景，体验中心将覆盖它 */
+  background: linear-gradient(180deg, #F7F9FC 0%, #FDFEFF 100%);
+}
+
+.contentWrapper {
+  flex: 1; /* 占据 Sider 旁边的所有剩余空间 */
+  min-width: 0; /* 关键：防止 flex item 内容溢出 */
+  background-color: #ffffff;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden; /* 将滚动交由子组件内部处理 */
+  display: flex; /* 让子元素(pageWrapper)可以继承flex并撑满高度 */
+  flex-direction: column;
+}
+
+/* 当内容区需要自己滚动时 (非体验中心页面) */
+.contentWrapper.scrollable {
+  overflow-y: auto;
+  padding: 24px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 4px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
