@@ -4,6 +4,7 @@ import { Card, Avatar, Typography, Tag, Button, Space } from 'antd';
 import { TeamOutlined, EditOutlined, ReadOutlined } from '@ant-design/icons';
 import type { Course } from '@/lib/course-data';
 import styles from './CourseCard.module.css';
+import Link from 'next/link';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -12,7 +13,7 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
-  return (
+  const cardContent = (
     <Card className={styles.courseCard} bordered={false}>
       <div className={styles.cardHeader}>
         <Avatar
@@ -53,6 +54,17 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       </div>
     </Card>
   );
+
+  // 如果是创建者，则整个卡片可点击跳转
+  if (course.isCreator) {
+    return (
+      <Link href={`/teacher/course-management/${course.id}/ai-workbench`}>
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 };
 
 export default CourseCard;

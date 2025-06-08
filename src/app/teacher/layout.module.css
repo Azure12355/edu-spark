@@ -8,25 +8,32 @@
   background-color: #F7F8FA; 
 }
 
+/* 
+  新增一个主内容容器，它将占据Header下方的所有剩余空间
+  这是解决全局滚动条问题的关键
+*/
+.mainContentContainer {
+  flex: 1; /* 关键：让此容器占据所有剩余垂直空间 */
+  min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
+  display: flex; /* 让子元素（如 pageContainer 或 mainWrapper）可以继承flex并撑满 */
+}
+
 .mainWrapper {
-  flex: 1; /* 关键：让主区域占据 Header 下方的所有剩余空间 */
+  flex: 1; /* 在非课程管理页面，这个包裹器会撑满 .mainContentContainer */
   display: flex;
   gap: 16px;
-  padding: 0 10px 10px; /* 顶部 padding 设为0，因为 Header 已经有 margin-bottom */
-  min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
-  margin-top: 10px;
-  /* 新增：为非体验中心页面提供默认背景，体验中心将覆盖它 */
-  background: linear-gradient(180deg, #F7F9FC 0%, #FDFEFF 100%);
+  padding: 16px; /* 为非课程/体验中心页面提供边距 */
+  min-height: 0;
 }
 
 .contentWrapper {
   flex: 1; /* 占据 Sider 旁边的所有剩余空间 */
-  min-width: 0; /* 关键：防止 flex item 内容溢出 */
+  min-width: 0;
   background-color: #ffffff;
   border-radius: 8px;
   position: relative;
   overflow: hidden; /* 将滚动交由子组件内部处理 */
-  display: flex; /* 让子元素(pageWrapper)可以继承flex并撑满高度 */
+  display: flex;
   flex-direction: column;
 }
 
