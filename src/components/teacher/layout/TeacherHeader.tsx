@@ -1,33 +1,43 @@
 // src/components/teacher/layout/TeacherHeader.tsx
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, Avatar, Badge, Space } from 'antd';
 import { BellOutlined, QuestionCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { teacherHeaderNavItems } from '@/lib/teacherNav';
 import styles from './TeacherHeader.module.css';
 
 const TeacherHeader: React.FC = () => {
+  const pathname = usePathname();
+
+  // 根据当前路径确定选中的菜单项
+  const selectedKey = teacherHeaderNavItems.find(item => pathname.startsWith(item.href))?.key || 'workbench';
+
+  const menuItems = teacherHeaderNavItems.map(item => ({
+    key: item.key,
+    label: <Link href={item.href}>{item.label}</Link>,
+  }));
+
   return (
-    // 使用 header 标签，并应用样式
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src="/EduSpark-icon.png" alt="EduSpark Logo" style={{ height: 28, width: 28, marginRight: 8 }} />
-        <span className={styles.logoText}>BigModel</span>
+        <Link href="/teacher/dashboard" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="/EduSpark-icon.png" alt="EduSpark Logo" style={{ height: 28, width: 28, marginRight: 8 }} />
+          {/* 修改 Logo 文本以符合项目名 */}
+          <span className={styles.logoText}>EduSpark</span>
+        </Link>
       </div>
       <Menu
         theme="light"
         mode="horizontal"
-        defaultSelectedKeys={['console']}
+        selectedKeys={[selectedKey]}
+        items={menuItems}
         className={styles.menu}
-        items={[
-          { key: 'console', label: '控制台' },
-          { key: 'experience', label: '体验中心' },
-          { key: 'docs', label: '开发文档' },
-          { key: 'finance', label: '财务' },
-        ]}
       />
       <div className={styles.rightMenu}>
         <Space size="large">
           <QuestionCircleOutlined className={styles.actionIcon} />
-          <Badge dot>
+          <Badge count={3}>
             <BellOutlined className={styles.actionIcon} />
           </Badge>
           <Avatar icon={<UserOutlined />} />

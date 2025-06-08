@@ -9,16 +9,14 @@ import styles from './Header.module.css';
 // 更新导航链接以匹配 EduSpark 需求
 const navLinksData = [
   { href: "/", text: "首页", active: true },
-  { href: "/agent-square", text: "教师中心", dropdown: true }, // 修改这里
+  // 修改这里的 href，指向新的教师工作台
+  { href: "/teacher/dashboard", text: "教师中心", dropdown: true }, 
   { href: "#", text: "学生中心", dropdown: true },
   { href: "#", text: "课程广场", newIndicator: true },
   { href: "#", text: "数据看板" },
   { href: "#", text: "关于我们" },
 ];
 
-// ... (组件的其余部分代码保持不变, 此处省略)
-// ... (The rest of the component code remains the same, omitted here)
-// ... (粘贴原有的 Header.tsx 完整代码)
 const headerVariants = {
   hidden: { y: -100, opacity: 0 },
   visible: { 
