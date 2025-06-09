@@ -1,0 +1,66 @@
+/* src/app/teacher/course-management/[courseId]/question-bank/page.module.css */
+.pageWrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 移除原有的 pageHeader，样式整合到 Tabs 组件中 */
+
+.tabsWrapper {
+    flex: 1; /* 关键：让Tabs容器占据所有剩余空间 */
+    min-height: 0; /* 关键：允许Tabs容器收缩 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 覆盖 AntD Tabs 样式，使其内容区100%高度 */
+.tabsWrapper :global(.ant-tabs) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff; /* 给Tabs一个白色背景 */
+}
+
+/* --- 核心优化：自定义 Tabs 的页眉 --- */
+.tabsWrapper :global(.ant-tabs-nav) {
+    margin-bottom: 0 !important;
+    padding: 0 24px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.tabsWrapper :global(.ant-tabs-nav::before) {
+    border-bottom: none !important; /* 移除默认的下划线 */
+}
+
+.tabsWrapper :global(.ant-tabs-extra-content) {
+    display: flex;
+    align-items: center;
+}
+/* --- 结束核心优化 --- */
+
+
+.tabsWrapper :global(.ant-tabs-content-holder) {
+    flex: 1;
+    overflow: hidden;
+    background-color: #f7f9fc; /* 内容区域背景色 */
+}
+.tabsWrapper :global(.ant-tabs-content) {
+    height: 100%;
+}
+.tabsWrapper :global(.ant-tabs-tabpane) {
+    height: 100%;
+    /* 内容面板不再需要自己的滚动条，交给子组件处理 */
+    overflow: hidden; 
+}
+
+
+.aiButton {
+    background: linear-gradient(135deg, #1677FF, #40a9ff);
+    border: none;
+    box-shadow: 0 4px 12px rgba(22, 119, 255, 0.2);
+    transition: all 0.2s ease-in-out;
+}
+.aiButton:hover {
+    box-shadow: 0 6px 16px rgba(22, 119, 255, 0.3);
+    transform: translateY(-2px);
+}

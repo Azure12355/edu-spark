@@ -3,27 +3,22 @@
     display: flex;
     height: 100%;
     width: 100%;
-    gap: 16px;
-    padding: 16px; /* 为整个课程管理界面提供内边距 */
-    box-sizing: border-box; /* 确保 padding 不会撑大容器 */
-    background-color: #F7F8FA; /* 统一的背景色 */
+    /* 核心修改: 调整了gap和padding, 以适应无面包屑的布局 */
+    gap: 10px;
+    padding: 10px; 
+    box-sizing: border-box; 
+    background-color: #F7F8FA; 
 }
 
 .mainContentArea {
     flex: 1;
     min-width: 0;
-    display: flex;
+    display: flex; /* 确保 main 可以撑满 */
     flex-direction: column;
-    gap: 16px;
+    /* 移除了 gap, 因为面包屑不存在了 */
 }
 
-.breadcrumbBar {
-    background-color: #fff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    flex-shrink: 0; /* 防止被压缩 */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-}
+/* 删除了 .breadcrumbBar 样式 */
 
 .contentWrapper {
     flex: 1; /* 占据剩余所有空间 */

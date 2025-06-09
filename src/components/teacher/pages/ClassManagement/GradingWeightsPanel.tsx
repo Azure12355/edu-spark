@@ -31,4 +31,4 @@ const GradingWeightsPanel: React.FC = () => {
     );
 }
 
-export default GradingWeightsPanel;
+export default GradingWeightsPanel; 

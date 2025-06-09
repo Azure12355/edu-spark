@@ -17,10 +17,10 @@ const CourseManagementSider: React.FC = () => {
   const params = useParams();
   const courseId = params.courseId as string;
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
-    setCollapsed(pathname.includes('/class-management'));
+    setCollapsed(true);
   }, [pathname]);
 
   const activeKey = courseManagementNavItems.find(item => pathname.startsWith(item.href(courseId)))?.key || 'ai-workbench';
