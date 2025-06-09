@@ -126,7 +126,7 @@ const AIGenerationPanel: React.FC = () => {
                                     key={q.id || index}
                                     header={
                                         <div className={styles.collapseHeaderContent}>
-                                            <Tag color={questionTypeMap[q.type as any].color}>{questionTypeMap[q.type as any].text}</Tag>
+                                            <Tag color={questionTypeMap[q.type as keyof typeof questionTypeMap].color}>{questionTypeMap[q.type as keyof typeof questionTypeMap].text}</Tag>
                                             <Text className={styles.questionContentText}>{q.content}</Text>
                                         </div>
                                     }

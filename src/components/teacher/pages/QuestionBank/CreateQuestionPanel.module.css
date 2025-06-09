@@ -1,0 +1,130 @@
+/* src/components/teacher/pages/QuestionBank/CreateQuestionPanel.module.css */
+.panelWrapper {
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    gap: 16px;
+    background-color: #f7f9fc;
+}
+
+.mainPanel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.configPanel {
+    width: 340px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.editorCard, .configCard {
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.configCard {
+    flex-shrink: 0;
+}
+.editorCard {
+    flex: 1;
+    min-height: 0;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.aiActionRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.aiKnowledgeSelect {
+    flex: 1;
+}
+.aiGenerateButton {
+    background: linear-gradient(135deg, #FF9A2A, #FFB92A);
+    border: none;
+    box-shadow: 0 2px 8px rgba(255, 154, 42, 0.3);
+    color: white;
+}
+.aiGenerateButton:hover {
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 154, 42, 0.4);
+}
+
+/* --- MDXEditor 样式 --- */
+.editorWrapper {
+    flex: 1; /* 关键：让编辑器容器填满剩余空间 */
+    min-height: 200px;
+    display: flex;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    overflow: hidden; /* 确保圆角生效 */
+}
+/* 自定义 MDXEditor 工具栏样式 */
+.editorWrapper :global(.mdxeditor-toolbar) {
+    background-color: #fafafa;
+    border-bottom: 1px solid #d9d9d9;
+}
+/* 自定义 MDXEditor 编辑区样式 */
+.editorWrapper :global(.mdxeditor-editor) {
+    font-size: 15px;
+    line-height: 1.7;
+    flex: 1;
+    overflow-y: auto; /* 关键：让编辑区内部滚动 */
+    padding: 12px;
+}
+
+/* 答案区域样式 */
+.answerArea {
+    flex-shrink: 0;
+    margin-top: 16px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+.optionItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.optionInput {
+    flex: 1;
+}
+
+/* 配置面板滚动 */
+.configScrollable {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-right: -8px;
+}
+.configScrollable::-webkit-scrollbar { width: 4px; }
+.configScrollable::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 2px; }
+
+/* 底部操作栏 */
+.actionsBar {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+}

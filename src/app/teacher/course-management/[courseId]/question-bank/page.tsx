@@ -6,11 +6,12 @@ import { BulbOutlined, UnorderedListOutlined, PlusOutlined, FolderOpenOutlined, 
 import styles from './page.module.css';
 import QuestionListPanel from '@/components/teacher/pages/QuestionBank/QuestionListPanel';
 import AIGenerationPanel from '@/components/teacher/pages/QuestionBank/AIGenerationPanel';
+import CreateQuestionPanel from '@/components/teacher/pages/QuestionBank/CreateQuestionPanel'; // 引入新组件
 
 const { Title } = Typography;
 
 const QuestionBankPage: React.FC = () => {
-    const [activeTab, setActiveTab] = useState('ai');
+    const [activeTab, setActiveTab] = useState('create'); // 默认显示新建题目
 
     const tabBarExtraContent = (
         <Button
@@ -32,7 +33,7 @@ const QuestionBankPage: React.FC = () => {
         {
             label: <><PlusOutlined /> 新建题目</>,
             key: 'create',
-            children: <div style={{ padding: 24 }}>新建题目功能开发中...</div>,
+            children: <CreateQuestionPanel />, // 替换为新组件
         },
         {
             label: <><BulbOutlined /> AI 出题</>,
@@ -60,7 +61,6 @@ const QuestionBankPage: React.FC = () => {
                     items={tabItems}
                     tabPosition="top"
                     tabBarGutter={32}
-                    // --- 核心优化：将标题和按钮整合到 Tabs bar 中 ---
                     tabBarExtraContent={{
                         left: <Title level={4} style={{ margin: 0, marginRight: 40 }}>课程题库</Title>,
                         right: tabBarExtraContent,
