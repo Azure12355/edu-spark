@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useMemo } from 'react';
 import {
-  Button, Input, Table, Tag, Tree, Space, Dropdown, Popconfirm, message, Tooltip, Modal, Form, TreeSelect, Typography
+  App, Button, Input, Table, Tag, Tree, Space, Dropdown, Popconfirm, Tooltip, Modal, Form, TreeSelect, Typography
 } from 'antd';
 import type { MenuProps, TreeProps, TableProps } from 'antd';
 import {
@@ -14,8 +14,10 @@ import { mockFolders, mockQuestions, questionTypeMap, Question, QuestionFolder }
 const { Title, Text } = Typography;
 const { Search } = Input;
 
-// --- 核心修正 1: 修改 buildTreeData 函数，使其同时生成 key 和 value ---
-// 这个函数现在将为 Tree 和 TreeSelect 生成兼容的数据
+// [WARNING FIX & ROBUSTNESS] 使用一个唯一的字符串常量代表根目录
+const ROOT_FOLDER_VALUE = '__ROOT__';
+
+// 函数现在为 Tree 和 TreeSelect 生成兼容的数据
 const buildTreeData = (folders: QuestionFolder[], parentId: string | null = null): any[] => {
   return folders
     .filter(folder => folder.parentId === parentId)
@@ -24,12 +26,13 @@ const buildTreeData = (folders: QuestionFolder[], parentId: string | null = null
       key: folder.id,
       value: folder.id, // 确保每个节点都有一个与 key 相同的 value
       children: buildTreeData(folders, folder.id),
-      isLeaf: !folders.some(f => f.parentId === folder.id),
       questionCount: folder.questionCount
     }));
 };
 
 const FolderManagementPanel: React.FC = () => {
+    // [WARNING FIX] 使用 App.useApp() 来获取上下文中的 message 实例
+    const { message } = App.useApp();
     const [folders, setFolders] = useState<QuestionFolder[]>(mockFolders);
     const [questions, setQuestions] = useState<Question[]>(mockQuestions);
     const [selectedFolderKey, setSelectedFolderKey] = useState<string>('all');
@@ -41,15 +44,16 @@ const FolderManagementPanel: React.FC = () => {
 
     const folderTreeData = useMemo(() => {
         const tree = buildTreeData(folders);
-        return [{ title: '全部题目', key: 'all', children: tree, questionCount: questions.length }];
+        const totalQuestions = questions.length;
+        return [{ title: '全部题目', key: 'all', children: tree, questionCount: totalQuestions }];
     }, [folders, questions]);
-
-    // --- 核心修正 2: 为 TreeSelect 组件专门创建一个带“根目录”选项的树数据 ---
+    
+    // 为 TreeSelect 组件专门创建一个带“根目录”选项的树数据
     const treeSelectData = useMemo(() => {
         return [{
-            title: '根目录',
-            value: null, // 根目录的值为 null
-            key: 'root-null', // 提供一个唯一的 key
+            title: '根目录 (无父级)',
+            value: ROOT_FOLDER_VALUE, // 使用常量作为根的值
+            key: ROOT_FOLDER_VALUE,   // 保持 key 和 value 一致
             children: buildTreeData(folders)
         }];
     }, [folders]);
@@ -87,14 +91,15 @@ const FolderManagementPanel: React.FC = () => {
     const handleAddFolder = () => {
         setEditingFolder(null);
         form.resetFields();
-        form.setFieldsValue({ parentId: selectedFolderKey === 'all' ? null : selectedFolderKey });
+        const parentId = selectedFolderKey === 'all' ? ROOT_FOLDER_VALUE : selectedFolderKey;
+        form.setFieldsValue({ parentId });
         setIsModalOpen(true);
     };
 
     const handleEditFolder = (folder: QuestionFolder, e: React.MouseEvent) => {
         e.stopPropagation();
         setEditingFolder(folder);
-        form.setFieldsValue({ name: folder.name, parentId: folder.parentId });
+        form.setFieldsValue({ name: folder.name, parentId: folder.parentId || ROOT_FOLDER_VALUE });
         setIsModalOpen(true);
     };
 
@@ -104,29 +109,43 @@ const FolderManagementPanel: React.FC = () => {
         if (!folderToDelete) return;
 
         const hasChildren = folders.some(f => f.parentId === folderId);
-        const hasQuestions = questions.some(q => q.folderId === folderId);
-
-        if (hasChildren || hasQuestions) {
-            message.error('无法删除非空文件夹，请先移动或删除其内容。');
+        if (hasChildren) {
+            message.error('文件夹包含子文件夹，无法删除。');
             return;
         }
 
-        setFolders(currentFolders => currentFolders.filter(f => f.id !== folderId));
-        message.success(`文件夹 "${folderToDelete.name}" 已删除`);
+        const questionsInFolder = questions.filter(q => q.folderId === folderId);
+        if(questionsInFolder.length > 0) {
+            // 提供更友好的提示
+            Modal.confirm({
+                title: '文件夹中包含题目',
+                content: `此文件夹中有 ${questionsInFolder.length} 道题目，删除文件夹会将这些题目移动到“未分类题目”。确定要删除吗？`,
+                onOk: () => {
+                    setQuestions(qs => qs.map(q => q.folderId === folderId ? {...q, folderId: 'folder-unassigned'} : q));
+                    setFolders(currentFolders => currentFolders.filter(f => f.id !== folderId));
+                    message.success(`文件夹 "${folderToDelete.name}" 已删除`);
+                }
+            })
+        } else {
+             setFolders(currentFolders => currentFolders.filter(f => f.id !== folderId));
+             message.success(`文件夹 "${folderToDelete.name}" 已删除`);
+        }
     };
 
     const handleModalOk = () => {
         form.validateFields().then(values => {
-            if (editingFolder) { // 编辑模式
+            const parentId = values.parentId === ROOT_FOLDER_VALUE ? null : values.parentId;
+            
+            if (editingFolder) {
                 setFolders(currentFolders =>
-                    currentFolders.map(f => f.id === editingFolder.id ? { ...f, ...values } : f)
+                    currentFolders.map(f => f.id === editingFolder.id ? { ...f, name: values.name, parentId } : f)
                 );
                 message.success('文件夹已更新');
-            } else { // 新建模式
+            } else {
                 const newFolder: QuestionFolder = {
                     id: `folder-${Date.now()}`,
                     name: values.name,
-                    parentId: values.parentId, // 这里直接使用表单的值，可能是 null 或 string
+                    parentId: parentId,
                     questionCount: 0,
                 };
                 setFolders(currentFolders => [...currentFolders, newFolder]);
@@ -163,19 +182,12 @@ const FolderManagementPanel: React.FC = () => {
     };
 
     const columns: TableProps<Question>['columns'] = [
-        {
-          title: '题干',
-          dataIndex: 'content',
-          key: 'content',
-          render: (text: string, record: Question) => (
+        { title: '题干', dataIndex: 'content', key: 'content', render: (text: string, record: Question) => (
             <div className={styles.questionContentCell}>
               <Tag color={questionTypeMap[record.type].color}>{questionTypeMap[record.type].text}</Tag>
-              <Tooltip title={text} placement="topLeft">
-                <span className={styles.questionText}>{text}</span>
-              </Tooltip>
+              <Tooltip title={text} placement="topLeft"><span className={styles.questionText}>{text}</span></Tooltip>
             </div>
-          ),
-        },
+        )},
         { title: '创建者', dataIndex: 'creator', width: 120 },
         { title: '创建时间', dataIndex: 'createdAt', width: 150 },
     ];
@@ -218,7 +230,6 @@ const FolderManagementPanel: React.FC = () => {
                     />
                 </div>
             </aside>
-
             <main className={styles.mainContent}>
                 <div className={styles.mainHeader}>
                     <Title level={5} style={{ margin: 0 }}>
@@ -228,50 +239,37 @@ const FolderManagementPanel: React.FC = () => {
                         <Dropdown menu={{ items: moveMenu }} trigger={['click']} disabled={selectedRowKeys.length === 0}>
                             <Button icon={<SwapOutlined />}>移动到</Button>
                         </Dropdown>
-                        <Search
-                            placeholder="搜索题干"
-                            onSearch={setSearchQuery}
-                            style={{ width: 240 }}
-                            allowClear
-                        />
+                        <Search placeholder="搜索题干" onSearch={setSearchQuery} style={{ width: 240 }} allowClear />
                     </Space>
                 </div>
                 <div className={styles.tableWrapper}>
-                    <Table
-                        rowKey="id"
-                        rowSelection={rowSelection}
-                        columns={columns}
-                        dataSource={displayedQuestions}
-                        pagination={{ pageSize: 10, showSizeChanger: true, size: 'small' }}
-                        scroll={{ y: '100%' }}
-                        size="small"
-                    />
+                    <Table rowKey="id" rowSelection={rowSelection} columns={columns} dataSource={displayedQuestions} pagination={{ pageSize: 10, showSizeChanger: true, size: 'small' }} scroll={{ y: '100%' }} size="small" />
                 </div>
             </main>
-
             <Modal
                 title={editingFolder ? '编辑文件夹' : '新建文件夹'}
                 open={isModalOpen}
                 onOk={handleModalOk}
                 onCancel={() => setIsModalOpen(false)}
+                // [WARNING FIX] 使用新的 API
                 destroyOnClose
+                modalRender={(modal) => <Form form={form} onFinish={handleModalOk}>{modal}</Form>}
             >
-                <Form form={form} layout="vertical" name="folder_form">
-                    <Form.Item name="name" label="文件夹名称" rules={[{ required: true, message: '请输入文件夹名称' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="parentId" label="父级文件夹">
-                        <TreeSelect
-                            showSearch
-                            style={{ width: '100%' }}
-                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                            placeholder="选择一个父级文件夹（可选）"
-                            allowClear
-                            treeDefaultExpandAll
-                            treeData={treeSelectData} // --- 核心修正 3: 使用新创建的 treeSelectData
-                        />
-                    </Form.Item>
-                </Form>
+                <Form.Item name="name" label="文件夹名称" rules={[{ required: true, message: '请输入文件夹名称' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="parentId" label="父级文件夹">
+                    <TreeSelect
+                        showSearch
+                        style={{ width: '100%' }}
+                        // [WARNING FIX] 使用新的 API
+                        popupStyle={{ maxHeight: 400, overflow: 'auto' }}
+                        placeholder="选择一个父级文件夹（可选）"
+                        allowClear
+                        treeDefaultExpandAll
+                        treeData={treeSelectData}
+                    />
+                </Form.Item>
             </Modal>
         </div>
     );
