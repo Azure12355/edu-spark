@@ -4,17 +4,17 @@ import React, { useState } from 'react';
 import { Button, Tabs, Typography } from 'antd';
 import { BulbOutlined, UnorderedListOutlined, PlusOutlined, FolderOpenOutlined, SettingOutlined } from '@ant-design/icons';
 import styles from './page.module.css';
-import QuestionListPanel from '@/components/teacher/pages/QuestionBank/QuestionListPanel';
+// import QuestionListPanel from '@/components/teacher/pages/QuestionBank/QuestionListPanel'; // <-- 已删除
 import AIGenerationPanel from '@/components/teacher/pages/QuestionBank/AIGenerationPanel';
 import CreateQuestionPanel from '@/components/teacher/pages/QuestionBank/CreateQuestionPanel';
-// --- 新增 ---
-import FolderManagementPanel from '@/components/teacher/pages/QuestionBank/FolderManagementPanel'; // 1. 引入新组件
+// --- [MERGE] 引入统一后的面板 ---
+import FolderManagementPanelWrapper from '@/components/teacher/pages/QuestionBank/FolderManagementPanel';
 
 const { Title } = Typography;
 
 const QuestionBankPage: React.FC = () => {
-    // --- 修改: 默认显示题目管理 ---
-    const [activeTab, setActiveTab] = useState('list'); 
+    // --- [MERGE] 默认显示 "folders" Tab ---
+    const [activeTab, setActiveTab] = useState('folders');
 
     const tabBarExtraContent = (
         <Button
@@ -27,17 +27,12 @@ const QuestionBankPage: React.FC = () => {
         </Button>
     );
 
-    // --- 修改: 调整Tab顺序并添加新Tab ---
+    // --- [MERGE] 移除旧的题目管理和文件夹管理Tab，用一个统一的Tab代替 ---
     const tabItems = [
         {
-            label: <><UnorderedListOutlined /> 题目管理</>,
-            key: 'list',
-            children: <QuestionListPanel />,
-        },
-        {
-            label: <><FolderOpenOutlined /> 文件夹管理</>, // 2. 添加文件夹管理Tab
+            label: <><FolderOpenOutlined /> 题库管理</>,
             key: 'folders',
-            children: <FolderManagementPanel />,
+            children: <FolderManagementPanelWrapper />,
         },
         {
             label: <><PlusOutlined /> 新建题目</>,
