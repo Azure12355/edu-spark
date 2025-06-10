@@ -35,7 +35,7 @@ export interface QuestionFolder {
     questionCount: number;
 }
 
-// --- 修改: 提供更丰富的模拟文件夹数据，包含多层级 ---
+// --- [ENHANCEMENT] 增强模拟文件夹数据，包含更深层级和多样化名称 ---
 export const mockFolders: QuestionFolder[] = [
     { id: 'folder-1', name: '第一章：Python入门', parentId: null, questionCount: 5 },
     { id: 'folder-1-1', name: '1.1 基础语法与环境配置', parentId: 'folder-1', questionCount: 2 },
@@ -45,11 +45,15 @@ export const mockFolders: QuestionFolder[] = [
     { id: 'folder-4', name: '第四章：函数与模块的艺术', parentId: null, questionCount: 2 },
     { id: 'folder-4-1', name: '4.1 内置函数与高阶函数', parentId: 'folder-4', questionCount: 1 },
     { id: 'folder-4-1-1', name: '4.1.1 Lambda表达式专题', parentId: 'folder-4-1', questionCount: 1 }, // 三级目录
+    { id: 'folder-5', name: '第五章：面向对象编程', parentId: null, questionCount: 0 },
+    { id: 'folder-5-1', name: '5.1 类与对象', parentId: 'folder-5', questionCount: 0 },
+    { id: 'folder-5-2', name: '5.2 继承与多态', parentId: 'folder-5', questionCount: 0 },
+    { id: 'folder-5-2-1', name: '5.2.1 Mixin模式的应用', parentId: 'folder-5-2', questionCount: 0 }, // 四级目录
     { id: 'folder-empty', name: '空文件夹（用于测试删除）', parentId: null, questionCount: 0 },
     { id: 'folder-unassigned', name: '未分类题目', parentId: null, questionCount: 3 },
 ];
 
-// --- 修改: 确保题目ID与文件夹ID对应 ---
+// --- 保持题目数据不变 ---
 export const mockQuestions: Question[] = [
     { id: 'q-1', folderId: 'folder-1-1', type: 'single-choice', content: '以下哪个是 Python 中的关键字？', options: ['function', 'def', 'var', 'int'], answer: 'def', analysis: '在Python中，`def` 用于定义函数，是一个关键字。', difficulty: 'easy', creator: '王老师', createdAt: '2024-05-21' },
     { id: 'q-2', folderId: 'folder-2', type: 'multi-choice', content: 'Python 中不可变的数据类型有哪些？', options: ['List', 'Tuple', 'String', 'Set'], answer: ['Tuple', 'String'], analysis: 'Tuple（元组）和 String（字符串）是不可变的，而 List（列表）和 Set（集合）是可变的。', difficulty: 'medium', creator: 'AI助手', createdAt: '2024-05-20' },
