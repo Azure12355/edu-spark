@@ -1,0 +1,105 @@
+/* src/components/teacher/pages/QuestionBank/FolderManagementPanel.module.css */
+.panelWrapper {
+    height: 100%;
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background-color: #f7f9fc;
+}
+
+.sider {
+    width: 280px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.siderHeader {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.folderTreeContainer {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 0 -8px;
+    padding: 0 8px;
+}
+.folderTreeContainer::-webkit-scrollbar { width: 4px; }
+.folderTreeContainer::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 2px; }
+
+/* 自定义 antd Tree 样式 */
+.folderTreeContainer :global(.ant-tree-treenode) {
+    padding: 4px 0;
+}
+.folderTreeContainer :global(.ant-tree-title) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.treeNodeTitle {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.treeNodeActions {
+    visibility: hidden;
+}
+.folderTreeContainer :global(.ant-tree-treenode:hover .ant-tree-title .treeNodeActions) {
+    visibility: visible;
+}
+
+.mainContent {
+    flex: 1;
+    min-width: 0;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainHeader {
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.tableWrapper {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+.tableWrapper :global(.ant-table-wrapper) { height: 100%; }
+.tableWrapper :global(.ant-spin-container),
+.tableWrapper :global(.ant-table-container),
+.tableWrapper :global(.ant-table) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.tableWrapper :global(.ant-table-body) {
+    flex: 1;
+}
+
+.questionContentCell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.questionText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+}

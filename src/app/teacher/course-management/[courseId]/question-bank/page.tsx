@@ -6,12 +6,15 @@ import { BulbOutlined, UnorderedListOutlined, PlusOutlined, FolderOpenOutlined, 
 import styles from './page.module.css';
 import QuestionListPanel from '@/components/teacher/pages/QuestionBank/QuestionListPanel';
 import AIGenerationPanel from '@/components/teacher/pages/QuestionBank/AIGenerationPanel';
-import CreateQuestionPanel from '@/components/teacher/pages/QuestionBank/CreateQuestionPanel'; // 引入新组件
+import CreateQuestionPanel from '@/components/teacher/pages/QuestionBank/CreateQuestionPanel';
+// --- 新增 ---
+import FolderManagementPanel from '@/components/teacher/pages/QuestionBank/FolderManagementPanel'; // 1. 引入新组件
 
 const { Title } = Typography;
 
 const QuestionBankPage: React.FC = () => {
-    const [activeTab, setActiveTab] = useState('create'); // 默认显示新建题目
+    // --- 修改: 默认显示题目管理 ---
+    const [activeTab, setActiveTab] = useState('list'); 
 
     const tabBarExtraContent = (
         <Button
@@ -24,6 +27,7 @@ const QuestionBankPage: React.FC = () => {
         </Button>
     );
 
+    // --- 修改: 调整Tab顺序并添加新Tab ---
     const tabItems = [
         {
             label: <><UnorderedListOutlined /> 题目管理</>,
@@ -31,19 +35,19 @@ const QuestionBankPage: React.FC = () => {
             children: <QuestionListPanel />,
         },
         {
+            label: <><FolderOpenOutlined /> 文件夹管理</>, // 2. 添加文件夹管理Tab
+            key: 'folders',
+            children: <FolderManagementPanel />,
+        },
+        {
             label: <><PlusOutlined /> 新建题目</>,
             key: 'create',
-            children: <CreateQuestionPanel />, // 替换为新组件
+            children: <CreateQuestionPanel />,
         },
         {
             label: <><BulbOutlined /> AI 出题</>,
             key: 'ai',
             children: <AIGenerationPanel />,
-        },
-        {
-            label: <><FolderOpenOutlined /> 文件夹管理</>,
-            key: 'folders',
-            children: <div style={{ padding: 24 }}>文件夹管理功能开发中...</div>,
         },
         {
             label: <><SettingOutlined /> 出题设置</>,
