@@ -1,0 +1,99 @@
+/* src/components/teacher/pages/QuestionBank/ExamSettingsPanel.module.css */
+.panelWrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 16px 24px;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background-color: #f7f9fc;
+}
+
+.leftPanel, .rightPanel {
+    width: 50%;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.rightPanel {
+    padding: 0;
+}
+
+.panelTitle {
+    margin: 0 0 16px !important;
+}
+
+.selectedQuestionsList {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-right: -8px;
+}
+.selectedQuestionsList::-webkit-scrollbar { width: 4px; }
+.selectedQuestionsList::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 2px; }
+
+.selectedItem {
+    padding: 12px;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+.selectedItemIndex {
+    font-weight: 500;
+    color: var(--ant-color-primary);
+}
+.selectedItemContent {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.selectedItemActions {
+    margin-left: auto;
+}
+
+/* 右侧题库样式 */
+.questionSourceHeader {
+    padding: 20px 20px 0;
+}
+
+/* 题库面板的样式直接复用之前的 */
+.tableWrapper {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 20px;
+}
+.tableWrapper :global(.ant-table-wrapper) { height: 100%; }
+.tableWrapper :global(.ant-spin-container),
+.tableWrapper :global(.ant-table-container),
+.tableWrapper :global(.ant-table) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.tableWrapper :global(.ant-table-body) {
+    flex: 1;
+}
