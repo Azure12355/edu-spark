@@ -1,9 +1,9 @@
 // src/components/teacher/pages/QuestionBank/FolderManagementPanel.tsx
 "use client";
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Button, Input, Table, Tag, Tree, Space, Dropdown, Popconfirm, message, Tooltip, Modal, Form, TreeSelect, Typography
-} from 'antd'; // 1. 在这里引入 Typography
+} from 'antd';
 import type { MenuProps, TreeProps, TableProps } from 'antd';
 import {
   FolderAddOutlined, MoreOutlined, EditOutlined, DeleteOutlined, SwapOutlined
@@ -11,17 +11,18 @@ import {
 import styles from './FolderManagementPanel.module.css';
 import { mockFolders, mockQuestions, questionTypeMap, Question, QuestionFolder } from '@/lib/question-bank-data';
 
-// 2. 正确地从 Typography 中解构出 Title 和 Text
 const { Title, Text } = Typography;
 const { Search } = Input;
 
-// 将扁平数据转换为树状结构
+// --- 核心修正 1: 修改 buildTreeData 函数，使其同时生成 key 和 value ---
+// 这个函数现在将为 Tree 和 TreeSelect 生成兼容的数据
 const buildTreeData = (folders: QuestionFolder[], parentId: string | null = null): any[] => {
   return folders
     .filter(folder => folder.parentId === parentId)
     .map(folder => ({
       title: folder.name,
       key: folder.id,
+      value: folder.id, // 确保每个节点都有一个与 key 相同的 value
       children: buildTreeData(folders, folder.id),
       isLeaf: !folders.some(f => f.parentId === folder.id),
       questionCount: folder.questionCount
@@ -43,8 +44,14 @@ const FolderManagementPanel: React.FC = () => {
         return [{ title: '全部题目', key: 'all', children: tree, questionCount: questions.length }];
     }, [folders, questions]);
 
-    const folderForSelect = useMemo(() => {
-        return [{ title: '根目录', value: null }, ...folders.map(f => ({ title: f.name, value: f.id }))];
+    // --- 核心修正 2: 为 TreeSelect 组件专门创建一个带“根目录”选项的树数据 ---
+    const treeSelectData = useMemo(() => {
+        return [{
+            title: '根目录',
+            value: null, // 根目录的值为 null
+            key: 'root-null', // 提供一个唯一的 key
+            children: buildTreeData(folders)
+        }];
     }, [folders]);
 
     const handleSelectFolder: TreeProps['onSelect'] = (selectedKeys) => {
@@ -53,7 +60,6 @@ const FolderManagementPanel: React.FC = () => {
         }
     };
     
-    // 获取一个文件夹及其所有子文件夹的ID
     const getFolderIdsRecursive = (folderId: string): string[] => {
         let ids = [folderId];
         const children = folders.filter(f => f.parentId === folderId);
@@ -77,7 +83,6 @@ const FolderManagementPanel: React.FC = () => {
     const selectedFolder = useMemo(() => {
         return folders.find(f => f.id === selectedFolderKey) || null;
     }, [selectedFolderKey, folders]);
-
 
     const handleAddFolder = () => {
         setEditingFolder(null);
@@ -121,7 +126,7 @@ const FolderManagementPanel: React.FC = () => {
                 const newFolder: QuestionFolder = {
                     id: `folder-${Date.now()}`,
                     name: values.name,
-                    parentId: values.parentId || null,
+                    parentId: values.parentId, // 这里直接使用表单的值，可能是 null 或 string
                     questionCount: 0,
                 };
                 setFolders(currentFolders => [...currentFolders, newFolder]);
@@ -185,7 +190,7 @@ const FolderManagementPanel: React.FC = () => {
         return (
             <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 <span className={styles.treeNodeTitle}>{nodeData.title}</span>
-                <Text type="secondary" style={{ marginRight: 8 }}>({nodeData.questionCount})</Text>
+                <Text type="secondary" style={{ marginRight: 8 }}>({nodeData.questionCount || 0})</Text>
                 {nodeData.key !== 'all' && (
                     <Dropdown menu={{ items: menuItems }} trigger={['click']}>
                         <Button type="text" size="small" icon={<MoreOutlined />} className={styles.treeNodeActions} onClick={e => e.stopPropagation()} />
@@ -263,7 +268,7 @@ const FolderManagementPanel: React.FC = () => {
                             placeholder="选择一个父级文件夹（可选）"
                             allowClear
                             treeDefaultExpandAll
-                            treeData={[{ title: '根目录', value: null, children: buildTreeData(folders) }]}
+                            treeData={treeSelectData} // --- 核心修正 3: 使用新创建的 treeSelectData
                         />
                     </Form.Item>
                 </Form>
