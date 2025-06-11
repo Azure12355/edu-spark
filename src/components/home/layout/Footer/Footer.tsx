@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
     >
       <div className={`container ${styles.footerContent}`}>
         <motion.div className={styles.footerColumn} variants={itemVariants}>
-          <Link href="/" className={styles.footerLogoContainer}>
+          <Link href="/public" className={styles.footerLogoContainer}>
             <EduSparkLogoDark />
           </Link>
           <p className={styles.footerSlogan}>AI 赋能教育，点亮智慧未来</p>
