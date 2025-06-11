@@ -41,6 +41,7 @@ const creators = [ "李教授", "王老师", "设计部", "张老师", "陈博�
 const subjects = [ "Python", "考研政治", "UI/UX 设计", "Java", "高等数学", "莎士比亚戏剧", "急救知识", "个人理财", "贝多芬音乐", "健身与营养", "前端开发", "中国法律", "旅行规划", "儿童故事", "宠物健康", "营销文案", "历史事件", "建筑学", "物理实验", "烹饪", "围棋", "天体物理", "心理咨询" ];
 const roles = [ "助教", "陪跑", "助手", "宝典", "教练", "鉴赏家", "规划师", "生成器", "顾问", "大师", "向导", "倾听者" ];
 
+// *** 核心修改区域 ***
 const generateAgentData = (count: number): Agent[] => {
     const data: Agent[] = [];
     for (let i = 1; i <= count; i++) {
@@ -49,13 +50,18 @@ const generateAgentData = (count: number): Agent[] => {
         const role = roles[i % roles.length];
         const creator = creators[i % creators.length];
 
+        // 使用索引 i 来生成确定的、可预测的值
+        const majorVersion = (i % 3) + 1; // 结果是 1, 2, 3
+        const minorVersion = i % 10;     // 结果是 0-9
+        const userCountThousands = ((i * 1.3) % 15 + 0.5).toFixed(1); // 同样使用 i 生成确定性数据
+
         const agent: Agent = {
             id: i,
             name: `${subject} ${role} #${i}`,
             creator: creator,
             description: `这是一个关于${subject}的专业智能体，由${creator}创建。它能够提供${base.skills.join('、')}等多种能力，帮助你高效学习。`,
-            version: `v${Math.floor(Math.random() * 3) + 1}.${Math.floor(Math.random() * 10)}`,
-            userCount: `${(Math.random() * 15 + 0.1).toFixed(1)}k`,
+            version: `v${majorVersion}.${minorVersion}`, // 不再使用 Math.random()
+            userCount: `${userCountThousands}k`,        // 不再使用 Math.random()
             ...base,
         };
         data.push(agent);

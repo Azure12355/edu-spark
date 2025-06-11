@@ -32,10 +32,6 @@ body {
     min-height: 100vh;
 }
 
-.student-layout-wrapper {
-    padding-top: 56px; /* 预留Header的高度 */
-}
-
 .student-main-container {
     display: flex;
     height: calc(100vh - 56px); /* 视口高度减去Header高度 */
