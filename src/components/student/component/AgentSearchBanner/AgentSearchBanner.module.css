@@ -1,18 +1,18 @@
+/* src/components/student/component/AgentSearchBanner/AgentSearchBanner.module.css */
+
 .heroBanner {
     background-image: linear-gradient(135deg, #4D8DFF 0%, #2969FF 100%);
     background-color: var(--student-primary);
     border-radius: 12px;
-    padding: 32px 40px;
+    padding: 24px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: white;
-    margin-bottom: 24px;
     position: relative;
     overflow: hidden;
 }
 
-/* 添加棋盘格背景 */
 .heroBanner::before {
     content: '';
     position: absolute;
@@ -21,8 +21,7 @@
     right: 0;
     bottom: 0;
     background-image:
-            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
     background-size: 20px 20px;
     opacity: 0.5;
 }
@@ -34,7 +33,7 @@
 }
 
 .textSection h2 {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     margin: 0;
 }
@@ -43,35 +42,26 @@
     font-size: 16px;
     opacity: 0.8;
     margin: 8px 0 16px;
-}
-
-.textSection button {
-    background-color: #FFE600;
-    color: #1C1F23;
-    border: none;
-    border-radius: 99px;
-    padding: 8px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
+    max-width: 450px;
 }
 
 .searchSection {
-    margin-top: 24px;
+    margin-top: 20px;
 }
 
 .searchBar {
     display: flex;
     align-items: center;
-    background-color: var(--student-white);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 99px;
-    padding: 4px;
+    padding: 6px;
     max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .searchBar i {
     color: var(--student-text-tertiary);
-    margin: 0 12px;
+    margin: 0 16px;
 }
 
 .searchBar input {
@@ -80,15 +70,7 @@
     outline: none;
     font-size: 14px;
     color: var(--student-text-primary);
-}
-
-.cameraButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--student-text-secondary);
-    padding: 8px;
+    background: transparent;
 }
 
 .searchButton {
@@ -100,6 +82,11 @@
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.searchButton:hover {
+    background-color: #1a5cff;
 }
 
 .quickLinks {
@@ -117,26 +104,11 @@
     background-color: rgba(255,255,255,0.1);
     padding: 4px 10px;
     border-radius: 12px;
+    transition: background-color 0.2s;
 }
 
-.pagination {
-    position: absolute;
-    bottom: 20px;
-    left: 40px;
-    display: flex;
-    gap: 8px;
-}
-
-.dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: rgba(255,255,255,0.4);
-}
-
-.dot.active {
-    background-color: white;
-    width: 16px;
+.quickLinks a:hover {
+    background-color: rgba(255,255,255,0.2);
 }
 
 .imageContainer {
@@ -144,8 +116,18 @@
     z-index: 1;
     flex-shrink: 0;
     margin-left: 40px;
+    align-self: flex-end; /* 让图片底部对齐 */
 }
 
 .imageContainer img {
     display: block;
+}
+
+@media (max-width: 992px) {
+    .imageContainer {
+        display: none;
+    }
+    .heroBanner {
+        padding: 24px;
+    }
 }

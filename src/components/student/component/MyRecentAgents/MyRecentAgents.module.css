@@ -1,0 +1,77 @@
+/* src/components/student/component/MyRecentAgents/MyRecentAgents.module.css */
+
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--student-border);
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.agentList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.agentItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.agentItem:hover {
+    background-color: #f8f9fa;
+}
+
+.agentAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #e9ecef;
+}
+
+.agentName {
+    flex-grow: 1;
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.agentItem i {
+    color: var(--student-text-tertiary);
+    font-size: 12px;
+}
+
+.viewAllButton {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.viewAllButton:hover {
+    background-color: #f1f3f5;
+    color: var(--student-text-primary);
+}

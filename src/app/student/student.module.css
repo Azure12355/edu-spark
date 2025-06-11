@@ -1,0 +1,38 @@
+/* src/app/student/student.module.css */
+.studentPageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 组件之间的垂直间距 */
+}
+
+.mainContentGrid {
+    display: grid;
+    grid-template-columns: 1fr 300px; /* 主区域占满剩余空间，右侧边栏固定宽度 */
+    gap: 24px;
+    align-items: start;
+}
+
+.agentDisplayArea {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.rightSidebarArea {
+    position: sticky;
+    top: 24px; /* 距离主内容区padding-top的距离 */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 响应式调整：当屏幕宽度小于1200px时，右侧边栏移动到下方 */
+@media (max-width: 1200px) {
+    .mainContentGrid {
+        grid-template-columns: 1fr; /* 变为单列布局 */
+    }
+    .rightSidebarArea {
+        position: static; /* 取消粘性定位 */
+        top: auto;
+    }
+}

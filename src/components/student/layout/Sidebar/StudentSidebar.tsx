@@ -1,39 +1,36 @@
-// src/components/student/Sidebar/StudentSidebar.tsx
+// src/components/student/layout/Sidebar/StudentSidebar.tsx
 "use client";
 import React, { useState } from 'react';
 import styles from './StudentSidebar.module.css';
 
-// 定义菜单项的数据结构
+// 重新定义菜单项以适应Agent广场的需求
 const sidebarGroups = [
     {
         items: [
-            { id: 'recommend', icon: 'fa-star', text: '为你推荐' },
-            { id: 'templates', icon: 'fa-window-maximize', text: '模板中心' },
-            { id: 'materials', icon: 'fa-shapes', text: '素材中心' },
-            { id: 'create', icon: 'fa-plus-square', text: '创建设计' },
+            { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场' },
+            { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行' },
+            { id: 'explore', icon: 'fa-compass', text: '探索发现' },
         ],
     },
     {
-        title: '资源空间',
+        title: '我的空间',
         items: [
-            { id: 'designs', icon: 'fa-user', text: '我的设计' },
-            { id: 'team', icon: 'fa-users', text: '创建团队', tag: '限免', tagColor: 'blue' },
+            { id: 'my-agents', icon: 'fa-user-astronaut', text: '我的 Agent' },
+            { id: 'chat-history', icon: 'fa-history', text: '对话历史', tag: '3', tagColor: 'red' },
+            { id: 'my-favorites', icon: 'fa-bookmark', text: '我的收藏' },
         ],
     },
     {
-        title: '工具箱',
+        title: '创作中心',
         items: [
-            { id: 'ckt-ai', icon: 'fa-wave-square', text: '创客贴AI' },
-            { id: 'smart-design', icon: 'fa-magic', text: '智能设计', tag: '小红书', tagColor: 'red' },
-            { id: 'smart-crop', icon: 'fa-crop-alt', text: '智能抠图' },
-            { id: 'edit', icon: 'fa-edit', text: '图片编辑' },
-            { id: 'batch', icon: 'fa-clone', text: '批量设计' },
-            { id: 'pro-gen', icon: 'custom-pro', text: '生图专业版' }, // 使用自定义图标标识
+            { id: 'create-agent', icon: 'fa-magic', text: '创建 Agent', tag: 'Beta', tagColor: 'blue' },
+            { id: 'knowledge-base', icon: 'fa-book', text: '我的知识库' },
+            { id: 'debug-center', icon: 'fa-bug', text: '调试中心' },
         ],
     },
 ];
 
-// 侧边栏项组件
+// 侧边栏项组件 (保持不变)
 type SidebarItemProps = {
     icon?: string;
     text?: string;
@@ -57,7 +54,8 @@ const SidebarItem = (props: SidebarItemProps) => (
 
 // 主侧边栏组件
 const StudentSidebar = () => {
-    const [activeId, setActiveId] = useState('recommend');
+    // 默认选中 "Agent 广场"
+    const [activeId, setActiveId] = useState('agent-square');
     return (
         <aside className={styles.sidebar}>
             <div className={styles.sidebarContent}>
@@ -80,11 +78,11 @@ const StudentSidebar = () => {
 
                 <div className={styles.upgradeCard}>
                     <div className={styles.upgradeIcon}>
-                        <i className="fas fa-users"></i>
+                        <i className="fas fa-satellite-dish"></i>
                     </div>
                     <div className={styles.upgradeText}>
-                        <h4>免费升级团队版</h4>
-                        <p>体验多人在线协作</p>
+                        <h4>升级 Pro 版</h4>
+                        <p>解锁更强大的Agent能力</p>
                     </div>
                 </div>
             </div>

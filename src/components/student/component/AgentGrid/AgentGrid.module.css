@@ -1,0 +1,110 @@
+/* src/components/student/component/AgentGrid/AgentGrid.module.css */
+
+/* 瀑布流布局容器 */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Agent 卡片样式 */
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    border: 1px solid var(--student-border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f0f0f0; /* 占位背景色 */
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+}
+
+.agentName {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.agentCreator {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    margin: 2px 0 0;
+}
+
+.agentDescription {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    flex-grow: 1; /* 让描述占据多余空间，使页脚对齐 */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 限制最多显示3行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 66px; /* 3行文本的大约高度，保证卡片对齐 */
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    font-size: 12px;
+    background-color: var(--student-blue-tag-bg);
+    color: var(--student-blue-tag-text);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.tag.hot {
+    background-color: #FFF1F0;
+    color: #F53F3F;
+    font-weight: 500;
+}
+
+.userCount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    flex-shrink: 0;
+}
