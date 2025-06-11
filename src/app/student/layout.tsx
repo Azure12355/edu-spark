@@ -19,20 +19,22 @@ export default function StudentLayout({
     return (
         <html lang="zh-CN">
         <head>
-            {/* Font Awesome CDN for icons (已在根布局中提供, 此处为冗余确保) */}
             <link
                 rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
             />
         </head>
         <body>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <div className="student-layout-wrapper">
             <StudentHeader />
-            <div style={{ display: 'flex', flexGrow: 1, paddingTop: '64px' /* Header height */ }}>
+            <div className="student-main-container">
                 <StudentSidebar />
-                <main style={{ flexGrow: 1, overflowY: 'auto', padding: '24px' }}>
-                    {children}
-                </main>
+                {/* 优化：为主内容区添加包裹div，方便设置样式 */}
+                <div className="student-content-area">
+                    <main>
+                        {children}
+                    </main>
+                </div>
             </div>
         </div>
         <FloatingHelpButton />

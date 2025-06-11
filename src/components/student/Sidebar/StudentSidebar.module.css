@@ -1,12 +1,34 @@
+/* src/components/student/Sidebar/StudentSidebar.module.css */
 .sidebar {
     width: 220px;
-    background-color: var(--student-white);
     flex-shrink: 0;
-    padding: 20px 12px;
+    background-color: transparent; /* 优化：背景透明 */
+    height: calc(100vh - 56px); /* 优化：固定高度 */
+    position: sticky; /* 优化：粘性定位，随页面框架滚动，但不随主内容滚动 */
+    top: 56px; /* 距离顶部Header的高度 */
     display: flex;
     flex-direction: column;
-    height: 100%;
-    border-right: 1px solid var(--student-border);
+}
+
+.sidebarContent {
+    padding: 20px 12px;
+    overflow-y: auto; /* 优化：当内容过多时，内部出现滚动条 */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    /* 美化滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+.sidebarContent::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebarContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebarContent::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
 }
 
 .groupTitle {
@@ -24,24 +46,28 @@
 .sidebarItem {
     display: flex;
     align-items: center;
-    padding: 12px 16px;
+    padding: 10px 16px;
+    margin: 2px 0;
     border-radius: 8px;
     color: var(--student-text-secondary);
     text-decoration: none;
     font-size: 15px;
-    font-weight: 500;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s; /* 优化：添加 transform 过渡 */
     position: relative;
+    cursor: pointer;
 }
 
+/* 优化：悬停效果 */
 .sidebarItem:hover {
-    background-color: #f1f3f5;
+    background-color: var(--student-primary-light-bg);
     color: var(--student-text-primary);
+    transform: translateX(4px);
 }
 
+/* 优化：选中状态样式 */
 .sidebarItem.active {
-    background-color: var(--student-primary-light);
-    color: var(--student-primary);
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-text-primary);
     font-weight: 600;
 }
 
@@ -51,6 +77,27 @@
     font-size: 18px;
     margin-right: 12px;
 }
+
+/* 优化：为自定义PRO图标添加样式 */
+.customProIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: 1.5px solid var(--student-text-secondary);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--student-text-secondary);
+}
+.sidebarItem.active .customProIcon,
+.sidebarItem:hover .customProIcon {
+    border-color: var(--student-text-primary);
+    color: var(--student-text-primary);
+}
+
 
 .tag {
     margin-left: auto;
@@ -72,13 +119,15 @@
 
 .upgradeCard {
     margin-top: auto;
-    background-color: var(--student-primary-light);
+    background-color: #EAF2FF; /* 使用了不同的浅蓝色 */
     border-radius: 8px;
     padding: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 16px;
 }
 
 .upgradeIcon {
@@ -98,12 +147,11 @@
     margin: 0 0 4px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--student-primary);
+    color: var(--student-text-primary);
 }
 
 .upgradeText p {
     margin: 0;
     font-size: 12px;
-    color: var(--student-primary);
-    opacity: 0.8;
+    color: var(--student-text-secondary);
 }

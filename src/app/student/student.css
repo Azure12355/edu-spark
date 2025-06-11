@@ -4,9 +4,9 @@
 :root {
     --student-bg: #F5F6F8; /* 主背景色 */
     --student-primary: #2F7BFF; /* 主题蓝色 */
-    --student-primary-light: #EAF2FF; /* 浅蓝，用于高亮背景 */
+    --student-primary-light-bg: rgba(47, 123, 255, 0.1); /* 优化：用于高亮背景的浅蓝色，带透明度 */
     --student-text-primary: #1C1F23; /* 主要文字颜色 */
-    --student-text-secondary: #5F6368; /* 次要文字颜色 */
+    --student-text-secondary: #1b2337; /* 次要文字颜色 */
     --student-text-tertiary: #86909C; /* 辅助/占位文字颜色 */
     --student-border: #E4E6E8; /* 边框颜色 */
     --student-white: #FFFFFF;
@@ -20,16 +20,25 @@ body {
     background-color: var(--student-bg);
     color: var(--student-text-primary);
     font-size: 14px;
+    margin: 0;
 }
 
-/* 通用容器样式 */
-.student-container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 20px;
+.student-layout-wrapper {
+    padding-top: 56px; /* 预留Header的高度 */
 }
 
-/* 全局 section 标题样式 */
+.student-main-container {
+    display: flex;
+    height: calc(100vh - 56px); /* 视口高度减去Header高度 */
+}
+
+.student-content-area {
+    flex-grow: 1;
+    overflow-y: auto; /* 主内容区自己滚动 */
+    padding: 24px;
+}
+
+/* 通用 section 标题样式 */
 .student-section-title {
     font-size: 20px;
     font-weight: 600;
