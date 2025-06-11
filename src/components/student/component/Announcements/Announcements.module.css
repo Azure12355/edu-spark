@@ -1,0 +1,75 @@
+/* src/components/student/component/Announcements/Announcements.module.css */
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--student-border);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.announcementList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.announcementItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.announcementItem:hover {
+    background-color: #f8f9fa;
+}
+
+.tag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+.tag更新 {
+    background-color: #EAF2FF;
+    color: #2F7BFF;
+}
+.tag活动 {
+    background-color: #FFF7E6;
+    color: #FA8C16;
+}
+.tag上新 {
+    background-color: #E6FFFB;
+    color: #00B42A;
+}
+
+.text {
+    flex-grow: 1;
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.date {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    flex-shrink: 0;
+}

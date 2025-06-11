@@ -7,7 +7,9 @@
 
 .mainContentGrid {
     display: grid;
-    grid-template-columns: 1fr 300px; /* 主区域占满剩余空间，右侧边栏固定宽度 */
+    /* 核心优化：将 1fr 替换为 minmax(0, 1fr) */
+    /* 这告诉浏览器，该列可以从 0px 增长到 1fr，从而允许它在需要时收缩，防止内容溢出。*/
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 24px;
     align-items: start;
 }
@@ -26,8 +28,9 @@
     gap: 24px;
 }
 
-/* 响应式调整：当屏幕宽度小于1200px时，右侧边栏移动到下方 */
-@media (max-width: 1200px) {
+/* 响应式调整：当屏幕宽度小于1280px时，右侧边栏移动到下方 */
+/* 优化：将断点从 1200px 提高到 1280px，以在更多设备上保持两栏布局的舒适性 */
+@media (max-width: 1280px) {
     .mainContentGrid {
         grid-template-columns: 1fr; /* 变为单列布局 */
     }

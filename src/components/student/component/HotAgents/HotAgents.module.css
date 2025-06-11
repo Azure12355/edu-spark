@@ -1,0 +1,72 @@
+/* src/components/student/component/HotAgents/HotAgents.module.css */
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--student-border);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.viewAll {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    text-decoration: none;
+}
+.viewAll:hover {
+    color: var(--student-primary);
+}
+
+.agentList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.agentItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rankNumber {
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+    width: 24px;
+    text-align: center;
+    color: var(--student-text-tertiary);
+}
+
+.rank1 { color: #FFD700; }
+.rank2 { color: #C0C0C0; }
+.rank3 { color: #CD7F32; }
+
+.agentName {
+    flex-grow: 1;
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userCount {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    flex-shrink: 0;
+}
+.userCount i {
+    color: #F53F3F;
+}

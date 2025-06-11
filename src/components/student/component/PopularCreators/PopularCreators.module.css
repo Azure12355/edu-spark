@@ -1,0 +1,85 @@
+/* src/components/student/component/PopularCreators/PopularCreators.module.css */
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--student-border);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.viewAll {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    text-decoration: none;
+}
+.viewAll:hover {
+    color: var(--student-primary);
+}
+
+.creatorList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.creatorItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.creatorAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+}
+
+.creatorInfo {
+    flex-grow: 1;
+}
+
+.creatorName {
+    font-weight: 500;
+    color: var(--student-text-primary);
+    font-size: 14px;
+    display: block;
+}
+
+.creatorSpecialty {
+    font-size: 12px;
+    color: var(--student-text-tertiary);
+}
+
+.followButton {
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-primary);
+    border: 1px solid var(--student-primary);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.followButton:hover {
+    opacity: 0.8;
+}
+
+.followButton.followed {
+    background-color: #f5f5f5;
+    color: var(--student-text-tertiary);
+    border-color: #e0e0e0;
+}

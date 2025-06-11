@@ -1,4 +1,4 @@
-/* src/components/student/Header/StudentHeader.module.css */
+/* src/components/student/layout/Header/StudentHeader.module.css */
 .header {
     position: fixed;
     top: 0;
@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-shrink: 0; /* 防止logo区域被压缩 */
 }
 
 .logo {
@@ -70,6 +71,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-grow: 1; /* 让导航占据多余空间 */
+    min-width: 0; /* 允许导航被压缩 */
+    justify-content: flex-start; /* 从左侧开始排列 */
 }
 
 .navLink {
@@ -83,6 +87,7 @@
     border-radius: 6px;
     transition: all 0.2s ease-in-out;
     white-space: nowrap;
+    flex-shrink: 0; /* 防止链接自身被压缩变形 */
 }
 
 .navLink:hover {
@@ -118,7 +123,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-left: auto;
+    margin-left: auto; /* 将操作区推到最右侧 */
+    flex-shrink: 0; /* 防止操作区被压缩 */
 }
 
 .vipButton, .enterpriseButton {
@@ -140,7 +146,7 @@
 }
 
 .enterpriseButton {
-    background-color: var(--student-primary-light);
+    background-color: var(--student-primary-light-bg);
     color: var(--student-primary);
 }
 
@@ -187,12 +193,17 @@
     display: none;
 }
 
-@media (max-width: 1200px) {
+/* 优化：将头部切换为移动菜单的断点从 1200px 调整为 1280px */
+@media (max-width: 1280px) {
     .navigation, .actionsSection {
         display: none;
     }
     .mobileMenuToggle {
         display: block;
+    }
+    .headerContent {
+        /* 在移动视图下，确保logo部分和汉堡菜单两端对齐 */
+        justify-content: space-between;
     }
     .mobileNavPanel {
         display: flex;
