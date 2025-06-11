@@ -1,0 +1,151 @@
+.heroBanner {
+    background-image: linear-gradient(135deg, #4D8DFF 0%, #2969FF 100%);
+    background-color: var(--student-primary);
+    border-radius: 12px;
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 添加棋盘格背景 */
+.heroBanner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    flex-grow: 1;
+}
+
+.textSection h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.textSection p {
+    font-size: 16px;
+    opacity: 0.8;
+    margin: 8px 0 16px;
+}
+
+.textSection button {
+    background-color: #FFE600;
+    color: #1C1F23;
+    border: none;
+    border-radius: 99px;
+    padding: 8px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.searchSection {
+    margin-top: 24px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    background-color: var(--student-white);
+    border-radius: 99px;
+    padding: 4px;
+    max-width: 600px;
+}
+
+.searchBar i {
+    color: var(--student-text-tertiary);
+    margin: 0 12px;
+}
+
+.searchBar input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: var(--student-text-primary);
+}
+
+.cameraButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--student-text-secondary);
+    padding: 8px;
+}
+
+.searchButton {
+    background-color: var(--student-primary);
+    color: white;
+    border: none;
+    border-radius: 99px;
+    padding: 10px 32px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.quickLinks {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.quickLinks a {
+    color: white;
+    text-decoration: none;
+    background-color: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 40px;
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.4);
+}
+
+.dot.active {
+    background-color: white;
+    width: 16px;
+}
+
+.imageContainer {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    margin-left: 40px;
+}
+
+.imageContainer img {
+    display: block;
+}

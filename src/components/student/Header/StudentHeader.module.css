@@ -1,0 +1,235 @@
+/* src/components/student/Header/StudentHeader.module.css */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    background-color: var(--student-white);
+    border-bottom: 1px solid var(--student-border);
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    z-index: 1000;
+}
+
+.headerContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    margin: 0 16px;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    white-space: nowrap;
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--student-border);
+}
+
+.versionButton {
+    background-color: transparent;
+    border: 1px solid var(--student-border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--student-text-secondary);
+    white-space: nowrap;
+}
+
+.versionButton i {
+    font-size: 10px;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navLink {
+    font-size: 15px;
+    color: var(--student-text-secondary);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+}
+
+.navLink:hover {
+    background-color: #f1f3f5;
+    color: var(--student-text-primary);
+}
+
+.navLinkActive {
+    background-color: var(--student-primary) !important;
+    color: var(--student-white) !important;
+}
+
+.moreMenuWrapper {
+    position: relative;
+}
+
+.moreDropdown {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--student-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1001;
+}
+
+.actionsSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.vipButton, .enterpriseButton {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.vipButton {
+    background-color: #FFF2E8;
+    color: #D46B08;
+}
+
+.enterpriseButton {
+    background-color: var(--student-primary-light);
+    color: var(--student-primary);
+}
+
+.iconButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--student-text-secondary);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileWrapper {
+    position: relative;
+    height: 56px; /* 确保包裹容器和header一样高，方便悬停 */
+    display: flex;
+    align-items: center;
+}
+
+.avatarButton {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #E0E0E0;
+    cursor: pointer;
+}
+
+/* 响应式布局 */
+.mobileMenuToggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--student-text-secondary);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.mobileNavPanel {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .navigation, .actionsSection {
+        display: none;
+    }
+    .mobileMenuToggle {
+        display: block;
+    }
+    .mobileNavPanel {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 280px;
+        height: 100vh;
+        background-color: var(--student-white);
+        box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+        z-index: 1002;
+        padding: 16px;
+        animation: slideIn 0.3s forwards;
+    }
+    @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+    .mobileNavHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--student-border);
+    }
+    .mobileNavHeader h3 { margin: 0; }
+    .mobileNavHeader button { background: none; border: none; font-size: 20px; cursor: pointer; }
+    .mobileNavLinks {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+    }
+}
+@media (max-width: 480px) {
+    .header { padding: 0 16px; }
+    .logo h1 { display: none; }
+    .divider, .versionButton { display: none; }
+}

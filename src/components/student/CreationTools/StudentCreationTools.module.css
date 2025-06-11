@@ -1,0 +1,125 @@
+.creationTools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.badge.hot {
+    background-color: #FFF1F0;
+    color: #F53F3F;
+}
+
+.startDesign {
+    background-color: var(--student-primary);
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px dashed rgba(255,255,255,0.5);
+}
+.plusIcon {
+    font-size: 24px;
+}
+.startDesign p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+.recentDesigns {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+}
+.recentItem {
+    flex-grow: 1;
+    height: 50px;
+    background-color: #f1f3f5;
+    border-radius: 4px;
+}
+.recentItemArrow {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f3f5;
+    border-radius: 4px;
+    color: var(--student-text-tertiary);
+}
+
+.toolsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.toolButton {
+    background-color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--student-text-primary);
+    font-weight: 500;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+.toolButton:hover {
+    background-color: #f1f3f5;
+    border-color: #dee2e6;
+}
+
+.toolButton i {
+    font-size: 18px;
+    color: var(--student-text-secondary);
+    width: 20px;
+    text-align: center;
+}
+
+.toolBadge {
+    position: absolute;
+    top: 4px;
+    right: -20px;
+    transform: rotate(45deg);
+    font-size: 10px;
+    padding: 1px 20px;
+    font-weight: 600;
+}
+.toolBadge.new, .toolBadge.hd {
+    background-color: var(--student-primary-light);
+    color: var(--student-primary);
+}
+.toolBadge.deepseek {
+    background-color: var(--student-primary);
+    color: white;
+    right: -25px;
+}

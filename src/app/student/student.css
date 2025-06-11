@@ -1,0 +1,38 @@
+/* src/app/student/student.css */
+
+/* 定义创客贴风格的颜色变量 */
+:root {
+    --student-bg: #F5F6F8; /* 主背景色 */
+    --student-primary: #2F7BFF; /* 主题蓝色 */
+    --student-primary-light: #EAF2FF; /* 浅蓝，用于高亮背景 */
+    --student-text-primary: #1C1F23; /* 主要文字颜色 */
+    --student-text-secondary: #5F6368; /* 次要文字颜色 */
+    --student-text-tertiary: #86909C; /* 辅助/占位文字颜色 */
+    --student-border: #E4E6E8; /* 边框颜色 */
+    --student-white: #FFFFFF;
+    --student-red: #F53F3F; /* 红色标签 */
+    --student-blue-tag-bg: #EAF2FF; /* 蓝色标签背景 */
+    --student-blue-tag-text: #2F7BFF; /* 蓝色标签文字 */
+}
+
+body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: var(--student-bg);
+    color: var(--student-text-primary);
+    font-size: 14px;
+}
+
+/* 通用容器样式 */
+.student-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 全局 section 标题样式 */
+.student-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin-bottom: 20px;
+}
