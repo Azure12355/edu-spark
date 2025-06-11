@@ -22,31 +22,56 @@ const StudentHeader = () => {
     const [isProfileOpen, setProfileOpen] = useState(false);
     const [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const moreMenuRef = useRef<HTMLDivElement>(null);
 
-    // 优化：将可见链接数量改为常量，方便调整
+    const moreMenuRef = useRef<HTMLDivElement>(null);
+    // 优化：使用 useRef 来存储计时器ID，这样它在组件重渲染时不会丢失
+    const hideProfileTimerRef = useRef<NodeJS.Timeout | null>(null);
+
     const VISIBLE_LINKS_COUNT = 5;
     const visibleLinks = navLinks.slice(0, VISIBLE_LINKS_COUNT);
     const collapsedLinks = navLinks.slice(VISIBLE_LINKS_COUNT);
 
+    // --- 优化：新的鼠标事件处理函数 ---
+    const handleProfileMouseEnter = () => {
+        // 如果有正在准备关闭的计时器，立即清除它
+        if (hideProfileTimerRef.current) {
+            clearTimeout(hideProfileTimerRef.current);
+        }
+        // 打开下拉菜单
+        setProfileOpen(true);
+    };
+
+    const handleProfileMouseLeave = () => {
+        // 设置一个计时器，在延迟后关闭下拉菜单。
+        // 300毫秒是一个比较舒适的用户体验延迟时间，远好于2秒。
+        hideProfileTimerRef.current = setTimeout(() => {
+            setProfileOpen(false);
+        }, 300); // 延迟300毫秒
+    };
+
     useEffect(() => {
-        // 点击 "更多" 菜单外部时关闭
-        //@ts-ignore
-        const handleClickOutside = (event) => {
-            if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
+        const handleClickOutside = (event: { target: any; }) => {
+            let moreMenu;
+            // @ts-ignore
+            if (moreMenuRef.current && !moreMenu.current.contains(event.target)) {
                 setMoreMenuOpen(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+
+        // 组件卸载时，清除所有计时器，防止内存泄漏
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            if (hideProfileTimerRef.current) {
+                clearTimeout(hideProfileTimerRef.current);
+            }
+        };
     }, []);
 
     useEffect(() => {
-        // 移动端菜单打开时，禁止背景滚动
         document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
     }, [isMobileMenuOpen]);
 
-    // 渲染导航链接的通用函数
     const renderNavLinks = (links: any[], isMobile = false) => (
         links.map(link => (
             <Link
@@ -66,7 +91,6 @@ const StudentHeader = () => {
     return (
         <header className={styles.header}>
             <div className={styles.headerContent}>
-                {/* Logo 和版本按钮 */}
                 <div className={styles.logoSection}>
                     <Link href="/student" className={styles.logo}>
                         <Image src="/EduSpark-icon.png" alt="Logo" width={32} height={32} />
@@ -78,7 +102,6 @@ const StudentHeader = () => {
                     </button>
                 </div>
 
-                {/* 桌面端导航 */}
                 <nav className={styles.navigation}>
                     {renderNavLinks(visibleLinks)}
                     {collapsedLinks.length > 0 && (
@@ -95,7 +118,6 @@ const StudentHeader = () => {
                     )}
                 </nav>
 
-                {/* 右侧操作区 */}
                 <div className={styles.actionsSection}>
                     <button className={styles.vipButton}>
                         <i className="fas fa-crown"></i> 开通会员
@@ -106,24 +128,22 @@ const StudentHeader = () => {
                     <button className={styles.iconButton}>
                         <i className="fas fa-bell"></i>
                     </button>
-                    {/* 优化：使用父容器包裹头像和下拉菜单，并绑定事件 */}
+                    {/* 优化：绑定新的事件处理函数 */}
                     <div
                         className={styles.profileWrapper}
-                        onMouseEnter={() => setProfileOpen(true)}
-                        onMouseLeave={() => setProfileOpen(false)}
+                        onMouseEnter={handleProfileMouseEnter}
+                        onMouseLeave={handleProfileMouseLeave}
                     >
                         <div className={styles.avatarButton}></div>
                         {isProfileOpen && <ProfileDropdown />}
                     </div>
                 </div>
 
-                {/* 移动端汉堡菜单按钮 */}
                 <button className={styles.mobileMenuToggle} onClick={() => setMobileMenuOpen(true)}>
                     <i className="fas fa-bars"></i>
                 </button>
             </div>
 
-            {/* 移动端菜单面板 */}
             {isMobileMenuOpen && (
                 <div className={styles.mobileNavPanel}>
                     <div className={styles.mobileNavHeader}>
