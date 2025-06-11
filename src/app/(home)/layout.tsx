@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import "./globals.css"; // 引入全局样式
+import "../globals.css"; // 引入全局样式
 
 export const metadata: Metadata = {
   title: "EduSpark - AI赋能教育",

@@ -79,7 +79,7 @@ const Header: React.FC = () => {
       animate="visible"
     >
       <div className={styles.veHeaderContainer}>
-        <Link href="/" className={styles.veLogo}>
+        <Link href="/public" className={styles.veLogo}>
           {/* 假设 Logo 位于 public/images/logo.svg */}
           <Image
             src="/EduSpark-icon-font.png" 
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
             exit="exit"
           >
             <div className={styles.mobileNavHeader}>
-                <Link href="/" className={styles.veLogoMobile} onClick={toggleMobileMenu}>
+                <Link href="/public" className={styles.veLogoMobile} onClick={toggleMobileMenu}>
                 <Image
                     src="/EduSpark-icon-font.png"
                     alt="EduSpark Logo"
