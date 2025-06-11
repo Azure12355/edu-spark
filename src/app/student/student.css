@@ -2,7 +2,9 @@
 
 /* 定义创客贴风格的颜色变量 */
 :root {
-    --student-bg: #F5F6F8; /* 主背景色 */
+    /* 核心修改 #1：将 --student-bg 从纯色 #F5F6F8 替换为一个优雅的蓝粉渐变 */
+    --student-bg: white;
+
     --student-primary: #2F7BFF; /* 主题蓝色 */
     --student-primary-light-bg: rgba(47, 123, 255, 0.1); /* 优化：用于高亮背景的浅蓝色，带透明度 */
     --student-text-primary: #1C1F23; /* 主要文字颜色 */
@@ -17,10 +19,17 @@
 
 body {
     font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: var(--student-bg);
+
+    /* 核心修改 #2：应用新的渐变背景 */
+    background: var(--student-bg);
+    /* 核心修改 #3：让背景在滚动时固定不动，营造高级感 */
+    background-attachment: fixed;
+
     color: var(--student-text-primary);
     font-size: 14px;
     margin: 0;
+    /* 核心修改 #4：确保即使内容很少，背景也能撑满整个屏幕 */
+    min-height: 100vh;
 }
 
 .student-layout-wrapper {

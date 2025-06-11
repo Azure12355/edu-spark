@@ -1,68 +1,150 @@
 /* src/components/student/component/AgentCategoryFilter/AgentCategoryFilter.module.css */
-.quickAccess {
+.filterContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.itemsContainer {
-    display: flex;
-    gap: 12px;
-    flex-grow: 1;
-    overflow-x: auto;
-    padding-bottom: 8px; /* For scrollbar */
-    scrollbar-width: none; /* Firefox */
-}
-.itemsContainer::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
-}
-
-
-.item {
     background-color: var(--student-white);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--student-border);
+}
+
+.filterButtons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative; /* 关键：为滑动指示器提供定位上下文 */
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
     border-radius: 8px;
-    padding: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    position: relative; /* 关键：为了让内容在指示器之上 */
+    z-index: 1;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.filterButton:hover:not(.active) {
+    color: var(--student-text-primary);
+    background-color: #f8f9fa;
+}
+
+.filterButton.active {
+    color: var(--student-primary);
+}
+
+/* 滑动胶囊指示器样式 */
+.activePill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--student-primary-light-bg);
+    border-radius: 8px;
+    z-index: -1; /* 在按钮内容之下 */
+}
+
+.iconWrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f1f3f5;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filterButton:hover .iconWrapper {
+    background-color: #e9ecef;
+}
+
+.filterButton.active .iconWrapper {
+    background-color: var(--student-primary);
+    color: var(--student-white);
+    transform: scale(1.1) rotate(-15deg);
+}
+
+.textWrapper {
+    transition: color 0.3s ease;
+}
+
+/* “更多”按钮相关样式 */
+.moreButtonWrapper {
+    position: relative;
+}
+
+.moreButton .iconWrapper {
+    background-color: transparent;
+    border: 1.5px dashed var(--student-border);
+}
+.moreButton:hover .iconWrapper {
+    border-color: var(--student-primary);
+    color: var(--student-primary);
+    transform: scale(1.05);
+}
+
+.moreDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background-color: var(--student-white);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 8px;
+    width: 180px;
+    z-index: 10;
+    border: 1px solid var(--student-border);
+}
+
+.moreDropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--student-text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+}
+.moreDropdown a:hover {
+    background-color: #f8f9fa;
+    color: var(--student-primary);
+}
+.moreDropdown a i {
+    width: 16px;
+    text-align: center;
+}
+
+/* 右侧的高级筛选按钮 */
+.advancedFilterButton {
+    display: flex;
+    align-items: center;
     gap: 8px;
-    min-width: 120px;
+    background-color: #f8f9fa;
+    border: 1px solid var(--student-border);
+    padding: 10px 16px;
+    border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
     color: var(--student-text-secondary);
     cursor: pointer;
-    border: 1px solid var(--student-border);
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    color: var(--student-primary);
-}
-
-.item.active {
-    background-color: var(--student-primary-light-bg);
-    border-color: var(--student-primary);
-    color: var(--student-primary);
-    font-weight: 600;
-}
-
-.icon {
-    font-size: 18px;
-}
-
-.arrowButton {
-    background-color: var(--student-white);
-    border: 1px solid var(--student-border);
-    border-radius: 8px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
     margin-left: 16px;
-    flex-shrink: 0;
+}
+.advancedFilterButton:hover {
+    border-color: #d0d5dd;
+    color: var(--student-text-primary);
 }
