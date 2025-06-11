@@ -1,0 +1,26 @@
+/* src/components/student/component/assistant/ChatFooter.module.css */
+.footerInfo {
+    padding: 10px 20px;
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+    background-color: #f8fafc;
+    flex-shrink: 0;
+    position: relative;
+}
+.promoTag {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    background-color: #ecfdf5;
+    color: #065f46;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 6px;
+    font-weight: 500;
+    border: 1px solid #abf2d3;
+}
+@media (max-width: 768px) {
+    .footerInfo { padding: 8px 15px; font-size: 11px; }
+}

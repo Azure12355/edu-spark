@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './AssistantWelcomeScreen.module.css';
-import PromptCard from './PromptCard';
+import PromptCard from '../PromptCard/PromptCard';
 
 interface AssistantWelcomeScreenProps {
     onPromptClick: (promptText: string) => void;

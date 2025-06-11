@@ -1,0 +1,155 @@
+/* src/components/student/component/assistant/MessageBubble.module.css */
+.messageBubble {
+    max-width: 90%;
+    padding: 12px 18px;
+    border-radius: 16px;
+    line-height: 1.6;
+    font-size: 15px;
+    word-wrap: break-word;
+    align-self: flex-start; /* Default for assistant */
+}
+.user {
+    background: var(--user-bubble-bg);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 6px;
+}
+.assistant {
+    background-color: var(--assistant-bubble-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 6px;
+}
+.assistantMsgHeader {
+    margin-bottom: 10px;
+    font-size: 13px;
+    display: flex; align-items: center;
+}
+.statusTagComplete, .statusTagThinking {
+    padding: 5px 12px;
+    border-radius: 99px;
+    display: inline-flex; align-items: center;
+    font-weight: 500;
+}
+.statusTagComplete {
+    background-color: #f8fafc;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+.statusTagComplete[style*="cursor: pointer"]:hover {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+}
+.chevronOpen {
+    transform: rotate(90deg);
+}
+.statusTagThinking {
+    color: var(--link-color);
+    background-color: #eef2ff;
+}
+.messageContent { /* Container for markdown content */ }
+.messageContent :global(.markdown-body) {
+    background-color: transparent !important;
+    color: inherit;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.65;
+    padding: 0;
+}
+.messageContent :global(.markdown-body > *:last-child) {
+    margin-bottom: 0 !important;
+}
+.user .messageContent {
+    color: #fff !important;
+    background-color: transparent !important;
+}
+.messageContent :global(.markdown-body h1),
+.messageContent :global(.markdown-body h2),
+.messageContent :global(.markdown-body h3) {
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    padding-bottom: 0.3em;
+    border-bottom-color: var(--border-color);
+}
+.user .messageContent :global(.markdown-body h1),
+.user .messageContent :global(.markdown-body h2),
+.user .messageContent :global(.markdown-body h3) {
+    border-bottom-color: rgba(255,255,255,0.3);
+}
+.messageContent :global(.markdown-body div[class*="language-"]) {
+    border-radius: 6px;
+    margin: 0.8em 0;
+    font-size: 0.9em;
+    border: 1px solid var(--border-color);
+}
+.messageContent :global(.markdown-body div[class*="language-"] code) {
+    text-shadow: none !important;
+}
+.messageContent :global(.mermaid) {
+    margin-bottom: 0.8em;
+    text-align: center;
+    background-color: #fafbfc;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+.messageContent :global(.mermaid svg) {
+    max-width: 100%;
+    height: auto !important;
+}
+.typingIndicator {
+    display: inline-block;
+    width: 8px;
+    height: 1.5em;
+    background-color: currentColor;
+    animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.thinkingPanel {
+    padding: 14px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #d1d9e3;
+    font-size: 13.5px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+.thinkingPanel h4 {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+.thinkingPanel pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}
+.messageActions {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 16px;
+}
+.messageActions button {
+    background: none; border: none;
+    color: var(--text-light);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+.messageActions button:hover { color: var(--link-color); }
+@media (max-width: 768px) {
+    .messageBubble { padding: 10px 14px; font-size: 14px; }
+}

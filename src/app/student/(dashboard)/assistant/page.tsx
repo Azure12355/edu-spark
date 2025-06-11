@@ -1,6 +1,6 @@
 // src/app/student/assistant/page.tsx
 import React from 'react';
-import AgentAssistantChat from '@/components/student/component/assistant/AgentAssistantChat';
+import AgentAssistantChat from '@/components/student/component/assistant/AgentAssistantChat/AgentAssistantChat';
 
 export default function AgentAssistantPage() {
     return (

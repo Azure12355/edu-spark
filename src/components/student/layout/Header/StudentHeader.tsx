@@ -92,9 +92,9 @@ const StudentHeader = () => {
         <header className={styles.header}>
             <div className={styles.headerContent}>
                 <div className={styles.logoSection}>
-                    <Link href="/student" className={styles.logo}>
-                        <Image src="/EduSpark-icon.png" alt="Logo" width={32} height={32} />
-                        <h1>创客贴</h1>
+                    <Link href="/" className={styles.logo}>
+                        <Image src="/images/Chat/robot.png" alt="Logo" width={42} height={42} />
+                        <h1>EduSpark</h1>
                     </Link>
                     <div className={styles.divider}></div>
                     <button className={styles.versionButton}>

@@ -10,7 +10,7 @@ import styles from './Header.module.css';
 const navLinksData = [
   { href: "#", text: "首页", active: true },
   { href: "#", text: "教师中心", dropdown: true },
-  { href: "#", text: "学生中心", dropdown: true },
+  { href: "/student/plaza", text: "学生中心", dropdown: true },
   { href: "#", text: "课程广场", newIndicator: true },
   { href: "#", text: "数据看板" },
   { href: "#", text: "关于我们" },
