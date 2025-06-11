@@ -3,7 +3,6 @@ import React from 'react';
 import type { Metadata } from 'next';
 import StudentHeader from '@/components/student/layout/Header/StudentHeader';
 import StudentSidebar from '@/components/student/layout/Sidebar/StudentSidebar';
-import FloatingHelpButton from '@/components/student/component/plaza/FloatingHelpButton/FloatingHelpButton';
 import '../student.css'; // 引入学生端专属全局样式
 
 export const metadata: Metadata = {
@@ -28,7 +27,6 @@ export default function StudentDashboardLayout({
                     </main>
                 </div>
             </div>
-            <FloatingHelpButton />
         </div>
     );
 }

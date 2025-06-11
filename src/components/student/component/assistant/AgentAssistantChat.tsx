@@ -12,6 +12,7 @@ import mermaid from 'mermaid';
 
 import 'github-markdown-css/github-markdown-light.css';
 import styles from './AgentAssistantChat.module.css';
+import AssistantWelcomeScreen from './AssistantWelcomeScreen'; // 导入新的欢迎界面组件
 
 interface Message {
     id: string;
@@ -63,18 +64,23 @@ const AgentAssistantChat: React.FC = () => {
     }, [messages, showThinkingPanelId]);
 
     useEffect(() => {
-        inputRef.current?.focus();
-    }, []);
+        if(messages.length <= 1) {
+            // 在欢迎界面，不需要聚焦输入框
+        } else {
+            inputRef.current?.focus();
+        }
+    }, [messages.length]);
 
-    const handleSubmit = async (e?: FormEvent) => {
-        if (e) e.preventDefault();
-        const userMessageContent = inputValue.trim();
-        if (!userMessageContent || isSending) return;
+    // 重构消息发送逻辑为一个可复用函数
+    const sendChatMessage = async (messageContent: string) => {
+        const content = messageContent.trim();
+        if (!content || isSending) return;
 
         setIsSending(true);
-        const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: userMessageContent, isComplete: true };
+        const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content, isComplete: true };
         const assistantMsgId = `assistant-${Date.now()}`;
 
+        // 立即更新UI，显示用户消息和AI思考状态
         setMessages(prev => [
             ...prev,
             newUserMessage,
@@ -145,157 +151,166 @@ const AgentAssistantChat: React.FC = () => {
         }
     };
 
-    const handleQuickQuestion = (question: string) => {
-        setInputValue(question);
-        setTimeout(() => inputRef.current?.focus(), 50);
+    const handleSubmit = (e?: FormEvent) => {
+        if (e) e.preventDefault();
+        sendChatMessage(inputValue);
     };
 
     const toggleThinkingPanel = (messageId: string) => {
         setShowThinkingPanelId(prevId => (prevId === messageId ? null : messageId));
     };
 
+    // 核心逻辑：判断是否显示欢迎界面
+    const showWelcomeScreen = messages.length <= 1;
+
     return (
         <div className={styles.chatContainer}>
-            <header className={styles.widgetHeader}>
-                <div className={styles.headerTitle}>
-                    <Image src="/images/Chat/robot.png" alt="Agent 助教" width={26} height={26} />
-                    Agent 助教
-                </div>
-                <div className={styles.headerControls}>
-                    {/* 这里可以放一些页面特有的按钮，比如“清空对话” */}
-                    <button className={styles.controlButton} title="清空对话" onClick={() => setMessages(initialMessages)}>
-                        <i className="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </header>
-
-            <main className={styles.chatBody} ref={chatBodyRef}>
-                {messages.map(msg => (
-                    <motion.div
-                        key={msg.id}
-                        className={`${styles.messageBubble} ${styles[msg.role]}`}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                    >
-                        {msg.role === 'assistant' && (msg.isThinking || msg.isComplete) && (
-                            <div className={styles.assistantMsgHeader}>
-                                {msg.isThinking && !msg.isComplete && (
-                                    <span className={styles.statusTagThinking}>
-                    <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
-                    正在思考...
-                  </span>
-                                )}
-                                {msg.isComplete && !msg.thinkingText && (
-                                    <span className={styles.statusTagComplete}>
-                    <i className="fas fa-check-circle" style={{ marginRight: '8px', color: '#10b981' }} />
-                    回答完毕
-                  </span>
-                                )}
-                                {msg.isComplete && msg.thinkingText && (
-                                    <span className={styles.statusTagComplete} onClick={() => toggleThinkingPanel(msg.id)} style={{cursor: 'pointer'}}>
-                    <i className={`fas fa-chevron-right ${showThinkingPanelId === msg.id ? styles.chevronOpen : ''}`} style={{ marginRight: '8px', transition: 'transform 0.2s' }}></i>
-                    回答完毕 (点击{showThinkingPanelId === msg.id ? '收起' : '展开'}思考过程)
-                  </span>
-                                )}
-                            </div>
-                        )}
-
-                        <div className={`${styles.messageContent} markdown-body`}>
-                            {msg.content ? (
-                                <ReactMarkdown
-                                    remarkPlugins={[remarkGfm]}
-                                    components={{
-                                        // @ts-ignore
-                                        code({ node, inline, className, children, ...props }) {
-                                            const match = /language-(\w+)/.exec(className || '');
-                                            const language = match ? match[1] : '';
-
-                                            if (language === 'mermaid') {
-                                                return <pre className="mermaid">{String(children)}</pre>;
-                                            }
-
-                                            return !inline && match ? (
-                                                <SyntaxHighlighter
-                                                    // @ts-ignore
-                                                    style={oneLight}
-                                                    language={language}
-                                                    PreTag="div"
-                                                    {...props}
-                                                >
-                                                    {String(children).replace(/\n$/, '')}
-                                                </SyntaxHighlighter>
-                                            ) : (
-                                                <code className={className} {...props}>
-                                                    {children}
-                                                </code>
-                                            );
-                                        }
-                                    }}
-                                >
-                                    {msg.isThinking ? msg.content.replace(/<think>[\s\S]*?<\/think>/g, '') : msg.content}
-                                </ReactMarkdown>
-                            ) : (
-                                !msg.isComplete && <span className={styles.typingIndicator}></span>
-                            )}
+            {showWelcomeScreen ? (
+                <AssistantWelcomeScreen onPromptClick={sendChatMessage} />
+            ) : (
+                <>
+                    <header className={styles.widgetHeader}>
+                        <div className={styles.headerTitle}>
+                            <Image src="/images/Chat/robot.png" alt="Agent 助教" width={26} height={26} />
+                            Agent 助教
                         </div>
+                        <div className={styles.headerControls}>
+                            <button className={styles.controlButton} title="清空对话" onClick={() => setMessages(initialMessages)}>
+                                <i className="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </header>
 
-                        <AnimatePresence>
-                            {showThinkingPanelId === msg.id && msg.thinkingText && (
-                                <motion.div
-                                    className={styles.thinkingPanel}
-                                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                                    animate={{ height: 'auto', opacity: 1, marginTop: '12px' }}
-                                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                >
-                                    <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>助教的思考过程：</h4>
-                                    <pre>{msg.thinkingText}</pre>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                    <main className={styles.chatBody} ref={chatBodyRef}>
+                        {messages.map(msg => (
+                            msg.id !== 'init-assistant' && // 在聊天视图中不再显示初始欢迎语
+                            <motion.div
+                                key={msg.id}
+                                className={`${styles.messageBubble} ${styles[msg.role]}`}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, ease: "easeOut" }}
+                            >
+                                {msg.role === 'assistant' && (msg.isThinking || msg.isComplete) && (
+                                    <div className={styles.assistantMsgHeader}>
+                                        {msg.isThinking && !msg.isComplete && (
+                                            <span className={styles.statusTagThinking}>
+                            <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
+                            正在思考...
+                        </span>
+                                        )}
+                                        {msg.isComplete && !msg.thinkingText && (
+                                            <span className={styles.statusTagComplete}>
+                            <i className="fas fa-check-circle" style={{ marginRight: '8px', color: '#10b981' }} />
+                            回答完毕
+                        </span>
+                                        )}
+                                        {msg.isComplete && msg.thinkingText && (
+                                            <span className={styles.statusTagComplete} onClick={() => toggleThinkingPanel(msg.id)} style={{cursor: 'pointer'}}>
+                            <i className={`fas fa-chevron-right ${showThinkingPanelId === msg.id ? styles.chevronOpen : ''}`} style={{ marginRight: '8px', transition: 'transform 0.2s' }}></i>
+                            回答完毕 (点击{showThinkingPanelId === msg.id ? '收起' : '展开'}思考过程)
+                        </span>
+                                        )}
+                                    </div>
+                                )}
 
-                        {msg.role === 'assistant' && msg.isComplete && msg.id !== 'init-assistant' && (
-                            <div className={styles.messageActions}>
-                                <button title="复制" onClick={() => navigator.clipboard.writeText(msg.content)}><i className="far fa-copy"></i> 复制</button>
-                                <button title="赞"><i className="far fa-thumbs-up"></i></button>
-                                <button title="踩"><i className="far fa-thumbs-down"></i></button>
-                            </div>
-                        )}
-                    </motion.div>
-                ))}
-            </main>
+                                <div className={`${styles.messageContent} markdown-body`}>
+                                    {msg.content ? (
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkGfm]}
+                                            components={{
+                                                // @ts-ignore
+                                                code({ node, inline, className, children, ...props }) {
+                                                    const match = /language-(\w+)/.exec(className || '');
+                                                    const language = match ? match[1] : '';
 
-            <section className={styles.quickActions}>
-                {["生成一份Java学习大纲", "解释一下什么是递归", "给我出几道高数题"].map(q => (
-                    <button key={q} onClick={() => handleQuickQuestion(q)} className={styles.quickQuestionBtn}>
-                        {q} <i className="fas fa-arrow-right"></i>
-                    </button>
-                ))}
-            </section>
-            <form onSubmit={handleSubmit} className={styles.inputArea}>
-        <textarea
-            ref={inputRef}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="输入你的问题，比如“解释一下什么是闭包”..."
-            rows={1}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit();
-                }
-            }}
-            disabled={isSending}
-        />
-                <button type="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()}>
-                    <i className="fas fa-paper-plane"></i>
-                </button>
-            </form>
-            <footer className={styles.footerInfo}>
-                AI生成内容仅供参考，请谨慎采纳
-                <span className={styles.promoTag}>Beta</span>
-            </footer>
+                                                    if (language === 'mermaid') {
+                                                        return <pre className="mermaid">{String(children)}</pre>;
+                                                    }
+
+                                                    return !inline && match ? (
+                                                        <SyntaxHighlighter
+                                                            // @ts-ignore
+                                                            style={oneLight}
+                                                            language={language}
+                                                            PreTag="div"
+                                                            {...props}
+                                                        >
+                                                            {String(children).replace(/\n$/, '')}
+                                                        </SyntaxHighlighter>
+                                                    ) : (
+                                                        <code className={className} {...props}>
+                                                            {children}
+                                                        </code>
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            {msg.isThinking ? msg.content.replace(/<think>[\s\S]*?<\/think>/g, '') : msg.content}
+                                        </ReactMarkdown>
+                                    ) : (
+                                        !msg.isComplete && <span className={styles.typingIndicator}></span>
+                                    )}
+                                </div>
+
+                                <AnimatePresence>
+                                    {showThinkingPanelId === msg.id && msg.thinkingText && (
+                                        <motion.div
+                                            className={styles.thinkingPanel}
+                                            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                                            animate={{ height: 'auto', opacity: 1, marginTop: '12px' }}
+                                            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                        >
+                                            <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>助教的思考过程：</h4>
+                                            <pre>{msg.thinkingText}</pre>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+                                {msg.role === 'assistant' && msg.isComplete && msg.id !== 'init-assistant' && (
+                                    <div className={styles.messageActions}>
+                                        <button title="复制" onClick={() => navigator.clipboard.writeText(msg.content)}><i className="far fa-copy"></i> 复制</button>
+                                        <button title="赞"><i className="far fa-thumbs-up"></i></button>
+                                        <button title="踩"><i className="far fa-thumbs-down"></i></button>
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </main>
+
+                    <section className={styles.quickActions}>
+                        {["生成一份Java学习大纲", "解释一下什么是递归", "给我出几道高数题"].map(q => (
+                            <button key={q} onClick={() => sendChatMessage(q)} className={styles.quickQuestionBtn}>
+                                {q} <i className="fas fa-arrow-right"></i>
+                            </button>
+                        ))}
+                    </section>
+                    <form onSubmit={handleSubmit} className={styles.inputArea}>
+            <textarea
+                ref={inputRef}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="输入你的问题，或 Shift + Enter 换行"
+                rows={1}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit();
+                    }
+                }}
+                disabled={isSending}
+            />
+                        <button type="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()}>
+                            <i className="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <footer className={styles.footerInfo}>
+                        AI生成内容仅供参考，请谨慎采纳
+                        <span className={styles.promoTag}>Beta</span>
+                    </footer>
+                </>
+            )}
         </div>
     );
 };

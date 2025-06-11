@@ -1,0 +1,65 @@
+/* src/components/student/component/assistant/PromptCard.module.css */
+
+.promptCard {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
+    border: 1px solid rgba(228, 230, 232, 0.5);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.promptCard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px -10px rgba(0, 82, 255, 0.15);
+}
+
+/* 卡片悬浮时的辉光效果 */
+.promptCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(47, 123, 255, 0.15), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.promptCard:hover::before {
+    opacity: 1;
+}
+
+.cardIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--student-primary-light-bg) 0%, #EAF2FF 100%);
+    color: var(--student-primary);
+    box-shadow: 0 2px 5px rgba(47, 123, 255, 0.1);
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0 0 8px 0;
+}
+
+.cardDescription {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
