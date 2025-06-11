@@ -1,0 +1,69 @@
+/* src/components/teacher/pages/ClassManagement/ClassListSider.module.css */
+.classListSider {
+    width: 240px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-right: 1px solid #f0f0f0;
+    padding: 16px 8px 16px 16px; /* 右侧留出滚动条空间 */
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    margin-bottom: 16px;
+    padding-right: 8px; /* 保持与下方列表对齐 */
+    flex-shrink: 0;
+}
+
+.listContainer {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0 -8px 0 0; /* 让滚动条贴边 */
+    padding-right: 8px; /* 滚动条内部空间 */
+}
+
+.listContainer::-webkit-scrollbar { width: 4px; }
+.listContainer::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 2px; }
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 12px;
+    margin: 8px 0px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    border: 1px solid transparent;
+}
+
+.listItem:hover {
+    background-color: #f5f5f5;
+}
+
+.listItem.active {
+    background-color: #e6f4ff;
+}
+
+.listItemName {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+    color: #333;
+}
+.listItem.active .listItemName {
+    color: var(--ant-color-primary);
+    font-weight: 500;
+}
+
+.listItem .moreButton {
+    visibility: hidden; /* 默认隐藏 */
+    color: #8c8c8c;
+}
+
+.listItem:hover .moreButton,
+.listItem.active .moreButton {
+    visibility: visible; /* 悬停或激活时显示 */
+}

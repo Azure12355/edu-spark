@@ -1,0 +1,130 @@
+/* src/components/teacher/pages/CourseManagement/CourseManagementSider.module.css */
+.sider {
+    width: 220px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.sider.collapsed {
+    /* 核心修改：更窄的宽度，刚好容纳图标和一点边距 */
+    width: 72px; 
+    padding: 16px 0;
+}
+
+.courseInfo {
+    padding: 0 16px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sider.collapsed .courseInfo {
+    padding: 0 0 16px;
+}
+
+.courseAvatar {
+    width: 100px;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f2f5;
+    transition: all 0.2s ease;
+}
+
+.sider.collapsed .courseAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.courseTitle, .courseInstructor {
+    transition: opacity 0.2s ease;
+}
+.sider.collapsed .courseTitle,
+.sider.collapsed .courseInstructor {
+    opacity: 0;
+    display: none;
+}
+
+.menuContainer {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 8px;
+}
+.menuContainer::-webkit-scrollbar { display: none; } /* 在内容区隐藏滚动条 */
+
+/* 展开状态下的菜单 */
+.expandedMenu {
+    border-right: none !important;
+    padding: 0 8px;
+}
+
+/* 折叠状态下的自定义菜单 */
+.collapsedMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* 图标之间的间距 */
+    padding-top: 8px;
+}
+
+.collapsedMenuItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #595959;
+    font-size: 18px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.collapsedMenuItem:hover {
+    background-color: #f0f0f0;
+}
+
+.collapsedMenuItem.active {
+    background-color: #e6f4ff;
+    color: var(--ant-color-primary);
+}
+
+.siderFooter {
+    padding: 16px;
+    border-top: 1px solid #f0f0f0;
+    flex-shrink: 0;
+}
+.sider.collapsed .siderFooter {
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.collapseButton {
+    position: absolute;
+    top: 24px;
+    right: -13px;
+    z-index: 10;
+    background: #fff !important;
+    border: 1px solid #e8e8e8 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    color: #8c8c8c !important;
+    transition: all 0.2s ease;
+}
+.collapseButton:hover {
+    color: var(--ant-color-primary) !important;
+    border-color: var(--ant-color-primary-outline) !important;
+    transform: scale(1.1);
+}

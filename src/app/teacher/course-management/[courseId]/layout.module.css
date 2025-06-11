@@ -1,0 +1,31 @@
+/* src/app/teacher/course-management/[courseId]/layout.module.css */
+.pageContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    /* 核心修改: 调整了gap和padding, 以适应无面包屑的布局 */
+    gap: 10px;
+    padding: 10px; 
+    box-sizing: border-box; 
+    background-color: #F7F8FA; 
+}
+
+.mainContentArea {
+    flex: 1;
+    min-width: 0;
+    display: flex; /* 确保 main 可以撑满 */
+    flex-direction: column;
+    /* 移除了 gap, 因为面包屑不存在了 */
+}
+
+/* 删除了 .breadcrumbBar 样式 */
+
+.contentWrapper {
+    flex: 1; /* 占据剩余所有空间 */
+    min-height: 0; /* 关键：允许内容区在需要时收缩，防止撑开父容器 */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden; /* 内容滚动由子组件内部处理 */
+    display: flex; /* 让子组件可以撑满 */
+    flex-direction: column;
+}

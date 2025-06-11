@@ -1,0 +1,36 @@
+/* src/components/teacher/pages/QuestionBank/RichTextEditor.module.css */
+.editorWrapper {
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden; /* 确保圆角生效 */
+}
+
+.editorWrapper:hover {
+    border-color: var(--ant-color-primary-hover);
+}
+
+.editorWrapper.focused {
+    border-color: var(--ant-color-primary);
+    box-shadow: 0 0 0 2px var(--ant-color-primary-outline);
+}
+
+.editorLoading {
+    padding: 20px;
+    text-align: center;
+    color: #999;
+    min-height: 235px; /* 与编辑器默认高度接近 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fafafa;
+}
+
+/* 覆盖 TinyMCE 默认的一些样式使其更融合 */
+.editorWrapper :global(.tox .tox-edit-area__iframe) {
+    background-color: #fff !important;
+}
+.editorWrapper :global(.tox .tox-statusbar) {
+    border-top: 1px solid #f0f0f0 !important;
+    background-color: #fafafa !important;
+}

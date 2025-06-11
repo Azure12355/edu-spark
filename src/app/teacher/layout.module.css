@@ -1,0 +1,54 @@
+/* src/app/teacher/layout.module.css */
+
+.teacherLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* 应用一个非常微妙的全局背景色 */
+  background-color: #F7F8FA; 
+}
+
+/* 
+  新增一个主内容容器，它将占据Header下方的所有剩余空间
+  这是解决全局滚动条问题的关键
+*/
+.mainContentContainer {
+  flex: 1; /* 关键：让此容器占据所有剩余垂直空间 */
+  min-height: 0; /* 关键：防止 flex item 内容溢出导致布局破坏 */
+  display: flex; /* 让子元素（如 pageContainer 或 mainWrapper）可以继承flex并撑满 */
+}
+
+.mainWrapper {
+  flex: 1; /* 在非课程管理页面，这个包裹器会撑满 .mainContentContainer */
+  display: flex;
+  gap: 16px;
+  padding: 16px; /* 为非课程/体验中心页面提供边距 */
+  min-height: 0;
+}
+
+.contentWrapper {
+  flex: 1; /* 占据 Sider 旁边的所有剩余空间 */
+  min-width: 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden; /* 将滚动交由子组件内部处理 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 当内容区需要自己滚动时 (非体验中心页面) */
+.contentWrapper.scrollable {
+  overflow-y: auto;
+  padding: 24px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 4px;
+}
+.contentWrapper.scrollable::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}

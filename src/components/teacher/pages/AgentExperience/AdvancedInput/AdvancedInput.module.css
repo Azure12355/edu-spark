@@ -1,0 +1,128 @@
+/* src/components/teacher/pages/AgentExperience/AdvancedInput/AdvancedInput.module.css */
+.inputContainer {
+    background: var(--white);
+    border: 1px solid #D9DCE3;
+    border-radius: 20px;
+    padding: 8px;
+    margin: 0 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .inputContainer:focus-within,
+  .inputContainer.hasFiles {
+    border-color: #A1A9E3;
+    box-shadow: 0 0 0 3px rgba(121, 133, 224, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .mainInputRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .actionButton {
+    background-color: transparent;
+    border: none;
+    color: #596780;
+    font-size: 18px;
+  }
+  .actionButton:hover {
+    background-color: #f0f2f5 !important;
+  }
+  
+  .textArea {
+    font-size: 15px;
+    padding: 8px 0;
+    line-height: 1.6;
+  }
+  .textArea::placeholder {
+    color: #A9B8CC;
+  }
+  
+  .sendButton {
+    width: 36px;
+    height: 36px;
+    box-shadow: 0 2px 5px rgba(0, 82, 255, 0.2);
+  }
+  
+  /* Upload Menu Styles */
+  .uploadMenu {
+    display: flex;
+    flex-direction: column;
+  }
+  .uploadMenuItem {
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .uploadMenuItem:hover {
+    background-color: var(--bg-light-gray);
+  }
+  
+  
+  /* File Preview Styles */
+  .filePreviewArea {
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    border-bottom: 1px solid #f0f2f5;
+    margin-bottom: 8px;
+  }
+  
+  .fileCard {
+    background-color: #f7f8fa;
+    border: 1px solid #e8ebf0;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .fileIcon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  
+  .fileInfo {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .fileName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    color: var(--text-dark);
+    font-weight: 500;
+  }
+  
+  .fileSize {
+    font-size: 11px;
+    color: var(--text-light);
+  }
+  
+  .removeFileButton {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    color: #b0bac9;
+    background-color: var(--white);
+    border-radius: 50%;
+    display: none;
+  }
+  .fileCard:hover .removeFileButton {
+    display: inline-flex;
+  }
+  .removeFileButton:hover {
+    color: #f5222d !important;
+  }

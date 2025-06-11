@@ -1,0 +1,58 @@
+/* src/components/teacher/pages/ClassManagement/StudentManagementPanel.module.css */
+.panelWrapper {
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* 占据剩余空间 */
+    min-width: 0;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+.tableToolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+.tableWrapper {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden; /* 让Table组件自己处理滚动 */
+    display: flex;
+}
+
+.tableWrapper :global(.ant-table-wrapper) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.tableWrapper :global(.ant-spin-container) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+.tableWrapper :global(.ant-table) {
+    flex: 1;
+    min-height: 0;
+}
+.tableWrapper :global(.ant-table-container) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableWrapper :global(.ant-table-body) {
+    flex: 1;
+}
+
+.tableWrapper :global(.ant-table-cell) {
+    white-space: nowrap;
+}

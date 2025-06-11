@@ -1,0 +1,89 @@
+/* src/components/teacher/pages/CourseCenter/CourseCard.module.css */
+.courseCard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.courseCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.courseCard :global(.ant-card-body) {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.avatarText {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.titleGroup {
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* 防止标题过长撑开布局 */
+}
+
+.title {
+    margin-bottom: 2px !important;
+    font-weight: 600 !important;
+    color: #1D2129;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.instructor {
+    font-size: 12px;
+    color: #86909C;
+}
+
+.description {
+    color: #4E5969;
+    font-size: 14px;
+    flex-grow: 1;
+    min-height: 66px; /* 保证3行的高度，防止布局跳动 */
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.tagsContainer {
+    margin-bottom: 16px;
+    min-height: 30px; /* 保证至少一行标签的高度 */
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+    margin-top: auto;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #86909C;
+}
+
+.statsItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

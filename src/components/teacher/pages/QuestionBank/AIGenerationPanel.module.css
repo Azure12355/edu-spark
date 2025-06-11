@@ -1,0 +1,137 @@
+/* src/components/teacher/pages/QuestionBank/AIGenerationPanel.module.css */
+.panelWrapper {
+    padding: 16px; /* 减小整体内边距 */
+    height: 100%;
+    display: flex;
+    gap: 16px; /* 减小列间距 */
+    background-color: #f7f9fc;
+}
+
+.configPanel {
+    width: 360px; /* 适当减小配置面板宽度 */
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e8e8e8;
+}
+
+.configHeader {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.configForm {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 8px; /* For scrollbar */
+    margin-right: -8px;
+}
+.configForm::-webkit-scrollbar { width: 4px; }
+.configForm::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 2px; }
+
+/* 优化 Radio Group 布局 */
+.sourceOption {
+    padding-left: 0;
+}
+.uploadDragger {
+    margin-top: 8px;
+    margin-left: 24px;
+}
+.textAreaOption {
+    margin-top: 8px;
+    margin-left: 24px;
+}
+
+.resultPanel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.resultHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 12px 20px; /* 减小头部内边距 */
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+}
+
+.resultListContainer { /* 新增容器，用于美化滚动条 */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 2px;
+}
+
+.resultListContainer::-webkit-scrollbar { width: 6px; }
+.resultListContainer::-webkit-scrollbar-thumb { background-color: #d9d9d9; border-radius: 3px; }
+
+
+/* 使用 Collapse 替代 Card 列表 */
+.resultCollapse {
+    background-color: transparent;
+    border: none;
+}
+
+.resultCollapse :global(.ant-collapse-item) {
+    background-color: #fff;
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+.resultCollapse :global(.ant-collapse-item:last-child) {
+    border-radius: 8px !important;
+}
+
+.resultCollapse :global(.ant-collapse-header) {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px !important;
+}
+.resultCollapse :global(.ant-collapse-content) {
+    border-top: 1px solid #f0f0f0;
+}
+.resultCollapse :global(.ant-collapse-content-box) {
+    padding: 16px !important;
+}
+
+.collapseHeaderContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.collapseHeaderContent strong {
+    color: #555;
+    margin-left: 8px;
+}
+.questionContentText {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #888;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px dashed #d9d9d9;
+}
