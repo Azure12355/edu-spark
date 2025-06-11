@@ -1,9 +1,9 @@
 // src/app/student/layout.tsx
 import React from 'react';
 import type { Metadata } from 'next';
-import StudentHeader from '@/components/student/Header/StudentHeader';
-import StudentSidebar from '@/components/student/Sidebar/StudentSidebar';
-import FloatingHelpButton from '@/components/student/FloatingHelpButton/FloatingHelpButton';
+import StudentHeader from '@/components/student/layout/Header/StudentHeader';
+import StudentSidebar from '@/components/student/layout/Sidebar/StudentSidebar';
+import FloatingHelpButton from '@/components/student/component/FloatingHelpButton/FloatingHelpButton';
 import './student.css'; // 引入学生端专属全局样式
 
 export const metadata: Metadata = {
