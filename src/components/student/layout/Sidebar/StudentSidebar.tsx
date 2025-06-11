@@ -8,6 +8,7 @@ const sidebarGroups = [
     {
         items: [
             { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场' },
+            { id: 'agent-robot', icon: 'fa-paper-plane', text: 'Agent 助教' },
             { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行' },
             { id: 'explore', icon: 'fa-compass', text: '探索发现' },
         ],

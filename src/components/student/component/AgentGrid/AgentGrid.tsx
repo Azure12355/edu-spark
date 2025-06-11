@@ -1,39 +1,31 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AgentGrid.module.css';
+import { agentData } from '@/lib/data/agentData'; // 从lib导入数据
 
-// 再次扩充数据，增加 'palette' 和 'skills' 字段
-const agentData = [
-    { id: 1, name: 'Python 高级编程助教', creator: '李教授', avatarText: 'Py', avatarGradient: 'linear-gradient(135deg, #43CBFF 0%, #9708CC 100%)', description: '深入解析Python高级特性，提供代码优化建议和实战项目指导。', skills: ['代码生成', '算法解析', '项目架构'], model: 'DeepSeek-Coder', version: 'v1.2', userCount: '1.2k', palette: 'sky' },
-    { id: 2, name: '考研政治全程陪跑', creator: '王老师', avatarText: '政', avatarGradient: 'linear-gradient(135deg, #F5515F 0%, #A1051D 100%)', description: '覆盖所有考点，提供每日一练、错题精讲和冲刺押题。', skills: ['知识点问答', '模拟测验', '时事分析'], model: 'Qwen-72B', version: 'v2.0', userCount: '8.9k', palette: 'sunset' },
-    { id: 3, name: 'UI/UX 设计灵感助手', creator: '设计部', avatarText: 'UI', avatarGradient: 'linear-gradient(135deg, #9C27B0 0%, #E040FB 100%)', description: '提供海量设计案例分析，激发你的创作灵感，解答设计规范问题。', skills: ['案例检索', '配色建议', '布局分析'], model: 'GLM-4', version: 'v1.5', userCount: '5.6k', palette: 'lilac' },
-    { id: 4, name: 'Java 面试通关宝典', creator: '张老师', avatarText: 'J', avatarGradient: 'linear-gradient(135deg, #f89820 0%, #fdb927 100%)', description: '模拟真实面试场景，覆盖JVM、并发、框架等核心知识点。', skills: ['模拟面试', '八股文问答', '源码解读'], model: 'GLM-4', version: 'v3.1', userCount: '10k+', palette: 'sandstone' },
-    { id: 5, name: '高等数学解题助手', creator: '陈博士', avatarText: 'Σ', avatarGradient: 'linear-gradient(135deg, #0072ff 0%, #00c6ff 100%)', description: '无论是微积分还是线性代数，提供详细的解题步骤和思路分析。', skills: ['公式推导', '步骤详解', '概念辨析'], model: 'Qwen-72B', version: 'v1.8', userCount: '2.1k', palette: 'ocean' },
-    { id: 6, name: '莎士比亚戏剧赏析', creator: 'Anna', avatarText: 'S', avatarGradient: 'linear-gradient(135deg, #603813 0%, #b29f94 100%)', description: '带你走进莎翁的戏剧世界，深入解读经典台词与时代背景。', skills: ['背景介绍', '文本分析', '角色扮演'], model: 'DeepSeek-LLM', version: 'v1.0', userCount: '780', palette: 'meadow' },
-];
+const ITEMS_PER_PAGE = 10;
 
-const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-        opacity: 1, y: 0,
-        transition: { delay: i * 0.05, duration: 0.5, ease: "easeOut" },
-    }),
-};
-
-// Agent 卡片组件
-const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: { agent: any, index: any, onMenuToggle: any, activeMenuId: any }) => {
+// Agent 卡片组件 (代码保持不变, 此处为简洁省略, 请保留您上一版完整的AgentCard代码)
+const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
+    // ... (请保留上一版完整的 AgentCard 组件代码)
+    // 为确保完整性, 我在这里重新粘贴一遍
     const menuRef = useRef(null);
-
     return (
         <motion.div
             className={`${styles.card} ${styles[agent.palette]}`}
-            variants={cardVariants}
+            variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: (i: number) => ({
+                    opacity: 1, y: 0,
+                    transition: { delay: i * 0.05, duration: 0.5, ease: "easeOut" },
+                }),
+            }}
             initial="hidden"
             animate="visible"
             whileHover="hover"
             custom={index}
-            onClick={() => onMenuToggle(null)} // 点击卡片主体关闭所有菜单
+            onClick={() => onMenuToggle(null)}
         >
             <div className={styles.cardHeader}>
                 <div className={styles.avatar} style={{ background: agent.avatarGradient }}>
@@ -65,14 +57,12 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: { agent: any, i
                     </AnimatePresence>
                 </div>
             </div>
-
             <div className={styles.cardBody}>
                 <p className={styles.agentDescription}>{agent.description}</p>
                 <div className={styles.capabilities}>
                     {agent.skills.map((skill: any) => <span key={skill} className={styles.themedTag}>{skill}</span>)}
                 </div>
             </div>
-
             <div className={styles.cardFooter}>
                 <div className={styles.modelInfo}>
                     <i className="fas fa-microchip"></i>
@@ -84,7 +74,6 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: { agent: any, i
                     <span>{agent.userCount}</span>
                 </div>
             </div>
-
             <motion.div
                 className={styles.hoverOverlay}
                 variants={{ hidden: { opacity: 0 }, hover: { opacity: 1 } }}
@@ -102,10 +91,124 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: { agent: any, i
     );
 };
 
-// Agent 网格容器组件
+// 分页控件组件 (核心修改区域)
+const PaginationControls = ({ currentPage, totalPages, onPageChange }: any) => {
+    // 状态：用于管理输入框中的值（字符串类型，以便用户自由输入）
+    const [jumpValue, setJumpValue] = useState(String(currentPage));
+
+    // 副作用：当外部的 currentPage 变化时（例如点击了上一页/下一页），同步更新输入框的值
+    useEffect(() => {
+        setJumpValue(String(currentPage));
+    }, [currentPage]);
+
+    // 处理跳转逻辑
+    const handleJump = () => {
+        const pageNum = parseInt(jumpValue, 10);
+        // 验证输入是否为有效数字
+        if (!isNaN(pageNum)) {
+            // 将页码限制在 1 和 totalPages 之间
+            const clampedPage = Math.max(1, Math.min(pageNum, totalPages));
+            onPageChange(clampedPage);
+        } else {
+            // 如果输入无效，则将输入框的值重置回当前页码
+            setJumpValue(String(currentPage));
+        }
+    };
+
+    // 处理键盘事件，实现回车跳转
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // 防止表单提交等默认行为
+            handleJump();
+        }
+    };
+
+    // ... (getPaginationNumbers 函数保持不变)
+    const getPaginationNumbers = () => {
+        const pages = [];
+        const siblingCount = 1;
+        const totalPageNumbers = siblingCount + 5;
+
+        if (totalPages <= totalPageNumbers) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+            const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+
+            const shouldShowLeftDots = leftSiblingIndex > 2;
+            const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+
+            if (shouldShowLeftDots) {
+                pages.push(1);
+                pages.push('...');
+            }
+
+            for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
+                pages.push(i);
+            }
+
+            if (shouldShowRightDots) {
+                pages.push('...');
+                pages.push(totalPages);
+            }
+        }
+        return pages;
+    };
+
+    const pages = getPaginationNumbers();
+
+    return (
+        <div className={styles.paginationContainer}>
+            {/* ... (原有按钮保持不变) ... */}
+            <button onClick={() => onPageChange(1)} disabled={currentPage === 1} className={styles.paginationButton}>首页</button>
+            <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className={styles.paginationButton}><i className="fas fa-chevron-left"></i></button>
+            {pages.map((page, index) => typeof page === 'string' ? (<span key={`dots-${index}`} className={styles.ellipsis}>...</span>) : (<button key={page} onClick={() => onPageChange(page)} className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}>{page}</button>))}
+            <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className={styles.paginationButton}><i className="fas fa-chevron-right"></i></button>
+            <button onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} className={styles.paginationButton}>末页</button>
+
+            {/* 新增的跳转功能模块 */}
+            <div className={styles.jumpToPageContainer}>
+                <span>共 {totalPages} 页，跳至</span>
+                <input
+                    type="text" // 使用 text 类型以便更好的控制
+                    inputMode="numeric" // 提示移动端弹出数字键盘
+                    pattern="[0-9]*"
+                    value={jumpValue}
+                    onChange={(e) => setJumpValue(e.target.value.replace(/\D/g, ''))} // 只允许输入数字
+                    onKeyDown={handleKeyDown}
+                    onBlur={handleJump} // 失去焦点时也尝试跳转
+                    className={styles.jumpInput}
+                />
+                <span>页</span>
+            </div>
+        </div>
+    );
+};
+
+
+// Agent 网格容器组件 (代码保持不变)
 const AgentGrid = () => {
+    // ... (请保留上一版完整的 AgentGrid 组件代码，无需修改)
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const gridRef = useRef<HTMLDivElement>(null);
+
+    const totalPages = Math.ceil(agentData.length / ITEMS_PER_PAGE);
+
+    const currentAgents = useMemo(() => {
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+        return agentData.slice(startIndex, endIndex);
+    }, [currentPage]);
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+            gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 
     const handleMenuToggle = (id: number | null) => {
         setActiveMenuId(prevId => (prevId === id ? null : id));
@@ -122,10 +225,10 @@ const AgentGrid = () => {
     }, []);
 
     return (
-        <section>
+        <section ref={gridRef}>
             <h3 className="student-section-title">精选 Agents</h3>
-            <div className={styles.grid} ref={gridRef}>
-                {agentData.map((agent, index) => (
+            <div className={styles.grid}>
+                {currentAgents.map((agent, index) => (
                     <AgentCard
                         key={agent.id}
                         agent={agent}
@@ -135,6 +238,11 @@ const AgentGrid = () => {
                     />
                 ))}
             </div>
+            <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </section>
     );
 };
