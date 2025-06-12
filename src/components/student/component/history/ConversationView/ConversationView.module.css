@@ -1,0 +1,11 @@
+/* src/components/student/component/history/ConversationView/ConversationView.module.css */
+.conversationView {
+    flex-grow: 1;
+    background-color: var(--student-white);
+    border-radius: 12px;
+    border: 1px solid var(--student-border);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

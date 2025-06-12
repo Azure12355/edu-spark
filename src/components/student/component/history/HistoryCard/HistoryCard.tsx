@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import styles from './HistoryCard.module.css';
 import { agentData } from '@/lib/data/agentData';
 import { HistoryEntry } from '@/lib/data/historyData';
+import Link from 'next/link';
 
 interface HistoryCardProps {
     history: HistoryEntry;
@@ -98,9 +99,15 @@ const HistoryCard: React.FC<HistoryCardProps> = ({ history, index }) => {
                         <button className={styles.actionButton} title="继续对话">
                             <i className="fas fa-retweet"></i>
                         </button>
-                        <button className={styles.actionButton} title="查看完整历史">
-                            <i className="fas fa-expand-arrows-alt"></i>
-                        </button>
+                        <Link href={`/student/history/${history.id}`} passHref>
+                            <button
+                                className={styles.actionButton}
+                                title="查看完整历史"
+                                onClick={(e) => e.stopPropagation()} // 阻止事件冒泡到卡片
+                            >
+                                <i className="fas fa-expand-arrows-alt"></i>
+                            </button>
+                        </Link>
                         <button className={`${styles.actionButton} ${styles.deleteButton}`} title="删除">
                             <i className="fas fa-trash-alt"></i>
                         </button>

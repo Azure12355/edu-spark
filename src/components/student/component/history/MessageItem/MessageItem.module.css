@@ -1,0 +1,102 @@
+/* src/components/student/component/history/MessageItem/MessageItem.module.css */
+.messageItem {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.messageItem:hover {
+    background-color: rgba(241, 245, 249, 0.7);
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: white;
+    flex-shrink: 0;
+}
+.userAvatar { background-color: #78716c; }
+.assistantAvatar { background: var(--agent-avatar-gradient); }
+
+.contentWrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.messageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.senderName { font-weight: 600; font-size: 15px; }
+.actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.messageItem:hover .actions {
+    opacity: 1;
+}
+.actionButton {
+    background: none;
+    border: none;
+    color: var(--student-text-tertiary);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+}
+.actionButton:hover { color: var(--student-primary); }
+
+.messageBody {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--student-text-primary);
+}
+
+.editArea {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.editArea textarea {
+    width: 100%;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 1px solid var(--student-border);
+    padding: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.7;
+    resize: vertical;
+}
+.editArea textarea:focus {
+    outline: none;
+    border-color: var(--student-primary);
+    box-shadow: 0 0 0 3px var(--student-primary-light-bg);
+}
+
+.editControls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.editControls button {
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.cancelButton { background-color: #e5e7eb; color: #4b5563; }
+.saveButton { background-color: var(--student-primary); color: white; }
