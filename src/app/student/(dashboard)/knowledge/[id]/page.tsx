@@ -22,6 +22,7 @@ import RetrievalParameters from '@/components/student/component/knowledge/detail
 import SearchAndResults from '@/components/student/component/knowledge/detail/SearchAndResults';
 import QAParameters from '@/components/student/component/knowledge/detail/QAParameters';
 import QAChatView from '@/components/student/component/knowledge/detail/QAChatView';
+import KnowledgeBaseInfo from '@/components/student/component/knowledge/detail/KnowledgeBaseInfo';
 
 
 export default function KnowledgeDetailPage() {
@@ -63,6 +64,8 @@ export default function KnowledgeDetailPage() {
     // 根据激活的Tab渲染不同的核心内容视图
     const renderContent = () => {
         switch(activeTab) {
+            case '基本信息':
+                return <KnowledgeBaseInfo kb={kb} />;
             case '原始文档':
                 return (
                     <div className={styles.singleColumnView}>

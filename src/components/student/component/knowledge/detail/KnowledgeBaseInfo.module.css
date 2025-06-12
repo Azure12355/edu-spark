@@ -1,0 +1,86 @@
+/* src/components/student/component/knowledge/detail/KnowledgeBaseInfo.module.css */
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 24px;
+    height: 100%;
+    /* 定义网格区域 */
+    grid-template-areas:
+        "info pie trend"
+        "tasks tasks trend";
+}
+
+.card {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cardTitle i {
+    color: var(--student-primary);
+}
+
+/* 网格区域分配 */
+.infoCard { grid-area: info; }
+.pieCard { grid-area: pie; }
+.trendCard { grid-area: trend; }
+.tasksCard { grid-area: tasks; }
+
+/* 基础信息卡片 */
+.infoList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.infoItem { display: flex; font-size: 14px; }
+.infoLabel { color: var(--student-text-tertiary); width: 80px; flex-shrink: 0; }
+.infoValue { color: var(--student-text-primary); }
+
+/* 饼图卡片 */
+.pieChartWrapper { display: flex; align-items: center; gap: 24px; }
+.pieChart {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    position: relative;
+}
+.pieChart::before { /* 创建环形效果 */
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; height: 60%;
+    background: var(--student-white);
+    border-radius: 50%;
+}
+.pieLegend { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.legendItem { display: flex; align-items: center; font-size: 13px; }
+.legendColor { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+.legendText { flex-grow: 1; }
+.legendPercent { font-weight: 500; }
+
+/* 折线图卡片 */
+.trendChart {
+    width: 100%;
+    flex-grow: 1;
+}
+.trendChart svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* 最近任务卡片 */
+.tasksList { display: flex; flex-direction: column; gap: 12px; }
+.taskItem { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+.taskFile { display: flex; align-items: center; gap: 8px; }
+.taskStatus { display: flex; align-items: center; gap: 6px; }
+.statusCompleted { color: #16a34a; }
+.statusFailed { color: #ef4444; }
+.statusProcessing { color: #3b82f6; }
+.taskTime { color: var(--student-text-tertiary); }
