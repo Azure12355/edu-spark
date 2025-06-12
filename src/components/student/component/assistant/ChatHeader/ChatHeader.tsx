@@ -17,6 +17,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ onClearChat }) => {
             <div className={styles.headerControls}>
                 <button className={styles.controlButton} title="清空对话" onClick={onClearChat}>
                     <i className="fas fa-trash-alt"></i>
+                    <span style={{marginLeft: '5px'}}>清空对话</span>
                 </button>
             </div>
         </header>

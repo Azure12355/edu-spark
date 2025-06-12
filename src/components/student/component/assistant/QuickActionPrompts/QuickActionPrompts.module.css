@@ -1,6 +1,6 @@
 /* src/components/student/component/assistant/QuickActionPrompts.module.css */
 .quickActions {
-    padding: 12px 20px;
+    padding: 8px 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

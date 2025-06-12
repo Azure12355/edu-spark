@@ -51,9 +51,7 @@ const StudentHeader = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: { target: any; }) => {
-            let moreMenu;
-            // @ts-ignore
-            if (moreMenuRef.current && !moreMenu.current.contains(event.target)) {
+            if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
                 setMoreMenuOpen(false);
             }
         };
@@ -134,7 +132,7 @@ const StudentHeader = () => {
                         onMouseEnter={handleProfileMouseEnter}
                         onMouseLeave={handleProfileMouseLeave}
                     >
-                        <div className={styles.avatarButton}></div>
+                        <Image src="/images/Chat/robot.png" alt="Logo" width={42} height={42} className={styles.avatarButton}></Image>
                         {isProfileOpen && <ProfileDropdown />}
                     </div>
                 </div>

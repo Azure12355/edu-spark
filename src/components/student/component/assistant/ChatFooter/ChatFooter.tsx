@@ -6,7 +6,7 @@ const ChatFooter = () => {
     return (
         <footer className={styles.footerInfo}>
             AI生成内容仅供参考，请谨慎采纳
-            <span className={styles.promoTag}>Beta</span>
+            {/*<span className={styles.promoTag}>Beta</span>*/}
         </footer>
     );
 };
