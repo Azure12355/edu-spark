@@ -4,30 +4,3 @@
     flex-direction: column;
     gap: 24px;
 }
-
-.pageHeader {
-    text-align: center;
-    padding: 16px 0;
-}
-
-.pageHeader h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--student-text-primary);
-    margin: 0 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.pageHeader h1 .fa-trophy {
-    color: #FFD700;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.pageHeader p {
-    font-size: 16px;
-    color: var(--student-text-secondary);
-    margin: 0;
-}

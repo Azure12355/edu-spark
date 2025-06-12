@@ -4,167 +4,135 @@
     align-items: center;
     background-color: var(--student-white);
     border: 1px solid var(--student-border);
+    border-left-width: 4px;
+    border-left-color: transparent;
     border-radius: 12px;
     padding: 16px;
-    gap: 20px;
+    gap: 16px;
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: pointer;
 }
 
 .card:hover {
-    box-shadow: 0 8px 24px rgba(47, 123, 255, 0.1);
+    box-shadow: 0 10px 30px -5px rgba(47, 123, 255, 0.1);
     border-color: rgba(47, 123, 255, 0.4);
-    transform: translateY(-4px);
+    transform: translateY(-5px);
 }
 
+.rankNumberContainer {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
 .rankNumber {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     font-style: italic;
     color: var(--student-text-tertiary);
-    width: 40px;
-    text-align: center;
-    flex-shrink: 0;
 }
 
 .agentInfo {
-    flex-grow: 1;
+    flex: 2; /* 占据更多空间 */
     display: flex;
     align-items: center;
     gap: 16px;
-    min-width: 0;
+    min-width: 250px;
 }
-
 .avatar {
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     border-radius: 50%;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 600; color: white;
 }
-
-.textInfo {
-    min-width: 0;
-}
+.textInfo { min-width: 0; }
 .textInfo h4 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 4px;
+    font-size: 16px; font-weight: 600; margin: 0 0 4px;
     color: var(--student-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.textInfo p {
-    font-size: 13px;
-    color: var(--student-text-secondary);
-    margin: 0;
-}
+.textInfo p { font-size: 13px; color: var(--student-text-secondary); margin: 0; }
 
 .agentTags {
+    flex: 1.5; /* 分配空间 */
     display: flex;
     gap: 8px;
-    flex-basis: 25%;
+    justify-content: flex-start;
+    min-width: 200px;
 }
 .tag {
     background-color: #f1f3f5;
     color: var(--student-text-secondary);
-    padding: 4px 10px;
-    border-radius: 6px;
+    padding: 5px 12px;
+    border-radius: 16px;
     font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
 }
+
+/* 彩色标签 */
+.sky { background-color: #EBF8FF; color: #3182CE; }
+.sunset { background-color: #FFF5E6; color: #DD6B20; }
+.lilac { background-color: #FAF5FF; color: #805AD5; }
+.sandstone { background-color: #FFF9E6; color: #D69E2E; }
+.ocean { background-color: #E6FFFA; color: #319795; }
+.meadow { background-color: #F0FFF4; color: #38A169; }
 
 .stats {
+    flex: 2; /* 分配空间 */
     display: flex;
     gap: 24px;
-    justify-content: flex-end;
-    flex-basis: 25%;
+    justify-content: flex-start;
 }
 .statItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
 }
-.statItem i {
-    font-size: 16px;
-    color: var(--student-primary);
-}
-.statItem span {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--student-text-primary);
-}
-.statItem label {
-    font-size: 13px;
-    color: var(--student-text-tertiary);
-}
+.statItem i { font-size: 18px; }
+.statText { display: flex; flex-direction: column; }
+.statText span { font-size: 15px; font-weight: 600; color: var(--student-text-primary); }
+.statText label { font-size: 12px; color: var(--student-text-tertiary); }
 
 .actionButton {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f1f3f5;
-    color: var(--student-text-tertiary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.3s ease;
+    width: 40px; height: 40px; border-radius: 50%;
+    background-color: #f1f3f5; color: var(--student-text-tertiary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all 0.3s ease;
+    margin-left: auto;
 }
 .card:hover .actionButton {
-    background-color: var(--student-primary);
-    color: var(--student-white);
-    transform: translateX(4px);
+    background-color: var(--student-primary); color: var(--student-white);
+    transform: scale(1.1);
 }
 
 /* 前三名特殊样式 */
 .card.rank1, .card.rank2, .card.rank3 {
-    border-width: 2px;
+    padding-left: 12px;
+    border-left-width: 8px;
 }
-.card.rank1 {
-    background: linear-gradient(to right, #FFF7E6, var(--student-white));
-    border-color: #FFD700;
-}
-.card.rank2 {
-    background: linear-gradient(to right, #f5f5f5, var(--student-white));
-    border-color: #C0C0C0;
-}
-.card.rank3 {
-    background: linear-gradient(to right, #FFF0E6, var(--student-white));
-    border-color: #CD7F32;
-}
+.card.rank1 { border-left-color: #FFD700; }
+.card.rank2 { border-left-color: #C0C0C0; }
+.card.rank3 { border-left-color: #CD7F32; }
 
-.rank1 .rankNumber { color: #FFD700; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
-.rank2 .rankNumber { color: #A9A9A9; }
-.rank3 .rankNumber { color: #B87333; }
+.rank1 .rankNumber { color: #FFD700; font-size: 24px; text-shadow: 0 0 8px rgba(255,215,0,0.5); }
+.rank2 .rankNumber { color: #A9A9A9; font-size: 22px; }
+.rank3 .rankNumber { color: #B87333; font-size: 22px; }
 
-@media (max-width: 1200px) {
-    .agentTags {
-        display: none;
-    }
+/* 响应式调整 */
+@media (max-width: 1280px) {
+    .stats { display: none; }
 }
 
 @media (max-width: 992px) {
-    .stats {
-        display: none;
-    }
+    .agentTags { display: none; }
+    .agentInfo { flex-grow: 1; }
 }
 
 @media (max-width: 600px) {
-    .card {
-        flex-wrap: wrap;
-        padding: 12px;
-    }
-    .agentInfo {
-        flex-basis: 100%;
-        order: 2;
-    }
-    .rankNumber { order: 1; }
-    .actionButton { order: 3; margin-left: auto; }
+    .card { flex-wrap: wrap; gap: 12px; }
+    .agentInfo { flex-basis: calc(100% - 60px); }
+    .rankNumberContainer { order: -2; }
+    .actionButton { order: -1; margin-left: auto; }
 }

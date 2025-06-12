@@ -23,12 +23,14 @@ const RankingCard: React.FC<RankingCardProps> = ({ agent, rank }) => {
     return (
         <motion.div
             className={`${styles.card} ${getRankClass(rank)}`}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: (rank - 1) * 0.05 % 1 }}
-            whileHover={{ scale: 1.02, zIndex: 2 }}
+            whileHover={{ scale: 1.015, zIndex: 2 }}
         >
-            <div className={styles.rankNumber}>{rank}</div>
+            <div className={styles.rankNumberContainer}>
+                <div className={styles.rankNumber}>{rank}</div>
+            </div>
 
             <div className={styles.agentInfo}>
                 <div className={styles.avatar} style={{ background: agent.avatarGradient }}>
@@ -42,30 +44,36 @@ const RankingCard: React.FC<RankingCardProps> = ({ agent, rank }) => {
 
             <div className={styles.agentTags}>
                 {agent.skills.slice(0, 3).map(skill => (
-                    <span key={skill} className={styles.tag}>{skill}</span>
+                    <span key={skill} className={`${styles.tag} ${styles[agent.palette]}`}>{skill}</span>
                 ))}
             </div>
 
             <div className={styles.stats}>
                 <div className={styles.statItem}>
-                    <i className="fas fa-fire"></i>
-                    <span>{agent.hotness.toLocaleString()}</span>
-                    <label>热度值</label>
+                    <i className="fas fa-fire" style={{color: '#F53F3F'}}></i>
+                    <div className={styles.statText}>
+                        <span>{agent.hotness.toLocaleString()}</span>
+                        <label>热度值</label>
+                    </div>
                 </div>
                 <div className={styles.statItem}>
-                    <i className="fas fa-users"></i>
-                    <span>{agent.userCount}</span>
-                    <label>使用人数</label>
+                    <i className="fas fa-users" style={{color: '#2F7BFF'}}></i>
+                    <div className={styles.statText}>
+                        <span>{agent.userCount}</span>
+                        <label>使用人数</label>
+                    </div>
                 </div>
                 <div className={styles.statItem}>
-                    <i className="fas fa-microchip"></i>
-                    <span>{agent.model}</span>
-                    <label>核心模型</label>
+                    <i className="fas fa-microchip" style={{color: '#722ED1'}}></i>
+                    <div className={styles.statText}>
+                        <span>{agent.model}</span>
+                        <label>核心模型</label>
+                    </div>
                 </div>
             </div>
 
             <div className={styles.actionButton}>
-                <i className="fas fa-angle-right"></i>
+                <i className="fas fa-chevron-right"></i>
             </div>
         </motion.div>
     );
