@@ -1,0 +1,9 @@
+/* src/app/student/(dashboard)/knowledge/[id]/import/import.module.css */
+.pageContainer {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    border: 1px solid var(--student-border);
+}
+.content {
+    padding: 0 24px 24px;
+}
