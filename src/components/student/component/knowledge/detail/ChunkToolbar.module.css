@@ -1,0 +1,80 @@
+/* src/components/student/component/knowledge/detail/ChunkToolbar.module.css */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.newButton {
+    background-color: var(--student-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.countInfo {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.filterSelect {
+    padding: 10px 16px;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    background-color: #f9fafb;
+    color: var(--student-text-secondary);
+    font-size: 14px;
+}
+.searchBar {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    padding-left: 12px;
+}
+.searchInput {
+    padding: 10px 0;
+    border: none;
+    outline: none;
+}
+.searchIcon {
+    color: var(--student-text-tertiary);
+    margin: 0 8px;
+}
+.viewToggle {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 4px;
+}
+.toggleButton {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: transparent;
+    border-radius: 6px;
+    color: var(--student-text-tertiary);
+    cursor: pointer;
+}
+.toggleButton.active {
+    background-color: var(--student-white);
+    color: var(--student-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
