@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './KnowledgeSteps.module.css';
 
 const steps = [
@@ -10,24 +11,42 @@ const steps = [
     { step: "第4_step", title: "API 调用", description: "调用API集成到你的生产业务，实现端到端知识问答", imageUrl: "/images/student-dashboard/step4.png" },
 ];
 
-const KnowledgeSteps = () => {
+interface KnowledgeStepsProps {
+    isVisible: boolean;
+    onToggle: () => void;
+}
+
+const KnowledgeSteps: React.FC<KnowledgeStepsProps> = ({ isVisible, onToggle }) => {
     return (
         <div className={styles.stepsContainer}>
-            <button className={styles.toggleButton}>收起教程 <i className="fas fa-chevron-up"></i></button>
-            <div className={styles.stepsGrid}>
-                {steps.map(step => (
-                    <div key={step.step} className={styles.stepCard}>
-                        <div className={styles.textInfo}>
-                            <p className={styles.stepLabel}>{step.step}</p>
-                            <h3>{step.title}</h3>
-                            <p>{step.description}</p>
-                        </div>
-                        <div className={styles.imageWrapper}>
-                            {/*  <Image src={step.imageUrl} alt={step.title} width={80} height={80} /> */}
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <button className={styles.toggleButton} onClick={onToggle}>
+                {isVisible ? '收起教程' : '展开教程'}
+                <i className={`fas fa-chevron-up ${styles.toggleIcon} ${!isVisible ? styles.collapsed : ''}`}></i>
+            </button>
+            <AnimatePresence>
+                {isVisible && (
+                    <motion.div
+                        className={styles.stepsGrid}
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: '20px' }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                    >
+                        {steps.map(step => (
+                            <div key={step.step} className={styles.stepCard}>
+                                <div className={styles.textInfo}>
+                                    <p className={styles.stepLabel}>{step.step}</p>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.description}</p>
+                                </div>
+                                <div className={styles.imageWrapper}>
+                                    {/* <Image src={step.imageUrl} alt={step.title} width={80} height={80} /> */}
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

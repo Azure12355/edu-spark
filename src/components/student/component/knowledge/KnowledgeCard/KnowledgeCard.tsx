@@ -27,11 +27,23 @@ const KnowledgeCard: React.FC<KnowledgeCardProps> = ({ kb }) => {
                         <p className={styles.meta}>{kb.creator} 于 {kb.createdAt} 创建</p>
                     </div>
                 </div>
+
+                {/* 管理按钮区域 */}
+                <div className={styles.cardActions}>
+                    <button className={styles.actionButton} title="测试"><i className="fas fa-vial"></i></button>
+                    <button className={styles.actionButton} title="设置"><i className="fas fa-cog"></i></button>
+                    <button className={`${styles.actionButton} ${styles.deleteButton}`} title="删除"><i className="fas fa-trash-alt"></i></button>
+                </div>
+            </div>
+
+            {/* 新的 body 部分，包裹状态标签 */}
+            <div className={styles.body}>
                 <div className={`${styles.statusTag} ${statusInfo.style}`}>
                     <i className={`fas ${statusInfo.icon}`}></i>
                     <span>{statusInfo.text}</span>
                 </div>
             </div>
+
             <div className={styles.stats}>
                 <div className={styles.statItem}>
                     <div className={styles.statValue}>{kb.type}</div>

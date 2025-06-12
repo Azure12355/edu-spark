@@ -11,7 +11,7 @@ const KnowledgeToolbar: React.FC<KnowledgeToolbarProps> = ({ count }) => {
         <div className={styles.toolbarContainer}>
             <div className={styles.leftSection}>
                 <button className={styles.createButton}>
-                    创建知识库 <i className="fas fa-chevron-down"></i>
+                    创建知识库
                 </button>
                 <span className={styles.countInfo}>共 {count} 个知识库</span>
             </div>
