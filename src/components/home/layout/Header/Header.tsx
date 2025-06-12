@@ -82,13 +82,15 @@ const Header: React.FC = () => {
         <Link href="/public" className={styles.veLogo}>
           {/* 假设 Logo 位于 public/images/logo.svg */}
           <Image
-            src="/EduSpark-icon-font.png" 
+            src="/robot.gif"
             alt="EduSpark Logo"
-            width={200}
-            height={36}
-            priority
+            width={56}
+            height={56}
+            style={{borderRadius: '50%'}}
           />
+          <span>EduSpark</span>
         </Link>
+
 
         {/* Desktop Navigation */}
         <nav className={`${styles.veMainNav} ${styles.desktopNav}`}>

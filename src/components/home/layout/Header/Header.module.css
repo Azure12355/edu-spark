@@ -30,9 +30,18 @@
   margin: 0 auto;
 }
 
-.veLogo img {
-  display: block;
+.veLogo {
+  display: flex;
   transition: transform 0.3s ease;
+  justify-content: center;
+  align-items: center;
+}
+
+.veLogo span {
+  margin-left: 5px;
+  font-size: 24px;
+  font-family: 'Microsoft YaHei';
+  font-weight: bold;
 }
 .veLogo:hover img {
   transform: scale(1.05);

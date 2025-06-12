@@ -68,7 +68,7 @@ const AssistantWelcomeScreen: React.FC<AssistantWelcomeScreenProps> = ({ onPromp
         >
             <motion.div className={styles.header} variants={headerVariants}>
                 <Image
-                    src="/images/Chat/robot.png"
+                    src="/robot.gif"
                     alt="Agent 助教"
                     width={80}
                     height={80}

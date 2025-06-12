@@ -91,7 +91,7 @@ const StudentHeader = () => {
             <div className={styles.headerContent}>
                 <div className={styles.logoSection}>
                     <Link href="/" className={styles.logo}>
-                        <Image src="/images/Chat/robot.png" alt="Logo" width={42} height={42} />
+                        <Image src="/robot.gif" alt="Logo" width={56} height={56} style={{borderRadius: '50%'}} />
                         <h1>EduSpark</h1>
                     </Link>
                     <div className={styles.divider}></div>
@@ -132,7 +132,7 @@ const StudentHeader = () => {
                         onMouseEnter={handleProfileMouseEnter}
                         onMouseLeave={handleProfileMouseLeave}
                     >
-                        <Image src="/images/Chat/robot.png" alt="Logo" width={42} height={42} className={styles.avatarButton}></Image>
+                        <Image src="/robot.gif" alt="Logo" width={42} height={42} className={styles.avatarButton}></Image>
                         {isProfileOpen && <ProfileDropdown />}
                     </div>
                 </div>
