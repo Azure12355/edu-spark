@@ -1,0 +1,170 @@
+/* src/components/student/component/leaderboard/RankingCard.module.css */
+.card {
+    display: flex;
+    align-items: center;
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 12px;
+    padding: 16px;
+    gap: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0 8px 24px rgba(47, 123, 255, 0.1);
+    border-color: rgba(47, 123, 255, 0.4);
+    transform: translateY(-4px);
+}
+
+.rankNumber {
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--student-text-tertiary);
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.agentInfo {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.textInfo {
+    min-width: 0;
+}
+.textInfo h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--student-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.textInfo p {
+    font-size: 13px;
+    color: var(--student-text-secondary);
+    margin: 0;
+}
+
+.agentTags {
+    display: flex;
+    gap: 8px;
+    flex-basis: 25%;
+}
+.tag {
+    background-color: #f1f3f5;
+    color: var(--student-text-secondary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.stats {
+    display: flex;
+    gap: 24px;
+    justify-content: flex-end;
+    flex-basis: 25%;
+}
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.statItem i {
+    font-size: 16px;
+    color: var(--student-primary);
+}
+.statItem span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+}
+.statItem label {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+}
+
+.actionButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f1f3f5;
+    color: var(--student-text-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+.card:hover .actionButton {
+    background-color: var(--student-primary);
+    color: var(--student-white);
+    transform: translateX(4px);
+}
+
+/* 前三名特殊样式 */
+.card.rank1, .card.rank2, .card.rank3 {
+    border-width: 2px;
+}
+.card.rank1 {
+    background: linear-gradient(to right, #FFF7E6, var(--student-white));
+    border-color: #FFD700;
+}
+.card.rank2 {
+    background: linear-gradient(to right, #f5f5f5, var(--student-white));
+    border-color: #C0C0C0;
+}
+.card.rank3 {
+    background: linear-gradient(to right, #FFF0E6, var(--student-white));
+    border-color: #CD7F32;
+}
+
+.rank1 .rankNumber { color: #FFD700; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
+.rank2 .rankNumber { color: #A9A9A9; }
+.rank3 .rankNumber { color: #B87333; }
+
+@media (max-width: 1200px) {
+    .agentTags {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .stats {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .card {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+    .agentInfo {
+        flex-basis: 100%;
+        order: 2;
+    }
+    .rankNumber { order: 1; }
+    .actionButton { order: 3; margin-left: auto; }
+}

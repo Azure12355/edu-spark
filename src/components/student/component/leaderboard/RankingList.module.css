@@ -1,0 +1,57 @@
+/* src/components/student/component/leaderboard/RankingList.module.css */
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 0;
+}
+
+.pagination button {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    color: var(--student-text-secondary);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    border-color: var(--student-primary);
+    color: var(--student-primary);
+}
+
+.pagination button.active {
+    background-color: var(--student-primary);
+    border-color: var(--student-primary);
+    color: var(--student-white);
+    box-shadow: 0 2px 8px rgba(47, 123, 255, 0.2);
+}
+
+.pagination button:disabled {
+    color: #c0c4cc;
+    cursor: not-allowed;
+    background-color: #f4f4f5;
+}
+
+.ellipsis {
+    color: var(--student-text-tertiary);
+    width: 40px;
+    text-align: center;
+}

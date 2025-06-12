@@ -1,0 +1,115 @@
+/* src/components/student/component/leaderboard/RankingControls.module.css */
+.controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--student-white);
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--student-border);
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.leftControls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.rankingTypeTabs {
+    display: flex;
+    background-color: #f1f3f5;
+    border-radius: 8px;
+    padding: 4px;
+    position: relative;
+}
+
+.tabButton {
+    background: none;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.tabText {
+    position: relative;
+}
+
+.activePill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--student-white);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 0;
+}
+
+.tabButton.active {
+    color: var(--student-primary);
+}
+
+.timeRangeSelector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.timeRangeSelector i {
+    color: var(--student-text-tertiary);
+}
+.timeRangeSelector select {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-text-primary);
+    cursor: pointer;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 280px;
+}
+.searchBar i {
+    color: var(--student-text-tertiary);
+}
+.searchBar input {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: var(--student-text-primary);
+}
+.searchBar input::placeholder {
+    color: var(--student-text-tertiary);
+}
+
+@media (max-width: 768px) {
+    .controlsContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

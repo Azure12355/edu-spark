@@ -11,7 +11,7 @@ const sidebarGroups = [
         items: [
             { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场', href: '/student/plaza' },
             { id: 'agent-robot', icon: 'fa-paper-plane', text: 'Agent 助教', href: '/student/assistant' },
-            { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行', href: '#' },
+            { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行', href: '/student/leaderboard' },
             { id: 'explore', icon: 'fa-compass', text: '探索发现', href: '#' },
         ],
     },
