@@ -1,9 +1,9 @@
 /* src/components/student/component/leaderboard/LeaderboardBanner.module.css */
 .banner {
-    background: #1C1F23; /* 深邃的基底色 */
+    background: rgb(32, 130, 236); /* 深邃的基底色 */
     background-image:
-            radial-gradient(at 20% 80%, hsla(212,50%,30%,0.3) 0px, transparent 50%),
-            radial-gradient(at 80% 20%, hsla(280,50%,30%,0.3) 0px, transparent 50%);
+            radial-gradient(at 20% 80%, hsl(246, 40%, 46%) 0px, transparent 50%),
+            radial-gradient(at 80% 20%, hsl(305, 62%, 71%) 0px, transparent 50%);
     color: var(--student-white);
     border-radius: 16px;
     padding: 40px;
@@ -18,7 +18,7 @@
 .interactiveBackground {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(47, 123, 255, 0.15), transparent 80%);
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(203, 206, 211, 0.38), transparent 80%);
     transition: background 0.2s;
     pointer-events: none;
     z-index: 0;
