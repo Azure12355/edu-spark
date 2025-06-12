@@ -2,11 +2,20 @@
 import React from 'react';
 import styles from './ChunkToolbar.module.css';
 
-const ChunkToolbar: React.FC<{ chunkCount: number }> = ({ chunkCount }) => {
+// 新增 Props 接口
+interface ChunkToolbarProps {
+    chunkCount: number;
+    onOpenAddModal: () => void;
+}
+
+const ChunkToolbar: React.FC<ChunkToolbarProps> = ({ chunkCount, onOpenAddModal }) => {
     return (
         <div className={styles.toolbar}>
             <div className={styles.leftSection}>
-                <button className={styles.newButton}><i className="fas fa-plus"></i> 新增切片</button>
+                {/* 修改 onClick 事件 */}
+                <button className={styles.newButton} onClick={onOpenAddModal}>
+                    <i className="fas fa-plus"></i> 新增切片
+                </button>
                 <span className={styles.countInfo}>共 {chunkCount} 切片</span>
             </div>
             <div className={styles.rightSection}>
