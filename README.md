@@ -1,9 +1,8 @@
 
 
 <p align="center">
-  <img src="docs/EduSpark-icon-font.png" alt="eduspark-logo" width="300" >
+  <img src="docs/robot.gif" alt="eduspark-logo" width="120" style="border-radius: 50%" >
 </p>
-
 <h1 align="center">EduSpark 🚀✨</h1>
 
 <p align="center">
