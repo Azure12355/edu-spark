@@ -4,7 +4,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './RankingList.module.css';
-import RankingCard from './RankingCard';
+import RankingCard from '../RankingCard/RankingCard';
 import type { Agent } from '@/lib/data/agentData';
 
 interface RankingListProps {
