@@ -1,0 +1,47 @@
+/* src/components/student/component/knowledge/detail/SearchResultItem.module.css */
+.item {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    padding: 20px;
+}
+.content {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+.content.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sourceInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--student-text-secondary);
+}
+.sourceInfo i { font-size: 16px; }
+.expandButton {
+    background: none;
+    border: none;
+    color: var(--student-primary);
+    cursor: pointer;
+    font-size: 14px;
+}
+.metadata {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #e5e7eb;
+    font-size: 12px;
+    color: var(--student-text-tertiary);
+}
+.metadata span { margin-right: 16px; }
+.metadata .score { color: #2563eb; font-weight: 500; }

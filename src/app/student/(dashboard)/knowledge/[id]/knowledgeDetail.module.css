@@ -10,3 +10,30 @@
     border-radius: 0 0 12px 12px;
     padding: 0 24px;
 }
+
+/* --- 核心修改：新的双栏滚动布局 --- */
+.retrievalView {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+    /* align-items: flex-start ensures columns align at the top */
+    align-items: flex-start;
+}
+
+.leftPanel {
+    width: 320px;
+    flex-shrink: 0;
+    /* 粘性定位，使其在页面滚动时固定 */
+    position: sticky;
+    /* 56px (header) + 24px (padding) = 80px */
+    top: 80px;
+}
+
+.rightPanel {
+    flex-grow: 1;
+    min-width: 0; /* flexbox hack to prevent overflow */
+    /* 限制右侧面板的最大高度，使其内部可以滚动 */
+    height: calc(100vh - 56px - 24px - 24px - 53px); /* vh - header - top_padding - bottom_padding - tabs_height */
+    display: flex; /* 让其成为 flex 容器以控制子元素 */
+}
+/* --- 结束修改 --- */
