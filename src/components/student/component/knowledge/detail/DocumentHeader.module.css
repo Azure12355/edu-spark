@@ -1,45 +1,43 @@
 /* src/components/student/component/knowledge/detail/DocumentHeader.module.css */
-.headerWrapper {
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--student-border);
-}
-
-.backLink {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--student-text-secondary);
-    text-decoration: none;
-    font-size: 14px;
-    margin-bottom: 16px;
-}
-.backLink:hover {
-    color: var(--student-primary);
-}
-
-.mainInfo {
+/* 全新、紧凑的头部样式 */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 24px;
+    height: 60px; /* 固定高度 */
+    background-color: var(--student-white);
+    border-bottom: 1px solid var(--student-border);
+    flex-shrink: 0;
 }
-.titleSection {
+
+.leftSection {
     display: flex;
     align-items: center;
     gap: 16px;
 }
-.icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    background-color: var(--student-primary-light-bg);
-    color: var(--student-primary);
+
+.backLink {
+    color: var(--student-text-secondary);
+    text-decoration: none;
+    font-size: 18px;
+}
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--student-border);
+}
+.titleInfo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 12px;
+}
+.icon {
     font-size: 24px;
+    color: var(--student-primary);
 }
 .titleText h1 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     margin: 0;
     display: flex;
@@ -50,20 +48,15 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 500;
     background-color: #e0f2fe;
     color: #0284c7;
 }
-.titleText p {
-    font-size: 13px;
-    color: var(--student-text-tertiary);
-    margin: 4px 0 0;
-}
 
-.actions {
+.rightSection {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -87,21 +80,4 @@
 .menuButton:hover, .manageButton:hover {
     border-color: #d1d5db;
     background-color: #f9fafb;
-}
-
-.metadata {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 32px;
-    font-size: 14px;
-    color: var(--student-text-secondary);
-}
-.metaItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.metaItem .label {
-    color: var(--student-text-tertiary);
 }

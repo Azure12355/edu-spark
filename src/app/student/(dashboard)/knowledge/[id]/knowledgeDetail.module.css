@@ -1,39 +1,48 @@
 /* src/app/student/(dashboard)/knowledge/[id]/knowledgeDetail.module.css */
-.pageContainer {
-    display: flex;
-    flex-direction: column;
-}
-.contentWrapper {
-    background-color: var(--student-white);
-    border: 1px solid var(--student-border);
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-    padding: 0 24px;
-}
 
-/* --- 核心修改：新的双栏滚动布局 --- */
-.retrievalView {
+/* 原有的 .pageContainer, .contentWrapper 可以删除 */
+
+/* 核心：新的双栏布局，现在它将占据 100% 的父容器高度 */
+.viewContainer {
     display: flex;
     gap: 24px;
-    padding: 24px 0;
-    /* align-items: flex-start ensures columns align at the top */
     align-items: flex-start;
+    height: 100%; /* 占据父容器(mainContent)的全部高度 */
 }
 
 .leftPanel {
     width: 320px;
     flex-shrink: 0;
-    /* 粘性定位，使其在页面滚动时固定 */
-    position: sticky;
-    /* 56px (header) + 24px (padding) = 80px */
-    top: 80px;
+    height: 100%; /* 占据父容器的全部高度 */
+    overflow-y: auto; /* 让左侧面板在内容溢出时独立滚动 */
+    /* 美化滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
 }
+.leftPanel::-webkit-scrollbar { width: 6px; }
+.leftPanel::-webkit-scrollbar-track { background: transparent; }
+.leftPanel::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
+
 
 .rightPanel {
     flex-grow: 1;
-    min-width: 0; /* flexbox hack to prevent overflow */
-    /* 限制右侧面板的最大高度，使其内部可以滚动 */
-    height: calc(100vh - 56px - 24px - 24px - 53px); /* vh - header - top_padding - bottom_padding - tabs_height */
-    display: flex; /* 让其成为 flex 容器以控制子元素 */
+    min-width: 0;
+    height: 100%; /* 占据父容器的全部高度 */
+    display: flex; /* 让 QAChatView 等组件可以正确地自适应高度 */
 }
-/* --- 结束修改 --- */
+
+/* 针对非双栏布局的普通容器样式 */
+.singleColumnView {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.singleColumnView > div:last-of-type { /* 比如分页组件 */
+    margin-top: auto;
+    flex-shrink: 0;
+}
+.tableContainer { /* 让表格区域可滚动 */
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 24px;
+}

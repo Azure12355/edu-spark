@@ -2,7 +2,9 @@
 import React from 'react';
 import styles from './DocumentTabs.module.css';
 
-const TABS = ['原始文档', '切片详情', '知识检索', '知识问答'];
+// --- 核心修改：新增“基本信息”并调整顺序 ---
+const TABS = ['基本信息', '原始文档', '切片详情', '知识检索', '知识问答'];
+// --- 结束修改 ---
 
 interface DocumentTabsProps {
     activeTab: string;
