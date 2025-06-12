@@ -9,20 +9,20 @@ import { documentData } from '@/lib/data/documentData';
 import { chunkData as initialChunkData, Chunk } from '@/lib/data/chunkData';
 
 // Layout and Component imports
-import KnowledgeDetailLayout from '@/components/student/component/knowledge/layout/KnowledgeDetailLayout';
-import Pagination from '@/components/student/component/knowledge/detail/Pagination';
-import AddChunkModal from '@/components/student/component/knowledge/detail/AddChunkModal';
+import KnowledgeDetailLayout from '@/components/student/component/knowledge/detail/layout/KnowledgeDetailLayout';
+import Pagination from '@/components/student/component/knowledge/common/Pagination';
+import AddChunkModal from '@/components/student/component/knowledge/detail/ChunkTab/AddChunkModal/AddChunkModal';
 
 // View-specific component imports for each tab
-import DocumentToolbar from '@/components/student/component/knowledge/detail/DocumentToolbar';
-import DocumentTable from '@/components/student/component/knowledge/detail/DocumentTable';
-import ChunkToolbar from '@/components/student/component/knowledge/detail/ChunkToolbar';
-import ChunkGrid from '@/components/student/component/knowledge/detail/ChunkGrid';
-import RetrievalParameters from '@/components/student/component/knowledge/detail/RetrievalParameters';
-import SearchAndResults from '@/components/student/component/knowledge/detail/SearchAndResults';
-import QAParameters from '@/components/student/component/knowledge/detail/QAParameters';
-import QAChatView from '@/components/student/component/knowledge/detail/QAChatView';
-import KnowledgeBaseInfo from '@/components/student/component/knowledge/detail/KnowledgeBaseInfo';
+import DocumentToolbar from '@/components/student/component/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar';
+import DocumentTable from '@/components/student/component/knowledge/detail/DocumentTab/DocumentTable/DocumentTable';
+import ChunkToolbar from '@/components/student/component/knowledge/detail/ChunkTab/ChunkToolbar/ChunkToolbar';
+import ChunkGrid from '@/components/student/component/knowledge/detail/ChunkTab/ChunkGrid/ChunkGrid';
+import RetrievalParameters from '@/components/student/component/knowledge/detail/RetrievalTab/RetrievalParameters/RetrievalParameters';
+import SearchAndResults from '@/components/student/component/knowledge/detail/RetrievalTab/SearchAndResults/SearchAndResults';
+import QAParameters from '@/components/student/component/knowledge/detail/QAChatTab/QAParameters/QAParameters';
+import QAChatView from '@/components/student/component/knowledge/detail/QAChatTab/QAChatView/QAChatView';
+import KnowledgeBaseInfo from '@/components/student/component/knowledge/detail/BasicInfoTab/KnowledgeBaseInfo';
 
 
 export default function KnowledgeDetailPage() {

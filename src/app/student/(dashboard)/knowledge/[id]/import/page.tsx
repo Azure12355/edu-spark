@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './import.module.css';
 
-import ImportHeader from '@/components/student/component/knowledge/import/ImportHeader';
-import ImportSourceTabs from '@/components/student/component/knowledge/import/ImportSourceTabs';
-import FileUploadArea from '@/components/student/component/knowledge/import/FileUploadArea';
-import FileList from '@/components/student/component/knowledge/import/FileList';
-import ImportOptions from '@/components/student/component/knowledge/import/ImportOptions';
-import ImportActions from '@/components/student/component/knowledge/import/ImportActions';
+import ImportHeader from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/ImportHeader/ImportHeader';
+import ImportSourceTabs from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/ImportSourceTabs/ImportSourceTabs';
+import FileUploadArea from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/FileUploadArea/FileUploadArea';
+import FileList from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/FileList/FileList';
+import ImportOptions from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/ImportOptions/ImportOptions';
+import ImportActions from '@/components/student/component/knowledge/detail/DocumentTab/DocumentImport/ImportActions/ImportActions';
 
 export default function ImportDocumentPage() {
     const router = useRouter();

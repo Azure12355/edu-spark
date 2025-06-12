@@ -6,6 +6,8 @@
     height: 100%;
     overflow: hidden; /* 防止内部滚动影响外部 */
     background-color: #f9fafb; /* 为内容区提供一个浅灰色背景 */
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
 }
 
 .headerWrapper, .tabsWrapper {

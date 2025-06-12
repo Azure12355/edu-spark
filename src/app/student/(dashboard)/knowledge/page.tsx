@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './knowledge.module.css';
-import KnowledgeBaseHeader from '@/components/student/component/knowledge/KnowledgeBaseHeader/KnowledgeBaseHeader';
-import KnowledgeSteps from '@/components/student/component/knowledge/KnowledgeSteps/KnowledgeSteps';
-import KnowledgeToolbar from '@/components/student/component/knowledge/KnowledgeToolbar/KnowledgeToolbar';
-import KnowledgeGrid from '@/components/student/component/knowledge/KnowledgeGrid/KnowledgeGrid';
-import CreateKnowledgeModal from '@/components/student/component/knowledge/CreateKnowledgeModal/CreateKnowledgeModal'; // 引入新组件
+import KnowledgeBaseHeader from '@/components/student/component/knowledge/home/KnowledgeBaseHeader/KnowledgeBaseHeader';
+import KnowledgeSteps from '@/components/student/component/knowledge/home/KnowledgeSteps/KnowledgeSteps';
+import KnowledgeToolbar from '@/components/student/component/knowledge/home/KnowledgeToolbar/KnowledgeToolbar';
+import KnowledgeGrid from '@/components/student/component/knowledge/home/KnowledgeGrid/KnowledgeGrid';
+import CreateKnowledgeModal from '@/components/student/component/knowledge/home/CreateKnowledgeModal/CreateKnowledgeModal'; // 引入新组件
 import { knowledgeData, KnowledgeBase } from '@/lib/data/knowledgeData'; // 引入类型
 
 export default function KnowledgePage() {

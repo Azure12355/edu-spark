@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
 import styles from './KnowledgeDetailLayout.module.css';
-import DocumentHeader from '../detail/DocumentHeader';
-import DocumentTabs from '../detail/DocumentTabs';
+import DocumentHeader from '@/components/student/component/knowledge/detail/DocumentTab/DocumentHeader/DocumentHeader';
+import DocumentTabs from '@/components/student/component/knowledge/detail/DocumentTab/DocumentTabs/DocumentTabs';
 import { KnowledgeBase } from '@/lib/data/knowledgeData';
 
 interface KnowledgeDetailLayoutProps {

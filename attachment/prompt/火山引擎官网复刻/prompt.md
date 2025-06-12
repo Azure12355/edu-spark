@@ -1345,7 +1345,7 @@ export default SystemCapacitySection;
 ```tsx
 // src/components/sections/ProductDiagramSection/ProductDiagramSection.tsx
 import React from 'react';
-// import Image from 'next/image'; // 如果使用SVG图标，Image组件可能不需要
+// DocumentImport Image from 'next/image'; // 如果使用SVG图标，Image组件可能不需要
 import styles from './ProductDiagramSection.module.css';
 
 // 真实项目中这里应该是 SVG 组件或 Image 组件

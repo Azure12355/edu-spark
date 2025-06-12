@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './SearchAndResults.module.css';
 import { searchResultData } from '@/lib/data/searchResultData';
-import SearchResultItem from './SearchResultItem';
+import SearchResultItem from '../SearchResultItem/SearchResultItem';
 
 const SearchAndResults = () => {
     return (
