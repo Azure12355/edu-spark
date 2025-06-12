@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import Link from 'next/link'; // 引入 Link
 import styles from './KnowledgeCard.module.css';
 import { KnowledgeBase, KnowledgeStatus } from '@/lib/data/knowledgeData';
 
@@ -28,15 +29,18 @@ const KnowledgeCard: React.FC<KnowledgeCardProps> = ({ kb }) => {
                     </div>
                 </div>
 
-                {/* 管理按钮区域 */}
                 <div className={styles.cardActions}>
+                    {/* --- 核心修改：为“管理”按钮添加链接 --- */}
+                    <Link href={`/student/knowledge/${kb.id}`} passHref>
+                        <button className={styles.actionButton} title="管理" onClick={(e) => e.stopPropagation()}>
+                            <i className="fas fa-cog"></i>
+                        </button>
+                    </Link>
                     <button className={styles.actionButton} title="测试"><i className="fas fa-vial"></i></button>
-                    <button className={styles.actionButton} title="设置"><i className="fas fa-cog"></i></button>
                     <button className={`${styles.actionButton} ${styles.deleteButton}`} title="删除"><i className="fas fa-trash-alt"></i></button>
                 </div>
             </div>
 
-            {/* 新的 body 部分，包裹状态标签 */}
             <div className={styles.body}>
                 <div className={`${styles.statusTag} ${statusInfo.style}`}>
                     <i className={`fas ${statusInfo.icon}`}></i>

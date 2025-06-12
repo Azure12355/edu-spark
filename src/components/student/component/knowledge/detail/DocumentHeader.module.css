@@ -1,0 +1,107 @@
+/* src/components/student/component/knowledge/detail/DocumentHeader.module.css */
+.headerWrapper {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--student-border);
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--student-text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+.backLink:hover {
+    color: var(--student-primary);
+}
+
+.mainInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.titleSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+.titleText h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.statusTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+.titleText p {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    margin: 4px 0 0;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.menuButton, .manageButton {
+    border: 1px solid var(--student-border);
+    background-color: var(--student-white);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    transition: all 0.2s;
+}
+.menuButton {
+    width: 36px;
+    height: 36px;
+}
+.manageButton {
+    padding: 8px 16px;
+}
+.menuButton:hover, .manageButton:hover {
+    border-color: #d1d5db;
+    background-color: #f9fafb;
+}
+
+.metadata {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    font-size: 14px;
+    color: var(--student-text-secondary);
+}
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.metaItem .label {
+    color: var(--student-text-tertiary);
+}

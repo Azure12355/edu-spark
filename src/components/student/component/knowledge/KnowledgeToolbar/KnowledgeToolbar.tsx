@@ -4,14 +4,16 @@ import styles from './KnowledgeToolbar.module.css';
 
 interface KnowledgeToolbarProps {
     count: number;
+    onOpenCreateModal: () => void; // 新增一个 prop 用于打开弹窗
 }
 
-const KnowledgeToolbar: React.FC<KnowledgeToolbarProps> = ({ count }) => {
+const KnowledgeToolbar: React.FC<KnowledgeToolbarProps> = ({ count, onOpenCreateModal }) => {
     return (
         <div className={styles.toolbarContainer}>
             <div className={styles.leftSection}>
-                <button className={styles.createButton}>
-                    创建知识库
+                {/* 修改 onClick 事件 */}
+                <button className={styles.createButton} onClick={onOpenCreateModal}>
+                    创建知识库 <i className="fas fa-chevron-down"></i>
                 </button>
                 <span className={styles.countInfo}>共 {count} 个知识库</span>
             </div>

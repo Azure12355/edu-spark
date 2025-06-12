@@ -1,0 +1,12 @@
+/* src/app/student/(dashboard)/knowledge/[id]/knowledgeDetail.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+}
+.contentWrapper {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 0 24px;
+}

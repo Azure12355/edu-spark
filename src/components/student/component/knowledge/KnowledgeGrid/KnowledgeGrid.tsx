@@ -2,12 +2,17 @@
 import React from 'react';
 import styles from './KnowledgeGrid.module.css';
 import KnowledgeCard from '../KnowledgeCard/KnowledgeCard';
-import { knowledgeData } from '@/lib/data/knowledgeData';
+import { KnowledgeBase } from '@/lib/data/knowledgeData'; // 引入类型
 
-const KnowledgeGrid = () => {
+// 新增 Props 接口
+interface KnowledgeGridProps {
+    kbs: KnowledgeBase[];
+}
+
+const KnowledgeGrid: React.FC<KnowledgeGridProps> = ({ kbs }) => {
     return (
         <div className={styles.grid}>
-            {knowledgeData.map(kb => (
+            {kbs.map(kb => (
                 <KnowledgeCard key={kb.id} kb={kb} />
             ))}
         </div>

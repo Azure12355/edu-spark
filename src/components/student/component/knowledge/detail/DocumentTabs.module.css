@@ -1,0 +1,21 @@
+/* src/components/student/component/knowledge/detail/DocumentTabs.module.css */
+.tabsContainer {
+    display: flex;
+    border-bottom: 1px solid var(--student-border);
+}
+.tabButton {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    position: relative;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px; /* 让边框覆盖容器边框 */
+}
+.tabButton.active {
+    color: var(--student-primary);
+    border-bottom-color: var(--student-primary);
+}

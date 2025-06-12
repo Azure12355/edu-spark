@@ -1,0 +1,45 @@
+/* src/components/student/component/knowledge/detail/DocumentToolbar.module.css */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+.importButton {
+    background-color: var(--student-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.searchContainer {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.filterDropdown {
+    padding: 10px 16px;
+    background-color: #f9fafb;
+    border-right: 1px solid var(--student-border);
+    cursor: pointer;
+}
+.searchInput {
+    padding: 10px 16px;
+    border: none;
+    outline: none;
+}
+.searchButton {
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--student-text-tertiary);
+}

@@ -1,0 +1,43 @@
+"use client";
+import React from 'react';
+import Link from 'next/link';
+import styles from './DocumentHeader.module.css';
+import { KnowledgeBase } from '@/lib/data/knowledgeData';
+
+interface DocumentHeaderProps {
+    kb: KnowledgeBase;
+}
+
+const DocumentHeader: React.FC<DocumentHeaderProps> = ({ kb }) => {
+    return (
+        <div className={styles.headerWrapper}>
+            <Link href="/student/knowledge" className={styles.backLink}>
+                <i className="fas fa-chevron-left"></i> 返回知识库列表
+            </Link>
+            <div className={styles.mainInfo}>
+                <div className={styles.titleSection}>
+                    <div className={styles.icon}><i className={`fas ${kb.icon}`}></i></div>
+                    <div className={styles.titleText}>
+                        <h1>
+                            {kb.name}
+                            <span className={styles.statusTag}><i className="fas fa-check-circle"></i> 构建成功</span>
+                        </h1>
+                        <p>ID: {kb.id}</p>
+                    </div>
+                </div>
+                <div className={styles.actions}>
+                    <button className={styles.menuButton} title="更多操作"><i className="fas fa-ellipsis-h"></i></button>
+                    <button className={styles.manageButton}>服务管理</button>
+                </div>
+            </div>
+            <div className={styles.metadata}>
+                <div className={styles.metaItem}><span className={styles.label}>知识库类型:</span> {kb.type}</div>
+                <div className={styles.metaItem}><span className={styles.label}>创建人:</span> {kb.creator}</div>
+                <div className={styles.metaItem}><span className={styles.label}>更新时间:</span> {kb.createdAt}</div>
+                <div className={styles.metaItem}><span className={styles.label}>数据类型:</span> 非结构化</div>
+                <div className={styles.metaItem}><span className={styles.label}>描述:</span> {kb.name}知识库, 用于存放{kb.name}的课...</div>
+            </div>
+        </div>
+    );
+};
+export default DocumentHeader;
