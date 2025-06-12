@@ -1,0 +1,53 @@
+/* src/components/student/component/knowledge/KnowledgeSteps/KnowledgeSteps.module.css */
+.stepsContainer {
+    background-color: #F9FAFB; /* 浅灰色背景 */
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--student-border);
+    position: relative;
+}
+.toggleButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--student-text-tertiary);
+    cursor: pointer;
+    font-size: 13px;
+}
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.stepCard {
+    background-color: var(--student-white);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+.textInfo .stepLabel {
+    font-size: 13px;
+    color: var(--student-text-tertiary);
+    margin-bottom: 4px;
+}
+.textInfo h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0 0 8px;
+}
+.textInfo p {
+    font-size: 13px;
+    color: var(--student-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+.imageWrapper {
+    flex-shrink: 0;
+    opacity: 0.7;
+}

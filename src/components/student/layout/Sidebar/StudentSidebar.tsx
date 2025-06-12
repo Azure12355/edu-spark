@@ -26,7 +26,7 @@ const sidebarGroups = [
         title: '创作中心',
         items: [
             { id: 'create-agent', icon: 'fa-magic', text: '创建 Agent', href: '#', tag: 'Beta', tagColor: 'blue' },
-            { id: 'knowledge-base', icon: 'fa-book', text: '我的知识库', href: '#' },
+            { id: 'knowledge-base', icon: 'fa-book', text: '我的知识库', href: '/student/knowledge', tag: 'Alpha', tagColor: 'red' },
             { id: 'debug-center', icon: 'fa-bug', text: '调试中心', href: '#' },
         ],
     },

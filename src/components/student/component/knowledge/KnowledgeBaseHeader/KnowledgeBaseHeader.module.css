@@ -1,0 +1,45 @@
+/* src/components/student/component/knowledge/KnowledgeBaseHeader/KnowledgeBaseHeader.module.css */
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.titleSection h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0 0 8px;
+}
+.titleSection p {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    max-width: 600px;
+    line-height: 1.6;
+    margin: 0;
+}
+.actionsSection {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.actionButton:hover {
+    color: var(--student-text-primary);
+    border-color: #d1d5db;
+}
+.actionButton i {
+    color: var(--student-primary);
+}
