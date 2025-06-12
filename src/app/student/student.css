@@ -2,33 +2,26 @@
 
 /* 定义创客贴风格的颜色变量 */
 :root {
-    /* 核心修改 #1：将 --student-bg 从纯色 #F5F6F8 替换为一个优雅的蓝粉渐变 */
     --student-bg: white;
-
-    --student-primary: #2F7BFF; /* 主题蓝色 */
-    --student-primary-light-bg: rgba(47, 123, 255, 0.1); /* 优化：用于高亮背景的浅蓝色，带透明度 */
-    --student-text-primary: #1C1F23; /* 主要文字颜色 */
-    --student-text-secondary: #1b2337; /* 次要文字颜色 */
-    --student-text-tertiary: #86909C; /* 辅助/占位文字颜色 */
-    --student-border: #E4E6E8; /* 边框颜色 */
+    --student-primary: #2F7BFF;
+    --student-primary-light-bg: rgba(47, 123, 255, 0.1);
+    --student-text-primary: #1C1F23;
+    --student-text-secondary: #1b2337;
+    --student-text-tertiary: #86909C;
+    --student-border: #E4E6E8;
     --student-white: #FFFFFF;
-    --student-red: #F53F3F; /* 红色标签 */
-    --student-blue-tag-bg: #EAF2FF; /* 蓝色标签背景 */
-    --student-blue-tag-text: #2F7BFF; /* 蓝色标签文字 */
+    --student-red: #F53F3F;
+    --student-blue-tag-bg: #EAF2FF;
+    --student-blue-tag-text: #2F7BFF;
 }
 
 body {
     font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    /* 核心修改 #2：应用新的渐变背景 */
     background: var(--student-bg);
-    /* 核心修改 #3：让背景在滚动时固定不动，营造高级感 */
     background-attachment: fixed;
-
     color: var(--student-text-primary);
     font-size: 14px;
     margin: 0;
-    /* 核心修改 #4：确保即使内容很少，背景也能撑满整个屏幕 */
     min-height: 100vh;
 }
 
@@ -37,11 +30,37 @@ body {
     height: calc(100vh - 56px); /* 视口高度减去Header高度 */
 }
 
+/* --- 核心修复区域 --- */
+
+/* 1. 将 .student-content-area 变为一个纯粹的、有弹性的容器 */
 .student-content-area {
     flex-grow: 1;
-    overflow-y: auto; /* 主内容区自己滚动 */
-    padding: 24px;
+    display: flex; /* 让它成为 flex 容器，以便子元素可以设置 height: 100% */
+    flex-direction: column; /* 垂直排列子元素 */
+    min-width: 0; /* 防止内容过长时撑破布局，非常重要！ */
 }
+
+/* 2. 新增的 .student-scrollable-content 负责内边距和滚动 */
+.student-scrollable-content {
+    flex-grow: 1; /* 占据父容器所有可用空间 */
+    overflow-y: auto; /* 当内容溢出时，这个容器自己滚动 */
+    padding: 24px; /* 内边距移到这里 */
+}
+
+/* 3. 让 AgentAssistantChat 组件在内容区垂直排列时能够正确伸展 */
+/*
+  这个选择器意味着：当一个元素拥有 student-scrollable-content 类，
+  并且它的直接子元素是 main，那么这个 main 元素也成为一个 flex 容器。
+  这确保了我们的 chatContainer (height: 100%) 能够正确地撑满 main 元素。
+*/
+.student-scrollable-content > main {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 确保 main 元素也占满其父容器的高度 */
+}
+
+/* --- 结束修复区域 --- */
+
 
 /* 通用 section 标题样式 */
 .student-section-title {

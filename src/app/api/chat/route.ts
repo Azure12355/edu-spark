@@ -2,9 +2,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZhipuAI } from 'zhipuai';
 import { Readable } from 'stream';
+import { EDU_SPARK_ASSISTANT_PROMPT } from '@/lib/prompts'; // 导入我们新的系统提示词
 
 const API_KEY = process.env.ZHIPUAI_API_KEY;
-const MODEL_NAME = "glm-z1-flash";
+const MODEL_NAME = "glm-z1-flash"; // 您可以根据需要更改模型
 
 if (!API_KEY) {
   console.error("ZHIPUAI_API_KEY is not set in environment variables.");
@@ -25,45 +26,46 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 });
     }
 
-    const formattedMessages = userMessages.map(msg => ({
-        role: msg.role as "user" | "assistant" | "system",
-        content: msg.content
+    const formattedUserMessages = userMessages.map(msg => ({
+      role: msg.role as "user" | "assistant",
+      content: msg.content
     }));
 
-    // --- 启用流式输出 ---
+    // --- 核心修改：将系统提示词作为第一条消息插入 ---
+    const messagesWithSystemPrompt = [
+      {
+        role: "system",
+        content: EDU_SPARK_ASSISTANT_PROMPT,
+      },
+      ...formattedUserMessages,
+    ];
+    // --- 结束修改 ---
+
     const stream = await client.chat.completions.create({
       model: MODEL_NAME,
-      messages: formattedMessages,
-      stream: true, // 关键：启用流式输出
-      // System Prompt 建议：可以根据需要在 messages 中添加 system 角色的消息
-      // messages: [
-      //   { role: "system", content: "Please think deeply before your response." },
-      //   ...formattedMessages
-      // ],
+      messages: messagesWithSystemPrompt, // 使用包含系统提示词的新消息列表
+      stream: true,
     });
 
-    // 将 ZhipuAI 的 SSE 流转换为 Next.js Response-compatible ReadableStream
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
           for await (const chunk of stream) {
-            // console.log("Sending chunk:", JSON.stringify(chunk)); // 调试日志
             const data = `data: ${JSON.stringify(chunk)}\n\n`;
             controller.enqueue(new TextEncoder().encode(data));
           }
         } catch (error) {
           console.error('Error in stream processing:', error);
-          // @ts-ignore
-          const errorData = `data: ${JSON.stringify({ error: "Stream processing error", details: error.message })}\n\n`;
+          const errorData = `data: ${JSON.stringify({ error: "Stream processing error", details: (error as Error).message })}\n\n`;
           controller.enqueue(new TextEncoder().encode(errorData));
         } finally {
-          const doneData = `data: [DONE]\n\n`; // 发送 DONE 信号
+          const doneData = `data: [DONE]\n\n`;
           controller.enqueue(new TextEncoder().encode(doneData));
           controller.close();
         }
       }
     });
-    
+
     return new Response(readableStream, {
       headers: {
         'Content-Type': 'text/event-stream',
@@ -72,13 +74,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating ZhipuAI stream:', error);
-    // @ts-ignore
     const errorMessage = error.message || 'Failed to get response from AI model';
-    // @ts-ignore
     const errorStatus = error.status || 500;
-    // 对于非流式错误，仍然返回 JSON
     return NextResponse.json({ error: 'Failed to process chat request', details: errorMessage }, { status: errorStatus });
   }
 }

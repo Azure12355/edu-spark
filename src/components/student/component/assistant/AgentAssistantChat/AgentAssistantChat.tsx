@@ -15,7 +15,7 @@ import ChatFooter from '../ChatFooter/ChatFooter';
 // Message 接口定义保持不变
 interface Message {
     id: string;
-    role: 'user' | 'assistant';
+    role: 'user' | 'assistant' | 'system';
     content: string;
     thinkingText?: string | null;
     isThinking?: boolean;

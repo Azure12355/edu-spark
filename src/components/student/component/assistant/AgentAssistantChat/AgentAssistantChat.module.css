@@ -3,7 +3,12 @@
 .chatContainer {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 56px - 48px); /* 视口高度 - 头部高度 - 内容区padding */
+
+    /* --- 核心修复：修改高度计算方式 --- */
+    /* 从 calc(...) 修改为 100%，让其自适应父容器 */
+    height: 100%;
+    /* --- 结束修复 --- */
+
     width: 100%;
     background-color: var(--student-white); /* 给一个基础背景色 */
     border-radius: 18px;
@@ -27,8 +32,10 @@
 .chatBody::-webkit-scrollbar-track { background-color: #f1f5f9; }
 
 @media (max-width: 768px) {
+    /* 对于移动端，可以保持原样，因为父容器高度也接近全屏 */
     .chatContainer {
-        height: calc(100vh - 56px - 24px); /* 移动端调整 */
+        height: 100%;
+        border-radius: 0; /* 移动端通常无圆角 */
     }
     .chatBody { padding: 15px; gap: 12px; }
 }

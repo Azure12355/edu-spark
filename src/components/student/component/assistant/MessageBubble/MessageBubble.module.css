@@ -153,3 +153,13 @@
 @media (max-width: 768px) {
     .messageBubble { padding: 10px 14px; font-size: 14px; }
 }
+
+/* KaTeX 公式样式微调 */
+.messageContent :global(.katex) {
+    font-size: 1.1em; /* 让公式稍微大一点，更清晰 */
+    color: var(--text-primary); /* 公式颜色与主要文本一致 */
+}
+
+.user .messageContent :global(.katex) {
+    color: #fff; /* 用户气泡内的公式使用白色 */
+}

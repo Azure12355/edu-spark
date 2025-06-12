@@ -8,6 +8,9 @@ import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mermaid from 'mermaid';
 import styles from './MessageBubble.module.css';
 
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+
 interface Message {
     id: string;
     role: 'user' | 'assistant';
@@ -23,6 +26,19 @@ interface MessageBubbleProps {
     onToggleThinkingPanel: (id: string) => void;
 }
 
+// 我们仍然保留这个函数，用于处理非标准的 [...] 包裹格式
+const formatMathExpressions = (text: string): string => {
+    const formattedText = text.replace(/\[([\s\S]*?)\]/g, (match, formula) => {
+        const trimmedFormula = formula.trim();
+        if (trimmedFormula.startsWith('$') && trimmedFormula.endsWith('$')) {
+            return trimmedFormula;
+        }
+        return `$$${formula}$$`;
+    });
+    // 注意：我们不再需要处理 (...)，因为 KaTeX 的宽容模式会帮我们处理
+    return formattedText;
+};
+
 const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelOpen, onToggleThinkingPanel }) => {
 
     React.useEffect(() => {
@@ -30,6 +46,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
             mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
         }
     }, [message.content]);
+
+    // 在渲染前，我们只处理最明显的 [...] 格式
+    const contentToRender = formatMathExpressions(message.content);
 
     return (
         <motion.div
@@ -41,6 +60,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
         >
             {message.role === 'assistant' && (message.isThinking || message.isComplete) && (
                 <div className={styles.assistantMsgHeader}>
+                    {/* ... (这部分代码保持不变) ... */}
                     {message.isThinking && !message.isComplete && (
                         <span className={styles.statusTagThinking}>
                         <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
@@ -65,7 +85,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
             <div className={`${styles.messageContent} markdown-body`}>
                 {message.content ? (
                     <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
+                        // --- 核心修改：为 rehypeKatex 插件传递配置选项 ---
+                        remarkPlugins={[remarkGfm, remarkMath]}
+                        rehypePlugins={[[rehypeKatex, { strict: false }]]}
+                        // --- 结束修改 ---
                         components={{
                             // @ts-ignore
                             code({ node, inline, className, children, ...props }) {
@@ -94,7 +117,11 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
                             }
                         }}
                     >
-                        {message.isThinking ? message.content.replace(/<think>[\s\S]*?<\/think>/g, '') : message.content}
+                        {/* 我们仍然需要对流式输出做一些处理，但对最终内容可以直接用 contentToRender */}
+                        {message.isThinking
+                            ? formatMathExpressions(message.content.replace(/<think>[\s\S]*?<\/think>/g, ''))
+                            : contentToRender
+                        }
                     </ReactMarkdown>
                 ) : (
                     !message.isComplete && <span className={styles.typingIndicator}></span>
@@ -102,6 +129,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
             </div>
 
             <AnimatePresence>
+                {/* ... (这部分代码保持不变) ... */}
                 {isThinkingPanelOpen && message.thinkingText && (
                     <motion.div
                         className={styles.thinkingPanel}
@@ -118,6 +146,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
 
             {message.role === 'assistant' && message.isComplete && message.id !== 'init-assistant' && (
                 <div className={styles.messageActions}>
+                    {/* ... (这部分代码保持不变) ... */}
                     <button title="复制" onClick={() => navigator.clipboard.writeText(message.content)}><i className="far fa-copy"></i> 复制</button>
                     <button title="赞"><i className="far fa-thumbs-up"></i></button>
                     <button title="踩"><i className="far fa-thumbs-down"></i></button>
