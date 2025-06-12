@@ -1,0 +1,31 @@
+/* src/app/student/(dashboard)/history/history.module.css */
+.historyContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.historyGrid {
+    /* 核心瀑布流布局实现 */
+    column-count: 4; /* 默认4列 */
+    column-gap: 24px;
+}
+
+/* 响应式调整瀑布流列数 */
+@media (max-width: 1600px) {
+    .historyGrid {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 1200px) {
+    .historyGrid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .historyGrid {
+        column-count: 1; /* 移动端单列显示 */
+    }
+}

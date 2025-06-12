@@ -1,0 +1,85 @@
+/* src/components/student/component/history/HistoryBanner/HistoryBanner.module.css */
+.banner {
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    color: var(--student-white);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    transform: translate(-50%, -50%);
+    animation: panGrid 40s linear infinite;
+    z-index: 0;
+}
+
+@keyframes panGrid {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.icon {
+    font-size: 40px;
+    color: var(--student-primary);
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px var(--student-primary-light-bg);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--student-white);
+    opacity: 0.7;
+    margin: 0 auto;
+    max-width: 500px;
+    line-height: 1.7;
+}
+
+.searchBar {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 99px;
+    padding: 8px 16px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.searchBar i {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 12px;
+}
+
+.searchBar input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 14px;
+}
+.searchBar input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}

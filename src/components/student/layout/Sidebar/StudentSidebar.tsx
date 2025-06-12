@@ -12,14 +12,13 @@ const sidebarGroups = [
             { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场', href: '/student/plaza' },
             { id: 'agent-robot', icon: 'fa-paper-plane', text: 'Agent 助教', href: '/student/assistant' },
             { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行', href: '/student/leaderboard' },
-            { id: 'explore', icon: 'fa-compass', text: '探索发现', href: '#' },
         ],
     },
     {
         title: '我的空间',
         items: [
             { id: 'my-agents', icon: 'fa-user-astronaut', text: '我的 Agent', href: '#' },
-            { id: 'chat-history', icon: 'fa-history', text: '对话历史', href: '#', tag: '3', tagColor: 'red' },
+            { id: 'chat-history', icon: 'fa-history', text: '对话历史', href: '/student/history', tag: '3', tagColor: 'red' },
             { id: 'my-favorites', icon: 'fa-bookmark', text: '我的收藏', href: '#' },
         ],
     },

@@ -1,0 +1,87 @@
+/* src/components/student/component/history/HistoryCard/HistoryCard.module.css */
+.card {
+    background: var(--student-white);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--student-border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    break-inside: avoid; /* 防止在瀑布流中被截断 */
+    margin-bottom: 24px; /* 卡片之间的垂直间距 */
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px -5px rgba(47, 123, 255, 0.12);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+.agentInfo h4 { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+.agentInfo p { font-size: 13px; color: var(--student-text-tertiary); margin: 0; }
+
+.conversationSnippet {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.message { display: flex; gap: 8px; }
+.messageIcon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    flex-shrink: 0;
+}
+.userIcon { background-color: #78716c; }
+.assistantIcon { background-color: var(--student-primary); }
+.messageText { color: #475569; line-height: 1.6; }
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--student-border);
+}
+.timestamp { font-size: 12px; color: var(--student-text-tertiary); }
+.actions { display: flex; gap: 8px; }
+.actionButton {
+    background: transparent;
+    border: none;
+    color: var(--student-text-tertiary);
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.actionButton:hover { background-color: #f1f3f5; color: var(--student-text-primary); }
+.deleteButton:hover { color: #f53f3f; background-color: rgba(245, 63, 63, 0.1); }
