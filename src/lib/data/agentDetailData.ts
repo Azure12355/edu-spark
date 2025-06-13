@@ -21,14 +21,17 @@ export interface AgentDetail {
     description: string;
     coreCapabilities: {
         title: string;
+        description: string;
+        usageCount: string; // e.g., "1.2k+"
         icon: string;
         tag?: '核心' | '推荐';
-        color: string; // 用于卡片背景渐变
+        color: string;
     }[];
     introduction: string; // Markdown 格式
     usageScenarios: string; // Markdown 格式
     techSpec: string; // Markdown 格式
     targetAudience: string; // Markdown 格式
+
 }
 
 export const agentDetailData: AgentDetail = {
@@ -52,10 +55,36 @@ export const agentDetailData: AgentDetail = {
         { title: '复杂算法可视化解释', isNew: true, icon: 'fas fa-check-circle' },
     ],
     coreCapabilities: [
-        { title: '代码纠错', icon: 'fas fa-bug', tag: '核心', color: '#3B82F6' },
-        { title: '算法可视化', icon: 'fas fa-project-diagram', tag: '推荐', color: '#8B5CF6' },
-        { title: '复杂度分析', icon: 'fas fa-tachometer-alt', color: '#10B981' },
-        { title: '模拟面试', icon: 'fas fa-user-tie', color: '#F59E0B' },
+        {
+            title: '代码纠错',
+            icon: 'fas fa-bug',
+            tag: '核心',
+            color: '#3B82F6',
+            description: '快速定位代码中的语法和逻辑错误。',
+            usageCount: '2.5k+'
+        },
+        {
+            title: '算法可视化',
+            icon: 'fas fa-project-diagram',
+            tag: '推荐',
+            color: '#8B5CF6',
+            description: '将抽象的算法步骤转化为动态图形。',
+            usageCount: '1.8k+'
+        },
+        {
+            title: '复杂度分析',
+            icon: 'fas fa-tachometer-alt',
+            color: '#10B981',
+            description: '自动分析代码的时间和空间复杂度。',
+            usageCount: '980+'
+        },
+        {
+            title: '模拟面试',
+            icon: 'fas fa-user-tie',
+            color: '#F59E0B',
+            description: '模拟真实面试场景，进行算法问答。',
+            usageCount: '750+'
+        },
     ],
     introduction: `
 **数据结构与算法助教** 是由资深教师 **王老师** 结合多年教学经验，并基于 **EduSpark** 平台构建的专业AI学习伙伴。它深度整合了《算法导论》、《剑指Offer》等经典教材和面试题库，形成了一个庞大而精确的知识网络。
