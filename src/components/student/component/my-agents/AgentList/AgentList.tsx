@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AgentList.module.css';
-import AgentCard from './AgentCard';
+import AgentCard from '../AgentCard/AgentCard';
 import { MyAgent } from '@/lib/data/myAgentsData';
 
 interface ListProps {

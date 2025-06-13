@@ -2,10 +2,10 @@
 import React, { useState, useMemo } from 'react';
 import styles from './myAgents.module.css';
 import { myAgentsData } from '@/lib/data/myAgentsData';
-import MyAgentsHeader from '@/components/student/component/my-agents/MyAgentsHeader';
-import MyAgentsToolbar from '@/components/student/component/my-agents/MyAgentsToolbar';
-import AgentTabs from '@/components/student/component/my-agents/AgentTabs';
-import AgentList from '@/components/student/component/my-agents/AgentList';
+import MyAgentsHeader from '@/components/student/component/my-agents/MyAgentsHeader/MyAgentsHeader';
+import MyAgentsToolbar from '@/components/student/component/my-agents/MyAgentsToolbar/MyAgentsToolbar';
+import AgentTabs from '@/components/student/component/my-agents/AgentTabs/AgentTabs';
+import AgentList from '@/components/student/component/my-agents/AgentList/AgentList';
 
 export default function MyAgentsPage() {
     const [activeTab, setActiveTab] = useState('all');

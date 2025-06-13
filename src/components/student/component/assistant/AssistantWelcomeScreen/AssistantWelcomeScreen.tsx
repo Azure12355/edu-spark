@@ -1,6 +1,5 @@
-// src/components/student/component/assistant/AssistantWelcomeScreen.tsx
 "use client";
-import React from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './AssistantWelcomeScreen.module.css';
@@ -12,32 +11,32 @@ interface AssistantWelcomeScreenProps {
 
 const samplePrompts = [
     {
-        iconClass: 'fas fa-laptop-code', // 计算机科学
+        iconClass: 'fas fa-laptop-code',
         title: '计算机科学',
-        description: '用 Java 实现一个单例模式，并解释其优缺点。',
+        description: '用 Python语言 编写一个绘制爱心的代码，并解释说明。',
     },
     {
-        iconClass: 'fas fa-landmark', // 文史哲
+        iconClass: 'fas fa-landmark',
         title: '人文历史',
         description: '比较分析一下古希腊哲学中，柏拉图和亚里士多德在“理念论”上的核心分歧。',
     },
     {
-        iconClass: 'fas fa-atom', // 数理科学
+        iconClass: 'fas fa-atom',
         title: '数理科学',
         description: '请推导牛顿第二定律 (F=ma) 在变质量系统中的表达式。',
     },
     {
-        iconClass: 'fas fa-chart-pie', // 经管
+        iconClass: 'fas fa-chart-pie',
         title: '商业经济',
         description: '为一家新开的咖啡店，设计一个为期三个月的市场营销策略，包含线上和线下活动。',
     },
     {
-        iconClass: 'fas fa-palette', // 艺术设计
+        iconClass: 'fas fa-palette',
         title: '艺术设计',
         description: '我正在设计一个科技主题的 APP，请给我推荐一组包含主色、辅色和点缀色的配色方案。',
     },
     {
-        iconClass: 'fas fa-gavel', // 法学
+        iconClass: 'fas fa-gavel',
         title: '法学',
         description: '解释一下“正当防卫”的构成要件，并举一个不适用正当防卫的例子。',
     },
@@ -59,13 +58,31 @@ const headerVariants = {
 };
 
 const AssistantWelcomeScreen: React.FC<AssistantWelcomeScreenProps> = ({ onPromptClick }) => {
+    // --- 核心新增：用于获取容器DOM和处理鼠标移动 ---
+    const welcomeContainerRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!welcomeContainerRef.current) return;
+        const rect = welcomeContainerRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        welcomeContainerRef.current.style.setProperty('--mouse-x', `${x}px`);
+        welcomeContainerRef.current.style.setProperty('--mouse-y', `${y}px`);
+    };
+    // --- 结束新增 ---
+
     return (
         <motion.div
+            ref={welcomeContainerRef}
             className={styles.welcomeContainer}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
+            onMouseMove={handleMouseMove} // --- 核心新增：绑定事件 ---
         >
+            {/* 新增一个 div 用于放置固定的背景光晕，不随鼠标移动 */}
+            <div className={styles.auroraBackground}></div>
+
             <motion.div className={styles.header} variants={headerVariants}>
                 <Image
                     src="/robot.gif"

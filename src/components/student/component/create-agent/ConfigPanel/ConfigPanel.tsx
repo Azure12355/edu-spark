@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './ConfigPanel.module.css';
-import ConfigSection from './ConfigSection';
-import PromptEditor from './PromptEditor';
+import ConfigSection from '../ConfigSection/ConfigSection';
+import PromptEditor from '../PromptEditor/PromptEditor';
 import Modal from '@/components/common/Modal/Modal'; // 引入通用 Modal
 import { availableModels, AvailableModel } from '@/lib/data/availableModels'; // 引入模型数据
 import { knowledgeData, KnowledgeBase } from '@/lib/data/knowledgeData'; // 引入知识库数据

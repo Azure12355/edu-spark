@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
 import styles from './createAgent.module.css';
-import CreateAgentHeader from '@/components/student/component/create-agent/CreateAgentHeader';
-import ConfigPanel from '@/components/student/component/create-agent/ConfigPanel';
-import ChatPanel from '@/components/student/component/create-agent/ChatPanel';
+import CreateAgentHeader from '@/components/student/component/create-agent/CreateAgentHeader/CreateAgentHeader';
+import ConfigPanel from '@/components/student/component/create-agent/ConfigPanel/ConfigPanel';
+import ChatPanel from '@/components/student/component/create-agent/ChatPanel/ChatPanel';
 
 export default function CreateAgentPage() {
     return (

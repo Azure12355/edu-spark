@@ -9,8 +9,8 @@ import styles from './StudentSidebar.module.css';
 const sidebarGroups = [
     {
         items: [
-            { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场', href: '/student/plaza' },
             { id: 'agent-robot', icon: 'fa-paper-plane', text: 'Agent 助教', href: '/student/assistant' },
+            { id: 'agent-square', icon: 'fa-rocket', text: 'Agent 广场', href: '/student/plaza' },
             { id: 'leaderboard', icon: 'fa-trophy', text: '热门排行', href: '/student/leaderboard' },
         ],
     },
