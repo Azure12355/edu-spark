@@ -1,0 +1,45 @@
+/* src/components/student/component/create-agent/CreateAgentHeader.module.css */
+.header {
+    height: 56px;
+    background-color: var(--student-white);
+    border-bottom: 1px solid var(--student-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    width: 100%;
+    flex-shrink: 0;
+}
+.leftSection, .centerSection, .rightSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.backButton {
+    color: var(--student-text-secondary); text-decoration: none; font-size: 16px;
+}
+.titleWrapper { display: flex; align-items: center; gap: 8px; }
+.agentName { font-size: 18px; font-weight: 600; margin: 0; }
+.editButton { background: none; border: none; cursor: pointer; color: var(--student-text-secondary); }
+.statusBadge {
+    font-size: 12px; background-color: #f3f4f6; padding: 4px 10px; border-radius: 6px;
+}
+.saveStatus { font-size: 12px; color: var(--student-text-tertiary); }
+.tabButton {
+    padding: 8px 16px; background: none; border: none; font-size: 14px;
+    font-weight: 500; color: var(--student-text-secondary); cursor: pointer;
+    border-radius: 6px;
+}
+.tabButton.active { background-color: #e5e7eb; color: var(--student-text-primary); }
+.actionButton {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 6px; padding: 8px 16px;
+    font-size: 14px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.publishButton {
+    background-color: var(--student-primary);
+    color: white;
+    border-color: var(--student-primary);
+}

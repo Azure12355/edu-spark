@@ -1,0 +1,77 @@
+/* src/components/common/Modal/Modal.module.css */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(9, 30, 66, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh; /* 限制最大高度 */
+}
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--student-border);
+    flex-shrink: 0;
+}
+.modalHeader h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+.closeButton {
+    background: none; border: none; font-size: 18px;
+    color: var(--student-text-tertiary); cursor: pointer;
+}
+.modalBody {
+    padding: 24px;
+    overflow-y: auto; /* 让内容区可滚动 */
+    flex-grow: 1;
+}
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--student-border);
+    background-color: #f9fafb;
+    flex-shrink: 0;
+}
+.footerButton {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--student-border);
+}
+.cancelButton {
+    background-color: var(--student-white);
+    color: var(--student-text-secondary);
+}
+.confirmButton {
+    background-color: var(--student-primary);
+    color: white;
+    border-color: var(--student-primary);
+}
+.confirmButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

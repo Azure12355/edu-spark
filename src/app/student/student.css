@@ -40,23 +40,18 @@ body {
     min-width: 0; /* 防止内容过长时撑破布局，非常重要！ */
 }
 
-/* 2. 新增的 .student-scrollable-content 负责内边距和滚动 */
+/* 2. 新增的 .student-scrollable-content 负责内边距和滚动，用于普通页面 */
 .student-scrollable-content {
     flex-grow: 1; /* 占据父容器所有可用空间 */
     overflow-y: auto; /* 当内容溢出时，这个容器自己滚动 */
     padding: 24px; /* 内边距移到这里 */
 }
 
-/* 3. 让 AgentAssistantChat 组件在内容区垂直排列时能够正确伸展 */
-/*
-  这个选择器意味着：当一个元素拥有 student-scrollable-content 类，
-  并且它的直接子元素是 main，那么这个 main 元素也成为一个 flex 容器。
-  这确保了我们的 chatContainer (height: 100%) 能够正确地撑满 main 元素。
-*/
+/* 3. 让 AgentAssistantChat 等需要100%高度的组件能够正确伸展 */
 .student-scrollable-content > main {
     display: flex;
     flex-direction: column;
-    height: 100%; /* 确保 main 元素也占满其父容器的高度 */
+    height: 100%;
 }
 
 /* --- 结束修复区域 --- */

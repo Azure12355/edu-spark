@@ -1,0 +1,18 @@
+/* src/app/student/(dashboard)/create-agent/createAgent.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: #f8f9fa;
+    border-left: 1px solid var(--border-color);
+}
+
+.mainLayout {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    /* 核心修复：确保网格本身不溢出，并能正确计算子元素高度 */
+    min-height: 0;
+    overflow: hidden;
+}

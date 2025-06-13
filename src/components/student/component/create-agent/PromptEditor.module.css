@@ -1,0 +1,59 @@
+/* src/components/student/component/create-agent/PromptEditor.module.css */
+.editorContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+.actions {
+    display: flex;
+    gap: 12px;
+}
+.actions button {
+    background: none; border: none; font-size: 13px;
+    color: var(--student-text-secondary); cursor: pointer;
+    display: flex; align-items: center; gap: 4px;
+}
+.variableInfo {
+    font-size: 13px;
+    color: var(--student-text-secondary);
+}
+.variableTag {
+    background: var(--student-primary-light-bg);
+    color: var(--student-primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+.textareaWrapper {
+    position: relative;
+    border: 1px solid var(--student-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.textareaWrapper textarea {
+    width: 100%;
+    height: 180px;
+    border: none;
+    outline: none;
+    padding: 12px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 14px;
+}
+.charCount {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 12px;
+    color: var(--student-text-tertiary);
+}
