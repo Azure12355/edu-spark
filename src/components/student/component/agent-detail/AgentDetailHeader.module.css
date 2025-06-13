@@ -1,0 +1,167 @@
+/* src/components/student/component/agent-detail/AgentDetailHeader.module.css */
+.heroSection {
+    background-color: #f8fafc;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.backgroundGlows {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+}
+.glow1, .glow2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+}
+.glow1 {
+    width: 500px; height: 500px;
+    background: rgba(199, 210, 254, 0.5); /* 淡蓝紫色 */
+    top: -150px; left: -150px;
+}
+.glow2 {
+    width: 400px; height: 400px;
+    background: rgba(254, 202, 202, 0.4); /* 淡粉色 */
+    bottom: -150px; right: -100px;
+}
+
+.contentWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-areas:
+        "left right"
+        "actions right";
+    gap: 24px 48px;
+    align-items: start;
+}
+
+.leftPanel { grid-area: left; }
+.rightPanel { grid-area: right; }
+.ownerActions { grid-area: actions; }
+
+.category {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--student-primary);
+    margin-bottom: 12px;
+}
+.agentName {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    line-height: 1.2;
+}
+.description {
+    font-size: 16px;
+    color: var(--student-text-secondary);
+    line-height: 1.7;
+    margin: 0 0 24px;
+    max-width: 500px;
+}
+.tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+.tag {
+    background-color: #eef2ff;
+    color: #4f46e5;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.mainActions { display: flex; gap: 16px; align-items: center; }
+.ctaButton {
+    background-color: var(--student-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(47,123,255,0.2);
+}
+.infoButton {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--student-border);
+    border-radius: 50%;
+    font-size: 18px;
+    background-color: var(--student-white);
+    cursor: pointer;
+}
+
+/* 右侧卡片 */
+.featureCard {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid white;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+}
+.featureCardHeader { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.featureCardHeader h4 { font-size: 18px; font-weight: 600; margin: 0; }
+.featureList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.featureList li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.featureList i { color: #22c55e; font-size: 18px; }
+.newBadge { background-color: #ffedd5; color: #9a3412; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-weight: 500;}
+.secondaryCtaButton {
+    width: 100%;
+    margin-top: 24px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 所有者操作按钮 */
+.ownerActions {
+    display: flex;
+    gap: 16px;
+    align-self: start; /* 确保它在网格区域的顶部 */
+    margin-top: 10px;
+}
+.editButton, .deleteButton {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.editButton {
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-primary);
+    border: 1px solid var(--student-primary);
+}
+.deleteButton {
+    background-color: transparent;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+@media (max-width: 992px) {
+    .contentWrapper {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "left"
+            "right"
+            "actions";
+        gap: 32px;
+    }
+}

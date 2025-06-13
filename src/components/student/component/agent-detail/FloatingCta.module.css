@@ -1,0 +1,19 @@
+/* src/components/student/component/agent-detail/FloatingCta.module.css */
+.floatingButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--student-primary);
+    color: white;
+    border: none;
+    border-radius: 99px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(47, 123, 255, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

@@ -1,0 +1,26 @@
+/* src/components/student/component/agent-detail/ContentSection.module.css */
+.section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
+}
+.content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--student-text-secondary);
+}
+.content :global(h3) {
+    font-size: 20px;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+.content :global(ul) {
+    list-style-type: disc;
+    padding-left: 2em;
+}

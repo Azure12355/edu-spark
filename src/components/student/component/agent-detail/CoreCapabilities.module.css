@@ -1,0 +1,41 @@
+/* src/components/student/component/agent-detail/CoreCapabilities.module.css */
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 60px 0;
+}
+.card {
+    background-color: var(--student-white);
+    border-radius: 12px;
+    padding: 24px;
+    width: 220px;
+    text-align: center;
+    border: 1px solid var(--student-border);
+    position: relative;
+    transition: all 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: var(--glow-color);
+}
+.tag {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 11px; font-weight: 500;
+    padding: 3px 8px; border-radius: 99px;
+}
+.tag.核心 { background-color: #fefce8; color: #a16207; }
+.tag.推荐 { background-color: #ecfdf5; color: #047857; }
+.icon {
+    font-size: 28px;
+    color: var(--glow-color);
+    margin-bottom: 12px;
+}
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}

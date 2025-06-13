@@ -1,0 +1,20 @@
+/* src/app/student/(dashboard)/agent/[id]/agentDetail.module.css */
+.pageContainer {
+    /* 页面容器不需要特殊样式，因为子组件控制了背景和padding */
+}
+.contentArea {
+    background-color: var(--student-white);
+}
+.footerDisclaimer {
+    background-color: #f8f9fa;
+    padding: 40px;
+    margin-top: 40px;
+}
+.footerDisclaimer p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: var(--student-text-tertiary);
+    text-align: center;
+    line-height: 1.7;
+}
