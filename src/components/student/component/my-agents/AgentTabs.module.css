@@ -17,7 +17,8 @@
 }
 .activePill {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background-color: var(--student-white); border-radius: 6px;
+    background-color: transparent; border-radius: 6px;
+    border: 1px solid rgb(36, 119, 243);
     box-shadow: 0 2px 4px rgba(0,0,0,0.05); z-index: 0;
 }
 .tabButton.active {
