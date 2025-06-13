@@ -1,0 +1,11 @@
+/* src/app/student/(dashboard)/my-agents/myAgents.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

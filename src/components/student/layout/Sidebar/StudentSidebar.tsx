@@ -17,9 +17,8 @@ const sidebarGroups = [
     {
         title: '我的空间',
         items: [
-            { id: 'my-agents', icon: 'fa-user-astronaut', text: '我的 Agent', href: '#' },
+            { id: 'my-agents', icon: 'fa-user-astronaut', text: '我的 Agent', href: '/student/my-agents' },
             { id: 'chat-history', icon: 'fa-history', text: '对话历史', href: '/student/history', tag: '3', tagColor: 'red' },
-            { id: 'my-favorites', icon: 'fa-bookmark', text: '我的收藏', href: '#' },
         ],
     },
     {
