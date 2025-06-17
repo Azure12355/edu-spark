@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
         >
           {/* 沿用参考项目的图片作为占位符 */}
           <Image
-            src="/images/HeroSection/banner.png"
+            src="/images/HeroSection/banner2.png"
             alt="AI 赋能教育实训图示"
             width={480}
             height={480}
