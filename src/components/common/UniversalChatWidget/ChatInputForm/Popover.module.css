@@ -1,0 +1,27 @@
+/* src/components/common/ChatInputForm/Popover.module.css */
+.popoverWrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.popoverContent {
+    position: absolute;
+    background-color: var(--student-white);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--student-border);
+    padding: 8px;
+    z-index: 20;
+    width: max-content;
+    min-width: 180px;
+}
+
+.popoverContent.top {
+    bottom: calc(100% + 8px); /* 定位在触发器上方 */
+    left: 0;
+}
+
+.popoverContent.bottom {
+    top: calc(100% + 8px); /* 定位在触发器下方 */
+    left: 0;
+}

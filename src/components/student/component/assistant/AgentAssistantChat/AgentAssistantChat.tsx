@@ -5,19 +5,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './AgentAssistantChat.module.css';
 
-// 1. 引入新的 ChatBody 组件
+// 更新组件导入路径
 import ChatHeader from '@/components/common/UniversalChatWidget/ChatHeader/ChatHeader';
-import ChatBody from '@/components/common/UniversalChatWidget/ChatBody/ChatBody'; // <-- 新增的导入
-
-// ... (其他导入保持不变)
+import ChatBody from '@/components/common/UniversalChatWidget/ChatBody/ChatBody';
+import ChatInputForm from '@/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm'; // <-- 使用新的组件
 import AssistantWelcomeScreen from '../AssistantWelcomeScreen/AssistantWelcomeScreen';
 import MessageBubble from '../MessageBubble/MessageBubble';
-import QuickActionPrompts from '../QuickActionPrompts/QuickActionPrompts';
-import ChatInputForm from '../ChatInputForm/ChatInputForm';
 import ChatFooter from '../ChatFooter/ChatFooter';
+// 不再需要 QuickActionPrompts
 
-
-// ... (Message 接口和组件主体逻辑保持不变)
 interface Message {
     id: string;
     role: 'user' | 'assistant' | 'system';
@@ -28,7 +24,7 @@ interface Message {
 }
 
 const AgentAssistantChat: React.FC = () => {
-    // ... (所有 state 和 hooks 保持不变)
+    // ... (其他 state 和 ref 定义不变) ...
     const initialMessages: Message[] = [
         {
             id: 'init-assistant',
@@ -43,7 +39,9 @@ const AgentAssistantChat: React.FC = () => {
     const [isSending, setIsSending] = useState(false);
     const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
 
-    // 2. chatBodyRef 现在将用于附加到新的 ChatBody 组件上
+    // --- 核心修改 1: 创建 AbortController 的 ref ---
+    const abortControllerRef = useRef<AbortController | null>(null);
+
     const chatBodyRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -52,27 +50,38 @@ const AgentAssistantChat: React.FC = () => {
         }
     }, [messages, showThinkingPanelId]);
 
-    // ... (sendChatMessage, handleClearChat, toggleThinkingPanel 等函数保持不变)
-    const sendChatMessage = async (messageContent: string) => {
-        const content = messageContent.trim();
-        if (!content || isSending) return;
+    const handleSendMessage = async (data: { text: string; mode: string }) => {
+        // ... (原有的函数开始部分逻辑不变) ...
+        const content = data.text.trim();
+        if (!content) return;
+
         setIsSending(true);
-        const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content, isComplete: true };
+        // --- 核心修改 2: 在发送时创建新的 AbortController ---
+        abortControllerRef.current = new AbortController();
+
+        const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: content, isComplete: true };
         const assistantMsgId = `assistant-${Date.now()}`;
+
         setMessages(prev => [
             ...prev.filter(m => m.id !== 'init-assistant'),
             newUserMessage,
             { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false }
         ]);
         setInputValue('');
-        const apiMessagesHistory = [...messages.slice(1), newUserMessage]
+
+        const apiMessagesHistory = [...messages.slice(1), {role: 'user', content: data.text}]
             .map(({ role, content }) => ({ role, content }));
+
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: apiMessagesHistory }),
+                body: JSON.stringify({ messages: apiMessagesHistory, mode: data.mode }),
+                // --- 核心修改 3: 将 signal 传递给 fetch ---
+                signal: abortControllerRef.current.signal,
             });
+
+            // ... (流式响应处理逻辑不变) ...
             if (!response.ok || !response.body) throw new Error('API request failed');
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
@@ -108,28 +117,45 @@ const AgentAssistantChat: React.FC = () => {
                 finalDisplayText = (accumulatedContent.substring(0, thinkStartIndex) + accumulatedContent.substring(thinkEndIndex + thinkEndTag.length)).trim();
             }
             setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: finalDisplayText, thinkingText: finalThinkingText, isThinking: false, isComplete: true } : msg));
-        } catch (error) {
-            console.error("Error handling stream:", error);
-            setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
+
+        } catch (error: any) {
+            // --- 核心修改 4: 捕获中断错误 ---
+            if (error.name === 'AbortError') {
+                console.log('Fetch aborted by user.');
+                // 当中断时，将AI消息标记为“已中断”
+                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: msg.content + "\n\n[用户已中断]", isThinking: false, isComplete: true } : msg));
+            } else {
+                console.error("Error handling stream:", error);
+                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
+            }
         } finally {
             setIsSending(false);
+            abortControllerRef.current = null; // 清理
+        }
+    };
+
+    // --- 核心修改 5: 实现 onStop 函数 ---
+    const handleStopSending = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
         }
     };
 
     const handleClearChat = () => {
         setMessages(initialMessages);
+        handleStopSending(); // 清空时也停止正在进行的请求
     };
 
+    // ... toggleThinkingPanel 和 showWelcomeScreen 不变 ...
     const toggleThinkingPanel = (messageId: string) => {
         setShowThinkingPanelId(prevId => (prevId === messageId ? null : messageId));
     };
-
     const showWelcomeScreen = messages.length === 1 && messages[0].id === 'init-assistant';
 
     return (
         <div className={styles.chatContainer}>
             {showWelcomeScreen ? (
-                <AssistantWelcomeScreen onPromptClick={sendChatMessage} />
+                <AssistantWelcomeScreen onPromptClick={(text) => handleSendMessage({ text, mode: 'auto' })} />
             ) : (
                 <>
                     <ChatHeader
@@ -142,7 +168,6 @@ const AgentAssistantChat: React.FC = () => {
                         </button>
                     </ChatHeader>
 
-                    {/* 3. 使用新的 ChatBody 组件并传入 ref */}
                     <ChatBody ref={chatBodyRef}>
                         {messages.map(msg => (
                             msg.id !== 'init-assistant' &&
@@ -155,13 +180,14 @@ const AgentAssistantChat: React.FC = () => {
                         ))}
                     </ChatBody>
 
-                    <QuickActionPrompts onPromptClick={sendChatMessage} />
-
+                    {/* --- 核心修改 6: 传递 onStop prop --- */}
                     <ChatInputForm
                         inputValue={inputValue}
                         onInputChange={setInputValue}
-                        onSubmit={() => sendChatMessage(inputValue)}
+                        // 简化 onSubmit 的数据传递，不再需要附件
+                        onSubmit={(data) => handleSendMessage({ text: data.text, mode: data.mode })}
                         isSending={isSending}
+                        onStop={handleStopSending}
                         shouldFocus={!showWelcomeScreen}
                     />
 
