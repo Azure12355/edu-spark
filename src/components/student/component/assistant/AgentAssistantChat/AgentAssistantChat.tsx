@@ -2,11 +2,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image'; // 确保引入 Image 组件
+import Image from 'next/image';
 import styles from './AgentAssistantChat.module.css';
 
-// 1. 将旧的 ChatHeader 导入路径修改为新的通用组件路径
-import ChatHeader from '@/components/common/ChatHeader/ChatHeader';
+// 1. 引入新的 ChatBody 组件
+import ChatHeader from '@/components/common/UniversalChatWidget/ChatHeader/ChatHeader';
+import ChatBody from '@/components/common/UniversalChatWidget/ChatBody/ChatBody'; // <-- 新增的导入
 
 // ... (其他导入保持不变)
 import AssistantWelcomeScreen from '../AssistantWelcomeScreen/AssistantWelcomeScreen';
@@ -41,6 +42,8 @@ const AgentAssistantChat: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
+
+    // 2. chatBodyRef 现在将用于附加到新的 ChatBody 组件上
     const chatBodyRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -49,8 +52,8 @@ const AgentAssistantChat: React.FC = () => {
         }
     }, [messages, showThinkingPanelId]);
 
+    // ... (sendChatMessage, handleClearChat, toggleThinkingPanel 等函数保持不变)
     const sendChatMessage = async (messageContent: string) => {
-        // ... (sendChatMessage 函数内部逻辑完全保持不变)
         const content = messageContent.trim();
         if (!content || isSending) return;
         setIsSending(true);
@@ -129,19 +132,18 @@ const AgentAssistantChat: React.FC = () => {
                 <AssistantWelcomeScreen onPromptClick={sendChatMessage} />
             ) : (
                 <>
-                    {/* 2. 使用新的 ChatHeader 组件，并通过 props 和 children 进行定制 */}
                     <ChatHeader
                         title="Agent 助教"
                         avatar={<Image src="/images/Chat/robot.png" alt="Agent 助教" width={26} height={26} />}
                     >
-                        {/* 将原有的按钮作为 children 传入，并应用样式 */}
                         <button className={styles.controlButton} title="清空对话" onClick={handleClearChat}>
                             <i className="fas fa-trash-alt"></i>
                             <span style={{marginLeft: '5px'}}>清空对话</span>
                         </button>
                     </ChatHeader>
 
-                    <main className={styles.chatBody} ref={chatBodyRef}>
+                    {/* 3. 使用新的 ChatBody 组件并传入 ref */}
+                    <ChatBody ref={chatBodyRef}>
                         {messages.map(msg => (
                             msg.id !== 'init-assistant' &&
                             <MessageBubble
@@ -151,7 +153,7 @@ const AgentAssistantChat: React.FC = () => {
                                 onToggleThinkingPanel={toggleThinkingPanel}
                             />
                         ))}
-                    </main>
+                    </ChatBody>
 
                     <QuickActionPrompts onPromptClick={sendChatMessage} />
 

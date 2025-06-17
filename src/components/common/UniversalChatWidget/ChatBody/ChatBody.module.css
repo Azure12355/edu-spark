@@ -1,0 +1,46 @@
+/* src/components/common/ChatBody/ChatBody.module.css */
+
+.chatBody {
+    /* 核心布局：占据所有可用的父容器空间 */
+    flex-grow: 1;
+
+    /* 内部布局：作为 flex 容器，使其子元素（消息）垂直排列 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* 滚动行为：当内容超出时，垂直方向出现滚动条 */
+    overflow-y: auto;
+
+    /* 内边距：为消息内容提供呼吸空间 */
+    padding: 20px;
+
+    /* flexbox hack: 确保在 flex 布局中可以正确收缩，防止内容撑破父容器 */
+    min-height: 0;
+
+    /* 美化滚动条 (Firefox) */
+    scrollbar-width: thin;
+    scrollbar-color: #bdc5d1 #f1f5f9; /* 滑块颜色 和 轨道颜色 */
+}
+
+/* 美化滚动条 (Chrome, Safari, Edge) */
+.chatBody::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatBody::-webkit-scrollbar-thumb {
+    background-color: #bdc5d1;
+    border-radius: 3px;
+}
+
+.chatBody::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .chatBody {
+        padding: 15px;
+        gap: 12px;
+    }
+}
