@@ -1,0 +1,59 @@
+/* src/components/common/SkillSelector/SkillSelector.module.css */
+.selectorContainer {
+    width: 100%;
+    padding: 0 10px; /* 在输入框上方留出间距 */
+    box-sizing: border-box;
+}
+
+.scrollableArea {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px; /* 为滚动条预留空间，如果需要的话 */
+    /* 隐藏滚动条但保留滚动功能 */
+    scrollbar-width: none; /* Firefox */
+}
+.scrollableArea::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, etc. */
+}
+
+.skillButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 99px; /* 胶囊形状 */
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    white-space: nowrap; /* 防止文字换行 */
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+}
+
+.skillButton:hover {
+    border-color: #a8b3c5;
+    background-color: #f8f9fa;
+}
+
+.skillButton.active {
+    border-color: var(--student-primary);
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-primary);
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* 渐变色图标的通用样式 */
+.iconWrapper svg {
+    width: 1em;
+    height: 1em;
+}

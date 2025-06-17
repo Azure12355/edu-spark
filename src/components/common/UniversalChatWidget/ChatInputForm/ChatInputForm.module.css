@@ -5,7 +5,7 @@
     background-color: transparent;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
-    margin: 0 20px 20px 20px; /* 在聊天窗口中的外边距 */
+    margin: 0 10px 5px 10px; /* 在聊天窗口中的外边距 */
     flex-shrink: 0;
     transition: box-shadow 0.2s;
 }
