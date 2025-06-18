@@ -62,3 +62,66 @@
         display: none; /* 在移动端隐藏文字，只显示图标 */
     }
 }
+
+/* src/components/student/component/assistant/AgentAssistantChat/AgentAssistantChat.module.css */
+/* ... (保留 .chatContainer 和 移动端样式) ... */
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: var(--student-white); /* 给一个基础背景色 */
+    border-radius: 18px;
+    box-shadow: 0 8px 30px -10px rgba(0, 82, 255, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+
+/* 通用控制按钮样式 */
+.controlButton {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 16px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.controlButton:hover {
+    background-color: rgba(0,0,0,0.07);
+    color: var(--text-primary);
+}
+
+/* 针对特定按钮的悬浮效果 */
+.controlButton[title="清空对话"]:hover {
+    color: #ef4444; /* 红色 */
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.controlButton[title="加载测试数据"]:hover {
+    color: #10b981; /* 绿色 */
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+/* 移动端样式保持不变 */
+@media (max-width: 768px) {
+    .chatContainer {
+        height: 100%;
+        border-radius: 0;
+    }
+    .controlButton {
+        width: 30px;
+        height: 30px;
+    }
+
+    .controlButton span {
+        display: none;
+    }
+}

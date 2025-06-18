@@ -1,0 +1,23 @@
+/* src/components/common/MessageBubble/MessageActions.module.css */
+.messageActions {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 16px;
+}
+.messageActions button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+.messageActions button:hover {
+    color: var(--link-color);
+}

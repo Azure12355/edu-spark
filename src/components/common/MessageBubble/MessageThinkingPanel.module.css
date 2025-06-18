@@ -1,0 +1,28 @@
+/* src/components/common/MessageBubble/MessageThinkingPanel.module.css */
+.thinkingPanel {
+    padding: 14px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #d1d9e3;
+    font-size: 13.5px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+.thinkingPanel h4 {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.thinkingPanel pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin: 0;
+}

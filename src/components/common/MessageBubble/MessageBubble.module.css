@@ -1,0 +1,155 @@
+/* src/components/common/MessageBubble/MessageBubble.module.css */
+.messageContainer {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    max-width: 90%;
+    align-self: flex-start; /* Default for assistant */
+    --bubble-theme-color: var(--user-bubble-bg); /* 默认主题色 */
+}
+.messageContainer.user {
+    align-self: flex-end;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+    margin-top: 4px; /* 稍微下移，与气泡对齐更好看 */
+}
+.user .avatar {
+    background-color: #78716c;
+}
+.assistant .avatar {
+    background: var(--bubble-theme-color); /* 使用主题色 */
+}
+
+.bubble {
+    padding: 12px 18px;
+    border-radius: 16px;
+    line-height: 1.6;
+    font-size: 15px;
+    word-wrap: break-word;
+    flex-grow: 1;
+}
+
+.user .bubble {
+    background: var(--user-bubble-bg);
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+.assistant .bubble {
+    background-color: var(--assistant-bubble-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 6px;
+}
+
+/* 全局的 Markdown 样式 */
+.bubble :global(.message-content-wrapper) {
+    /* 可以在这里添加一些通用的 Markdown 容器样式 */
+}
+.bubble :global(.typing-indicator) {
+    display: inline-block;
+    width: 8px;
+    height: 1.5em;
+    background-color: currentColor;
+    animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.bubble :global(.reference-sup) {
+    font-size: 0.75em;
+    font-weight: bold;
+    color: var(--student-primary);
+    cursor: pointer;
+    margin: 0 2px;
+    padding: 1px 4px;
+    background-color: var(--student-primary-light-bg);
+    border-radius: 4px;
+    vertical-align: super;
+}
+
+.bubble :global(.markdown-body) {
+    background-color: transparent !important;
+    color: inherit;
+    font-size: inherit;
+}
+.user .bubble :global(.markdown-body) {
+    color: inherit !important;
+}
+
+@media (max-width: 768px) {
+    .bubble { padding: 10px 14px; font-size: 14px; }
+}
+
+
+/* --- 新增：为 rehype-raw 渲染出的引用角标添加样式 --- */
+.bubble :global(.reference-sup) {
+    font-size: 0.75em;
+    font-weight: bold;
+    color: var(--student-primary);
+    cursor: pointer;
+    margin: 0 2px;
+    padding: 1px 4px;
+    background-color: var(--student-primary-light-bg);
+    border-radius: 4px;
+    vertical-align: super;
+    text-decoration: none; /* 移除可能的下划线 */
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.bubble :global(.reference-sup:hover) {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+}
+
+.bubble :global(.reference-sup) {
+    /* ... */
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/* 新增高亮样式 */
+.bubble :global(.reference-sup.highlighted) {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+}
+
+/* src/components/common/MessageBubble/MessageBubble.module.css */
+
+/* ... (保留所有已有样式) ... */
+
+/* --- 优化后的引用角标样式 --- */
+.bubble :global(.reference-sup) {
+    display: inline-block; /* 改为 inline-block 以应用更多盒模型属性 */
+    font-size: 0.75em;
+    font-weight: 600; /* 加粗，使其更醒目 */
+    color: var(--student-primary);
+    cursor: pointer;
+    margin: 0 4px; /* 调整左右边距 */
+    padding: 2px 6px; /* 调整内边距，使其更像一个胶囊 */
+    background-color: var(--student-primary-light-bg);
+    border-radius: 6px; /* 更圆润的边角 */
+    vertical-align: middle; /* 垂直居中对齐，而非上标 */
+    line-height: 1; /* 确保背景紧凑 */
+    text-decoration: none;
+    border: 1px solid rgba(47, 123, 255, 0.2); /* 添加一个淡淡的边框 */
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* 添加轻微阴影 */
+}
+
+.bubble :global(.reference-sup:hover) {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+    box-shadow: 0 2px 5px rgba(47, 123, 255, 0.15); /* 悬停时阴影更明显 */
+    transform: translateY(-1px); /* 轻微上浮效果 */
+}

@@ -1,0 +1,23 @@
+/* src/components/common/MessageBubble/ReferenceSup.module.css */
+.referenceSup {
+    display: inline-block;
+    font-size: 0.8em; /* 稍微调整大小以匹配截图 */
+    font-weight: 500; /* 调整字重 */
+    color: var(--student-primary);
+    cursor: pointer;
+    margin: 0 2px; /* 微调边距 */
+    padding: 1px 7px; /* 调整内边距，使其更像胶囊 */
+    background-color: var(--student-primary-light-bg);
+    border-radius: 6px;
+    vertical-align: middle; /* 确保与文本基线对齐良好 */
+    line-height: 1.5; /* 确保背景足够高 */
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.referenceSup:hover {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+    transform: translateY(-1px);
+}

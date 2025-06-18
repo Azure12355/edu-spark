@@ -1,0 +1,39 @@
+/* src/components/common/MessageBubble/MessageContent.module.css */
+.contentWrapper :global(p) {
+    display: inline;
+}
+.contentWrapper :global(p:not(:last-child))::after {
+    content: '\A';
+    white-space: pre;
+}
+
+.contentWrapper :global(span.reference-sup) {
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: var(--student-primary);
+    cursor: pointer;
+    margin: 0 2px;
+    padding: 1px 7px;
+    background-color: var(--student-primary-light-bg);
+    border-radius: 6px;
+    vertical-align: middle;
+    line-height: 1.5;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.contentWrapper :global(span.reference-sup:hover) {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+    transform: translateY(-1px);
+}
+
+/* --- 新增：高亮状态的样式 --- */
+.contentWrapper :global(span.reference-sup.highlighted) {
+    background-color: var(--student-white);
+    border-color: var(--student-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(47, 123, 255, 0.15);
+}

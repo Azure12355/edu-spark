@@ -1,0 +1,68 @@
+/* src/components/common/MessageBubble/MessageReferences.module.css */
+.references {
+    margin-top: 16px;
+    border-top: 1px dashed #e5e7eb;
+    padding-top: 12px;
+}
+.refHeader {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--student-text-secondary);
+}
+.refList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.refItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    background-color: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--student-text-primary);
+    border: 1px solid transparent;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.refItem:hover {
+    background-color: #e5e7eb;
+}
+.refIndex {
+    font-weight: bold;
+    color: var(--student-primary);
+}
+.refIcon {
+    color: #64748b;
+}
+.refTitle {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.externalLinkIcon {
+    color: var(--student-text-tertiary);
+    font-size: 10px;
+}
+
+/* --- 新增/确认高亮和闪烁样式 --- */
+.refItem.highlighted {
+    background-color: var(--student-primary-light-bg);
+    border-color: var(--student-primary);
+}
+
+@keyframes flash {
+    0% { background-color: var(--student-primary-light-bg); }
+    50% { background-color: #c7d2fe; }
+    100% { background-color: var(--student-primary-light-bg); }
+}
+.refItem.flash-highlight {
+    animation: flash 1s ease-in-out;
+}
