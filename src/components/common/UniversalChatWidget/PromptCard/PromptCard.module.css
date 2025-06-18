@@ -1,13 +1,10 @@
-/* src/components/student/component/assistant/PromptCard/PromptCard.module.css */
-
+/* src/components/common/PromptCard/PromptCard.module.css */
+/* ... (样式代码与之前完全相同) ... */
 .promptCard {
-    /* --- 核心修改：玻璃拟态效果 --- */
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.02);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.7);
-    /* --- 结束修改 --- */
-
     border-radius: 12px;
     padding: 20px;
     text-align: left;
@@ -16,13 +13,10 @@
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .promptCard:hover {
     transform: translateY(-6px);
     box-shadow: 0 12px 30px -10px rgba(0, 82, 255, 0.15);
 }
-
-/* 卡片悬浮时的辉光效果 (这个可以保留，与背景辉光叠加效果更好) */
 .promptCard::before {
     content: '';
     position: absolute;
@@ -35,11 +29,9 @@
     transition: opacity 0.4s ease;
     pointer-events: none;
 }
-
 .promptCard:hover::before {
     opacity: 1;
 }
-
 .cardIcon {
     width: 40px;
     height: 40px;
@@ -53,14 +45,12 @@
     color: var(--student-primary);
     box-shadow: 0 2px 5px rgba(47, 123, 255, 0.1);
 }
-
 .cardTitle {
     font-size: 16px;
     font-weight: 600;
     color: var(--student-text-primary);
     margin: 0 0 8px 0;
 }
-
 .cardDescription {
     font-size: 14px;
     color: var(--student-text-secondary);

@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './MessageBubble.module.css';
 
-import MessageHeader from './MessageHeader';
-import MessageContent from './MessageContent';
-import MessageThinkingPanel from './MessageThinkingPanel';
-import MessageReferences, { ReferenceItem } from './MessageReferences';
-import MessageActions from './MessageActions';
+import MessageHeader from './MessageHeader/MessageHeader';
+import MessageContent from './MessageContent/MessageContent';
+import MessageThinkingPanel from './MessageThinkingPanel/MessageThinkingPanel';
+import MessageReferences, { ReferenceItem } from './MessageReferences/MessageReferences';
+import MessageActions from './MessageActions/MessageActions';
 
 export interface BubbleMessage {
     id: string;
@@ -28,9 +28,10 @@ interface MessageBubbleProps {
     message: BubbleMessage;
     isThinkingPanelOpen: boolean;
     onToggleThinkingPanel: (id: string) => void;
+    showAvatar: boolean;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelOpen, onToggleThinkingPanel }) => {
+const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelOpen, onToggleThinkingPanel, showAvatar=false }) => {
     const [highlightedRefIndex, setHighlightedRefIndex] = useState<number | null>(null);
 
     const { role, agent, id } = message;
@@ -56,9 +57,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
             transition={{ duration: 0.35, ease: "easeOut" }}
             style={bubbleStyle}
         >
-            <div className={styles.avatar}>
-                {isUser ? userAvatar : (agent?.avatar || <i className="fas fa-robot"></i>)}
-            </div>
+
+            {
+                showAvatar && (
+                    <div className={styles.avatar}>
+                    {isUser ? userAvatar : (agent?.avatar || <i className="fas fa-robot"></i>)}
+                    </div>
+                )
+            }
+
             <div className={styles.bubble}>
                 {!isUser && (
                     <MessageHeader

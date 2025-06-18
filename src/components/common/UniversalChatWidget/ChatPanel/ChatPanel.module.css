@@ -1,0 +1,18 @@
+/* src/components/common/ChatPanel/ChatPanel.module.css */
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: var(--student-white);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px -10px rgba(0, 82, 255, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .chatContainer {
+        height: 100%;
+        border-radius: 0;
+    }
+}

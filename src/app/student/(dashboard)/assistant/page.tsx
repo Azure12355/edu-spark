@@ -1,10 +1,10 @@
-// src/app/student/assistant/page.tsx
+// src/app/student/(dashboard)/assistant/page.tsx
 import React from 'react';
-import AgentAssistantChat from '@/components/student/component/assistant/AgentAssistantChat/AgentAssistantChat';
+import AssistantContainer from '../../../../components/student/component/assistant/AssistantContainer'; // 引入新的容器组件
 
 export default function AgentAssistantPage() {
     return (
-        // 这个组件将充满父容器（student-content-area）
-        <AgentAssistantChat />
+        // 页面现在非常干净，只负责渲染一个容器
+        <AssistantContainer />
     );
 }
