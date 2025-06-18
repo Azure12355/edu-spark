@@ -1,68 +1,118 @@
 /* src/components/common/MessageBubble/MessageReferences.module.css */
+
 .references {
     margin-top: 16px;
-    border-top: 1px dashed #e5e7eb;
-    padding-top: 12px;
+    padding-top: 16px;
+    /* 使用 CSS 渐变来创建虚线，比 border-top-style: dashed 更可控、更美观 */
+    border-top: 1px solid;
+    border-image-source: linear-gradient(to right, transparent, var(--widget-border-color) 10%, var(--widget-border-color) 90%, transparent);
+    border-image-slice: 1;
+    border-image-width: 1px;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
 }
+
 .refHeader {
-    font-size: 13px;
-    font-weight: 500;
-    margin: 0 0 8px 0;
+    font-size: 14px; /* 稍微增大字号 */
+    font-weight: 600; /* 加粗 */
+    margin: 0 0 12px 0; /* 调整间距 */
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: var(--student-text-secondary);
+    gap: 8px;
+    color: var(--widget-text-primary); /* 使用更主要的文本颜色 */
 }
+
+.refHeader i {
+    color: var(--widget-primary-blue); /* 标题图标使用主题色 */
+}
+
 .refList {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px; /* 增大列表项间距 */
 }
+
 .refItem {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    background-color: #f3f4f6;
-    padding: 8px 12px;
-    border-radius: 6px;
+    gap: 10px;
+    font-size: 14px; /* 增大列表项字号 */
+    background-color: var(--widget-bg-light-gray);
+    padding: 10px 14px;
+    border-radius: 8px; /* 更大的圆角 */
     text-decoration: none;
-    color: var(--student-text-primary);
-    border: 1px solid transparent;
-    transition: background-color 0.2s, border-color 0.2s;
+    color: var(--widget-text-secondary);
+    border: 1px solid var(--widget-bg-light-gray); /* 默认边框与背景色相同 */
+    transition: all 0.2s ease;
 }
+
 .refItem:hover {
-    background-color: #e5e7eb;
+    background-color: var(--widget-bg-white);
+    border-color: var(--widget-border-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
+
 .refIndex {
-    font-weight: bold;
-    color: var(--student-primary);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--widget-text-tertiary);
+    background-color: var(--widget-bg-white);
+    border: 1px solid var(--widget-border-color);
+    border-radius: 4px;
+    padding: 2px 6px;
+    line-height: 1;
 }
+
 .refIcon {
-    color: #64748b;
+    color: var(--widget-text-secondary);
+    font-size: 16px; /* 增大图标 */
 }
+
 .refTitle {
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.externalLinkIcon {
-    color: var(--student-text-tertiary);
-    font-size: 10px;
+    font-weight: 500;
+    color: var(--widget-text-primary);
 }
 
-/* --- 新增/确认高亮和闪烁样式 --- */
-.refItem.highlighted {
-    background-color: var(--student-primary-light-bg);
-    border-color: var(--student-primary);
+.externalLinkIcon {
+    color: var(--widget-text-tertiary);
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+.refItem:hover .externalLinkIcon {
+    transform: scale(1.2);
+}
+
+/* 高亮和闪烁状态样式 */
+.refItem.highlighted,
+.refItem.flash-highlight {
+    background-color: var(--widget-primary-light-bg);
+    border-color: var(--widget-primary-blue);
+    color: var(--widget-primary-blue);
+}
+
+.refItem.highlighted .refIcon,
+.refItem.highlighted .refTitle,
+.refItem.highlighted .externalLinkIcon {
+    color: var(--widget-primary-blue);
+}
+
+.refItem.highlighted .refIndex {
+    background-color: var(--widget-primary-blue);
+    color: var(--widget-bg-white);
+    border-color: var(--widget-primary-blue);
 }
 
 @keyframes flash {
-    0% { background-color: var(--student-primary-light-bg); }
-    50% { background-color: #c7d2fe; }
-    100% { background-color: var(--student-primary-light-bg); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }
 .refItem.flash-highlight {
-    animation: flash 1s ease-in-out;
+    animation: flash 0.8s ease-in-out;
 }

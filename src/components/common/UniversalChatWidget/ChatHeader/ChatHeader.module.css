@@ -1,13 +1,21 @@
-/* src/components/common/ChatHeader/ChatHeader.module.css */
+/* src/components/common/UniversalChatWidget/ChatHeader/ChatHeader.module.css */
+
 .chatHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
-    background-color: var(--header-bg, rgba(250, 251, 253, 0.85));
+
+    /* 使用 widget 变量，并移除默认值 */
+    background-color: var(--widget-bg-light-gray);
+    border-bottom: 1px solid var(--widget-border-color);
+
+    /* backdrop-filter 是一个很好的增强效果，但可以根据需要移除或保留 */
+    /* 如果希望背景不透明，可以注释掉下面两行 */
+    background-color: rgba(248, 250, 252, 0.85); /* 浅灰色的半透明版本 */
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-color, #e8edf3);
-    flex-shrink: 0;
+
+    flex-shrink: 0; /* 确保头部高度不会被压缩 */
 }
 
 .headerTitle {
@@ -16,19 +24,44 @@
     gap: 12px;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-primary, #1e293b);
+
+    /* 使用 widget 变量 */
+    color: var(--widget-text-primary);
+
+    /* 防止标题过长时影响右侧按钮布局 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 标题中的头像/图标样式 */
+.headerTitle > :first-child {
+    flex-shrink: 0;
 }
 
 .headerControls {
     display: flex;
+    align-items: center;
     gap: 8px;
+    flex-shrink: 0;
 }
 
+/* 响应式调整 */
 @media (max-width: 768px) {
     .chatHeader {
-        padding: 12px 15px;
+        padding: 10px 16px; /* 稍微减小 padding */
     }
     .headerTitle {
+        gap: 10px;
         font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chatHeader {
+        padding: 8px 12px;
+    }
+    .headerTitle {
+        gap: 8px;
     }
 }

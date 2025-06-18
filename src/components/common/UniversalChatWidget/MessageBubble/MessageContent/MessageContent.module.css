@@ -1,39 +1,55 @@
 /* src/components/common/MessageBubble/MessageContent.module.css */
+
+/*
+ * 核心修复：确保由 react-markdown 生成的段落（<p>）
+ * 能够与我们的自定义引用角标（<span>）在同一行内显示，
+ * 同时保留段落间的换行。
+ */
 .contentWrapper :global(p) {
-    display: inline;
-}
-.contentWrapper :global(p:not(:last-child))::after {
-    content: '\A';
-    white-space: pre;
+    display: inline; /* 强制 p 标签表现为行内元素，避免自动换行 */
 }
 
+/*
+ * 为非最后一个 p 标签（即段落之间）添加换行。
+ * 这是模拟段落间距的关键。
+ */
+.contentWrapper :global(p:not(:last-child))::after {
+    content: '\A\A'; /* 插入两个换行符，模拟一个空行，形成段落间距 */
+    white-space: pre-wrap; /* 确保换行符被正确渲染 */
+}
+
+/*
+ * 对我们自定义的引用角标 span.reference-sup 进行样式化
+ * 这些样式是独立的，不会被 github-markdown.css 轻易覆盖。
+ */
 .contentWrapper :global(span.reference-sup) {
     display: inline-block;
     font-size: 0.8em;
-    font-weight: 500;
-    color: var(--student-primary);
+    font-weight: 600; /* 加粗一点，更醒目 */
+    color: var(--widget-primary-blue);
     cursor: pointer;
-    margin: 0 2px;
-    padding: 1px 7px;
-    background-color: var(--student-primary-light-bg);
+    margin: 0 3px; /* 微调水平边距 */
+    padding: 2px 7px; /* 调整内边距，使其更饱满 */
+    background-color: var(--widget-primary-light-bg);
     border-radius: 6px;
-    vertical-align: middle;
-    line-height: 1.5;
+    vertical-align: baseline; /* 使用基线对齐，更稳定 */
+    line-height: 1.4;
     text-decoration: none;
     border: 1px solid transparent;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease-in-out;
 }
 
-.contentWrapper :global(span.reference-sup:hover) {
-    background-color: var(--student-white);
-    border-color: var(--student-primary);
-    transform: translateY(-1px);
-}
-
-/* --- 新增：高亮状态的样式 --- */
+/* 引用角标的悬浮和高亮状态 */
+.contentWrapper :global(span.reference-sup:hover),
 .contentWrapper :global(span.reference-sup.highlighted) {
-    background-color: var(--student-white);
-    border-color: var(--student-primary);
+    background-color: var(--widget-bg-white);
+    border-color: var(--widget-primary-blue);
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(47, 123, 255, 0.15);
+}
+
+/* 代码块的包裹层样式 */
+.codeBlockWrapper {
+    display: block;
+    margin: 1em 0;
 }

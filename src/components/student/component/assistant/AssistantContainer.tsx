@@ -237,6 +237,7 @@ const AssistantContainer: React.FC = () => {
                         message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
                         isThinkingPanelOpen={showThinkingPanelId === msg.id}
                         onToggleThinkingPanel={toggleThinkingPanel}
+                        showAvatar={false}
                     />
                 ))
             }

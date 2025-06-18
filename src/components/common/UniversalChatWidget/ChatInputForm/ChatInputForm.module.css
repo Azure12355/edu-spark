@@ -1,21 +1,22 @@
-/* src/components/common/ChatInputForm/ChatInputForm.module.css */
+/* src/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm.module.css */
+
 .inputFormContainer {
     display: flex;
     flex-direction: column;
-    background-color: transparent;
-    border: 1px solid #e2e8f0;
+    background-color: var(--widget-bg-white);
+    border: 1px solid var(--widget-border-color);
     border-radius: 16px;
-    margin: 0 10px 5px 10px; /* 在聊天窗口中的外边距 */
+    margin: 0 8px 0px 8px; /* 统一外边距 */
     flex-shrink: 0;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, border-color 0.2s;
 }
 .inputFormContainer:focus-within {
-    border-color: var(--student-primary);
-    box-shadow: 0 0 0 3px var(--student-primary-light-bg);
+    border-color: var(--widget-primary-blue);
+    box-shadow: 0 0 0 3px var(--widget-primary-light-bg);
 }
 
 .mainInputArea {
-    padding: 12px 16px;
+    padding: 12px 16px 0; /* 移除底部 padding，由 toolbar 控制 */
 }
 
 .mainInputArea textarea {
@@ -26,19 +27,19 @@
     resize: none;
     font-size: 15px;
     line-height: 1.6;
-    max-height: 200px; /* 限制最大高度 */
+    max-height: 200px;
     font-family: inherit;
-    color: var(--student-text-primary);
+    color: var(--widget-text-primary);
 }
 .mainInputArea textarea::placeholder {
-    color: #94a3b8;
+    color: var(--widget-text-tertiary);
 }
 
 .inputToolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 12px 8px;
+    padding: 8px 12px;
 }
 
 .leftActions, .rightActions {
@@ -49,109 +50,56 @@
 
 .toolButton {
     background-color: transparent;
-    color: var(--student-text-tertiary);
+    border: none;
+    color: var(--widget-text-tertiary);
     cursor: pointer;
-    font-size: 16px;
-    width: 36px;
-    height: 36px;
+    font-size: 18px; /* 稍微增大图标尺寸 */
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s, color 0.2s;
-    border: 1px solid #e2e8f0;
 }
-.toolButton:hover {
-    background-color: #e2e8f0;
-    color: var(--student-text-primary);
+.toolButton:hover:not(:disabled) {
+    background-color: #eef2ff;
+    color: var(--widget-primary-blue);
 }
-
-.deepThoughtButton {
-    width: auto;
-    padding: 0 12px;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid #e2e8f0;
-    background-color: var(--student-white);
-    color: var(--student-text-primary);
-}
-
-.deepThoughtButton.active {
-    background-color: var(--student-primary-light-bg);
-    color: #0057ff;
-    border-color: #0057ff;
-}
-
-.sendButton {
-    background-color: var(--student-primary);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s, transform 0.1s;
-}
-.sendButton:hover:not(:disabled) {
-    background-color: #1e40af;
-}
-.sendButton:active:not(:disabled) {
-    transform: scale(0.95);
-}
-.sendButton:disabled {
-    background-color: #94a3b8;
+.toolButton:disabled {
+    color: #cbd5e1;
     cursor: not-allowed;
 }
 
-/* Popover Menu Item Styles */
-.popoverMenu {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.menuItem {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    gap: 5px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.menuItem:hover {
-    background-color: #f1f5f9;
-}
-.menuItem i {
-    color: var(--student-text-secondary);
-    width: 30px;
-    text-align: center;
-    margin-right: 8px;
-}
-.menuItemContent {
-    display: flex;
-    align-items: center;
-}
-.menuItemText {
-    display: flex;
-    flex-direction: column;
-}
-.menuItemText span {
-    font-size: 14px;
-    font-weight: 500;
-}
-.menuItemText small {
-    font-size: 12px;
-    color: var(--student-text-tertiary);
-}
-.checkIcon {
-    color: var(--student-primary) !important;
-}
 
-/* src/components/common/ChatInputForm/ChatInputForm.module.css */
-/* ... (保留所有已有样式) ... */
+.deepThoughtButton {
+    /* 继承 .toolButton 的部分样式，并进行扩展 */
+    composes: toolButton;
+    width: auto;
+    padding: 6px 12px;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--widget-border-color);
+    background-color: var(--widget-bg-white);
+    color: var(--widget-text-secondary);
+}
+.deepThoughtButton:hover:not(.active) {
+    border-color: #d1d5db;
+    color: var(--widget-text-primary);
+}
+.deepThoughtButton.active {
+    background-color: var(--widget-primary-light-bg);
+    color: var(--widget-primary-blue);
+    border-color: var(--widget-primary-blue);
+}
+.deepThoughtButton.active:hover {
+    border-color: var(--widget-primary-blue);
+    background-color: var(--widget-primary-light-bg);
+}
+.deepThoughtButton .fa-brain {
+    font-size: 14px;
+}
 
 .sendButtonWrapper {
     position: relative;
@@ -172,51 +120,115 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    transition: background-color 0.2s, transform 0.1s;
+    font-size: 16px; /* 增大图标 */
+    transition: all 0.2s ease;
 }
 
 .sendButton {
-    background-color: var(--student-primary);
+    background-color: var(--widget-primary-blue);
     color: white;
 }
 .sendButton:hover:not(:disabled) {
-    background-color: #1e40af;
-}
-.sendButton:active:not(:disabled) {
-    transform: scale(0.95);
+    background-color: #1d4ed8; /* 更深的蓝色 */
 }
 .sendButton:disabled {
     background-color: #94a3b8;
     cursor: not-allowed;
+    transform: scale(1);
 }
-
 .stopButton {
-    background-color: #ef4444; /* 红色背景表示停止 */
+    background-color: var(--widget-color-error);
     color: white;
 }
 .stopButton:hover {
-    background-color: #dc2626;
+    background-color: #b91c1c; /* 更深的红色 */
 }
-.stopButton:active {
-    transform: scale(0.95);
+.sendButton:active:not(:disabled), .stopButton:active {
+    transform: scale(0.9);
 }
 
-/* --- 新增：语音输入按钮“正在收听”状态的样式 --- */
 .toolButton.listening {
-    color: var(--student-primary);
-    background-color: var(--student-primary-light-bg);
+    color: var(--widget-primary-blue);
+    background-color: var(--widget-primary-light-bg);
     animation: pulse 1.5s infinite;
 }
-
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(47, 123, 255, 0.4);
+    0% { box-shadow: 0 0 0 0 rgba(47, 123, 255, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(47, 123, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(47, 123, 255, 0); }
+}
+
+/* Popover 菜单样式 */
+.popoverMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.menuItem:hover {
+    background-color: #f1f5f9;
+}
+.menuItem i {
+    color: var(--widget-text-secondary);
+    width: 20px;
+    text-align: center;
+    margin-right: 8px;
+}
+.menuItemContent {
+    display: flex;
+    align-items: center;
+}
+.menuItemText {
+    display: flex;
+    flex-direction: column;
+}
+.menuItemText span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--widget-text-primary);
+}
+.menuItemText small {
+    font-size: 12px;
+    color: var(--widget-text-tertiary);
+}
+.checkIcon {
+    color: var(--widget-primary-blue) !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .inputFormContainer {
+        margin: 0 10px 10px; /* 调整移动端外边距 */
+        border-radius: 12px;
     }
-    70% {
-        box-shadow: 0 0 0 10px rgba(47, 123, 255, 0);
+    .mainInputArea textarea {
+        font-size: 14px;
     }
-    100% {
-        box-shadow: 0 0 0 0 rgba(47, 123, 255, 0);
+    .inputToolbar {
+        padding: 4px 8px 8px;
+        gap: 4px;
+    }
+    .leftActions, .rightActions {
+        gap: 4px;
+    }
+    .toolButton {
+        height: 32px;
+        font-size: 16px;
+    }
+    .deepThoughtButton {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    .sendButtonWrapper, .sendButton, .stopButton {
+        width: 32px;
+        height: 32px;
     }
 }

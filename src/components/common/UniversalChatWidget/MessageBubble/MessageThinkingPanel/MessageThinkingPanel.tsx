@@ -12,15 +12,16 @@ interface MessageThinkingPanelProps {
 const MessageThinkingPanel: React.FC<MessageThinkingPanelProps> = ({ isOpen, thinkingText }) => {
     return (
         <AnimatePresence>
-            {isOpen && (
+            {isOpen && thinkingText && (
                 <motion.div
                     className={styles.thinkingPanel}
-                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                    animate={{ height: 'auto', opacity: 1, marginTop: '12px' }}
-                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                    // 动画参数保持不变，因为 height: auto 会自动处理方向
+                    initial={{ height: 0, opacity: 0, marginBottom: 0 }}
+                    animate={{ height: 'auto', opacity: 1, marginBottom: '16px' }}
+                    exit={{ height: 0, opacity: 0, marginBottom: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
-                    <h4><i className="fas fa-brain" />助教的思考过程：</h4>
+                    <h4><i className="fas fa-brain" />Agent的思考过程：</h4>
                     <pre>{thinkingText}</pre>
                 </motion.div>
             )}

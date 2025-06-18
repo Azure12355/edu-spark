@@ -1,4 +1,4 @@
-/* src/components/common/ChatBody/ChatBody.module.css */
+/* src/components/common/UniversalChatWidget/ChatBody/ChatBody.module.css */
 
 .chatBody {
     /* 核心布局：占据所有可用的父容器空间 */
@@ -19,28 +19,45 @@
     min-height: 0;
 
     /* 美化滚动条 (Firefox) */
+    /* 使用新的 widget 变量 */
     scrollbar-width: thin;
-    scrollbar-color: #bdc5d1 #f1f5f9; /* 滑块颜色 和 轨道颜色 */
+    scrollbar-color: var(--widget-text-tertiary) var(--widget-bg-light-gray);
 }
 
 /* 美化滚动条 (Chrome, Safari, Edge) */
 .chatBody::-webkit-scrollbar {
-    width: 6px;
+    width: 8px; /* 稍微加宽以方便桌面端点击 */
 }
 
 .chatBody::-webkit-scrollbar-thumb {
-    background-color: #bdc5d1;
-    border-radius: 3px;
+    /* 使用新的 widget 变量 */
+    background-color: var(--widget-text-tertiary);
+    border-radius: 4px;
+    border: 2px solid var(--widget-bg-white); /* 添加一个边框，使其看起来更细，更有悬浮感 */
+    background-clip: padding-box;
 }
 
 .chatBody::-webkit-scrollbar-track {
-    background-color: #f1f5f9;
+    /* 使用新的 widget 变量 */
+    background-color: var(--widget-bg-light-gray);
 }
 
 /* 响应式调整 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    /* 在平板等中等尺寸设备上，适当减小内边距 */
     .chatBody {
-        padding: 15px;
+        padding: 18px;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 在移动端，进一步减小内边距和滚动条宽度 */
+    .chatBody {
+        padding: 16px;
         gap: 12px;
+    }
+    .chatBody::-webkit-scrollbar {
+        width: 6px; /* 移动端滚动条更细 */
     }
 }

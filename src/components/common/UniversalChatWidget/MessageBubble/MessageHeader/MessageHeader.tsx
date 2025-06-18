@@ -13,26 +13,40 @@ interface MessageHeaderProps {
 }
 
 const MessageHeader: React.FC<MessageHeaderProps> = ({ isThinking, isComplete, hasThinkingText, isThinkingPanelOpen, onToggleThinkingPanel }) => {
+    // 如果没有任何状态，不渲染
     if (!isThinking && !isComplete) return null;
+
+    // 是否是可点击的“回答完毕”标签
+    const isClickable = isComplete && hasThinkingText;
 
     return (
         <div className={styles.assistantMsgHeader}>
             {isThinking && !isComplete && (
-                <span className={styles.statusTagThinking}>
-                    <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
-                    正在思考...
+                <span className={`${styles.statusTag} ${styles.statusTagThinking}`}>
+                    <motion.i
+                        className="fas fa-circle-notch"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                    <span>正在思考...</span>
                 </span>
             )}
-            {isComplete && !hasThinkingText && (
-                <span className={styles.statusTagComplete}>
-                    <i className="fas fa-check-circle" style={{ color: '#10b981' }} />
-                    回答完毕
-                </span>
-            )}
-            {isComplete && hasThinkingText && (
-                <span className={styles.statusTagComplete} onClick={onToggleThinkingPanel} style={{ cursor: 'pointer' }}>
-                    <i className={`fas fa-chevron-right ${isThinkingPanelOpen ? styles.chevronOpen : ''}`} />
-                    回答完毕 (点击{isThinkingPanelOpen ? '收起' : '展开'}思考过程)
+
+            {isComplete && (
+                <span
+                    className={`${styles.statusTag} ${styles.statusTagComplete} ${isClickable ? styles.clickable : ''}`}
+                    onClick={isClickable ? onToggleThinkingPanel : undefined}
+                    style={isClickable ? { cursor: 'pointer' } : {}}
+                >
+                    {isClickable ? (
+                        <i className={`fas fa-chevron-right ${styles.chevron} ${isThinkingPanelOpen ? styles.open : ''}`} />
+                    ) : (
+                        <i className={`fas fa-check-circle ${styles.icon}`} />
+                    )}
+                    <span>
+                        回答完毕
+                        {isClickable && ` (点击${isThinkingPanelOpen ? '收起' : '展开'}思考过程)`}
+                    </span>
                 </span>
             )}
         </div>

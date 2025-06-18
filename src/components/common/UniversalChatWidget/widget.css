@@ -1,0 +1,127 @@
+/* src/components/common/UniversalChatWidget/widget.css */
+
+/*
+ * =================================================================
+ * Universal Chat Widget - 核心样式变量
+ * -----------------------------------------------------------------
+ * 这套变量是独立的，不依赖于项目中的任何其他全局CSS。
+ * 命名以 '--widget-' 开头，以确保作用域清晰，避免冲突。
+ * =================================================================
+ */
+:root {
+    /* 主要颜色 */
+    --widget-primary-blue: #0057ff;
+    --widget-primary-light-bg: rgba(47, 123, 255, 0.1);
+
+    /* 文本颜色 */
+    --widget-text-primary: #1C1F23;      /* 最重要的文本，如标题 */
+    --widget-text-secondary: #475569;    /* 次要文本，如正文、标签 */
+    --widget-text-tertiary: #86909C;     /* 辅助文本，如占位符、时间戳 */
+    --widget-text-light: #64748b;        /* 之前的 text-light，保留用于兼容 */
+
+    /* 背景颜色 */
+    --widget-bg-white: #FFFFFF;
+    --widget-bg-light-gray: #f8fafc;     /* 输入框、页脚等背景 */
+    --widget-bg-panel: #fcfdff;          /* 欢迎界面的背景 */
+    --widget-bg-backdrop: rgba(9, 30, 66, 0.5); /* 模态框背景 */
+
+    /* 边框和分隔线 */
+    --widget-border-color: #e8edf3;
+
+    /* 消息气泡颜色 */
+    --widget-user-bubble-bg: linear-gradient(135deg, #2F7BFF 0%, #4a70ff 100%);
+    --widget-user-bubble-text: #FFFFFF;
+    --widget-assistant-bubble-bg: #FFFFFF;
+    --widget-assistant-bubble-text: var(--widget-text-secondary);
+
+    /* 交互元素颜色 */
+    --widget-link-color: #1664ff;
+    --widget-focus-ring-color: rgba(22, 100, 255, 0.15);
+
+    /* 状态颜色 */
+    --widget-color-success: #10B981;
+    --widget-color-error: #EF4444;
+    --widget-color-warning: #F59E0B;
+    --widget-color-info: #3B82F6;
+}
+
+/*
+ * =================================================================
+ * 通用基础样式
+ * -----------------------------------------------------------------
+ * 一些被多个子组件共享的基础类。
+ * =================================================================
+ */
+
+/* 示例：如果需要一个通用的按钮样式，可以放在这里 */
+.widget-button-base {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/*
+ * =================================================================
+ * 对第三方库样式的微调 (例如 github-markdown-css)
+ * -----------------------------------------------------------------
+ * 确保第三方样式在我们的组件中表现一致。
+ * =================================================================
+ */
+
+/* 确保 markdown 样式在我们的组件中继承正确的颜色和字体 */
+.widget-markdown-body {
+    background-color: transparent !important;
+    color: inherit;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.65;
+    padding: 0;
+}
+
+.widget-markdown-body > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* 用户气泡内的 Markdown 样式修复 */
+.widget-user-bubble-content .widget-markdown-body {
+    color: var(--widget-user-bubble-text) !important;
+}
+
+.widget-markdown-body h1,
+.widget-markdown-body h2,
+.widget-markdown-body h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--widget-border-color);
+}
+
+.widget-user-bubble-content .widget-markdown-body h1,
+.widget-user-bubble-content .widget-markdown-body h2,
+.widget-user-bubble-content .widget-markdown-body h3 {
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.widget-markdown-body div[class*="language-"] {
+    border-radius: 6px;
+    margin: 0.8em 0;
+    font-size: 0.9em;
+    border: 1px solid var(--widget-border-color);
+}
+
+.widget-markdown-body .mermaid {
+    margin-bottom: 0.8em;
+    text-align: center;
+    background-color: var(--widget-bg-light-gray);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--widget-border-color);
+}
+.widget-markdown-body .mermaid svg {
+    max-width: 100%;
+    height: auto !important;
+}

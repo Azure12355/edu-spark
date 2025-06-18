@@ -1,99 +1,95 @@
-// src/components/widgets/CourseAssistantWidget/CourseAssistantWidget.tsx
+// src/components/common/CourseAssistantWidget/CourseAssistantWidget.tsx
 "use client";
 
-import React, { useState, useEffect, useRef, FormEvent } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import mermaid from 'mermaid';
-
-import 'github-markdown-css/github-markdown-light.css';
 import styles from './CourseAssistantWidget.module.css';
 
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  thinkingText?: string | null;
-  isThinking?: boolean;
-  isComplete?: boolean;
+// --- 统一导入所有需要的通用组件和类型 ---
+import ChatPanel from '@/components/common/UniversalChatWidget/ChatPanel/ChatPanel';
+import ChatHeader from '@/components/common/UniversalChatWidget/ChatHeader/ChatHeader';
+import WelcomeScreen from '@/components/common/UniversalChatWidget/WelcomeScreen/WelcomeScreen';
+import { PromptCardData } from '@/components/common/UniversalChatWidget/PromptCard/PromptCard';
+import ChatInputForm from '@/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm';
+import SkillSelector from '@/components/common/UniversalChatWidget/SkillSelector/SkillSelector';
+import MessageBubble, { BubbleMessage } from '@/components/common/UniversalChatWidget/MessageBubble/MessageBubble';
+import ChatFooter from '@/components/common/UniversalChatWidget/ChatFooter/ChatFooter';
+import {Skill} from "@/components/common/UniversalChatWidget/SkillSelector/SkillSelector";
+
+// --- 统一导入所有数据 ---
+import { useToast } from '@/hooks/useToast';
+
+// 欢迎界面的数据
+const welcomeScreenData = {
+  title: "我是您的专属 AI 助教",
+  subtitle: "无论是概念辨析、代码编写，还是创意 brainstorm，我都能助您一臂之力。您可以直接提问，或从下面的卡片开始。",
+  promptCards: [
+    { id: 'prompt-cs', icon: <i className="fas fa-laptop-code"></i>, title: '计算机科学', description: '用 Python语言 编写一个绘制爱心的代码，并解释说明。' },
+    { id: 'prompt-history', icon: <i className="fas fa-landmark"></i>, title: '人文历史', description: '比较分析一下古希腊哲学中，柏拉图和亚里士多德在“理念论”上的核心分歧。' },
+    { id: 'prompt-science', icon: <i className="fas fa-atom"></i>, title: '数理科学', description: '请推导牛顿第二定律 (F=ma) 在变质量系统中的表达式。' },
+    { id: 'prompt-business', icon: <i className="fas fa-chart-pie"></i>, title: '商业经济', description: '为一家新开的咖啡店，设计一个为期三个月的市场营销策略，包含线上和线下活动。' },
+  ] as PromptCardData[]
+};
+
+// 技能按钮的数据
+const availableSkills: Skill[] = [
+  { id: 'deep_think', name: '深度思考', icon: <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="grad_deep_think"><stop stopColor="#2DD4BF" offset="0%"></stop><stop stop-color="#3B82F6" offset="100%"></stop></linearGradient></defs><path d="M512 992a32 32 0 0 1-14.72-3.84l-384-221.76a32 32 0 0 1-17.28-27.84V285.44a32 32 0 0 1 17.28-27.84l384-221.76a32 32 0 0 1 29.44 0l384 221.76a32 32 0 0 1 17.28 27.84v448.32a32 32 0 0 1-17.28 27.84l-384 221.76A32 32 0 0 1 512 992z m-352-277.44l352 203.2 352-203.2V309.44l-352-203.2-352 203.2zM512 608a32 32 0 1 1 0-64 32 32 0 0 1 0 64z m-160 92.16a32 32 0 1 1 0-64 32 32 0 0 1 0 64z m320 0a32 32 0 1 1 0-64 32 32 0 0 1 0 64z m-160-184.32a32 32 0 1 1 0-64 32 32 0 0 1 0 64z" p-id="4523" fill="url(#grad_deep_think)"></path></svg> },
+  { id: 'analyze_research', name: '分析研究', icon: <i style={{color: '#4F46E5'}} className="fas fa-chart-pie"></i> },
+  { id: 'code_mode', name: '代码模式', icon: <i style={{color: '#3B82F6'}} className="fas fa-code"></i> },
+  { id: 'web_search', name: '联网搜索', icon: <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="grad_web_search"><stop stop-color="#A78BFA" offset="0%"></stop><stop stop-color="#3B82F6" offset="100%"></stop></linearGradient></defs><path d="M512 960A448 448 0 1 1 512 64a448 448 0 0 1 0 896z m0-64a384 384 0 1 0 0-768 384 384 0 0 0 0 768z" p-id="1371" fill="url(#grad_web_search)"></path><path d="M512 832c-154.112 0-288.768-100.8-336.704-242.88a32 32 0 1 1 59.52-25.216C275.904 686.08 384.896 768 512 768c127.104 0 236.096-81.92 277.184-204.16a32 32 0 1 1 59.52 25.216C800.768 731.2 666.112 832 512 832z" p-id="1372" fill="url(#grad_web_search)"></path></svg> },
+  { id: 'ppt_creation', name: 'PPT创作', icon: <i style={{color: '#EF4444'}} className="fas fa-file-powerpoint"></i> },
+  { id: 'command_center', name: '指令中心', icon: <i style={{color: '#8B5CF6'}} className="fas fa-satellite-dish"></i> },
+];
+
+
+
+interface CourseAssistantWidgetProps {
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const CourseAssistantWidget: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  const initialMessages: Message[] = [
-    { 
-      id: 'init-assistant', 
-      role: 'assistant', 
-      content: "你好！我是 EduSpark 智能助教。无论是**解答课程疑问**，还是**生成练习题**，我都在这里为你服务。试试问我：“请用Python写一个快速排序” 或 “帮我出5道关于牛顿第二定律的选择题”。", 
-      isComplete: true 
-    }
-  ];
-
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+const CourseAssistantWidget: React.FC<CourseAssistantWidgetProps> = ({ isOpen, onClose }) => {
+  // --- 业务逻辑和状态管理 ---
+  const [messages, setMessages] = useState<BubbleMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
+  const [selectedSkill, setSelectedSkill] = useState<string>('');
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const showToast = useToast();
 
-  const chatBodyRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const handleSendMessage = async (data: { text: string; mode: string }) => {
+    let content = data.text.trim();
+    if (!content) return;
 
-  useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'neutral',
-      securityLevel: 'loose',
-    });
-    
-    const timer = setTimeout(() => {
-        try {
-            mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
-        } catch(e) { console.error("Mermaid rendering error:", e); }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [messages]);
-
-  useEffect(() => {
-    if (chatBodyRef.current) {
-      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    if (selectedSkill) {
+      const skillName = availableSkills.find(s => s.id === selectedSkill)?.name || '';
+      content = `[使用${skillName}功能] ${content}`;
     }
-  }, [messages, showThinkingPanelId]);
-
-  useEffect(() => {
-    if (isOpen) {
-        setTimeout(() => inputRef.current?.focus(), 300);
-    }
-  }, [isOpen]);
-
-  const handleSubmit = async (e?: FormEvent) => {
-    if (e) e.preventDefault();
-    const userMessageContent = inputValue.trim();
-    if (!userMessageContent || isSending) return;
 
     setIsSending(true);
-    const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: userMessageContent, isComplete: true };
+    abortControllerRef.current = new AbortController();
+    const newUserMessage: BubbleMessage = { id: `user-${Date.now()}`, role: 'user', content: content, isComplete: true };
     const assistantMsgId = `assistant-${Date.now()}`;
 
-    setMessages(prev => [
-      ...prev,
-      newUserMessage,
-      { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false }
-    ]);
+    setMessages(prev => [ ...prev, newUserMessage, { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false } ]);
     setInputValue('');
+    setSelectedSkill('');
 
-    const apiMessagesHistory = [...messages, newUserMessage]
-      .filter(msg => msg.role === 'user' || (msg.role === 'assistant' && msg.isComplete))
-      .map(({ role, content }) => ({ role, content }));
+    const apiMessagesHistory = [...messages, newUserMessage].filter(m => m.role === 'user' || m.isComplete).map(({ role, content }) => ({ role, content }));
 
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessagesHistory }),
+        body: JSON.stringify({
+          messages: apiMessagesHistory,
+          mode: data.mode,
+          skill: selectedSkill
+        }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!response.ok || !response.body) throw new Error('API request failed');
@@ -105,10 +101,8 @@ const CourseAssistantWidget: React.FC<{ isOpen: boolean; onClose: () => void }> 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split('\n\n');
-
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const jsonDataString = line.substring('data: '.length).trim();
@@ -129,34 +123,46 @@ const CourseAssistantWidget: React.FC<{ isOpen: boolean; onClose: () => void }> 
       const thinkEndTag = "</think>";
       let finalThinkingText: string | null = null;
       let finalDisplayText = accumulatedContent;
-
       const thinkStartIndex = accumulatedContent.indexOf(thinkStartTag);
       const thinkEndIndex = accumulatedContent.indexOf(thinkEndTag);
-
       if (thinkStartIndex !== -1 && thinkEndIndex > thinkStartIndex) {
         finalThinkingText = accumulatedContent.substring(thinkStartIndex + thinkStartTag.length, thinkEndIndex).trim();
         finalDisplayText = (accumulatedContent.substring(0, thinkStartIndex) + accumulatedContent.substring(thinkEndIndex + thinkEndTag.length)).trim();
       }
-      
+
       setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: finalDisplayText, thinkingText: finalThinkingText, isThinking: false, isComplete: true } : msg));
 
-    } catch (error) {
-      console.error("Error handling stream:", error);
-      setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: `抱歉，处理您的请求时发生了错误: ${error instanceof Error ? error.message : String(error)}`, isThinking: false, isComplete: true } : msg));
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        console.log('Fetch aborted by user.');
+        setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: (msg.content || '') + "\n\n[用户已中断]", isThinking: false, isComplete: true } : msg));
+      } else {
+        console.error("Error handling stream:", error);
+        showToast({ message: "请求出错，请稍后重试", type: 'error' });
+        setMessages(prev => prev.filter(msg => msg.id !== assistantMsgId)); // 出错时直接移除AI的空消息
+      }
     } finally {
       setIsSending(false);
+      abortControllerRef.current = null;
     }
   };
-  
-  const handleQuickQuestion = (question: string) => {
-    setInputValue(question);
-    setTimeout(() => inputRef.current?.focus(), 50);
+
+  const handleStopSending = () => abortControllerRef.current?.abort();
+  const handleClearChat = () => { setMessages([]); handleStopSending(); };
+  const toggleThinkingPanel = (id: string) => setShowThinkingPanelId(prev => (prev === id ? null : id));
+
+  const handleCardClick = (card: PromptCardData) => {
+    handleSendMessage({ text: card.description, mode: 'auto' });
   };
 
-  const toggleThinkingPanel = (messageId: string) => {
-    setShowThinkingPanelId(prevId => (prevId === messageId ? null : messageId));
+  const showWelcome = messages.length === 0;
+
+  // AI 助手 Agent 的定义
+  const assistantAgent = {
+    avatar: <Image src="/images/Chat/robot.png" alt="Agent 助教" width={36} height={36} />,
+    themeColor: 'var(--user-bubble-bg)',
   };
-  
+
   const widgetVariants = {
     hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", damping: 20, stiffness: 200 } },
@@ -164,160 +170,72 @@ const CourseAssistantWidget: React.FC<{ isOpen: boolean; onClose: () => void }> 
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className={`${styles.chatbotWidget} ${isMaximized ? styles.maximized : ''}`}
-          variants={widgetVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <header className={styles.widgetHeader}>
-            <div className={styles.headerTitle}>
-              <Image src="/images/Chat/robot.png" alt="智能助教" width={26} height={26} />
-              EduSpark 智能助教
-            </div>
-            <div className={styles.headerControls}>
-              <button onClick={() => setIsMaximized(!isMaximized)} className={styles.controlButton} title={isMaximized ? "还原" : "最大化"}>
-                <i className={`fas ${isMaximized ? 'fa-compress-alt' : 'fa-expand-alt'}`}></i>
-              </button>
-              <button onClick={onClose} className={styles.controlButton} title="关闭">
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-          </header>
-
-          <main className={styles.chatBody} ref={chatBodyRef}>
-            {messages.map(msg => (
-              <motion.div
-                key={msg.id}
-                className={`${styles.messageBubble} ${styles[msg.role]}`}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-              >
-                {msg.role === 'assistant' && (msg.isThinking || msg.isComplete) && (
-                  <div className={styles.assistantMsgHeader}>
-                    {msg.isThinking && !msg.isComplete && (
-                      <span className={styles.statusTagThinking}>
-                        <motion.i className="fas fa-circle-notch fa-spin" style={{ marginRight: '8px' }} />
-                        正在思考...
-                      </span>
-                    )}
-                    {msg.isComplete && !msg.thinkingText && (
-                      <span className={styles.statusTagComplete}>
-                        <i className="fas fa-check-circle" style={{ marginRight: '8px', color: '#10b981' }} />
-                        回答完毕
-                      </span>
-                    )}
-                    {msg.isComplete && msg.thinkingText && (
-                      <span className={styles.statusTagComplete} onClick={() => toggleThinkingPanel(msg.id)} style={{cursor: 'pointer'}}>
-                        <i className={`fas fa-chevron-right ${showThinkingPanelId === msg.id ? styles.chevronOpen : ''}`} style={{ marginRight: '8px', transition: 'transform 0.2s' }}></i>
-                        回答完毕 (点击{showThinkingPanelId === msg.id ? '收起' : '展开'}思考过程)
-                      </span>
-                    )}
-                  </div>
-                )}
-                
-                <div className={`${styles.messageContent} markdown-body`}>
-                  {msg.content ? (
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        // @ts-ignore
-                        code({ node, inline, className, children, ...props }) {
-                          const match = /language-(\w+)/.exec(className || '');
-                          const language = match ? match[1] : '';
-                          
-                          if (language === 'mermaid') {
-                            return <pre className="mermaid">{String(children)}</pre>;
-                          }
-                          
-                          return !inline && match ? (
-                            <SyntaxHighlighter
-                            // @ts-ignore
-                              style={oneLight}
-                              language={language}
-                              PreTag="div"
-                              {...props}
-                            >
-                              {String(children).replace(/\n$/, '')}
-                            </SyntaxHighlighter>
-                          ) : (
-                            <code className={className} {...props}>
-                              {children}
-                            </code>
-                          );
-                        }
-                      }}
+      <AnimatePresence>
+        {isOpen && (
+            <motion.div
+                className={`${styles.chatbotWidget} ${isMaximized ? styles.maximized : ''}`}
+                variants={widgetVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+            >
+              <ChatPanel
+                  showWelcome={showWelcome}
+                  welcomeScreen={
+                    <WelcomeScreen
+                        avatar={<Image src="/images/Chat/robot.png" alt="智能助教" width={80} height={80} priority />}
+                        title={welcomeScreenData.title}
+                        subtitle={welcomeScreenData.subtitle}
+                        promptCards={welcomeScreenData.promptCards}
+                        onCardClick={handleCardClick}
+                    />
+                  }
+                  header={
+                    <ChatHeader
+                        title="EduSpark 智能助教"
+                        avatar={<Image src="/images/Chat/robot.png" alt="智能助教" width={26} height={26} />}
                     >
-                      {msg.isThinking ? msg.content.replace(/<think>[\s\S]*?<\/think>/g, '') : msg.content}
-                    </ReactMarkdown>
-                  ) : (
-                    !msg.isComplete && <span className={styles.typingIndicator}></span>
-                  )}
-                </div>
-                
-                <AnimatePresence>
-                {showThinkingPanelId === msg.id && msg.thinkingText && (
-                  <motion.div 
-                    className={styles.thinkingPanel}
-                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                    animate={{ height: 'auto', opacity: 1, marginTop: '12px' }}
-                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  >
-                    <h4><i className="fas fa-brain" style={{marginRight: '8px'}}></i>助教的思考过程：</h4>
-                    <pre>{msg.thinkingText}</pre>
-                  </motion.div>
-                )}
-                </AnimatePresence>
-                
-                {msg.role === 'assistant' && msg.isComplete && msg.id !== 'init-assistant' && (
-                  <div className={styles.messageActions}>
-                    <button title="复制" onClick={() => navigator.clipboard.writeText(msg.content)}><i className="far fa-copy"></i> 复制</button>
-                    <button title="赞"><i className="far fa-thumbs-up"></i></button>
-                    <button title="踩"><i className="far fa-thumbs-down"></i></button>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </main>
-          
-          <section className={styles.quickActions}>
-            {["生成一份Java学习大纲", "解释一下什么是递归", "给我出几道高数题"].map(q => (
-              <button key={q} onClick={() => handleQuickQuestion(q)} className={styles.quickQuestionBtn}>
-                {q} <i className="fas fa-arrow-right"></i>
-              </button>
-            ))}
-          </section>
-          <form onSubmit={handleSubmit} className={styles.inputArea}>
-            <textarea
-              ref={inputRef}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="输入你的问题，比如“解释一下什么是闭包”..."
-              rows={1}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit();
-                }
-              }}
-              disabled={isSending}
-            />
-            <button type="submit" className={styles.sendButton} disabled={isSending || !inputValue.trim()}>
-              <i className="fas fa-paper-plane"></i>
-            </button>
-          </form>
-          <footer className={styles.footerInfo}>
-            AI生成内容仅供参考，请谨慎采纳
-            <span className={styles.promoTag}>Beta</span>
-          </footer>
-        </motion.div>
-      )}
-    </AnimatePresence>
+                      <button onClick={() => setIsMaximized(!isMaximized)} className={styles.controlButton} title={isMaximized ? "还原" : "最大化"}>
+                        <i className={`fas ${isMaximized ? 'fa-compress-alt' : 'fa-expand-alt'}`}></i>
+                      </button>
+                      <button onClick={onClose} className={styles.controlButton} title="关闭">
+                        <i className="fas fa-times"></i>
+                      </button>
+                    </ChatHeader>
+                  }
+                  chatContent={
+                    messages.map(msg => (
+                        <MessageBubble
+                            key={msg.id}
+                            message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
+                            isThinkingPanelOpen={showThinkingPanelId === msg.id}
+                            onToggleThinkingPanel={toggleThinkingPanel}
+                            showAvatar={false}
+                        />
+                    ))
+                  }
+                  skillSelector={
+                    <SkillSelector
+                        skills={availableSkills}
+                        selectedSkillId={selectedSkill}
+                        onSkillSelect={setSelectedSkill}
+                    />
+                  }
+                  inputForm={
+                    <ChatInputForm
+                        inputValue={inputValue}
+                        onInputChange={setInputValue}
+                        onSubmit={handleSendMessage}
+                        isSending={isSending}
+                        onStop={handleStopSending}
+                        shouldFocus={!showWelcome}
+                    />
+                  }
+                  footer={<ChatFooter />}
+              />
+            </motion.div>
+        )}
+      </AnimatePresence>
   );
 };
 

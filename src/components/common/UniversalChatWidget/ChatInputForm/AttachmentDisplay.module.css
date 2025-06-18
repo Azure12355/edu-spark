@@ -1,54 +1,60 @@
-/* src/components/common/ChatInputForm/AttachmentDisplay.module.css */
+/* src/components/common/UniversalChatWidget/ChatInputForm/AttachmentDisplay.module.css */
 .attachmentContainer {
     width: 100%;
     overflow: hidden;
     box-sizing: border-box;
-    position: relative; /* 为绝对定位的按钮提供容器 */
+    position: relative;
     padding: 12px 0;
+    /* 新增：仅在有内容时显示，平滑过渡 */
+    transition: padding 0.3s ease-in-out;
+}
+.attachmentContainer:empty {
+    padding: 0;
 }
 
 .scrollableArea {
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    padding: 0 16px; /* 为两边的按钮留出空间 */
-    padding-top: 5px;
+    /* 为滚动按钮留出空间，并确保卡片边缘有呼吸空间 */
+    padding: 0 38px;
     /* 隐藏滚动条但保留滚动功能 */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 .scrollableArea::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
+    display: none;
 }
 
 .attachmentItem {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
-    background-color: #f1f3f5;
+    gap: 10px;
+    background-color: var(--widget-bg-light-gray);
     border-radius: 10px;
-    padding: 10px;
-    width: 220px;
+    padding: 8px 10px;
+    width: 210px;
     position: relative;
-    border: 1px solid transparent;
-    transition: border-color 0.2s;
+    border: 1px solid var(--widget-border-color);
+    transition: all 0.2s ease;
 }
-
 .attachmentItem:hover {
-    border-color: #e2e8f0;
+    border-color: var(--widget-primary-blue);
+    background-color: var(--widget-bg-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .preview {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
     border-radius: 6px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
+    background-color: var(--widget-bg-white);
 }
 
 .imagePreview {
@@ -56,7 +62,6 @@
     height: 100%;
     object-fit: cover;
 }
-
 .fileIcon {
     width: auto;
     height: 100%;
@@ -69,9 +74,9 @@
 
 .fileName {
     display: block;
-    font-size: 14px;
+    font-size: 13px; /* 减小字号以适应更小的卡片 */
     font-weight: 500;
-    color: var(--student-text-primary);
+    color: var(--widget-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -80,27 +85,28 @@
 
 .fileMeta {
     display: flex;
-    gap: 4px;
-    font-size: 12px;
-    color: var(--student-text-tertiary);
+    gap: 6px; /* 增大元信息间距 */
+    font-size: 11px; /* 减小字号 */
+    color: var(--widget-text-tertiary);
     margin: 4px 0 0;
     white-space: nowrap;
 }
 .fileMeta span {
-    display: inline-block;
+    display: inline-flex; /* 使用 flex 对齐 */
+    align-items: center;
 }
 
 .removeButton {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #a8a29e;
+    top: -6px; /* 调整位置 */
+    right: -6px;
+    background: var(--widget-text-tertiary);
     color: white;
-    border: none;
+    border: 2px solid var(--widget-bg-white); /* 添加白色边框，更有质感 */
     cursor: pointer;
-    font-size: 8px;
-    width: 16px;
-    height: 16px;
+    font-size: 9px; /* 减小图标大小 */
+    width: 18px; /* 调整大小 */
+    height: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -108,7 +114,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     opacity: 0;
     transform: scale(0.8);
-    transition: opacity 0.2s, transform 0.2s;
+    transition: all 0.2s ease;
     z-index: 5;
 }
 
@@ -116,12 +122,11 @@
     opacity: 1;
     transform: scale(1);
 }
-
 .removeButton:hover {
-    background: #78716c;
+    background: var(--widget-color-error); /* 悬浮时变红 */
+    transform: scale(1.1);
 }
 
-/* --- 新增：滚动按钮样式 --- */
 .scrollButton {
     position: absolute;
     top: 50%;
@@ -129,10 +134,10 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid #e2e8f0;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--widget-border-color);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    color: var(--student-text-secondary);
+    color: var(--widget-text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,17 +145,34 @@
     z-index: 10;
     transition: all 0.2s ease;
 }
-
 .scrollButton:hover {
-    background-color: var(--student-white);
-    color: var(--student-primary);
+    background-color: var(--widget-bg-white);
+    color: var(--widget-primary-blue);
     transform: translateY(-50%) scale(1.1);
 }
 
 .scrollButton.left {
-    left: 4px;
+    left: 8px; /* 调整位置 */
 }
 
 .scrollButton.right {
-    right: 4px;
+    right: 8px; /* 调整位置 */
+}
+
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .attachmentItem {
+        width: 190px;
+        gap: 8px;
+    }
+    .scrollableArea {
+        padding: 0 32px; /* 移动端滚动按钮空间 */
+    }
+    .scrollButton.left {
+        left: 4px;
+    }
+    .scrollButton.right {
+        right: 4px;
+    }
 }

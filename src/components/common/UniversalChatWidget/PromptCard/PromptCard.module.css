@@ -1,22 +1,25 @@
 /* src/components/common/PromptCard/PromptCard.module.css */
-/* ... (样式代码与之前完全相同) ... */
+
 .promptCard {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.02);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    /* 使用 widget 变量，并调整背景为更通用的浅灰色 */
+    background: transparent;
     border-radius: 12px;
     padding: 20px;
     text-align: left;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--widget-border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
+
 .promptCard:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 30px -10px rgba(0, 82, 255, 0.15);
+    border-color: var(--widget-primary-blue);
+    box-shadow: 0 12px 24px -8px rgba(47, 123, 255, 0.15); /* 更柔和的阴影 */
 }
+
+/* 悬浮时的辉光效果 */
 .promptCard::before {
     content: '';
     position: absolute;
@@ -24,36 +27,49 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(47, 123, 255, 0.15), transparent 40%);
+    /* 使用 widget 变量 */
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--widget-primary-light-bg), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s ease;
-    pointer-events: none;
+    pointer-events: none; /* 确保不影响点击 */
 }
+
 .promptCard:hover::before {
     opacity: 1;
 }
+
 .cardIcon {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 8px; /* 将圆形改为圆角矩形，更具现代感 */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--student-primary-light-bg) 0%, #EAF2FF 100%);
-    color: var(--student-primary);
-    box-shadow: 0 2px 5px rgba(47, 123, 255, 0.1);
+    /* 使用 widget 变量 */
+    background: var(--widget-primary-light-bg);
+    color: var(--widget-primary-blue);
+    border: 1px solid rgba(47, 123, 255, 0.1);
 }
+
 .cardTitle {
     font-size: 16px;
     font-weight: 600;
-    color: var(--student-text-primary);
+    color: var(--widget-text-primary);
     margin: 0 0 8px 0;
 }
+
 .cardDescription {
     font-size: 14px;
-    color: var(--student-text-secondary);
+    color: var(--widget-text-secondary);
     line-height: 1.6;
     margin: 0;
+    /* 多行省略，确保卡片高度大致一致 */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 66px; /* 3行文本的大致高度 */
 }

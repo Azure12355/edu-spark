@@ -1,20 +1,24 @@
-/* src/components/common/SkillSelector/SkillSelector.module.css */
+/* src/components/common/UniversalChatWidget/SkillSelector/SkillSelector.module.css */
+
 .selectorContainer {
     width: 100%;
-    padding: 0 10px; /* 在输入框上方留出间距 */
+    padding: 0 0 5px 0; /* 调整 padding，主要控制底部间距 */
     box-sizing: border-box;
+    position: relative; /* 为滚动指示器提供定位上下文 */
 }
 
 .scrollableArea {
     display: flex;
-    gap: 12px;
+    gap: 10px; /* 减小按钮间距 */
     overflow-x: auto;
-    padding-bottom: 8px; /* 为滚动条预留空间，如果需要的话 */
+    /* 为左右两侧可能的滚动指示器留出空间 */
+    padding: 4px 8px;
     /* 隐藏滚动条但保留滚动功能 */
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 .scrollableArea::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, etc. */
+    display: none;
 }
 
 .skillButton {
@@ -22,27 +26,30 @@
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    border-radius: 99px; /* 胶囊形状 */
-    background-color: var(--student-white);
-    border: 1px solid var(--student-border);
+    border-radius: 99px;
+    background-color: var(--widget-bg-white);
+    border: 1px solid var(--widget-border-color);
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    color: var(--student-text-secondary);
-    white-space: nowrap; /* 防止文字换行 */
+    color: var(--widget-text-secondary);
+    white-space: nowrap;
     transition: all 0.2s ease-in-out;
     flex-shrink: 0;
 }
 
 .skillButton:hover {
-    border-color: #a8b3c5;
-    background-color: #f8f9fa;
+    border-color: var(--widget-primary-blue);
+    color: var(--widget-primary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
 }
 
 .skillButton.active {
-    border-color: var(--student-primary);
-    background-color: var(--student-primary-light-bg);
-    color: var(--student-primary);
+    border-color: var(--widget-primary-blue);
+    background-color: var(--widget-primary-light-bg);
+    color: var(--widget-primary-blue);
+    box-shadow: 0 2px 6px rgba(47, 123, 255, 0.1);
 }
 
 .iconWrapper {
@@ -50,10 +57,41 @@
     align-items: center;
     justify-content: center;
     font-size: 16px;
+    transition: transform 0.2s ease;
 }
+
+.skillButton:hover .iconWrapper {
+    transform: scale(1.1);
+}
+.skillButton.active .iconWrapper {
+    transform: scale(1.1) rotate(-10deg);
+}
+
 
 /* 渐变色图标的通用样式 */
 .iconWrapper svg {
     width: 1em;
     height: 1em;
+}
+
+/* 新增：滚动指示器（当内容溢出时由JS控制显示） */
+.scrollIndicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--widget-text-tertiary);
+    pointer-events: none;
+}
+.scrollIndicator.left {
+    left: 0;
+    background: linear-gradient(to right, var(--widget-bg-white), transparent);
+}
+.scrollIndicator.right {
+    right: 0;
+    background: linear-gradient(to left, var(--widget-bg-white), transparent);
 }

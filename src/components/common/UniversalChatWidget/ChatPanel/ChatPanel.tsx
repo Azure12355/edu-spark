@@ -4,6 +4,8 @@
 import React, { useRef, useEffect, ReactNode } from 'react';
 import styles from './ChatPanel.module.css';
 import ChatBody from '@/components/common/UniversalChatWidget/ChatBody/ChatBody';
+import '../widget.css';
+
 
 // 定义 ChatPanel 的 props 接口
 interface ChatPanelProps {

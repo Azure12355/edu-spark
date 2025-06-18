@@ -1,4 +1,4 @@
-// src/components/common/ChatInputForm/Popover.tsx
+// src/components/common/UniversalChatWidget/ChatInputForm/Popover.tsx
 "use client";
 
 import React, { useRef, useEffect, ReactNode } from 'react';
@@ -8,15 +8,24 @@ import styles from './Popover.module.css';
 interface PopoverProps {
     isOpen: boolean;
     onClose: () => void;
-    trigger: ReactNode; // 触发 Popover 的元素
-    children: ReactNode; // Popover 的内容
+    trigger: ReactNode;
+    children: ReactNode;
     position?: 'top' | 'bottom';
+    align?: 'start' | 'center' | 'end'; // 新增对齐属性
+    className?: string; // 允许外部传入 class
 }
 
-const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, position = 'top' }) => {
+const Popover: React.FC<PopoverProps> = ({
+                                             isOpen,
+                                             onClose,
+                                             trigger,
+                                             children,
+                                             position = 'top',
+                                             align = 'start', // 默认为 start (左对齐)
+                                             className,
+                                         }) => {
     const popoverRef = useRef<HTMLDivElement>(null);
 
-    // 点击外部区域关闭 Popover
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
@@ -26,8 +35,6 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, p
 
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
@@ -36,9 +43,9 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, p
     }, [isOpen, onClose]);
 
     const popoverVariants = {
-        hidden: { opacity: 0, y: position === 'top' ? 10 : -10, scale: 0.95 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.2, ease: 'easeOut' } },
-        exit: { opacity: 0, y: position === 'top' ? 10 : -10, scale: 0.95, transition: { duration: 0.15 } },
+        hidden: { opacity: 0, y: position === 'top' ? 8 : -8, scale: 0.95 },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.15, ease: 'easeOut' } },
+        exit: { opacity: 0, y: position === 'top' ? 8 : -8, scale: 0.95, transition: { duration: 0.1 } },
     };
 
     return (
@@ -47,7 +54,7 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, trigger, children, p
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className={`${styles.popoverContent} ${styles[position]}`}
+                        className={`${styles.popoverContent} ${styles[position]} ${styles[align]} ${className || ''}`}
                         variants={popoverVariants}
                         initial="hidden"
                         animate="visible"

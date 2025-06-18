@@ -1,28 +1,55 @@
 /* src/components/common/MessageBubble/MessageThinkingPanel.module.css */
+
 .thinkingPanel {
-    padding: 14px;
-    background-color: #f8fafc;
+    /* 调整 margin，使其与下方内容有间距，而不是上方 */
+    margin-bottom: 16px;
+    padding: 16px;
+
+    /* 使用 widget 变量，并调整样式使其更具“代码/调试”感 */
+    background-color: ghostwhite; /* 深色背景 */
     border-radius: 8px;
-    border: 1px dashed #d1d9e3;
-    font-size: 13.5px;
-    max-height: 250px;
+    border: 1px solid #b8b5b5; /* 深色边框 */
+
+    font-size: 13px; /* 统一基础字号 */
+    max-height: 280px;
     overflow-y: auto;
+
+    /* 美化滚动条以适应深色背景 */
+    scrollbar-width: thin;
+    scrollbar-color: #58a6ff #161b22;
 }
+.thinkingPanel::-webkit-scrollbar {
+    width: 6px;
+}
+.thinkingPanel::-webkit-scrollbar-thumb {
+    background-color: #58a6ff;
+    border-radius: 3px;
+}
+.thinkingPanel::-webkit-scrollbar-track {
+    background: #161b22;
+}
+
+
 .thinkingPanel h4 {
     font-size: 14px;
-    color: var(--text-primary);
-    margin: 0 0 10px 0;
+    color: #0d72d8; /* 浅灰色标题 */
+    margin: 0 0 12px 0;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
+.thinkingPanel h4 i {
+    color: #58a6ff; /* 蓝色图标 */
+}
+
 .thinkingPanel pre {
     white-space: pre-wrap;
     word-break: break-all;
-    color: var(--text-secondary);
-    font-family: inherit;
-    font-size: 0.95em;
-    line-height: 1.6;
+    color: #8b949e; /* 稍亮的文本颜色 */
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* 使用等宽字体 */
+    font-size: 0.9em;
+    line-height: 1.7;
     margin: 0;
 }

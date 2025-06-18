@@ -1,25 +1,52 @@
-/* src/components/student/component/assistant/ChatFooter.module.css */
+/* src/components/common/UniversalChatWidget/ChatFooter/ChatFooter.module.css */
+
 .footerInfo {
-    padding: 3px 20px;
+    /* 使用 widget 变量，并微调样式 */
+    padding: 5px 20px; /* 增加垂直 padding，使其呼吸感更好 */
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--widget-text-tertiary);
     text-align: center;
+    background-color: var(--widget-bg-white); /* 与输入框背景协调 */
+    /*border-top: 1px solid var(--widget-border-color);*/
     flex-shrink: 0;
     position: relative;
 }
+
 .promoTag {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     right: 20px;
-    background-color: #ecfdf5;
-    color: #065f46;
-    padding: 4px 8px;
+    transform: translateY(-50%);
+
+    /* 使用 widget 变量 */
+    background-color: var(--widget-primary-light-bg);
+    color: var(--widget-primary-blue);
+    border: 1px solid rgba(47, 123, 255, 0.2);
+
+    padding: 4px 10px;
     font-size: 11px;
     border-radius: 6px;
     font-weight: 500;
-    border: 1px solid #abf2d3;
 }
+
+/* 响应式调整 */
 @media (max-width: 768px) {
-    .footerInfo { padding: 8px 15px; font-size: 11px; }
+    .footerInfo {
+        padding: 8px 15px;
+        font-size: 11px;
+    }
+    .promoTag {
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 在非常小的屏幕上，可以考虑隐藏标签，只保留核心文本 */
+    .promoTag {
+        display: none;
+    }
+    .footerInfo {
+        text-align: center;
+        padding-right: 15px; /* 恢复右侧 padding */
+    }
 }

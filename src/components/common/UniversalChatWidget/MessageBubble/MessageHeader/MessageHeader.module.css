@@ -1,34 +1,52 @@
 /* src/components/common/MessageBubble/MessageHeader.module.css */
+
 .assistantMsgHeader {
-    margin-bottom: 10px;
+    margin-bottom: 12px; /* 增加与下方内容的间距 */
     font-size: 13px;
     display: flex;
     align-items: center;
+    min-height: 28px; /* 为标签预留最小高度，防止内容加载时布局跳动 */
 }
-.statusTagComplete, .statusTagThinking {
-    padding: 5px 12px;
-    border-radius: 99px;
+
+/* 状态标签的通用基础样式 */
+.statusTag {
+    padding: 4px 12px; /* 调整 padding 使其更紧凑 */
+    border-radius: 99px; /* 胶囊形状 */
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-weight: 500;
+    border: 1px solid transparent; /* 预留边框位置 */
+    transition: all 0.2s ease;
 }
+
+/* “回答完毕”状态 */
 .statusTagComplete {
-    background-color: #f8fafc;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
+    background-color: var(--widget-bg-light-gray);
+    color: var(--widget-text-secondary);
+    border-color: var(--widget-border-color);
 }
-.statusTagComplete[style*="cursor: pointer"]:hover {
-    background-color: #f1f5f9;
-    border-color: #e2e8f0;
+.statusTagComplete .icon {
+    color: var(--widget-color-success); /* 使用成功状态颜色 */
 }
-.chevronOpen {
-    transform: rotate(90deg);
+
+/* “回答完毕”（可点击展开思考过程）的悬浮效果 */
+.statusTagComplete.clickable:hover {
+    border-color: #d1d5db; /* 边框颜色加深 */
+    background-color: #f1f3f5;
 }
+
+/* “正在思考”状态 */
 .statusTagThinking {
-    color: var(--link-color);
-    background-color: #eef2ff;
+    color: var(--widget-primary-blue);
+    background-color: var(--widget-primary-light-bg);
+    border-color: rgba(47, 123, 255, 0.2);
 }
-.chevronOpen {
-    transition: transform 0.2s;
+
+/* 展开/收起的小箭头图标 */
+.chevron {
+    transition: transform 0.25s ease-in-out;
+}
+.chevron.open {
+    transform: rotate(90deg);
 }

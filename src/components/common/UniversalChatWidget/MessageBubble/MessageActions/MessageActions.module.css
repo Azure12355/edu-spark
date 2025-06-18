@@ -1,23 +1,48 @@
 /* src/components/common/MessageBubble/MessageActions.module.css */
+
 .messageActions {
-    margin-top: 12px;
-    padding-top: 8px;
-    border-top: 1px solid var(--border-color);
+    margin-top: 16px; /* 增加与上方内容的间距 */
+    padding-top: 12px;
+    border-top: 1px solid var(--widget-border-color); /* 使用 widget 变量 */
     display: flex;
-    gap: 16px;
+    align-items: center; /* 垂直居中 */
+    gap: 12px; /* 稍微减小按钮组之间的间距 */
 }
+
 .messageActions button {
     background: none;
     border: none;
-    color: var(--text-light);
+    /* 使用 widget 变量 */
+    color: var(--widget-text-tertiary);
     font-size: 13px;
+    font-weight: 500; /* 稍微加粗 */
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px;
-    transition: color 0.2s ease;
+    gap: 6px;
+    padding: 6px 10px; /* 增加 padding，扩大点击区域 */
+    border-radius: 6px; /* 添加圆角 */
+    transition: all 0.2s ease;
 }
+
 .messageActions button:hover {
-    color: var(--link-color);
+    /* 使用 widget 变量 */
+    color: var(--widget-primary-blue);
+    background-color: var(--widget-primary-light-bg);
+}
+
+.messageActions button:active {
+    transform: scale(0.95); /* 添加点击反馈 */
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .messageActions {
+        gap: 8px;
+    }
+    .messageActions button {
+        padding: 6px 8px;
+        font-size: 12px;
+        gap: 4px;
+    }
 }
