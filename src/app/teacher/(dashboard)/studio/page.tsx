@@ -13,6 +13,7 @@ import Announcements from "@/components/teacher/studio/Announcements/Announcemen
 import AnalyticsCard from '@/components/teacher/studio/AnalyticsCard/AnalyticsCard';
 import ContentPublishChart from "@/components/teacher/studio/ContentPublishChart/ContentPublishChart";
 import TopAuthorsTable from "@/components/teacher/studio/TopAuthorsTable/TopAuthorsTable";
+import ContentTimeAnalysisChart from "@/components/teacher/studio/ContentTimeAnalysisChart/ContentTimeAnalysisChart";
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -165,6 +166,8 @@ export default function StudioPage() {
                 <ContentPublishChart />
                 <TopAuthorsTable />
             </div>
+
+            <ContentTimeAnalysisChart/>
 
             {/* ... Render other sections similarly ... */}
 
