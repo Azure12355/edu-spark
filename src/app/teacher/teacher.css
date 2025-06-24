@@ -1,0 +1,81 @@
+/* src/app/teacher/teacher.css */
+/* EduSpark Teacher-Side Standalone Stylesheet */
+
+/* --- 1. 核心设计变量 (Design Tokens) --- */
+:root {
+    /* 主色调 */
+    --teacher-primary: #2F7BFF;
+    --teacher-primary-light: #EAF2FF;
+
+    /* 文本颜色 */
+    --teacher-text-primary: #1D2129;   /* 主要标题、正文 */
+    --teacher-text-secondary: #4E5969; /* 次要信息、标签 */
+    --teacher-text-tertiary: #86909C;  /* 辅助、占位符文本 */
+    --teacher-link-color: #2F7BFF;
+
+    /* 背景颜色 */
+    --teacher-bg-body: #f7f8fa;         /* 页面主背景 */
+    --teacher-bg-card: #FFFFFF;        /* 卡片背景 */
+    --teacher-bg-hover: #f1f3f5;       /* 悬浮背景 */
+
+    /* 边框与分隔线 */
+    --teacher-border-color: #e5e6eb;
+
+    /* 状态色 */
+    --teacher-status-green: #00B42A;
+    --teacher-status-green-bg: #E6FFFB;
+    --teacher-status-gray: #86909C;
+    --teacher-status-gray-bg: #F1F3F5;
+}
+
+/* --- 2. 全局基础样式重置 --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background-color: var(--teacher-bg-body);
+    color: var(--teacher-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* --- 3. 教师端核心布局容器 --- */
+.teacher-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.teacher-main-container {
+    flex-grow: 1;
+    padding: 24px;
+    width: 100%;
+    max-width: 1400px; /* 为教师端设置一个更宽敞的最大宽度 */
+    margin: 0 auto;
+}
+
+/* --- 4. 可复用的通用组件样式 --- */
+.teacher-button-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none; /* For Link components */
+}
+.teacher-button-primary:hover {
+    background-color: #1a5cff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}

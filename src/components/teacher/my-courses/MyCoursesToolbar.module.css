@@ -1,0 +1,63 @@
+/* src/components/teacher/my-courses/MyCoursesToolbar.module.css */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--teacher-bg-card);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+}
+
+.filterGroup, .actionGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filterButton {
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.filterButton.active {
+    color: var(--teacher-primary);
+}
+
+.activePill {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--teacher-primary);
+    border-radius: 1px;
+}
+
+.searchInput {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-bg-body);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.searchInput input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--teacher-text-primary);
+}
+.searchInput i {
+    color: var(--teacher-text-tertiary);
+}

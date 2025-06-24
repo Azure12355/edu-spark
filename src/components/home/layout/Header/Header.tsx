@@ -9,7 +9,7 @@ import styles from './Header.module.css';
 // 更新导航链接以匹配 EduSpark 需求
 const navLinksData = [
   { href: "/student/assistant", text: "首页", active: true },
-  { href: "#", text: "教师中心", dropdown: true },
+  { href: "/teacher/courses", text: "教师中心", dropdown: true },
   { href: "/student/assistant", text: "学生中心", dropdown: true },
   { href: "#", text: "课程广场", newIndicator: true },
   { href: "#", text: "数据看板" },

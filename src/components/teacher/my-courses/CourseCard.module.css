@@ -1,0 +1,156 @@
+/* src/components/teacher/my-courses/CourseCard.module.css */
+
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px; /* 增大圆角 */
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative; /* 为光晕效果和绝对定位元素提供上下文 */
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02); /* 悬浮效果更明显 */
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    border-color: rgba(47, 123, 255, 0.3);
+}
+
+/* --- 高级光晕效果 --- */
+.glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--card-glow-color, #EAF2FF) 0%, transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 0;
+}
+.card:hover .glow {
+    opacity: 0.5;
+}
+
+.cardContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    gap: 16px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.titleGroup {
+    flex-grow: 1;
+}
+
+.courseName {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--teacher-text-primary);
+}
+
+.creator {
+    font-size: 13px;
+    color: var(--teacher-text-secondary);
+    margin-top: 4px;
+}
+
+.menuButton {
+    background: var(--teacher-bg-hover);
+    border: 1px solid var(--teacher-border-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.menuButton:hover {
+    background-color: var(--teacher-border-color);
+    color: var(--teacher-text-primary);
+}
+
+.description {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 44px; /* 2 lines height */
+    flex-grow: 1; /* 占据多余空间 */
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--teacher-border-color);
+    padding-top: 16px;
+    margin-top: auto; /* 将footer推到底部 */
+}
+
+.stats {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.statItem i {
+    font-size: 14px;
+}
+.statItem .fa-chalkboard-teacher { color: #8B5CF6; } /* Purple */
+.statItem .fa-users { color: #3B82F6; } /* Blue */
+.statItem .fa-tasks { color: #10B981; } /* Green */
+
+.actionButton {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.actionButton:hover {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+}

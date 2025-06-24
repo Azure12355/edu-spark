@@ -1,22 +1,23 @@
+// src/components/student/component/plaza/AgentGrid/AgentGrid.tsx
 "use client";
+
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation'; // --- 核心修改 1: 引入 useRouter ---
+import { useRouter } from 'next/navigation';
 import styles from './AgentGrid.module.css';
 import { agentData } from '@/lib/data/agentData';
+// 1. 导入新的 Pagination 组件
+import Pagination from '@/components/common/Pagination/Pagination';
 
 const ITEMS_PER_PAGE = 10;
 
-// Agent 卡片组件
+// 2. AgentCard 组件保持不变，这里不再重复
 const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
     const menuRef = useRef(null);
-    const router = useRouter(); // --- 核心修改 2: 实例化 router ---
+    const router = useRouter();
 
-    // --- 核心修改 3: 创建处理卡片点击和页面跳转的函数 ---
     const handleCardClick = () => {
-        // 先关闭可能打开的任何上下文菜单
         onMenuToggle(null);
-        // 使用 router.push 进行页面跳转，URL为动态的 /student/agent/[id]
         router.push(`/student/agent/${agent.id}`);
     };
 
@@ -34,7 +35,7 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
             animate="visible"
             whileHover="hover"
             custom={index}
-            onClick={handleCardClick} // --- 核心修改 4: 将卡片的点击事件绑定到新函数 ---
+            onClick={handleCardClick}
         >
             <div className={styles.cardHeader}>
                 <div className={styles.avatar} style={{ background: agent.avatarGradient }}>
@@ -45,7 +46,6 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
                     <p className={styles.agentCreator}>by {agent.creator}</p>
                 </div>
                 <div className={styles.contextMenuWrapper} ref={menuRef}>
-                    {/* 这个按钮的 stopPropagation 确保点击它时不会触发卡片的跳转 */}
                     <button className={styles.menuButton} onClick={(e) => { e.stopPropagation(); onMenuToggle(agent.id); }}>
                         <i className="fas fa-ellipsis-v"></i>
                     </button>
@@ -93,7 +93,6 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
                     className={styles.chatButton}
                     variants={{ hidden: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }}
                     transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
-                    // --- 核心修改 5: 让悬浮按钮也触发跳转，并阻止事件冒泡 ---
                     onClick={(e) => {
                         e.stopPropagation();
                         handleCardClick();
@@ -106,92 +105,9 @@ const AgentCard = ({ agent, index, onMenuToggle, activeMenuId }: any) => {
     );
 };
 
+// 3. 移除内联的 PaginationControls 组件定义
 
-// PaginationControls 组件保持不变
-const PaginationControls = ({ currentPage, totalPages, onPageChange }: any) => {
-    const [jumpValue, setJumpValue] = useState(String(currentPage));
-
-    useEffect(() => {
-        setJumpValue(String(currentPage));
-    }, [currentPage]);
-
-    const handleJump = () => {
-        const pageNum = parseInt(jumpValue, 10);
-        if (!isNaN(pageNum)) {
-            const clampedPage = Math.max(1, Math.min(pageNum, totalPages));
-            onPageChange(clampedPage);
-        } else {
-            setJumpValue(String(currentPage));
-        }
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleJump();
-        }
-    };
-
-    const getPaginationNumbers = () => {
-        const pages = [];
-        const siblingCount = 1;
-        const totalPageNumbers = siblingCount + 5;
-
-        if (totalPages <= totalPageNumbers) {
-            for (let i = 1; i <= totalPages; i++) {
-                pages.push(i);
-            }
-        } else {
-            const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-            const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
-
-            const shouldShowLeftDots = leftSiblingIndex > 2;
-            const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
-
-            pages.push(1);
-            if(shouldShowLeftDots) pages.push('...');
-
-            for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
-                if(i !== 1 && i !== totalPages) {
-                    pages.push(i);
-                }
-            }
-
-            if(shouldShowRightDots) pages.push('...');
-            pages.push(totalPages);
-        }
-        // 去重
-        return [...new Set(pages)];
-    };
-
-    const pages = getPaginationNumbers();
-
-    return (
-        <div className={styles.paginationContainer}>
-            <button onClick={() => onPageChange(1)} disabled={currentPage === 1} className={styles.paginationButton}>首页</button>
-            <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className={styles.paginationButton}><i className="fas fa-chevron-left"></i></button>
-            {pages.map((page, index) => typeof page === 'string' ? (<span key={`dots-${index}`} className={styles.ellipsis}>...</span>) : (<button key={page} onClick={() => onPageChange(page)} className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}>{page}</button>))}
-            <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className={styles.paginationButton}><i className="fas fa-chevron-right"></i></button>
-            <button onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} className={styles.paginationButton}>末页</button>
-            <div className={styles.jumpToPageContainer}>
-                <span>共 {totalPages} 页，跳至</span>
-                <input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={jumpValue}
-                    onChange={(e) => setJumpValue(e.target.value.replace(/\D/g, ''))}
-                    onKeyDown={handleKeyDown}
-                    onBlur={handleJump}
-                    className={styles.jumpInput}
-                />
-                <span>页</span>
-            </div>
-        </div>
-    );
-};
-
-// AgentGrid 主组件保持不变
+// AgentGrid 主组件
 const AgentGrid = () => {
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -208,6 +124,7 @@ const AgentGrid = () => {
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
+            // 切换页面后，平滑滚动到网格顶部
             gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
@@ -218,6 +135,7 @@ const AgentGrid = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
+            // This is for closing the context menu when clicking outside
             if (gridRef.current && !gridRef.current.contains(event.target as Node)) {
                 setActiveMenuId(null);
             }
@@ -240,7 +158,8 @@ const AgentGrid = () => {
                     />
                 ))}
             </div>
-            <PaginationControls
+            {/* 4. 使用抽离出的通用 Pagination 组件 */}
+            <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}

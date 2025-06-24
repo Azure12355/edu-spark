@@ -1,6 +1,9 @@
-/* src/components/student/component/AgentGrid/AgentGrid.module.css */
+/* src/components/student/component/plaza/AgentGrid/AgentGrid.module.css */
 
-/* 定义配色方案 */
+/* --- Pagination Styles have been REMOVED from this file --- */
+/* --- All .paginationContainer, .paginationButton, etc. styles are now in Pagination.module.css --- */
+
+/* Defining color palettes */
 :root {
     --palette-sky-1: rgba(135, 206, 235, 0.2);
     --palette-sky-2: rgba(0, 119, 182, 0.2);
@@ -83,7 +86,7 @@
 .agentName { font-size: 18px; font-weight: 600; color: var(--student-text-primary); margin: 0; }
 .agentCreator { font-size: 13px; color: var(--student-text-secondary); margin: 2px 0 0; }
 
-/* 上下文菜单 */
+/* Context Menu styles */
 .contextMenuWrapper { position: relative; }
 .menuButton {
     background: rgba(245, 246, 248, 0.7);
@@ -117,7 +120,7 @@
 
 .capabilities { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* 应用动态主题色到标签 */
+/* Themed tags */
 .themedTag { font-size: 12px; padding: 4px 10px; border-radius: 6px; }
 .sky .themedTag { background-color: var(--palette-sky-tag-bg); color: var(--palette-sky-tag-text); }
 .sunset .themedTag { background-color: var(--palette-sunset-tag-bg); color: var(--palette-sunset-tag-text); }
@@ -134,109 +137,3 @@
 .card:hover .hoverOverlay { opacity: 1; }
 .chatButton { background-color: var(--student-primary); color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(47, 123, 255, 0.3); transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .chatButton:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(47, 123, 255, 0.4); }
-
-/* ... (保留所有已有的卡片样式) ... */
-
-/* --- Pagination Styles --- */
-.paginationContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 40px;
-    padding: 16px;
-    background-color: var(--student-white);
-    border-radius: 12px;
-    border: 1px solid var(--student-border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-}
-
-.paginationButton {
-    background-color: transparent;
-    border: 1px solid var(--student-border);
-    color: var(--student-text-secondary);
-    border-radius: 8px;
-    min-width: 40px;
-    height: 40px;
-    padding: 0 12px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.paginationButton:hover:not(:disabled) {
-    border-color: var(--student-primary);
-    color: var(--student-primary);
-    background-color: var(--student-primary-light-bg);
-}
-
-.paginationButton.active {
-    background-color: var(--student-primary);
-    border-color: var(--student-primary);
-    color: var(--student-white);
-    box-shadow: 0 2px 8px rgba(47, 123, 255, 0.2);
-}
-
-.paginationButton:disabled {
-    color: #c0c4cc;
-    cursor: not-allowed;
-    background-color: #f4f4f5;
-    border-color: #e9e9eb;
-}
-
-.ellipsis {
-    color: var(--student-text-tertiary);
-    padding: 0 8px;
-}
-
-/* ... (保留所有已有的卡片和分页按钮样式) ... */
-
-/* --- Jump to Page Styles --- */
-.jumpToPageContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 16px; /* 与主按钮组保持间距 */
-    color: var(--student-text-secondary);
-    font-size: 14px;
-}
-
-.jumpInput {
-    width: 50px; /* 紧凑的宽度 */
-    height: 40px;
-    border-radius: 8px;
-    border: 1px solid var(--student-border);
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--student-text-primary);
-    background-color: var(--student-white);
-    transition: border-color 0.2s, box-shadow 0.2s;
-
-    /* 移除数字输入框旁边的上下箭头 (适用于某些浏览器) */
-    -moz-appearance: textfield;
-}
-.jumpInput::-webkit-outer-spin-button,
-.jumpInput::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.jumpInput:focus {
-    outline: none;
-    border-color: var(--student-primary);
-    box-shadow: 0 0 0 3px var(--student-primary-light-bg);
-}
-
-/* 响应式调整：在小屏幕上隐藏跳转功能，保持界面简洁 */
-@media (max-width: 768px) {
-    .paginationContainer {
-        flex-wrap: wrap; /* 允许换行 */
-        justify-content: center;
-        padding: 12px;
-    }
-    .jumpToPageContainer {
-        display: none; /* 在小屏幕上隐藏，避免拥挤 */
-    }
-}

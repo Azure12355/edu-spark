@@ -1,0 +1,100 @@
+/* src/components/common/Pagination/Pagination.module.css */
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+    /* 移除背景和边框，使其更融入页面 */
+}
+
+.paginationButton {
+    background-color: var(--teacher-bg-card);
+    border: 1px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+    border-radius: 8px;
+    min-width: 44px; /* 增大点击区域 */
+    height: 44px;
+    padding: 0 12px;
+    font-size: 15px; /* 增大字体 */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.paginationButton.active {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: var(--teacher-bg-card);
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.paginationButton:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+    background-color: #f8fafc;
+}
+
+.ellipsis {
+    color: var(--teacher-text-tertiary);
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    height: 44px;
+}
+
+.jumpToPageContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+    color: var(--teacher-text-secondary);
+    font-size: 14px;
+}
+
+.jumpInput {
+    width: 50px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+    background-color: var(--teacher-bg-card);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+}
+.jumpInput::-webkit-outer-spin-button,
+.jumpInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.jumpInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .paginationContainer {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .jumpToPageContainer {
+        display: none;
+    }
+    .paginationButton, .ellipsis {
+        height: 40px;
+        min-width: 40px;
+    }
+}
