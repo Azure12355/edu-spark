@@ -1,0 +1,120 @@
+/* src/app/teacher/studio/studio.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--teacher-border-color);
+}
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.cardTitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+.moreLink {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    text-decoration: none;
+}
+
+/* --- Section 1: Top Layout --- */
+.sectionOne {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: flex-start;
+}
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.headerStats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.overviewChartContainer { height: 350px; }
+.bottomGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+.hotContentTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.hotContentTable th, .hotContentTable td {
+    padding: 12px 0;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid var(--teacher-border-color);
+}
+.hotContentTable th { color: var(--teacher-text-tertiary); font-weight: 500; }
+.contentTypePieChartContainer { height: 280px; }
+
+/* --- Section 2: Middle Layout --- */
+.sectionTwo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.analyticsCard {
+    height: 150px; /* fixed height for chart */
+}
+.contentPublishContainer {
+    grid-column: span 2;
+    height: 350px;
+}
+.topAuthorsContainer {
+    grid-column: span 2;
+}
+.topAuthorsTable { /* Similar to hotContentTable */ }
+.contentTimeAnalysisContainer {
+    grid-column: span 4;
+    height: 350px;
+}
+
+/* --- Section 3: Bottom Layout --- */
+.sectionThree {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: flex-start;
+}
+.dataTrendContainer { height: 350px; }
+.todayStatsContainer { /* specific styles */ }
+.topicRadarContainer { height: 350px; }
+.trendCardsContainer {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.trendCard { height: 120px; }
+.sourcePiesContainer {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.pieCard { height: 250px; }
+
+/* Sidebar from Section 1 */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+/* ... Sidebar styles copied from above ... */

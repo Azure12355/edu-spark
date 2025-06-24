@@ -1,0 +1,34 @@
+/* src/components/common/Tooltip/Tooltip.module.css */
+.tooltipWrapper {
+    position: relative;
+    display: inline-block; /* 或 block，取决于包裹的元素 */
+}
+
+.tooltipBox {
+    position: absolute;
+    bottom: calc(100% + 8px); /* 定位在触发器上方，并保持8px间距 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #262626; /* 深色背景 */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap; /* 确保提示内容不换行 */
+    z-index: 100;
+    pointer-events: none; /* 让鼠标可以穿透提示框 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 提示框下方的小三角 */
+.tooltipBox::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #262626 transparent transparent transparent;
+}

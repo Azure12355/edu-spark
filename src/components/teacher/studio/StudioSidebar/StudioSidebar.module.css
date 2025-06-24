@@ -1,0 +1,83 @@
+/* src/components/teacher/studio/StudioSidebar/StudioSidebar.module.css */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--teacher-border-color);
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.moreLink {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    text-decoration: none;
+}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--teacher-text-secondary);
+}
+.itemIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: #f7f8fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--teacher-primary);
+}
+.announcementList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.announcementItem {
+    display: flex;
+    gap: 8px;
+}
+.tag {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+    flex-shrink: 0;
+}
+.announcementText {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.image {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    margin-top: -4px;
+    object-fit: cover;
+}

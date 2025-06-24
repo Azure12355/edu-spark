@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
 
     const stream = await client.chat.completions.create({
       model: MODEL_NAME,
+      // @ts-ignore
       messages: messagesWithSystemPrompt, // 使用包含系统提示词的新消息列表
       stream: true,
     });

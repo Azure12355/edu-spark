@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import styles from './TeacherHeader.module.css';
 
 const navLinks = [
+    { name: '工作台', href: '/teacher/studio' },
     { name: '我的课程', href: '/teacher/courses' },
     { name: '智能组卷', href: '/teacher/exam-builder' },
     { name: 'AI备课助手', href: '/teacher/ai-assistant' },
