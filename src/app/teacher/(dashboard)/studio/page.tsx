@@ -2,6 +2,7 @@
 "use client";
 import React from 'react';
 import styles from './studio.module.css';
+import { motion } from 'framer-motion'; // 1. 导入 motion
 import EChartsReactCore from '@/components/common/ECharts/EChartsReactCore';
 import type { EChartsOption } from 'echarts';
 import StatCard from '@/components/teacher/studio/StatCard/StatCard';
@@ -76,68 +77,32 @@ const contentTypePieOption: EChartsOption = {
 const contentPublishOption: EChartsOption = { /* Bar chart config */ };
 const contentTimeAnalysisOption: EChartsOption = { /* Multi-line chart config */ };
 
+const gridContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1, // 让子元素依次入场
+        }
+    }
+};
+
 export default function StudioPage() {
+    // 2. 为动画定义容器变体
+    const containerVariants = {
+        hidden: { opacity: 1 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15, // 每个卡片入场动画的延迟
+            }
+        }
+    };
+
     return (
         <div className={styles.pageContainer}>
             <WelcomeHeader />
 
-            {/* --- SECTION 1 --- */}
-            <div className={styles.sectionOne}>
-                <main className={styles.mainContent}>
-                    <div className={styles.headerStats}>
-                        <StatCard
-                            title="线上总数据"
-                            value="373.5W+"
-                            trendValue="12.5%"
-                            trendDirection="up"
-                            icon="fas fa-book-reader"
-                            iconColor="#3b82f6"
-                            iconBgColor="#dbeafe"
-                        />
-                        <StatCard
-                            title="投放中的内容"
-                            value="368"
-                            trendValue="2.1%"
-                            trendDirection="up"
-                            icon="fas fa-rocket"
-                            iconColor="#8b5cf6"
-                            iconBgColor="#ede9fe"
-                        />
-                        <StatCard
-                            title="日新增评论"
-                            value="8874"
-                            trendValue="8.3%"
-                            trendDirection="up"
-                            icon="fas fa-comments"
-                            iconColor="#f97316"
-                            iconBgColor="#ffedd5"
-                        />
-                        <StatCard
-                            title="较昨日新增"
-                            value="2.8%"
-                            trendValue="1.5%"
-                            trendDirection="up"
-                            icon="fas fa-chart-line"
-                            iconColor="#10b981"
-                            iconBgColor="#dcfce7"
-                        />
-                    </div>
-
-                    <OverviewChart />
-                    <div className={styles.bottomGrid}>
-                        <HotContentTable/>
-                        <ContentTypePieChart/>
-                    </div>
-                </main>
-                <aside className={styles.sidebar}>
-                    {/* Sidebar components (QuickAccess, Announcements, etc.) would go here */}
-                    <StudioSidebar/>
-                    <Announcements />
-                    <div className={styles.card}><CardHeader title="文档中心"/></div>
-                </aside>
-            </div>
-
-            {/* --- SECTION 2 --- */}
             <div className={styles.sectionTwo}>
                 <AnalyticsCard
                     title="访问总人数"
@@ -184,6 +149,73 @@ export default function StudioPage() {
                     chartColor={['#8b5cf6', '#a78bfa', '#c4b5fd']}
                 />
             </div>
+
+            {/* --- SECTION 1 --- */}
+            <div className={styles.sectionOne}>
+                <main className={styles.mainContent}>
+                    <div className={styles.bottomGrid}>
+                        <HotContentTable/>
+                        <ContentTypePieChart/>
+                    </div>
+
+                    <motion.div
+                        className={styles.headerStats}
+                        variants={gridContainerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <StatCard
+                            title="线上总数据"
+                            value="373.5W+"
+                            trendValue="12.5%"
+                            trendDirection="up"
+                            icon="fas fa-book-reader"
+                            iconColor="#3b82f6"
+                            cardBgColor="#eff6ff" /* 淡蓝色 */
+                        />
+                        <StatCard
+                            title="投放中的内容"
+                            value="368"
+                            trendValue="2.1%"
+                            trendDirection="up"
+                            icon="fas fa-rocket"
+                            iconColor="#8b5cf6"
+                            cardBgColor="#f5f3ff" /* 淡紫色 */
+                        />
+                        <StatCard
+                            title="日新增评论"
+                            value="8874"
+                            trendValue="8.3%"
+                            trendDirection="up"
+                            icon="fas fa-comments"
+                            iconColor="#f97316"
+                            cardBgColor="#fff7ed" /* 淡橙色 */
+                        />
+                        <StatCard
+                            title="较昨日新增"
+                            value="2.8%"
+                            trendValue="1.5%"
+                            trendDirection="up"
+                            icon="fas fa-chart-line"
+                            iconColor="#10b981"
+                            cardBgColor="#f0fdf4" /* 淡绿色 */
+                        />
+                    </motion.div>
+                    <OverviewChart />
+
+
+
+                </main>
+                <aside className={styles.sidebar}>
+                    {/* Sidebar components (QuickAccess, Announcements, etc.) would go here */}
+                    <StudioSidebar/>
+                    <Announcements />
+                    <div className={styles.card}><CardHeader title="文档中心"/></div>
+                </aside>
+            </div>
+
+            {/* --- SECTION 2 --- */}
+
             <div className={styles.publishAuthorSection}>
                 <ContentPublishChart />
                 <TopAuthorsTable />
