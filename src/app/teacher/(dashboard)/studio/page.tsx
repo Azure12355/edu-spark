@@ -7,7 +7,8 @@ import type { EChartsOption } from 'echarts';
 import StatCard from '@/components/teacher/studio/StatCard/StatCard';
 import OverviewChart from "@/components/teacher/studio/OverviewChart/OverviewChart";
 import HotContentTable from "@/components/teacher/studio/HotContentTable/HotContentTable";
-import ContentTypePieChart from "@/components/teacher/studio/ContentTypePieChart/ContentTypePieChart"; // Assuming StatCard is created
+import ContentTypePieChart from "@/components/teacher/studio/ContentTypePieChart/ContentTypePieChart";
+import StudioSidebar from "@/components/teacher/studio/StudioSidebar/StudioSidebar"; // Assuming StatCard is created
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -103,8 +104,7 @@ export default function StudioPage() {
                 </main>
                 <aside className={styles.sidebar}>
                     {/* Sidebar components (QuickAccess, Announcements, etc.) would go here */}
-                    <div className={styles.card}><CardHeader title="快速入口"/></div>
-                    <div className={styles.card}><CardHeader title="最近访问"/></div>
+                    <StudioSidebar/>
                     <div className={styles.card}><CardHeader title="公告"/></div>
                     <div className={styles.card}><CardHeader title="文档中心"/></div>
                 </aside>
