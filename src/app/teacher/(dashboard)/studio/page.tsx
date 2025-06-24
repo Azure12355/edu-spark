@@ -18,6 +18,8 @@ import DataSummary from '@/components/teacher/studio/DataSummary/DataSummary';
 import DataTrendChart from "@/components/teacher/studio/DataTrendChart/DataTrendChart";
 import TodayStats from "@/components/teacher/studio/TodayStats/TodayStats";
 import TopicRadarChart from '@/components/teacher/studio/TopicRadarChart/TopicRadarChart';
+import TrendCard from "@/components/teacher/studio/TrendCard/TrendCard";
+import SourcePieCharts from "@/components/teacher/studio/SourcePieCharts/SourcePieCharts";
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -26,6 +28,22 @@ const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreT
         <a href="#" className={styles.moreLink}>{moreText}</a>
     </div>
 );
+
+const userRetentionTrendData = [5, 8, 6, 10, 20, 18, 25, 28, 30, 40];
+const userRetentionVolumeData = [
+    { value: 10, itemStyle: { color: '#93c5fd' } },
+    { value: 15, itemStyle: { color: '#a7f3d0' } },
+    { value: 20, itemStyle: { color: '#93c5fd' } },
+    { value: 18, itemStyle: { color: '#a7f3d0' } },
+    { value: 25, itemStyle: { color: '#93c5fd' } },
+    { value: 30, itemStyle: { color: '#93c5fd' } },
+    { value: 28, itemStyle: { color: '#a7f3d0' } },
+    { value: 40, itemStyle: { color: '#93c5fd' } },
+    { value: 38, itemStyle: { color: '#a7f3d0' } },
+    { value: 45, itemStyle: { color: '#93c5fd' } },
+];
+const contentConsumptionTrendData = [10, 25, 40, 50, 60, 65, 68, 70, 72, 70];
+const contentConsumptionVolumeData = userRetentionVolumeData.map(item => ({...item})).reverse();
 
 // Welcome Header Component
 const WelcomeHeader = () => (
@@ -180,6 +198,50 @@ export default function StudioPage() {
                     <TopicRadarChart />
                 </aside>
             </div>
+
+            {/* --- SECTION 4 - 趋势卡片 --- */}
+            <div className={styles.trendCardsContainer}>
+                <TrendCard
+                    title="用户留存趋势"
+                    value="1,009"
+                    trendValue="994"
+                    trendDirection="down"
+                    chartType="line"
+                    chartData={userRetentionTrendData}
+                    chartColor="#3b82f6"
+                    cardBgColor="#f0f9ff" /* 浅蓝色背景 */
+                />
+                <TrendCard
+                    title="用户留存量"
+                    value="1,344"
+                    trendValue="201"
+                    trendDirection="down"
+                    chartType="bar"
+                    chartData={userRetentionVolumeData}
+                    cardBgColor="#f0fdf4" /* 浅绿色背景 */
+                />
+                <TrendCard
+                    title="内容消费趋势"
+                    value="6,908"
+                    trendValue="932"
+                    trendDirection="down"
+                    chartType="line"
+                    chartData={contentConsumptionTrendData}
+                    chartColor="#3b82f6"
+                    cardBgColor="#f0f9ff" /* 浅蓝色背景 */
+                />
+                <TrendCard
+                    title="内容消费量"
+                    value="8,130"
+                    trendValue="655"
+                    trendDirection="down"
+                    chartType="bar"
+                    chartData={contentConsumptionVolumeData}
+                    cardBgColor="#f0fdf4" /* 浅绿色背景 */
+                />
+            </div>
+
+            <SourcePieCharts/>
 
 
             {/* ... Render other sections similarly ... */}
