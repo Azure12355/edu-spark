@@ -4,19 +4,23 @@
     padding: 24px;
     border-radius: 12px;
     border: 1px solid var(--teacher-border-color);
+    /* 关键改动：使用 flex 布局，并设置与饼图卡片相同的高度 */
+    display: flex;
+    flex-direction: column;
+    height: 418px;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px; /* 减小间距 */
+    flex-shrink: 0;
 }
 
 .title {
     font-size: 18px;
     font-weight: 600;
-    color: var(--teacher-text-primary);
 }
 
 .moreLink {
@@ -31,12 +35,13 @@
 .tabContainer {
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 12px; /* 减小间距 */
     border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
 }
 
 .tabButton {
-    padding: 10px 16px;
+    padding: 8px 16px; /* 减小垂直 padding */
     background: none;
     border: none;
     font-size: 14px;
@@ -53,87 +58,65 @@
 
 .activeIndicator {
     position: absolute;
-    bottom: -1px; /* To overlap the container's border-bottom */
+    bottom: -1px;
     left: 0;
     right: 0;
     height: 2px;
     background-color: var(--teacher-primary);
 }
 
+.tableContainer {
+    flex-grow: 1; /* 关键：让表格区域占据所有剩余空间 */
+    overflow: hidden; /* 隐藏可能溢出的内容 */
+    display: flex; /* 使用 flex 布局，使 table 也能自适应 */
+}
+
 .tableContainer table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* 关键：固定表格布局 */
+    table-layout: fixed;
 }
 
 .tableContainer th, .tableContainer td {
-    padding: 12px 8px;
+    padding: 10px 8px; /* 关键：减小单元格垂直 padding，使行高更紧凑 */
     text-align: left;
     font-size: 14px;
-    border-bottom: 1px solid #f2f3f5;
-    white-space: nowrap; /* 关键：防止所有单元格内容换行 */
+    white-space: nowrap;
 }
 
 .tableContainer th {
     color: var(--teacher-text-tertiary);
     font-weight: 500;
     background-color: #f9fafb;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    vertical-align: middle; /* 垂直居中 */
 }
-
-/* --- 设置列宽 --- */
-.tableContainer .colRank { width: 10%; }
-.tableContainer .colTitle { width: 45%; }
-.tableContainer .colClicks { width: 20%; }
-.tableContainer .colChange { width: 25%; }
-
 
 .tableContainer td {
-    padding: 16px 8px;
     color: var(--teacher-text-primary);
-    vertical-align: middle; /* 垂直居中 */
+    border-top: 1px solid #f2f3f5;
 }
 
-/* --- 关键修复：Tooltip 的包裹器样式 --- */
-.titleTooltipWrapper {
-    display: block; /* 强制 Tooltip 包裹器为块级元素，撑满单元格 */
-    width: 100%;
-}
-
-.titleCell {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-
-.rank {
-    font-weight: 600;
-    color: var(--teacher-text-tertiary);
-}
-
-.rank1, .rank2, .rank3 {
-    font-style: italic;
-    color: #ef4444;
-}
-
-.trend {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
+/* 之前已有的列宽、截断、排名和趋势样式保持不变 */
+.colRank { width: 10%; }
+.colTitle { width: 45%; }
+.colClicks { width: 20%; }
+.colChange { width: 25%; }
+.titleTooltipWrapper { display: block; width: 100%; }
+.titleCell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank { font-weight: 600; color: var(--teacher-text-tertiary); }
+.rank1, .rank2, .rank3 { font-style: italic; color: #ef4444; }
+.trend { display: flex; align-items: center; gap: 4px; }
 .trend.up { color: #16a34a; }
 .trend.down { color: #ef4444; }
+
 
 .pagination {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 16px; /* 减小间距 */
     font-size: 14px;
     color: var(--teacher-text-secondary);
+    flex-shrink: 0;
 }
 
 .pagination button {

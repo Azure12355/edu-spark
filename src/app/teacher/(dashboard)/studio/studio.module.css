@@ -50,6 +50,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    /* 关键改动：让网格项自动拉伸以匹配最高项的高度 */
+    align-items: stretch;
 }
 .hotContentTable table {
     width: 100%;

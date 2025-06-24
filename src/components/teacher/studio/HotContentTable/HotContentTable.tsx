@@ -30,11 +30,7 @@ const TableRow = ({ item }: { item: HotContentItem }) => {
 
     useEffect(() => {
         if (titleRef.current) {
-            const element = titleRef.current;
-            // 只有当元素实际滚动宽度大于其客户端可见宽度时，才认为是被截断了
-            if (element.scrollWidth > element.clientWidth) {
-                setIsTruncated(true);
-            }
+            setIsTruncated(titleRef.current.scrollWidth > titleRef.current.clientWidth);
         }
     }, [item.title]);
 
@@ -46,18 +42,18 @@ const TableRow = ({ item }: { item: HotContentItem }) => {
 
     return (
         <motion.tr
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            layout
+            // 关键改动：优化动画效果
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            layout // 添加 layout 属性以实现更平滑的重新排序动画
         >
             <td className={styles.colRank}>
                 <span className={`${styles.rank} ${styles[`rank${item.rank}`] || ''}`}>{item.rank}</span>
             </td>
             <td className={styles.colTitle}>
                 {isTruncated ? (
-                    // 关键修复：为 Tooltip 组件传递修复 bug 的 className
                     <Tooltip content={item.title} className={styles.titleTooltipWrapper}>
                         {titleContent}
                     </Tooltip>
@@ -82,7 +78,7 @@ const HotContentTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const activeData = useMemo(() => mockData[activeTab] || [], [activeTab]);
-    const totalPages = Math.ceil(activeData.length / ITEMS_PER_PAGE);
+    const totalPages = useMemo(() => Math.ceil(activeData.length / ITEMS_PER_PAGE), [activeData]);
 
     const paginatedData = useMemo(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -132,14 +128,14 @@ const HotContentTable = () => {
                         <th className={styles.colChange}>日涨幅</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {/* 使用 AnimatePresence 来处理列表项的进入和退出动画 */}
-                    <AnimatePresence initial={false} mode="sync">
-                        {paginatedData.map((item) => (
-                            <TableRow key={item.id} item={item} />
-                        ))}
+                    {/* 关键改动：AnimatePresence 现在包裹 tbody */}
+                    <AnimatePresence initial={false}>
+                        <motion.tbody>
+                            {paginatedData.map((item) => (
+                                <TableRow key={item.id} item={item} />
+                            ))}
+                        </motion.tbody>
                     </AnimatePresence>
-                    </tbody>
                 </table>
             </div>
 
@@ -151,7 +147,13 @@ const HotContentTable = () => {
                     type="number"
                     className={styles.pageInput}
                     value={currentPage}
-                    onChange={(e) => handlePageChange(Number(e.target.value))}
+                    // 确保输入框不会超过总页数
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === '' || (Number(val) > 0 && Number(val) <= totalPages)) {
+                            setCurrentPage(val === '' ? 1 : Number(val));
+                        }
+                    }}
                 />
                 <span>/ {totalPages}</span>
                 <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>

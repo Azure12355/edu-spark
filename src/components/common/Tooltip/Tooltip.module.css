@@ -1,27 +1,24 @@
 /* src/components/common/Tooltip/Tooltip.module.css */
 .tooltipWrapper {
     position: relative;
-    display: inline-block; /* 或 block，取决于包裹的元素 */
+    display: inline-block;
 }
 
+/* 关键改动：TooltipBox 现在使用 fixed 或 absolute 定位到 body */
 .tooltipBox {
-    position: absolute;
-    bottom: calc(100% + 8px); /* 定位在触发器上方，并保持8px间距 */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #262626; /* 深色背景 */
+    position: absolute; /* 使用 absolute 定位，top 和 left 由 JS 计算 */
+    background-color: #262626;
     color: white;
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
-    white-space: nowrap; /* 确保提示内容不换行 */
-    z-index: 100;
-    pointer-events: none; /* 让鼠标可以穿透提示框 */
+    white-space: nowrap;
+    z-index: 9999; /* 确保在最高层级 */
+    pointer-events: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* 提示框下方的小三角 */
 .tooltipBox::after {
     content: '';
     position: absolute;
