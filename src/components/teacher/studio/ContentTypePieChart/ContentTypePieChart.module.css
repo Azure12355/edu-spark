@@ -1,0 +1,39 @@
+/* src/components/teacher/studio/ContentTypePieChart/ContentTypePieChart.module.css */
+.card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    display: flex;
+    flex-direction: column;
+    /* 关键：设置一个固定的总高度，确保布局一致性 */
+    height: 418px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px; /* 减小与图表的间距 */
+    flex-shrink: 0; /* 防止头部被压缩 */
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+}
+
+.moreLink {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    text-decoration: none;
+}
+.moreLink:hover {
+    color: var(--teacher-primary);
+}
+
+.chartContainer {
+    flex-grow: 1; /* 让图表容器填满剩余空间 */
+    width: 100%;
+}

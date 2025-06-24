@@ -6,7 +6,8 @@ import EChartsReactCore from '@/components/common/ECharts/EChartsReactCore';
 import type { EChartsOption } from 'echarts';
 import StatCard from '@/components/teacher/studio/StatCard/StatCard';
 import OverviewChart from "@/components/teacher/studio/OverviewChart/OverviewChart";
-import HotContentTable from "@/components/teacher/studio/HotContentTable/HotContentTable"; // Assuming StatCard is created
+import HotContentTable from "@/components/teacher/studio/HotContentTable/HotContentTable";
+import ContentTypePieChart from "@/components/teacher/studio/ContentTypePieChart/ContentTypePieChart"; // Assuming StatCard is created
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -97,12 +98,7 @@ export default function StudioPage() {
                     <OverviewChart />
                     <div className={styles.bottomGrid}>
                         <HotContentTable/>
-                        <div className={styles.card}>
-                            <CardHeader title="内容类别占比"/>
-                            <div className={styles.contentTypePieChartContainer}>
-                                <EChartsReactCore option={contentTypePieOption} />
-                            </div>
-                        </div>
+                        <ContentTypePieChart/>
                     </div>
                 </main>
                 <aside className={styles.sidebar}>
