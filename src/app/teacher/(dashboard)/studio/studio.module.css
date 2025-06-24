@@ -131,3 +131,21 @@
     gap: 24px;
     align-items: stretch; /* 确保子项高度一致 */
 }
+
+/* --- Section 3: Data Overview Layout --- */
+
+.sectionThree {
+    display: grid;
+    /* 关键：使用 fr 单位，让 grid item 能灵活分配空间 */
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: stretch; /* 关键：让所有 grid item 在交叉轴上拉伸以等高 */
+}
+
+.rightSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* 关键：让侧边栏本身也成为 flex 容器，以便其子元素能分配空间 */
+    justify-content: space-between;
+}

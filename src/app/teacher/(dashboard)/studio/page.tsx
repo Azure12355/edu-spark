@@ -14,6 +14,10 @@ import AnalyticsCard from '@/components/teacher/studio/AnalyticsCard/AnalyticsCa
 import ContentPublishChart from "@/components/teacher/studio/ContentPublishChart/ContentPublishChart";
 import TopAuthorsTable from "@/components/teacher/studio/TopAuthorsTable/TopAuthorsTable";
 import ContentTimeAnalysisChart from "@/components/teacher/studio/ContentTimeAnalysisChart/ContentTimeAnalysisChart";
+import DataSummary from '@/components/teacher/studio/DataSummary/DataSummary';
+import DataTrendChart from "@/components/teacher/studio/DataTrendChart/DataTrendChart";
+import TodayStats from "@/components/teacher/studio/TodayStats/TodayStats";
+import TopicRadarChart from '@/components/teacher/studio/TopicRadarChart/TopicRadarChart';
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -169,8 +173,19 @@ export default function StudioPage() {
 
             <ContentTimeAnalysisChart/>
 
+            <div className={styles.sectionThree}>
+                <DataSummary />
+                <aside className={styles.rightSidebar}>
+                    <TodayStats />
+                    <TopicRadarChart />
+                </aside>
+            </div>
+
+
             {/* ... Render other sections similarly ... */}
 
         </div>
+
+
     );
 }

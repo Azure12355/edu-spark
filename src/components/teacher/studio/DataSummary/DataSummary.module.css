@@ -1,0 +1,60 @@
+/* src/components/teacher/studio/DataSummary/DataSummary.module.css */
+.card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 关键：让卡片能填充父级 grid item 的高度 */
+}
+
+.header {
+    margin-bottom: 24px;
+}
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.iconWrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.data {
+    display: flex;
+    flex-direction: column;
+}
+.statLabel {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin-bottom: 4px;
+}
+.statValue {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--teacher-text-primary);
+}
+
+.chartContainer {
+    flex-grow: 1; /* 关键：让图表容器填充剩余空间 */
+    width: 100%;
+    min-height: 300px; /* 保证图表有一个最小高度 */
+}
