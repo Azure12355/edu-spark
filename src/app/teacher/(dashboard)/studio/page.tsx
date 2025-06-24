@@ -8,7 +8,9 @@ import StatCard from '@/components/teacher/studio/StatCard/StatCard';
 import OverviewChart from "@/components/teacher/studio/OverviewChart/OverviewChart";
 import HotContentTable from "@/components/teacher/studio/HotContentTable/HotContentTable";
 import ContentTypePieChart from "@/components/teacher/studio/ContentTypePieChart/ContentTypePieChart";
-import StudioSidebar from "@/components/teacher/studio/StudioSidebar/StudioSidebar"; // Assuming StatCard is created
+import StudioSidebar from "@/components/teacher/studio/StudioSidebar/StudioSidebar";
+import Announcements from "@/components/teacher/studio/Announcements/Announcements"; // Assuming StatCard is created
+import AnalyticsCard from '@/components/teacher/studio/AnalyticsCard/AnalyticsCard';
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -105,17 +107,57 @@ export default function StudioPage() {
                 <aside className={styles.sidebar}>
                     {/* Sidebar components (QuickAccess, Announcements, etc.) would go here */}
                     <StudioSidebar/>
-                    <div className={styles.card}><CardHeader title="公告"/></div>
+                    <Announcements />
                     <div className={styles.card}><CardHeader title="文档中心"/></div>
                 </aside>
             </div>
 
             {/* --- SECTION 2 --- */}
             <div className={styles.sectionTwo}>
-                <div className={styles.card}><CardHeader title="访问总人数"/></div>
-                <div className={styles.card}><CardHeader title="内容发布量"/></div>
-                <div className={styles.card}><CardHeader title="评论总总量"/></div>
-                <div className={styles.card}><CardHeader title="分享总量"/></div>
+                <AnalyticsCard
+                    title="访问总人数"
+                    value="5,784"
+                    trendLabel="较昨日"
+                    trendValue="912"
+                    trendDirection="up"
+                    chartType="line"
+                    chartData={[10, 52, 20, 33, 39, 30, 60, 23, 40]}
+                    cardBgColor="#f0f9ff" // Light Blue
+                    chartColor="#3b82f6"
+                />
+                <AnalyticsCard
+                    title="内容发布量"
+                    value="2,601"
+                    trendLabel="较昨日"
+                    trendValue="126"
+                    trendDirection="up"
+                    chartType="bar"
+                    chartData={[10, 52, 20, 33, 39, 30, 60, 23, 40]}
+                    cardBgColor="#f0fdf4" // Light Green
+                    chartColor="#22c55e"
+                />
+                <AnalyticsCard
+                    title="评论总量"
+                    value="4,676"
+                    trendLabel="较昨日"
+                    trendValue="960"
+                    trendDirection="down"
+                    chartType="line"
+                    chartData={[30, 23, 60, 20, 50, 26, 40, 30, 10]}
+                    cardBgColor="#f0f9ff" // Light Blue
+                    chartColor="#3b82f6"
+                />
+                <AnalyticsCard
+                    title="分享总量"
+                    value="1,038"
+                    trendLabel="较昨日"
+                    trendValue="404"
+                    trendDirection="down"
+                    chartType="pie"
+                    chartData={[335, 310, 234]}
+                    cardBgColor="#f5f3ff" // Light Purple
+                    chartColor={['#8b5cf6', '#a78bfa', '#c4b5fd']}
+                />
             </div>
             <div className={styles.card} style={{height: "400px"}}>
                 <CardHeader title="内容发布比列"/>

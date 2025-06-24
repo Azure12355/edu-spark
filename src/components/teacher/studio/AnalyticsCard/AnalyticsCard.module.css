@@ -1,0 +1,72 @@
+/* src/components/teacher/studio/AnalyticsCard/AnalyticsCard.module.css */
+.card {
+    background-color: var(--card-bg-color, #f9fafb);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* 关键：让左右两部分底部对齐 */
+    height: 180px; /* 固定高度 */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 标题和数据上下分布 */
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.data {
+    /* (This empty div is for spacing) */
+}
+
+.value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--teacher-text-primary);
+    line-height: 1;
+}
+
+.trend {
+    margin-top: 8px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+.trendLabel {
+    color: var(--teacher-text-tertiary);
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+.trendValue {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+.trendValue.up { color: #00B42A; }
+.trendValue.down { color: #F53F3F; }
+
+.chartContainer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60%; /* 图表大致占据卡片60%的宽度 */
+    height: 100px; /* 图表的高度 */
+    opacity: 0.9;
+}
