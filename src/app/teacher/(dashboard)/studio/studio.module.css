@@ -120,3 +120,14 @@
     gap: 24px;
 }
 /* ... Sidebar styles copied from above ... */
+/* src/app/teacher/studio/studio.module.css */
+/* ... (保留所有已有样式) ... */
+
+/* --- 新增：内容发布和热门作者组合布局 --- */
+.publishAuthorSection {
+    display: grid;
+    /* 关键：使用 fr 单位实现 6:4 (即 3:2) 的比例布局 */
+    grid-template-columns: 3fr 2fr;
+    gap: 24px;
+    align-items: stretch; /* 确保子项高度一致 */
+}

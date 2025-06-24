@@ -1,0 +1,84 @@
+/* src/components/teacher/studio/TopAuthorsTable/TopAuthorsTable.module.css */
+.card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 关键：让卡片高度填满网格单元 */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+}
+
+.tableContainer {
+    flex-grow: 1;
+    overflow-y: auto; /* 当内容溢出时，表格内部滚动 */
+}
+
+.tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableContainer th {
+    text-align: left;
+    padding: 12px 8px;
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    font-weight: 500;
+    background-color: #f9fafb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* 可排序的表头 */
+.sortableHeader {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    user-select: none;
+}
+.sortIcons {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    color: #c0c4cc;
+}
+.sortIcons i {
+    height: 8px;
+}
+.sortIcons .active {
+    color: var(--teacher-primary);
+}
+
+
+.tableContainer td {
+    padding: 16px 8px;
+    font-size: 14px;
+    color: var(--teacher-text-primary);
+    border-bottom: 1px solid #f2f3f5;
+}
+
+.rank {
+    text-align: center;
+    color: var(--teacher-text-tertiary);
+    font-weight: 600;
+}
+.authorName {
+    font-weight: 500;
+}

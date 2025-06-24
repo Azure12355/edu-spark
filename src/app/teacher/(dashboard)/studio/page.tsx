@@ -11,6 +11,8 @@ import ContentTypePieChart from "@/components/teacher/studio/ContentTypePieChart
 import StudioSidebar from "@/components/teacher/studio/StudioSidebar/StudioSidebar";
 import Announcements from "@/components/teacher/studio/Announcements/Announcements"; // Assuming StatCard is created
 import AnalyticsCard from '@/components/teacher/studio/AnalyticsCard/AnalyticsCard';
+import ContentPublishChart from "@/components/teacher/studio/ContentPublishChart/ContentPublishChart";
+import TopAuthorsTable from "@/components/teacher/studio/TopAuthorsTable/TopAuthorsTable";
 
 // Helper function for card headers
 const CardHeader = ({ title, moreText = "查看更多" }: { title: string, moreText?: string }) => (
@@ -159,9 +161,9 @@ export default function StudioPage() {
                     chartColor={['#8b5cf6', '#a78bfa', '#c4b5fd']}
                 />
             </div>
-            <div className={styles.card} style={{height: "400px"}}>
-                <CardHeader title="内容发布比列"/>
-                {/* contentPublishOption chart here */}
+            <div className={styles.publishAuthorSection}>
+                <ContentPublishChart />
+                <TopAuthorsTable />
             </div>
 
             {/* ... Render other sections similarly ... */}
