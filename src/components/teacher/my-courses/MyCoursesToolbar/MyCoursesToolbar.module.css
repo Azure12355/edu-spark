@@ -1,0 +1,95 @@
+/* src/components/teacher/my-courses/MyCoursesToolbar.module.css */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--teacher-bg-card);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+}
+
+.filterGroup, .actionGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 确保内容居中 */
+    gap: 8px;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    z-index: 1;
+}
+
+/* --- 新增的核心修复代码 --- */
+.buttonContent {
+    position: relative; /* 建立新的层叠上下文 */
+    z-index: 1;        /* 确保内容层级高于 activePill */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+/* --- 结束新增 --- */
+
+
+.filterButton.active {
+    color: var(--teacher-primary);
+}
+
+.filterButton:hover:not(.active) {
+    color: var(--teacher-text-primary);
+    background-color: var(--teacher-bg-hover);
+}
+
+.activePill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--teacher-primary-light);
+    border: 1px solid var(--teacher-primary); /* 增加一个细边框，更精致 */
+    border-radius: 8px;
+    z-index: 0;
+}
+
+.searchInput {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f9fafb;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: all 0.2s ease;
+}
+.searchInput:focus-within {
+    background-color: white;
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.1);
+}
+.searchInput input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--teacher-text-primary);
+}
+.searchInput input::placeholder {
+    color: var(--teacher-text-tertiary);
+}
+.searchInput i {
+    color: var(--teacher-text-tertiary);
+}
