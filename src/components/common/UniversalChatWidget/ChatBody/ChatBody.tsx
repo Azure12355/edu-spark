@@ -1,4 +1,4 @@
-// src/components/common/ChatBody/ChatBody.tsx
+// src/components/common/UniversalChatWidget/ChatBody/ChatBody.tsx
 "use client";
 
 import React, { forwardRef, ReactNode } from 'react';

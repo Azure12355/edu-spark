@@ -5,9 +5,9 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import styles from './assistant.module.css';
 
-// ... (所有 import 保持不变)
+// 导入所有需要的组件
+import ChatSidebar from '@/components/common/UniversalChatWidget/ChatSidebar/ChatSidebar';
 import ChatPanel from '@/components/common/UniversalChatWidget/ChatPanel/ChatPanel';
-// ... (其他 imports)
 import ChatHeader from '@/components/common/UniversalChatWidget/ChatHeader/ChatHeader';
 import WelcomeScreen from '@/components/common/UniversalChatWidget/WelcomeScreen/WelcomeScreen';
 import ChatInputForm from '@/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm';
@@ -16,10 +16,8 @@ import MessageBubble, { BubbleMessage } from '@/components/common/UniversalChatW
 import { PromptCardData } from '@/components/common/UniversalChatWidget/PromptCard/PromptCard';
 import ChatFooter from '@/components/common/UniversalChatWidget/ChatFooter/ChatFooter';
 import { useToast } from '@/hooks/useToast';
-import ChatSidebar from "@/components/common/UniversalChatWidget/ChatSidebar/ChatSidebar";
 
-
-// ... (所有常量 teacherWelcomeData, teacherSkills 保持不变)
+// 模拟数据 (保持不变)
 const teacherWelcomeData = {
     title: "我是您的专属备课助教",
     subtitle: "从课程设计、教案生成到题目创作，我能为您提供全方位的教学支持。您可以直接提问，或从下面的卡片开始。",
@@ -40,7 +38,7 @@ const teacherSkills: Skill[] = [
 
 
 export default function TeacherAssistantPage() {
-    // ... (所有对话逻辑 state 和 handle functions 保持不变)
+    // 对话逻辑 (保持不变)
     const [messages, setMessages] = useState<BubbleMessage[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -130,8 +128,7 @@ export default function TeacherAssistantPage() {
 
     return (
         <div className={styles.pageContainer}>
-            <ChatSidebar/>
-            {/* 关键修复：使用新的 overrideClassName prop */}
+            <ChatSidebar />
             <div className={styles.chatPanelContainer}>
                 <ChatPanel
                     overrideClassName={styles.chatPanelOverride}
@@ -186,7 +183,6 @@ export default function TeacherAssistantPage() {
                     footer={<ChatFooter />}
                 />
             </div>
-
         </div>
     );
 }

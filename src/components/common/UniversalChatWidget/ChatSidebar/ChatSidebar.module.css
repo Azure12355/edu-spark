@@ -31,7 +31,7 @@
 .newChatButton {
     flex-grow: 1;
     padding: 10px 12px;
-    background-color: white;
+    background-color: #eef2ff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     display: flex;
@@ -40,7 +40,7 @@
     gap: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--widget-text-primary);
+    color: var(--widget-primary-blue);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;

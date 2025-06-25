@@ -1,50 +1,46 @@
 /* src/components/common/UniversalChatWidget/ChatBody/ChatBody.module.css */
 
 .chatBody {
-    /* 核心布局：占据所有可用的父容器空间 */
-    flex-grow: 1;
+    /* --- 核心布局修复 --- */
 
-    /* 内部布局：作为 flex 容器，使其子元素（消息）垂直排列 */
+    /* 1. 明确自身为 Flex 容器的伸缩项 */
+    flex: 1 1 0; /* 这是 flex-grow: 1; flex-shrink: 1; flex-basis: 0; 的缩写 */
+
+    /* 2. 强制拥有独立的滚动上下文 */
+    overflow-y: auto;
+
+    /* 3. 防止子元素撑破容器的关键 hack */
+    min-height: 0;
+
+    /* --- 内部内容布局 (保持不变) --- */
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    /* 滚动行为：当内容超出时，垂直方向出现滚动条 */
-    overflow-y: auto;
-
-    /* 内边距：为消息内容提供呼吸空间 */
+    /* --- 视觉样式 (保持不变) --- */
     padding: 20px;
-
-    /* flexbox hack: 确保在 flex 布局中可以正确收缩，防止内容撑破父容器 */
-    min-height: 0;
-
-    /* 美化滚动条 (Firefox) */
-    /* 使用新的 widget 变量 */
     scrollbar-width: thin;
     scrollbar-color: var(--widget-text-tertiary) var(--widget-bg-light-gray);
 }
 
-/* 美化滚动条 (Chrome, Safari, Edge) */
+/* 美化滚动条 (Chrome, Safari, Edge) - 保持不变 */
 .chatBody::-webkit-scrollbar {
-    width: 8px; /* 稍微加宽以方便桌面端点击 */
+    width: 8px;
 }
 
 .chatBody::-webkit-scrollbar-thumb {
-    /* 使用新的 widget 变量 */
     background-color: var(--widget-text-tertiary);
     border-radius: 4px;
-    border: 2px solid var(--widget-bg-white); /* 添加一个边框，使其看起来更细，更有悬浮感 */
+    border: 2px solid var(--widget-bg-white);
     background-clip: padding-box;
 }
 
 .chatBody::-webkit-scrollbar-track {
-    /* 使用新的 widget 变量 */
     background-color: var(--widget-bg-light-gray);
 }
 
-/* 响应式调整 */
+/* 响应式调整 (保持不变) */
 @media (max-width: 1024px) {
-    /* 在平板等中等尺寸设备上，适当减小内边距 */
     .chatBody {
         padding: 18px;
         gap: 14px;
@@ -52,12 +48,11 @@
 }
 
 @media (max-width: 768px) {
-    /* 在移动端，进一步减小内边距和滚动条宽度 */
     .chatBody {
         padding: 16px;
         gap: 12px;
     }
     .chatBody::-webkit-scrollbar {
-        width: 6px; /* 移动端滚动条更细 */
+        width: 6px;
     }
 }

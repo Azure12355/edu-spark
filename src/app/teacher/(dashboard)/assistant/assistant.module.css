@@ -1,29 +1,27 @@
 /* src/app/teacher/assistant/assistant.module.css */
-/* 关键修复：从 pageContainer 移动到 chatPanelContainer */
+
+/* 1. 页面根容器 */
 .pageContainer {
-    height: 100%;
     width: 100%;
-    display: flex; /* 改为 flex 布局，实现左右结构 */
-    background-color: white; /* 统一白色背景 */
+    height: 100%; /* 关键：继承父级（main）的高度 */
+    display: flex; /* 关键：自身也成为 flex 容器 */
+    background-color: white;
 }
 
-/* 右侧主聊天面板容器 */
+/* 2. 右侧主聊天面板的包裹器 */
 .chatPanelContainer {
-    flex-grow: 1; /* 占据所有剩余空间 */
+    flex-grow: 1; /* 关键：占据所有剩余空间 */
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    /* 关键：添加一个左边框作为分隔线 */
+    display: flex; /* 让内部的 ChatPanel 可以撑满 */
     border-left: 1px solid var(--teacher-border-color);
+    min-width: 0; /* 防止被压缩 */
 }
 
-
-/* ChatPanel 的覆盖样式保持不变 */
+/* 3. ChatPanel 的覆盖样式 */
 .chatPanelOverride {
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
     height: 100% !important;
-    /* 关键：让 ChatPanel 背景透明，以显示 pageContainer 的白色背景 */
     background-color: transparent !important;
 }

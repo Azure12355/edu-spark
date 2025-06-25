@@ -1,28 +1,40 @@
 /* src/components/common/UniversalChatWidget/ChatPanel/ChatPanel.module.css */
 
+/* 1. 外层容器 .chatContainer */
 .chatContainer {
+    /* 自身布局：填满其父容器 */
+    width: 100%;
+    height: 100%;
+
+    /* 内部布局：作为 flex 容器，使其子元素（welcome 或 mainChatLayout）能撑满 */
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
 
-    /* 使用 widget 变量 */
+    /* 视觉样式 */
     background-color: var(--widget-bg-white);
-    border-radius: 16px; /* 稍微减小圆角，使其更精致 */
+    border-radius: 16px;
+    border: 1px solid var(--widget-border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
 
-    /* 优化阴影效果，使其更柔和、更有层次感 */
-    box-shadow:
-            0 10px 15px -3px rgba(0, 0, 0, 0.07), /* 较远的模糊阴影 */
-            0 4px 6px -2px rgba(0, 0, 0, 0.05);   /* 较近的清晰阴影 */
+/* 2. 核心修复：新的内部主布局容器 */
+.mainChatLayout {
+    /* 自身布局：填满 .chatContainer */
+    width: 100%;
+    height: 100%;
 
-    border: 1px solid var(--widget-border-color); /* 增加一个细边框，提升质感 */
-    overflow: hidden; /* 确保子元素的圆角被裁切 */
+    /* 内部布局：这是提供给 Header, Body, Footer 等的、真正的 Flex 容器 */
+    display: flex;
+    flex-direction: column;
+
+    /* 关键：确保在 flex 环境中能正确计算高度 */
+    min-height: 0;
 }
 
 /* 响应式调整 */
 @media (max-width: 768px) {
     .chatContainer {
-        /* 在移动端，通常铺满全屏，所以移除圆角、边框和阴影 */
         border-radius: 0;
         border: none;
         box-shadow: none;

@@ -1,34 +1,25 @@
 /* src/app/teacher/teacher.css */
-/* EduSpark Teacher-Side Standalone Stylesheet */
 
-/* --- 1. 核心设计变量 (Design Tokens) --- */
+/* --- 1. 核心设计变量 (保持不变) --- */
 :root {
-    /* 主色调 */
+    /* ... (所有 --teacher-* 变量保持不变) ... */
     --teacher-primary: #2F7BFF;
     --teacher-primary-light: #EAF2FF;
-
-    /* 文本颜色 */
-    --teacher-text-primary: #1D2129;   /* 主要标题、正文 */
-    --teacher-text-secondary: #4E5969; /* 次要信息、标签 */
-    --teacher-text-tertiary: #86909C;  /* 辅助、占位符文本 */
+    --teacher-text-primary: #1D2129;
+    --teacher-text-secondary: #4E5969;
+    --teacher-text-tertiary: #86909C;
     --teacher-link-color: #2F7BFF;
-
-    /* 背景颜色 */
-    --teacher-bg-body: #f7f8fa;         /* 页面主背景 */
-    --teacher-bg-card: #FFFFFF;        /* 卡片背景 */
-    --teacher-bg-hover: #f1f3f5;       /* 悬浮背景 */
-
-    /* 边框与分隔线 */
+    --teacher-bg-body: #f7f8fa;
+    --teacher-bg-card: #FFFFFF;
+    --teacher-bg-hover: #f1f3f5;
     --teacher-border-color: #e5e6eb;
-
-    /* 状态色 */
     --teacher-status-green: #00B42A;
     --teacher-status-green-bg: #E6FFFB;
     --teacher-status-gray: #86909C;
     --teacher-status-gray-bg: #F1F3F5;
 }
 
-/* --- 2. 全局基础样式重置 --- */
+/* --- 2. 全局基础样式重置 (保持不变) --- */
 body {
     margin: 0;
     padding: 0;
@@ -43,30 +34,42 @@ body {
     box-sizing: border-box;
 }
 
-/* --- 3. 教师端核心布局容器 --- */
+/* --- 3. 教师端核心布局容器 (关键修复) --- */
 .teacher-layout-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-.teacher-layout-wrapper > header {
-    flex-shrink: 0; /* 关键：防止 Header 被压缩 */
+    height: 100vh; /* 关键：撑满整个视口高度 */
+    overflow: hidden; /* 关键：防止 body 出现滚动条 */
 }
 
+/* 确保 Header 高度固定，不被压缩 */
+.teacher-layout-wrapper > header {
+    flex-shrink: 0;
+}
+
+/* 普通页面的主内容区 */
 .teacher-main-container {
     flex-grow: 1; /* 占满剩余空间 */
-    /* 关键：让这个容器自己处理滚动 */
-    overflow-y: auto;
+    overflow-y: auto; /* 关键：让这个容器自己处理内容的垂直滚动 */
     padding: 24px;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
 }
 
+/* 沉浸式页面的主内容区 */
+.teacher-main-full {
+    flex-grow: 1;
+    width: 100%;
+    padding: 0;
+    overflow: hidden; /* 关键：自身不滚动，将滚动权交给子组件 */
+    display: flex; /* 为子组件提供 Flex 上下文 */
+    min-height: 0; /* 健壮性修复 */
+}
 
 
-/* --- 4. 可复用的通用组件样式 --- */
+/* --- 4. 通用组件样式 (保持不变) --- */
+/* ... (所有 .teacher-card, .teacher-button-primary 等样式保持不变) ... */
 .teacher-button-primary {
     display: inline-flex;
     align-items: center;
@@ -80,18 +83,10 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    text-decoration: none; /* For Link components */
+    text-decoration: none;
 }
 .teacher-button-primary:hover {
     background-color: #1a5cff;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
-}
-
-.teacher-main-full {
-    flex-grow: 1;
-    width: 100%;
-    padding: 0;
-    overflow: hidden;
-    display: flex; /* 保持 flex 布局，让子元素可以撑满 */
 }
