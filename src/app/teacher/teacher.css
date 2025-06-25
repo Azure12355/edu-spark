@@ -47,16 +47,24 @@ body {
 .teacher-layout-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+.teacher-layout-wrapper > header {
+    flex-shrink: 0; /* 关键：防止 Header 被压缩 */
 }
 
 .teacher-main-container {
-    flex-grow: 1;
+    flex-grow: 1; /* 占满剩余空间 */
+    /* 关键：让这个容器自己处理滚动 */
+    overflow-y: auto;
     padding: 24px;
     width: 100%;
-    max-width: 1400px; /* 为教师端设置一个更宽敞的最大宽度 */
+    max-width: 1400px;
     margin: 0 auto;
 }
+
+
 
 /* --- 4. 可复用的通用组件样式 --- */
 .teacher-button-primary {
@@ -78,4 +86,12 @@ body {
     background-color: #1a5cff;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+.teacher-main-full {
+    flex-grow: 1;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    display: flex; /* 保持 flex 布局，让子元素可以撑满 */
 }
