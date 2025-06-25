@@ -1,0 +1,44 @@
+/* src/components/teacher/component/knowledge/KnowledgeToolbar/KnowledgeToolbar.module.css */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.createButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.countInfo {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+}
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 320px;
+}
+.searchBar input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}

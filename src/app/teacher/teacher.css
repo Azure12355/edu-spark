@@ -25,6 +25,13 @@ html, body {
     --teacher-status-green-bg: #E6FFFB;
     --teacher-status-gray: #86909C;
     --teacher-status-gray-bg: #F1F3F5;
+    --teacher-bg: white;
+    --teacher-primary-light-bg: rgba(47, 123, 255, 0.1);
+    --teacher-border: #E4E6E8;
+    --teacher-white: #FFFFFF;
+    --teacher-red: #F53F3F;
+    --teacher-blue-tag-bg: #EAF2FF;
+    --teacher-blue-tag-text: #2F7BFF;
 }
 
 /* --- 2. 全局基础样式重置 (保持不变) --- */

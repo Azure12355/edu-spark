@@ -1,0 +1,30 @@
+/* src/components/teacher/component/knowledge/DocumentImport/ImportActions.module.css */
+.actionsContainer {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--teacher-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+.button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.cancelButton {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    color: var(--teacher-text-secondary);
+}
+.importButton {
+    background-color: var(--teacher-primary);
+    border: 1px solid var(--teacher-primary);
+    color: white;
+}
+.importButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

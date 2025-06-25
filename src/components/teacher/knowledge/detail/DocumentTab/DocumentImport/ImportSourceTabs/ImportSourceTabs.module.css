@@ -1,0 +1,26 @@
+/* src/components/teacher/component/knowledge/DocumentImport/ImportSourceTabs.module.css */
+.tabsContainer {
+    display: flex;
+    gap: 4px;
+    margin: 20px 0;
+}
+.tabButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #f3f4f6;
+    color: var(--teacher-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.tabButton.active {
+    background-color: var(--teacher-white);
+    color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    box-shadow: 0 1px 3px rgba(47, 123, 255, 0.1);
+}

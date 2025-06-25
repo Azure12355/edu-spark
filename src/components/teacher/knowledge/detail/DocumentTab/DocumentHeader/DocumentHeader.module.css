@@ -1,0 +1,83 @@
+/* src/components/teacher/component/knowledge/detail/DocumentHeader.module.css */
+/* 全新、紧凑的头部样式 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    height: 60px; /* 固定高度 */
+    background-color: var(--teacher-white);
+    border-bottom: 1px solid var(--teacher-border);
+    flex-shrink: 0;
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.backLink {
+    color: var(--teacher-text-secondary);
+    text-decoration: none;
+    font-size: 18px;
+}
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--teacher-border);
+}
+.titleInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.icon {
+    font-size: 24px;
+    color: var(--teacher-primary);
+}
+.titleText h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.statusTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.menuButton, .manageButton {
+    border: 1px solid var(--teacher-border);
+    background-color: var(--teacher-white);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s;
+}
+.menuButton {
+    width: 36px;
+    height: 36px;
+}
+.manageButton {
+    padding: 8px 16px;
+}
+.menuButton:hover, .manageButton:hover {
+    border-color: #d1d5db;
+    background-color: #f9fafb;
+}

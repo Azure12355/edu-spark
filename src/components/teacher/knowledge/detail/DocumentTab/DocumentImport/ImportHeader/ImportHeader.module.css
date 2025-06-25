@@ -1,0 +1,20 @@
+/* src/components/teacher/component/knowledge/DocumentImport/ImportHeader.module.css */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--teacher-border);
+}
+.backLink {
+    color: var(--teacher-text-secondary);
+    text-decoration: none;
+    font-size: 20px;
+    margin-left: 15px;
+}
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 0;
+}

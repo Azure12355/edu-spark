@@ -1,0 +1,6 @@
+/* src/components/teacher/component/knowledge/detail/ChunkGrid.module.css */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+}

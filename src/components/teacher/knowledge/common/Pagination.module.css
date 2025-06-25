@@ -1,0 +1,39 @@
+/* src/components/teacher/component/knowledge/detail/Pagination.module.css */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 0;
+}
+.total {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin-right: 16px;
+}
+.pageButton {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--teacher-border);
+    background-color: var(--teacher-white);
+    border-radius: 6px;
+    cursor: pointer;
+}
+.pageButton.active {
+    border-color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light-bg);
+    color: var(--teacher-primary);
+}
+.perPageSelect {
+    padding: 6px 12px;
+    border: 1px solid var(--teacher-border);
+    border-radius: 6px;
+    margin: 0 8px;
+}
+.pageInput {
+    padding: 6px 12px;
+    border: 1px solid var(--teacher-border);
+    border-radius: 6px;
+    margin: 0 8px;
+    width: 80px;
+}

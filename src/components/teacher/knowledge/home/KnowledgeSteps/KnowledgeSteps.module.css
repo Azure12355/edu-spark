@@ -1,0 +1,76 @@
+/* src/components/teacher/component/knowledge/KnowledgeSteps/KnowledgeSteps.module.css */
+.stepsContainer {
+    background-color: #F9FAFB;
+    border-radius: 12px;
+    padding: 20px 24px;
+    border: 1px solid var(--teacher-border);
+    position: relative;
+}
+.toggleButton {
+    position: absolute;
+    top: 5px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.toggleButton:hover {
+    background-color: #f1f3f5;
+}
+.toggleIcon {
+    transition: transform 0.3s ease;
+}
+.toggleIcon.collapsed {
+    transform: rotate(-180deg);
+}
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    overflow: hidden; /* 关键，配合动画 */
+}
+.stepCard {
+    background: linear-gradient(145deg, #e0e9fe, #f0f9ff);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #bacffd;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stepCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(186, 230, 253, 0.5);
+}
+.textInfo .stepLabel {
+    font-size: 13px;
+    color: #38bdf8;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.textInfo h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0c4a6e;
+    margin: 0 0 8px;
+}
+.textInfo p {
+    font-size: 13px;
+    color: #075985;
+    line-height: 1.6;
+    margin: 0;
+}
+.imageWrapper {
+    flex-shrink: 0;
+    opacity: 0.2;
+    filter: grayscale(1);
+}
