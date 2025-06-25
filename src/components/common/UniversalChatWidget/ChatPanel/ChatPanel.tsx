@@ -8,7 +8,7 @@ import '../widget.css';
 
 interface ChatPanelProps {
     welcomeScreen: ReactNode;
-    header: ReactNode;
+    header?: ReactNode;
     chatContent: ReactNode;
     skillSelector?: ReactNode;
     inputForm: ReactNode;

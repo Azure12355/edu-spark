@@ -142,16 +142,6 @@ export default function TeacherAssistantPage() {
                             onCardClick={handleCardClick}
                         />
                     }
-                    header={
-                        <ChatHeader
-                            title="智能备课助教"
-                            avatar={<Image src="/robot.gif" alt="智能助教" width={28} height={28} style={{borderRadius: '50%'}}/>}
-                        >
-                            <button onClick={handleClearChat} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: '16px', width: '34px', height: '34px'}} title="新对话">
-                                <i className="far fa-plus-square"></i>
-                            </button>
-                        </ChatHeader>
-                    }
                     chatContent={
                         messages.map(msg => (
                             <MessageBubble
@@ -159,7 +149,7 @@ export default function TeacherAssistantPage() {
                                 message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
                                 isThinkingPanelOpen={showThinkingPanelId === msg.id}
                                 onToggleThinkingPanel={toggleThinkingPanel}
-                                showAvatar={true}
+                                showAvatar={false}
                             />
                         ))
                     }

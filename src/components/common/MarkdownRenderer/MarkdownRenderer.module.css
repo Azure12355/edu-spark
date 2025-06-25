@@ -1,0 +1,141 @@
+/* src/components/common/MarkdownRenderer/MarkdownRenderer.module.css */
+
+.rendererWrapper {
+    line-height: 1.7;
+    font-size: 15px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--teacher-text-primary); /* 默认文本颜色 */
+}
+.rendererWrapper.userMessage {
+    color: white; /* 用户消息气泡内的特殊颜色 */
+}
+.rendererWrapper.userMessage .link {
+    color: #93c5fd; /* 用户消息气泡内的链接颜色 */
+}
+
+
+.paragraph {
+    margin: 0;
+    min-height: 1em; /* 调整为空行的高度 */
+}
+.paragraph:not(:last-child) {
+    margin-bottom: 1em; /* 段落间距 */
+}
+
+
+.heading1, .heading2, .heading3, .heading4, .heading5, .heading6 {
+    margin: 1.5em 0 0.8em 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.heading1 { font-size: 1.8em; padding-bottom: 0.3em; border-bottom: 1px solid var(--teacher-border-color); }
+.heading2 { font-size: 1.5em; padding-bottom: 0.3em; border-bottom: 1px solid var(--teacher-border-color); }
+.heading3 { font-size: 1.25em; }
+.heading4 { font-size: 1.1em; }
+.heading5 { font-size: 1em; color: var(--teacher-text-secondary); }
+.heading6 { font-size: 0.9em; color: var(--teacher-text-tertiary); }
+
+
+.unorderedList, .orderedList {
+    padding-left: 2em;
+    margin: 1em 0;
+}
+.listItem {
+    margin-bottom: 0.5em;
+}
+
+
+.blockquote {
+    margin: 1em 0;
+    padding: 10px 16px;
+    background-color: #f7f9fc;
+    border-left: 4px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+}
+.userMessage .blockquote {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: rgba(255, 255, 255, 0.5);
+    color: #e5e7eb;
+}
+
+.hr {
+    height: 1px;
+    background-color: var(--teacher-border-color);
+    border: 0;
+    margin: 2em 0;
+}
+
+.inlineCode {
+    background-color: rgba(60, 120, 255, 0.1);
+    color: #2f7bff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+    font-size: 0.9em;
+}
+.userMessage .inlineCode {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #dbeafe;
+}
+
+.bold { font-weight: 600; }
+.italic { font-style: italic; }
+
+
+.link {
+    color: var(--teacher-link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+.tableWrapper {
+    margin: 1.5em 0;
+    overflow-x: auto;
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.table th, .table td {
+    padding: 12px 16px;
+    border: 1px solid var(--teacher-border-color);
+    text-align: left;
+}
+.table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+.table thead {
+    border-bottom: 2px solid #e5e7eb;
+}
+.table tbody tr:nth-of-type(even) {
+    background-color: #f9fafb;
+}
+
+.codeBlock {
+    margin: 1em 0; background-color: #2d2d2d; /* 深色代码块背景 */
+    border-radius: 8px; overflow: hidden; font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+}
+.codeHeader {
+    display: flex; justify-content: space-between; align-items: center;
+    background-color: #3a3a3a; padding: 8px 12px; font-size: 13px; color: #d1d5db;
+}
+.copyButton {
+    background: none; border: none; cursor: pointer; color: #d1d5db;
+    display: flex; align-items: center; gap: 4px; font-size: 12px;
+}
+.copyButton:hover { color: white; }
+.codeContent {
+    padding: 16px; overflow-x: auto; font-size: 14px; line-height: 1.6;
+    color: #f8f8f2; /* 亮色代码文本 */
+}
+
+.latexBlock { display: block; padding: 1em 0; overflow-x: auto; text-align: center; }
+.latexInline { /* 样式可自定义 */ }

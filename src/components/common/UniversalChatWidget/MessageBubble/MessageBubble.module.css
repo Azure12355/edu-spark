@@ -1,18 +1,16 @@
-/* src/components/common/MessageBubble/MessageBubble.module.css */
+/* src/components/common/UniversalChatWidget/MessageBubble/MessageBubble.module.css */
 
 .messageContainer {
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    max-width: 95%; /* 稍微增加最大宽度 */
-    width: fit-content; /* 让容器宽度自适应内容 */
-    align-self: flex-start; /* 默认是 assistant，靠左 */
-
-    /* 定义一个局部的 CSS 变量，用于接收来自 JS 的主题色 */
+    max-width: 95%;
+    width: fit-content;
+    align-self: flex-start;
     --bubble-theme-color: var(--widget-primary-blue);
 }
 .messageContainer.user {
-    align-self: flex-end; /* user 消息靠右 */
+    align-self: flex-end;
 }
 
 .avatar {
@@ -26,80 +24,59 @@
     font-weight: 600;
     color: var(--widget-bg-white);
     flex-shrink: 0;
-    margin-top: 4px; /* 视觉对齐微调 */
+    margin-top: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 .user .avatar {
-    background-color: #78716c; /* 用户头像的默认灰色背景 */
+    background-color: #78716c;
 }
 .assistant .avatar {
-    background: var(--bubble-theme-color); /* AI 头像使用动态主题色 */
+    background: var(--bubble-theme-color);
 }
 
 .bubble {
+    /* 关键修复：让气泡成为 flex 容器 */
+    display: flex;
+    flex-direction: column;
     padding: 12px 18px;
-    border-radius: 18px; /* 更大的圆角 */
+    border-radius: 18px;
     line-height: 1.65;
     font-size: 15px;
-    word-wrap: break-word; /* 允许长单词换行 */
+    word-wrap: break-word;
     flex-grow: 1;
-    max-width: 720px; /* 限制气泡最大宽度 */
-    min-width: 50px; /* 保证最小宽度 */
+    max-width: 720px;
+    min-width: 50px;
 }
 
-/* 用户气泡样式 */
 .user .bubble {
     background: var(--widget-user-bubble-bg);
     color: var(--widget-user-bubble-text);
-    border-bottom-right-radius: 6px; /* 增加对话感的小尖角 */
+    border-bottom-right-radius: 6px;
 }
 
-/* AI 助手气泡样式 */
 .assistant .bubble {
     background-color: var(--widget-assistant-bubble-bg);
     color: var(--widget-assistant-bubble-text);
     border: 1px solid var(--widget-border-color);
-    border-bottom-left-radius: 6px; /* 增加对话感的小尖角 */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* 为AI气泡增加轻微阴影 */
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-/* --- 全局样式覆盖与定义 (Global Scoped Styles) --- */
-
-/* 打字指示器 */
 .bubble :global(.typing-indicator) {
     display: inline-block;
     width: 8px;
-    height: 1.5em;
+    height: 1.5em; /* 使用 em 单位，使其高度与字体大小相关 */
     background-color: currentColor;
+    border-radius: 4px; /* 添加圆角 */
     animation: blink 1s infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Markdown 基础样式 */
-.bubble :global(.markdown-body) {
-    background-color: transparent !important;
-    color: inherit !important;
-    font-size: inherit !important;
-    font-family: inherit !important;
-    line-height: inherit !important;
-}
-
-/* 响应式调整 */
+/* ... (其他样式保持不变) ... */
 @media (max-width: 768px) {
-    .messageContainer {
-        max-width: 98%;
-        gap: 8px;
-    }
-    .avatar {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-    }
-    .bubble {
-        padding: 10px 14px;
-        font-size: 14px;
-        border-radius: 16px;
-    }
+    .messageContainer { max-width: 98%; gap: 8px; }
+    .avatar { width: 32px; height: 32px; font-size: 14px; }
+    .bubble { padding: 10px 14px; font-size: 14px; border-radius: 16px; }
     .user .bubble { border-bottom-right-radius: 4px; }
     .assistant .bubble { border-bottom-left-radius: 4px; }
 }
