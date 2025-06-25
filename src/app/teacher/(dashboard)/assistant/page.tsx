@@ -16,6 +16,7 @@ import MessageBubble, { BubbleMessage } from '@/components/common/UniversalChatW
 import { PromptCardData } from '@/components/common/UniversalChatWidget/PromptCard/PromptCard';
 import ChatFooter from '@/components/common/UniversalChatWidget/ChatFooter/ChatFooter';
 import { useToast } from '@/hooks/useToast';
+import ChatSidebar from "@/components/common/UniversalChatWidget/ChatSidebar/ChatSidebar";
 
 
 // ... (所有常量 teacherWelcomeData, teacherSkills 保持不变)
@@ -129,59 +130,63 @@ export default function TeacherAssistantPage() {
 
     return (
         <div className={styles.pageContainer}>
+            <ChatSidebar/>
             {/* 关键修复：使用新的 overrideClassName prop */}
-            <ChatPanel
-                overrideClassName={styles.chatPanelOverride}
-                showWelcome={showWelcome}
-                welcomeScreen={
-                    <WelcomeScreen
-                        avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority style={{borderRadius: '50%'}}/>}
-                        title={teacherWelcomeData.title}
-                        subtitle={teacherWelcomeData.subtitle}
-                        promptCards={teacherWelcomeData.promptCards}
-                        onCardClick={handleCardClick}
-                    />
-                }
-                header={
-                    <ChatHeader
-                        title="智能备课助教"
-                        avatar={<Image src="/robot.gif" alt="智能助教" width={28} height={28} style={{borderRadius: '50%'}}/>}
-                    >
-                        <button onClick={handleClearChat} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: '16px', width: '34px', height: '34px'}} title="新对话">
-                            <i className="far fa-plus-square"></i>
-                        </button>
-                    </ChatHeader>
-                }
-                chatContent={
-                    messages.map(msg => (
-                        <MessageBubble
-                            key={msg.id}
-                            message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
-                            isThinkingPanelOpen={showThinkingPanelId === msg.id}
-                            onToggleThinkingPanel={toggleThinkingPanel}
-                            showAvatar={true}
+            <div className={styles.chatPanelContainer}>
+                <ChatPanel
+                    overrideClassName={styles.chatPanelOverride}
+                    showWelcome={showWelcome}
+                    welcomeScreen={
+                        <WelcomeScreen
+                            avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority style={{borderRadius: '50%'}}/>}
+                            title={teacherWelcomeData.title}
+                            subtitle={teacherWelcomeData.subtitle}
+                            promptCards={teacherWelcomeData.promptCards}
+                            onCardClick={handleCardClick}
                         />
-                    ))
-                }
-                skillSelector={
-                    <SkillSelector
-                        skills={teacherSkills}
-                        selectedSkillId={selectedSkill}
-                        onSkillSelect={setSelectedSkill}
-                    />
-                }
-                inputForm={
-                    <ChatInputForm
-                        inputValue={inputValue}
-                        onInputChange={setInputValue}
-                        onSubmit={handleSendMessage}
-                        isSending={isSending}
-                        onStop={handleStopSending}
-                        shouldFocus={!showWelcome}
-                    />
-                }
-                footer={<ChatFooter />}
-            />
+                    }
+                    header={
+                        <ChatHeader
+                            title="智能备课助教"
+                            avatar={<Image src="/robot.gif" alt="智能助教" width={28} height={28} style={{borderRadius: '50%'}}/>}
+                        >
+                            <button onClick={handleClearChat} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: '16px', width: '34px', height: '34px'}} title="新对话">
+                                <i className="far fa-plus-square"></i>
+                            </button>
+                        </ChatHeader>
+                    }
+                    chatContent={
+                        messages.map(msg => (
+                            <MessageBubble
+                                key={msg.id}
+                                message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
+                                isThinkingPanelOpen={showThinkingPanelId === msg.id}
+                                onToggleThinkingPanel={toggleThinkingPanel}
+                                showAvatar={true}
+                            />
+                        ))
+                    }
+                    skillSelector={
+                        <SkillSelector
+                            skills={teacherSkills}
+                            selectedSkillId={selectedSkill}
+                            onSkillSelect={setSelectedSkill}
+                        />
+                    }
+                    inputForm={
+                        <ChatInputForm
+                            inputValue={inputValue}
+                            onInputChange={setInputValue}
+                            onSubmit={handleSendMessage}
+                            isSending={isSending}
+                            onStop={handleStopSending}
+                            shouldFocus={!showWelcome}
+                        />
+                    }
+                    footer={<ChatFooter />}
+                />
+            </div>
+
         </div>
     );
 }

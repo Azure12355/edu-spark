@@ -1,25 +1,22 @@
 /* src/components/common/Tooltip/Tooltip.module.css */
-.tooltipWrapper {
-    position: relative;
-    display: inline-block;
-}
+/* Wrapper is removed as it's not needed for positioning */
 
-/* 关键改动：TooltipBox 现在使用 fixed 或 absolute 定位到 body */
 .tooltipBox {
-    position: absolute; /* 使用 absolute 定位，top 和 left 由 JS 计算 */
+    position: fixed; /* 使用 fixed 定位，因为是 Portal */
     background-color: #262626;
     color: white;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
     white-space: nowrap;
-    z-index: 9999; /* 确保在最高层级 */
+    z-index: 1000; /* 最高层级 */
     pointer-events: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.tooltipBox::after {
+/* top position arrow */
+.tooltipBox.top::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -28,4 +25,16 @@
     border-width: 5px;
     border-style: solid;
     border-color: #262626 transparent transparent transparent;
+}
+
+/* right position arrow */
+.tooltipBox.right::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #262626 transparent transparent;
 }
