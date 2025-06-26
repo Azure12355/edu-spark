@@ -2,10 +2,10 @@
 "use client";
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import styles from './course-management-layout.module.css';
 import CourseManagementSidebar from '@/components/teacher/course-management/Sidebar/CourseManagementSidebar';
-import { teacherCourseData } from '@/lib/data/teacherCourseData'; // 复用之前的课程数据
+import { teacherCourseData } from '@/lib/data/teacherCourseData';
 
 export default function CourseManagementLayout({
                                                    children,
@@ -13,11 +13,12 @@ export default function CourseManagementLayout({
     children: React.ReactNode;
 }) {
     const params = useParams();
+    const pathname = usePathname(); // 1. 获取当前路径
     const courseId = params.id as string;
-
-    // 根据 ID 从数据源查找当前课程信息
-    // 在真实应用中，这里会是一个 API 请求
     const currentCourse = teacherCourseData.find(c => c.id === courseId);
+
+    // 2. 判断当前是否在知识点详情页
+    const isPointDetailPage = pathname.includes('/syllabus/');
 
     if (!currentCourse) {
         return (
@@ -30,7 +31,11 @@ export default function CourseManagementLayout({
 
     return (
         <div className={styles.layoutContainer}>
-            <CourseManagementSidebar course={currentCourse} />
+            {/* 3. 将 isCollapsed 状态传递给侧边栏 */}
+            {
+                !isPointDetailPage && <CourseManagementSidebar course={currentCourse} defaultCollapsed={isPointDetailPage} />
+            }
+
             <main className={styles.contentArea}>
                 {children}
             </main>

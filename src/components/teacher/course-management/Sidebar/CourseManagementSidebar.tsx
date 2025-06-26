@@ -23,15 +23,16 @@ const sidebarLinks = [
 
 interface CourseManagementSidebarProps {
     course: TeacherCourse;
+    defaultCollapsed?: boolean; // 新增可选 prop
 }
 
-const CourseManagementSidebar: React.FC<CourseManagementSidebarProps> = ({ course }) => {
+const CourseManagementSidebar: React.FC<CourseManagementSidebarProps> = ({ course, defaultCollapsed }) => {
     const pathname = usePathname();
     const params = useParams();
     const courseId = params.id;
 
     // 1. 新增状态来控制侧边栏的折叠
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
     // 2. 定义 Framer Motion 动画变体
     const sidebarVariants = {

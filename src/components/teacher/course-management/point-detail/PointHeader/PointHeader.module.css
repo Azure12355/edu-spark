@@ -1,0 +1,69 @@
+/* src/components/teacher/course-management/point-detail/PointHeader/PointHeader.module.css */
+.headerCard {
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mainInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+.meta {
+    display: flex;
+    gap: 8px;
+}
+.tag {
+    background-color: #f3f4f6;
+    color: var(--teacher-text-secondary);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.difficulty {
+    background-color: #dcfce7;
+    color: #166534;
+}
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--teacher-text-secondary);
+    font-size: 14px;
+}
+.actionButton {
+    background: none;
+    border: 1px solid var(--teacher-border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+.actionButton:hover {
+    background-color: #f9fafb;
+    color: var(--teacher-text-primary);
+}
+.stats {
+    display: flex;
+    gap: 16px;
+    padding-left: 16px;
+    border-left: 1px solid var(--teacher-border-color);
+}
+.stats span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

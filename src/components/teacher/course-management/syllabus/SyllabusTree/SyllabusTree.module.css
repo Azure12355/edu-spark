@@ -125,3 +125,18 @@
     background: none; border: none; font-size: 14px;
     color: var(--teacher-text-tertiary); cursor: pointer;
 }
+
+/* ... (SyllabusTree.module.css 中其他样式保持不变) ... */
+
+/* Point Node */
+.pointNode {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    text-decoration: none; /* 为 Link 组件移除下划线 */
+    color: inherit; /* 继承父级颜色 */
+}
+/* ... (其余样式不变) ... */

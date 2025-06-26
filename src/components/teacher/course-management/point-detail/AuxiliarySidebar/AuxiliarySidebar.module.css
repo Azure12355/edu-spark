@@ -1,0 +1,15 @@
+/* src/components/teacher/course-management/point-detail/AuxiliarySidebar/AuxiliarySidebar.module.css */
+.sidebar { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
+.cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.cardTitle { font-size: 16px; font-weight: 600; }
+.toggleButton, .moreLink { color: var(--teacher-text-secondary); text-decoration: none; font-size: 14px; background: none; border: none; cursor: pointer; }
+.tocNav { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; }
+.tocLink { font-size: 14px; color: var(--teacher-text-secondary); text-decoration: none; transition: color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tocLink.level2 { padding-left: 16px; }
+.tocLink.level3 { padding-left: 32px; }
+.tocLink:hover, .tocLink.active { color: var(--teacher-primary); }
+.hotList { display: flex; flex-direction: column; gap: 12px; }
+.hotItem { display: flex; justify-content: space-between; align-items: center; font-size: 14px; text-decoration: none; color: var(--teacher-text-primary); }
+.hotViews { color: var(--teacher-text-tertiary); font-size: 12px; }
+.hotItem:hover span:first-child { color: var(--teacher-primary); }

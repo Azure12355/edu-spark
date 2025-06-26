@@ -4,6 +4,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SyllabusChapter, SyllabusSection, KnowledgePoint, KnowledgePointType } from '@/lib/data/syllabusData';
 import styles from './SyllabusTree.module.css';
+import {useParams} from "next/navigation";
+import Link from "next/link";
 
 // --- Props 定义 ---
 interface SyllabusTreeProps {
@@ -20,8 +22,10 @@ const PointNode: React.FC<{ point: KnowledgePoint }> = ({ point }) => {
         '重点': styles.typeImportant,
         '选学': styles.typeOptional,
     };
+    const params = useParams();
+    const courseId = params.id;
     return (
-        <div className={styles.pointNode}>
+        <Link href={`/teacher/courses/${courseId}/syllabus/${point.id}`} className={styles.pointNode}>
             <span className={`${styles.pointType} ${typeStyleMap[point.type]}`}>{point.type}</span>
             <span className={styles.pointTitle}>{point.title}</span>
             <div className={styles.pointActions}>
@@ -29,7 +33,8 @@ const PointNode: React.FC<{ point: KnowledgePoint }> = ({ point }) => {
                 <button title="生成习题"><i className="fas fa-question"></i></button>
                 <button title="相关资源"><i className="fas fa-link"></i></button>
             </div>
-        </div>
+        </Link>
+
     );
 };
 
