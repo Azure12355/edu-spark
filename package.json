@@ -23,6 +23,7 @@
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.16.0",
     "github-markdown-css": "^5.8.1",
+    "highlight.js": "^11.11.1",
     "katex": "^0.16.22",
     "mdast": "^3.0.0",
     "mermaid": "^11.6.0",

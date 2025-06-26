@@ -1,0 +1,26 @@
+/* src/components/teacher/course-management/point-detail/PointContentViewer/PointContentViewer.module.css */
+.viewerContainer {
+    /* 使用 :global 来覆盖 bytemd 的内部样式 */
+    /* 核心：确保 markdown-body 有一个基准字体大小和行高 */
+    --font-size: 16px;
+}
+.viewerContainer :global(.bytemd-preview) {
+    height: 100%;
+}
+.viewerContainer :global(.markdown-body) {
+    font-size: var(--font-size);
+    line-height: 1.8;
+    color: var(--teacher-text-primary);
+}
+
+/* 标题样式 */
+.viewerContainer :global(.markdown-body h1),
+.viewerContainer :global(.markdown-body h2) {
+    border-bottom: 1px solid var(--teacher-border-color);
+    padding-bottom: 0.5em;
+    margin-top: 1.8em;
+    margin-bottom: 1em;
+}
+.viewerContainer :global(.markdown-body h1) { font-size: 2em; }
+.viewerContainer :global(.markdown-body h2) { font-size: 1.6em; }
+.viewerContainer :global(.markdown-body h3) { font-size: 1.4em; margin-top: 1.6em; margin-bottom: 0.8em;}
