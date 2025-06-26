@@ -8,6 +8,8 @@ interface QuestionBankState {
     getQuestionsByPointId: (pointId: string) => Question[];
     getQuestionById: (questionId: string) => Question | undefined;
     updateQuestion: (updatedQuestion: Question) => void;
+    // --- 核心新增：添加题目的 Action ---
+    addQuestion: (question: Question) => void;
 }
 
 export const useQuestionBankStore = create<QuestionBankState>()(
@@ -15,46 +17,51 @@ export const useQuestionBankStore = create<QuestionBankState>()(
         (set, get) => ({
             questionBank: initialQuestionBankData,
 
-            getQuestionsByPointId: (pointId: string) => {
-                const state = get();
-                return state.questionBank[pointId] || [];
-            },
-
+            // ... (getQuestionById, updateQuestion 等方法保持不变) ...
+            getQuestionsByPointId: (pointId: string) => get().questionBank[pointId] || [],
             getQuestionById: (questionId: string) => {
-                const state = get();
-                for (const pointId in state.questionBank) {
-                    const question = state.questionBank[pointId].find(q => q.id === questionId);
-                    if (question) {
-                        return question;
-                    }
+                for (const pointId in get().questionBank) {
+                    const question = get().questionBank[pointId].find(q => q.id === questionId);
+                    if (question) return question;
                 }
                 return undefined;
             },
-
             updateQuestion: (updatedQuestion: Question) => {
                 set(state => {
                     const newBank = { ...state.questionBank };
                     let found = false;
-                    // 遍历整个题库找到并更新题目
                     for (const pointId in newBank) {
                         const index = newBank[pointId].findIndex(q => q.id === updatedQuestion.id);
                         if (index !== -1) {
                             newBank[pointId][index] = updatedQuestion;
                             found = true;
-                            // 注意：这里我们只在一个地方更新。如果一个题目可以属于多个知识点，
-                            // 那么在数据结构设计上可能需要将题目和知识点的关系解耦。
-                            // 但基于当前模型，我们先这样实现。
                             break;
                         }
                     }
-                    if (!found) {
-                        // 如果题目是新关联到某个知识点，则需要更复杂的逻辑来处理。
-                        // 这里我们简化为仅更新已存在的题目。
-                        console.warn("Update failed: Question not found in any existing point list.");
-                    }
                     return { questionBank: newBank };
                 });
-            }
+            },
+
+            // --- 核心新增：addQuestion 的实现 ---
+            addQuestion: (questionToAdd: Question) => {
+                set(state => {
+                    const newBank = { ...state.questionBank };
+                    // 遍历题目关联的所有知识点
+                    questionToAdd.points.forEach(point => {
+                        const pointId = point.id;
+                        // 如果该知识点下还没有题目列表，则创建一个
+                        if (!newBank[pointId]) {
+                            newBank[pointId] = [];
+                        }
+                        // 检查是否已存在相同ID的题目，避免重复添加
+                        const exists = newBank[pointId].some(q => q.id === questionToAdd.id);
+                        if (!exists) {
+                            newBank[pointId].push(questionToAdd);
+                        }
+                    });
+                    return { questionBank: newBank };
+                });
+            },
         }),
         {
             name: 'question-bank-storage',

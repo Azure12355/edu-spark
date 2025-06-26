@@ -2,19 +2,16 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-// --- 核心区别：导入 AI 题目专用的 Store ---
 import { useAIGeneratedQuestionsStore } from '@/store/aiGeneratedQuestionsStore';
 import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
 import styles from './edit.module.css';
-
-// --- 复用之前的编辑组件 ---
 import QuestionEditHeader from '@/components/teacher/course-management/question-edit/QuestionEditHeader';
 import QuestionConfigPanel from '@/components/teacher/course-management/question-edit/QuestionConfigPanel';
 import QuestionEditorPanel from '@/components/teacher/course-management/question-edit/QuestionEditorPanel';
 import KnowledgePointModal from '@/components/teacher/course-management/question-edit/KnowledgePointModal';
 import { useToast } from '@/hooks/useToast';
-import {KnowledgePoint} from "@/lib/data/syllabusData";
-import {useSyllabusStore} from "@/store/syllabusStore";
+import { useSyllabusStore } from '@/store/syllabusStore';
+import { KnowledgePoint } from '@/lib/data/syllabusData';
 
 export default function AIQuestionEditPage() {
     const params = useParams();
@@ -22,9 +19,8 @@ export default function AIQuestionEditPage() {
     const showToast = useToast();
     const courseId = params.id as string;
     const aiQuestionId = params.aiQuestionId as string;
-    const { syllabus } = useSyllabusStore(); // 获取完整的教学大纲
+    const { syllabus } = useSyllabusStore();
 
-    // --- 核心区别：使用新的 Store ---
     const { getQuestionById, updateQuestion } = useAIGeneratedQuestionsStore();
 
     const [question, setQuestion] = useState<AIGeneratedQuestion | null>(null);
@@ -44,7 +40,6 @@ export default function AIQuestionEditPage() {
     };
 
     const handlePointsSave = (newPointIds: string[]) => {
-        // --- 核心修改：根据 ID 查找完整的知识点对象 ---
         const newPoints: KnowledgePoint[] = [];
         const pointMap = new Map<string, KnowledgePoint>();
         syllabus.forEach(c => c.sections.forEach(s => s.points.forEach(p => pointMap.set(p.id, p))));
@@ -61,7 +56,6 @@ export default function AIQuestionEditPage() {
         if (question) {
             updateQuestion(question);
             showToast({ message: 'AI 题目已成功保存！', type: 'success' });
-            // --- 核心区别：返回到 AI 出题页面 ---
             router.push(`/teacher/courses/${courseId}/questions/ai-generate`);
         }
     };
@@ -72,8 +66,8 @@ export default function AIQuestionEditPage() {
 
     return (
         <div className={styles.pageContainer}>
-            {/* 复用 QuestionEditHeader，但返回路径需要调整 */}
-            <QuestionEditHeader courseId={courseId} onSave={handleSave} />
+            {/* --- 核心修改：不再传递 courseId prop --- */}
+            <QuestionEditHeader onSave={handleSave} />
             <div className={styles.mainContent}>
                 <aside>
                     <QuestionConfigPanel
@@ -89,7 +83,6 @@ export default function AIQuestionEditPage() {
             <KnowledgePointModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                // --- 核心修改：传递对象数组 ---
                 currentPoints={question.points}
                 onSave={handlePointsSave}
             />

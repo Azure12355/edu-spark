@@ -4,8 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
 import styles from './GeneratedQuestionCard.module.css';
-
-// 导入所有新的子组件
 import CardHeader from './GeneratedQuestionCard/CardHeader';
 import StemViewer from './GeneratedQuestionCard/StemViewer';
 import OptionsViewer from './GeneratedQuestionCard/OptionsViewer';
@@ -13,7 +11,7 @@ import AnswerAnalysisViewer from './GeneratedQuestionCard/AnswerAnalysisViewer';
 
 interface Props {
     question: AIGeneratedQuestion;
-    theme: { // 接收主题对象
+    theme: {
         colors: {
             bgEnd: string;
             iconBg: string;
@@ -22,21 +20,16 @@ interface Props {
 }
 
 const GeneratedQuestionCard: React.FC<Props> = ({ question, theme }) => {
-    // 定义 CSS 变量
     const cardStyle = {
         '--card-theme-color': theme.colors.bgEnd,
         '--card-theme-bg': theme.colors.iconBg
     } as React.CSSProperties;
 
+    // 此处无需再添加 motion.div，因为父组件 QuestionList 已经为每个卡片包裹了 motion.div
     return (
-        <motion.div
+        <div
             className={styles.card}
             style={cardStyle}
-            layout
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
         >
             <CardHeader
                 question={question}
@@ -46,7 +39,7 @@ const GeneratedQuestionCard: React.FC<Props> = ({ question, theme }) => {
             <StemViewer stem={question.stem} />
             <OptionsViewer question={question} />
             <AnswerAnalysisViewer question={question} />
-        </motion.div>
+        </div>
     );
 };
 export default GeneratedQuestionCard;
