@@ -3,57 +3,145 @@
     background-color: var(--teacher-white);
     border: 1px solid var(--teacher-border-color);
     border-radius: 16px;
-    /* 核心修改：让面板占满父容器高度，并成为 Flex 容器 */
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* 隐藏内部元素的溢出，由滚动区处理 */
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05); /* 增加一点阴影提升质感 */
 }
+
 .header {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 24px 24px 0; /* 调整内边距 */
-    flex-shrink: 0; /* 固定头部，不压缩 */
+    padding: 10px 12px; /* 统一内边距 */
+    border-bottom: 1px solid var(--teacher-border-color); /* 增加分割线 */
+    flex-shrink: 0;
 }
+/* --- 新增：返回按钮样式 --- */
+.backButton {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--teacher-text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.backButton:hover {
+    background-color: var(--teacher-bg-hover);
+    color: var(--teacher-primary);
+}
+
 .headerIcon { font-size: 24px; color: var(--teacher-primary); }
 .headerTitle { font-size: 20px; font-weight: 600; margin: 0; }
 
-/* 核心新增：可滚动的内容区域 */
 .scrollableBody {
-    flex-grow: 1; /* 占据所有剩余空间 */
-    overflow-y: auto; /* 当内容溢出时，此区域滚动 */
+    flex-grow: 1;
+    overflow-y: auto;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
-/* 美化滚动条 */
 .scrollableBody::-webkit-scrollbar { width: 6px; }
 .scrollableBody::-webkit-scrollbar-track { background: transparent; }
 .scrollableBody::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
 
-
-.tabs { display: flex; background-color: var(--teacher-bg-hover); border-radius: 8px; padding: 4px; }
-.tabButton { flex: 1; padding: 10px; border: none; background: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
-.tabButton.active { background-color: var(--teacher-white); color: var(--teacher-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+/* ... (保留 .section, .checkboxGrid, .radioGrid, .knowledgeScopeList 等样式) ... */
 .section { display: flex; flex-direction: column; gap: 12px; }
 .sectionTitle { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); }
 .sectionTitle span { color: var(--teacher-red); margin-right: 4px; }
-.checkboxGrid, .radioGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.checkboxLabel, .radioLabel { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.knowledgeScopeList { display: flex; flex-direction: column; gap: 8px; }
-.knowledgeTag { display: flex; justify-content: space-between; align-items: center; background-color: #f9fafb; border: 1px solid #f3f4f6; padding: 8px 12px; border-radius: 6px; }
-.knowledgeTag button { background: none; border: none; color: var(--teacher-text-tertiary); cursor: pointer; }
-.knowledgeActions { display: flex; gap: 12px; margin-top: 8px; }
 .knowledgeActions button { flex: 1; }
-.supplementaryTextarea { width: 100%; min-height: 80px; resize: vertical; padding: 10px; border-radius: 6px; border: 1px solid var(--teacher-border-color); }
 
-/* 核心新增：页脚（用于放置生成按钮） */
+/* --- 新增：出题数量选择器样式 --- */
+.quantitySelector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--teacher-bg-hover);
+    padding: 8px;
+    border-radius: 10px;
+}
+.quantityButton {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+.quantityButton:hover:not(:disabled) {
+    background-color: var(--teacher-primary);
+    color: white;
+    transform: scale(1.1);
+}
+.quantityButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.quantityDisplay {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--teacher-primary);
+    padding: 0 24px;
+}
+
 .footer {
-    padding: 24px;
+    padding: 12px;
     border-top: 1px solid var(--teacher-border-color);
     background-color: var(--teacher-white);
-    flex-shrink: 0; /* 固定页脚，不压缩 */
+    flex-shrink: 0;
 }
-.generateButton { width: 100%; padding: 12px; font-size: 16px; font-weight: 600; background: var(--teacher-primary); color: white; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+/* --- 修改：生成按钮样式，为动画做准备 --- */
+.generateButton {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.generateButton.start {
+    background: linear-gradient(135deg, var(--teacher-primary) 0%, #4a70ff 100%);
+}
+.generateButton.start:hover {
+    background: linear-gradient(135deg, #3b71f5 0%, #587fff 100%);
+}
+.generateButton.stop {
+    background: linear-gradient(135deg, #f87171, #dc2626);
+}
+.generateButton.stop:hover {
+    background: linear-gradient(135deg, #fa8072, #e03c3c);
+}
+
+.buttonText {
+    transition: opacity 0.2s ease;
+}
+
+.spinner {
+    animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

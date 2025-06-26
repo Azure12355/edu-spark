@@ -1,12 +1,149 @@
 /* src/components/teacher/course-management/ai-generate/ConfigPanel/KnowledgeScope.module.css */
-.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
-.cardTitle { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
-.list { display: flex; flex-direction: column; gap: 10px; max-height: 150px; overflow-y: auto; padding-right: 8px; margin-bottom: 12px; }
-.list::-webkit-scrollbar { width: 4px; }
-.list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
-.tag { display: flex; justify-content: space-between; align-items: center; background-color: #f9fafb; border: 1px solid #f3f4f6; padding: 8px 12px; border-radius: 6px; transition: all 0.2s; }
-.tag button { background: none; border: none; color: #9ca3af; cursor: pointer; transition: color 0.2s; }
-.tag:hover { border-color: #e5e7eb; }
-.tag:hover button { color: var(--teacher-red); }
-.actions { display: flex; gap: 12px; }
-.actions button { flex: 1; } /* teacher-button-secondary is a global class */
+.card {
+    /* 核心修改：玻璃拟态背景 */
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px; /* 增大圆角 */
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+    font-size: 16px; /* 增大字号 */
+    font-weight: 600; /* 加粗 */
+    color: var(--teacher-text-primary); /* 使用更深的颜色 */
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cardTitle i {
+    color: var(--teacher-primary);
+}
+
+.listContainer {
+    /* 核心修改：为列表设置最小高度和滚动条 */
+    min-height: 120px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 4px;
+    margin: 0 -4px 16px; /* 负 margin 让滚动区域触及边缘 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.listContainer::-webkit-scrollbar { width: 5px; }
+.listContainer::-webkit-scrollbar-track { background: transparent; }
+.listContainer::-webkit-scrollbar-thumb { background: #ced4da; border-radius: 3px; }
+
+/* 核心修改：知识胶囊样式 */
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s ease;
+    cursor: default;
+}
+.tag .icon {
+    color: var(--teacher-primary);
+}
+.tag .text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tag .deleteButton {
+    background: none;
+    border: none;
+    color: #adb5bd;
+    cursor: pointer;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.tag:hover {
+    transform: translateY(-2px);
+    border-color: #adb5bd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.tag .deleteButton:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+    transform: scale(1.1);
+}
+
+/* 核心修改：空状态样式 */
+.emptyState {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.emptyState .icon {
+    font-size: 28px;
+    color: #ced4da;
+    margin-bottom: 12px;
+}
+.emptyState p {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+}
+
+/* 核心修改：操作按钮样式 */
+.actions {
+    display: grid; /* 使用 grid 布局 */
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+.actionButton {
+    display: flex;
+    flex-direction: column; /* 图标在上，文字在下 */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 12px;
+    border: 1px solid var(--teacher-border-color);
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+.actionButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+}
+.actionButton .icon {
+    font-size: 22px;
+}
+.actionButton .text {
+    font-size: 14px;
+    font-weight: 500;
+}
+.actionButton .desc {
+    font-size: 12px;
+    color: var(--teacher-text-tertiary);
+}
