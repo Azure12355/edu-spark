@@ -7,10 +7,9 @@
 }
 
 .leftPanel {
-    width: 320px;
+    /* 宽度将由组件内部的 framer-motion 控制 */
     flex-shrink: 0;
     height: 100%;
-    /* 核心：让侧边栏成为 Flex 容器，以便其子元素能正确撑满 */
     display: flex;
     flex-direction: column;
 }
@@ -24,7 +23,6 @@
     gap: 24px;
 }
 
-/* --- 新增样式：用于包裹 Toolbar 和 Table 的容器 --- */
 .tableArea {
     flex-grow: 1; /* 占据所有剩余的垂直空间 */
     min-height: 0; /* 关键！允许子元素（如可滚动的表格）正确计算高度 */
