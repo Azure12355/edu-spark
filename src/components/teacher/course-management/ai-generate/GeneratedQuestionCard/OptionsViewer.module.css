@@ -1,0 +1,57 @@
+/* src/components/teacher/course-management/ai-generate/GeneratedQuestionCard/OptionsViewer.module.css */
+/* ... (保留 .optionsWrapper, .optionItem, .optionLetter 等样式) ... */
+.optionsWrapper {
+    padding: 0 20px 16px;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.optionItem {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start; /* 改为 flex-start 以对齐多行文本 */
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+.optionLetter {
+    font-weight: 600;
+    color: var(--teacher-text-secondary);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px; /* 微调对齐 */
+}
+.optionText {
+    flex-grow: 1;
+}
+.optionItem.correct {
+    background-color: #f0fdf4; /* 浅绿色背景 */
+}
+.optionItem.correct .optionLetter {
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: white;
+}
+
+/* --- 新增：覆盖 bytemd 默认样式 --- */
+.optionText :global(.markdown-body) {
+    background-color: transparent !important;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: inherit;
+}
+.optionText :global(.markdown-body p:first-child) {
+    margin-top: 0;
+}
+.optionText :global(.markdown-body p:last-child) {
+    margin-bottom: 0;
+}

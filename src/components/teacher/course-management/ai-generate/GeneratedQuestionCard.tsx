@@ -1,33 +1,52 @@
 // src/components/teacher/course-management/ai-generate/GeneratedQuestionCard.tsx
+"use client";
 import React from 'react';
+import { motion } from 'framer-motion';
 import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
 import styles from './GeneratedQuestionCard.module.css';
-const GeneratedQuestionCard: React.FC<{ question: AIGeneratedQuestion }> = ({ question }) => (
-    <div className={styles.card}>
-        <header className={styles.header}>
-            <div className={styles.meta}>
-                <span className={styles.typeTag}>{question.type}</span>
-                <span className={styles.pointLabel}>知识点:</span>
-                {question.pointIds.map(id => <span key={id} className={styles.pointTag}>{id}</span>)}
-            </div>
-            <div className={styles.actions}>
-                <button title="加入题库"><i className="fas fa-plus-square"></i></button>
-                <button title="编辑"><i className="fas fa-pen"></i></button>
-                <button title="删除"><i className="fas fa-trash"></i></button>
-            </div>
-        </header>
-        <div className={styles.body}>
-            <p className={styles.stem}>{question.stem}</p>
-            {question.options && (
-                <ul className={styles.options}>
-                    {question.options.map((opt, i) => <li key={i} className={styles.option}><span className={styles.letter}>{String.fromCharCode(65+i)}</span> {opt}</li>)}
-                </ul>
-            )}
-            <div className={styles.answerSection}>
-                <strong>正确答案：</strong> {question.answer} <br/>
-                <strong>答案解析：</strong> {question.analysis}
-            </div>
-        </div>
-    </div>
-);
+
+// 导入所有新的子组件
+import CardHeader from './GeneratedQuestionCard/CardHeader';
+import StemViewer from './GeneratedQuestionCard/StemViewer';
+import OptionsViewer from './GeneratedQuestionCard/OptionsViewer';
+import AnswerAnalysisViewer from './GeneratedQuestionCard/AnswerAnalysisViewer';
+
+interface Props {
+    question: AIGeneratedQuestion;
+    theme: { // 接收主题对象
+        colors: {
+            bgEnd: string;
+            iconBg: string;
+        }
+    };
+}
+
+const GeneratedQuestionCard: React.FC<Props> = ({ question, theme }) => {
+    // 定义 CSS 变量
+    const cardStyle = {
+        '--card-theme-color': theme.colors.bgEnd,
+        '--card-theme-bg': theme.colors.iconBg
+    } as React.CSSProperties;
+
+    return (
+        <motion.div
+            className={styles.card}
+            style={cardStyle}
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <CardHeader
+                question={question}
+                themeColor={theme.colors.bgEnd}
+                themeBg={theme.colors.iconBg}
+            />
+            <StemViewer stem={question.stem} />
+            <OptionsViewer question={question} />
+            <AnswerAnalysisViewer question={question} />
+        </motion.div>
+    );
+};
 export default GeneratedQuestionCard;

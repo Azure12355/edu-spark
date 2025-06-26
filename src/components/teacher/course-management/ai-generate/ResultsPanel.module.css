@@ -9,3 +9,13 @@
 .questionList { flex-grow: 1; overflow-y: auto; padding-right: 12px; display: flex; flex-direction: column; gap: 16px; }
 .questionList::-webkit-scrollbar { width: 6px; }
 .questionList::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+/* src/components/teacher/course-management/ai-generate/ResultsPanel.module.css */
+/* ... (保留 .panel, .header, .titleGroup, .actions, .questionList 等样式) ... */
+
+.statsGrid {
+    display: grid;
+    /* 核心修改：从 auto-fill, minmax(120px, 1fr) 改为固定7列，以适应更小的卡片 */
+    grid-template-columns: repeat(7, 1fr);
+    gap: 16px;
+    flex-shrink: 0;
+}

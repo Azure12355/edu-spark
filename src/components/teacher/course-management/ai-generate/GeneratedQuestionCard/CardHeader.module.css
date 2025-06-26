@@ -1,0 +1,24 @@
+/* src/components/teacher/course-management/ai-generate/GeneratedQuestionCard/CardHeader.module.css */
+.header {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.meta { display: flex; align-items: center; gap: 12px; }
+.typeTag {
+    /* 使用 CSS 变量接收主题色 */
+    background-color: var(--card-theme-bg, var(--teacher-primary-light));
+    color: var(--card-theme-color, var(--teacher-primary));
+    padding: 4px 12px;
+    border-radius: 99px; /* 胶囊形状 */
+    font-size: 13px;
+    font-weight: 500;
+}
+.pointLabel { font-size: 13px; color: var(--teacher-text-secondary); }
+.pointTagList { display: flex; gap: 6px; }
+.pointTag { background-color: #f3f4f6; color: #4b5563; padding: 4px 8px; border-radius: 6px; font-size: 12px; }
+.actions { display: flex; align-items: center; gap: 8px; }
+.actions button { background: none; border: none; color: var(--teacher-text-tertiary); cursor: pointer; padding: 6px; width: 30px; height: 30px; border-radius: 50%; }
+.actions button:hover { background-color: #f3f4f6; color: var(--teacher-primary); }
