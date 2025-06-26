@@ -1,0 +1,25 @@
+/* src/components/teacher/course-management/ai-generate/ResultsPanel/QuestionList.module.css */
+.questionList {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* 为了美观，给滚动条和内容之间留出一点距离 */
+    padding-left: 4px;
+    margin-left: -4px;
+}
+
+.questionList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.questionList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.questionList::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}

@@ -5,7 +5,7 @@
     /* 核心修改：让页面容器占满父级（main.teacher-main-full）的100%高度和宽度 */
     height: 100%;
     width: 100%;
-    padding: 24px; /* 将内边距从全局布局移到这里 */
+    padding: 12px; /* 将内边距从全局布局移到这里 */
     align-items: flex-start;
     background-color: var(--teacher-bg-body);
 }

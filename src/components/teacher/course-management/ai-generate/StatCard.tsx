@@ -4,36 +4,31 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './StatCard.module.css';
 
-// 定义更丰富的 Props 接口
+// Props 接口保持不变
 interface Props {
     label: string;
     value: number;
-    icon: string; // Font Awesome icon class
+    icon: string;
     colors: {
-        bgStart: string;
-        bgEnd: string;
+        bgStart?: string; // bgStart/End is now optional
+        bgEnd?: string;
         iconBg: string;
         text: string;
     };
 }
 
 const StatCard: React.FC<Props> = ({ label, value, icon, colors }) => {
-    // 定义 CSS 变量
     const cardStyle = {
-        '--card-bg-start': colors.bgStart,
-        '--card-bg-end': colors.bgEnd,
-        '--card-icon-bg': colors.iconBg,
-        '--card-text-color': colors.text,
+        '--card-theme-bg': colors.iconBg,
+        '--card-theme-color': colors.text,
     } as React.CSSProperties;
 
-    // Framer Motion 动画变体
+    // 动画变体保持不变
     const cardVariants = {
-        hidden: { opacity: 0, y: 20, scale: 0.95 },
+        hidden: { opacity: 0, y: 15 },
         visible: {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: { type: 'spring', stiffness: 300, damping: 20 }
+            opacity: 1, y: 0,
+            transition: { type: 'spring', stiffness: 350, damping: 25 }
         }
     };
 
@@ -42,15 +37,16 @@ const StatCard: React.FC<Props> = ({ label, value, icon, colors }) => {
             className={styles.statCard}
             style={cardStyle}
             variants={cardVariants}
+            whileHover={{ scale: 1.05 }}
         >
-            <div className={styles.iconWrapper}>
-                <i className={`${icon} ${styles.icon}`}></i>
-            </div>
+            {/* 新的 JSX 结构 */}
             <div className={styles.content}>
+                <div className={styles.iconWrapper}>
+                    <i className={`${icon} ${styles.icon}`}></i>
+                </div>
                 <p className={styles.label}>{label}</p>
-                <p className={styles.value}>{value}</p>
             </div>
-            <i className={`${icon} ${styles.backgroundPattern}`}></i>
+            <p className={styles.value}>{value}</p>
         </motion.div>
     );
 };
