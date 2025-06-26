@@ -1,0 +1,103 @@
+/* src/components/teacher/course-management/introduction/ResourceCarousel/ResourceCarousel.module.css */
+.carouselContainer {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.carouselTrackWrapper {
+    overflow: hidden;
+    position: relative;
+    flex-grow: 1;
+}
+
+.carouselTrack {
+    display: flex;
+    height: 100%;
+}
+
+.slide {
+    flex: 0 0 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.bookCover {
+    width: 150px;
+    height: 220px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: perspective(1000px) rotateY(-5deg);
+    transition: transform 0.3s ease;
+}
+
+.slide:hover .bookCover {
+    transform: perspective(1000px) rotateY(0deg) scale(1.05);
+}
+
+.bookInfo {
+    text-align: center;
+}
+
+.bookTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.bookAuthor {
+    font-size: 13px;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 0;
+}
+
+.navButton {
+    background: var(--teacher-bg-hover);
+    border: 1px solid var(--teacher-border-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s ease;
+}
+
+.navButton:hover {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+}
+
+.dotsContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--teacher-primary);
+    transform: scale(1.2);
+}

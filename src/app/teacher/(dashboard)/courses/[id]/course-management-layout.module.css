@@ -1,0 +1,30 @@
+/* src/app/teacher/(dashboard)/courses/[id]/course-management-layout.module.css */
+.layoutContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: var(--teacher-bg-body); /* 将背景色移到这里 */
+}
+
+.contentArea {
+    flex-grow: 1;
+    /* 核心修改：移除 padding，让内容区填满 */
+    padding: 0;
+    overflow-y: auto;
+    position: relative; /* 为内部绝对定位的元素提供参考 */
+}
+
+.notFound {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--teacher-text-tertiary);
+}
+.notFound h2 {
+    font-size: 24px;
+    color: var(--teacher-text-primary);
+}

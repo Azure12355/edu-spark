@@ -1,0 +1,147 @@
+/* src/app/teacher/(dashboard)/courses/[id]/introduction/introduction.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    color: var(--teacher-text-primary);
+    position: relative;
+    padding-left: 14px;
+}
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+/* 1. Hero Banner (保持不变) */
+.heroCard {
+    background: linear-gradient(135deg, var(--teacher-primary) 0%, #1e5fe8 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    border: none;
+}
+/* ... .heroCard 内部样式保持不变 ... */
+.heroContent { flex-grow: 1; }
+.heroTitle { font-size: 32px; font-weight: 700; margin: 0 0 12px; }
+.heroSubtitle { font-size: 16px; max-width: 600px; opacity: 0.8; line-height: 1.7; margin-bottom: 24px; }
+.heroStats { display: flex; gap: 24px; margin-bottom: 32px; }
+.statItem { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; }
+.heroActions { display: flex; gap: 16px; }
+.ctaButton { background-color: white; color: var(--teacher-primary); border: none; padding: 12px 28px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+.ctaButton:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.outlineButton { background-color: transparent; color: white; border: 2px solid rgba(255,255,255,0.5); padding: 10px 28px; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.outlineButton:hover { background-color: rgba(255,255,255,0.1); border-color: white; }
+.heroIllustration { font-size: 120px; opacity: 0.1; transform: rotate(-15deg); }
+
+/* 2. 主体网格布局 */
+.mainGrid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(2, 1fr) 1.2fr;
+    grid-template-areas:
+    "objectives objectives timeline"
+    "methods    resources  timeline"
+    "assessment tools     timeline";
+    grid-template-rows: auto auto auto;
+}
+
+/* --- 核心修改：将 .objectivesCard 替换为包裹容器的样式 --- */
+.objectivesCardWrapper {
+    grid-area: objectives;
+    /* 包裹容器本身不需要 padding 和 border，这些样式由内部的组件提供 */
+}
+
+/* --- 原有的 objectives 内部样式已移动到新组件中，可以删除 --- */
+/*
+.objectivesGrid { ... }
+.objectiveItem { ... }
+.objectiveIcon { ... }
+.objectiveText h4 { ... }
+.objectiveText p { ... }
+*/
+
+
+.timelineCard   { grid-area: timeline; }
+.methodsCard    { grid-area: methods; }
+.resourcesCard  { grid-area: resources; }
+.assessmentCard { grid-area: assessment; }
+.toolsCard      { grid-area: tools; }
+
+/* ... (页面中其余部分的样式保持不变) ... */
+
+/* 4. 学习方法 */
+.methodsIntro { font-size: 14px; color: var(--teacher-text-secondary); line-height: 1.6; margin-bottom: 20px; }
+.methodsList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.methodsList li { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.methodsList .fa-check-circle { color: var(--teacher-status-green); }
+
+/* 5. 考核方式 */
+.assessmentCard { min-height: 300px; display: flex; flex-direction: column; }
+.assessmentCard > div:last-child { flex-grow: 1; }
+
+/* 6. 环境与工具 */
+.toolsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.toolItem { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px; background-color: var(--teacher-bg-hover); border-radius: 8px; }
+.toolItem i { font-size: 24px; }
+.toolItem span { font-size: 13px; font-weight: 500; }
+.secondaryTitle { margin-top: 16px; }
+.onlineResourcesList { display: flex; flex-direction: column; gap: 12px; }
+.onlineResourceItem { font-size: 14px; color: var(--teacher-link-color); text-decoration: none; font-weight: 500; }
+.onlineResourceItem i { margin-left: 6px; font-size: 12px; }
+
+/* 响应式调整 */
+@media (max-width: 1200px) {
+    .mainGrid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "timeline timeline"
+          "objectives objectives"
+          "methods    resources"
+          "assessment tools";
+    }
+}
+@media (max-width: 992px) {
+    .mainGrid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "objectives"
+          "timeline"
+          "methods"
+          "resources"
+          "assessment"
+          "tools";
+    }
+    .objectivesCardWrapper {
+        grid-area: objectives;
+    }
+}

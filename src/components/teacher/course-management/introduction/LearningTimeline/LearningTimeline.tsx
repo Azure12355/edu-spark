@@ -1,0 +1,44 @@
+// src/components/teacher/course-management/introduction/LearningTimeline/LearningTimeline.tsx
+"use client";
+import React from 'react';
+import { motion } from 'framer-motion';
+import styles from './LearningTimeline.module.css';
+
+export interface TimelineItemData {
+    time: string;
+    title: string;
+    description: string;
+    icon: string;
+}
+
+interface LearningTimelineProps {
+    items: TimelineItemData[];
+}
+
+const LearningTimeline: React.FC<LearningTimelineProps> = ({ items }) => {
+    return (
+        <div className={styles.timelineContainer}>
+            {items.map((item, index) => (
+                <motion.div
+                    key={index}
+                    className={styles.timelineItem}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                    <div className={styles.timelineIcon}>
+                        <i className={item.icon}></i>
+                    </div>
+                    <div className={styles.timelineContent}>
+                        <span className={styles.time}>{item.time}</span>
+                        <h4 className={styles.title}>{item.title}</h4>
+                        <p className={styles.description}>{item.description}</p>
+                    </div>
+                </motion.div>
+            ))}
+        </div>
+    );
+};
+
+export default LearningTimeline;

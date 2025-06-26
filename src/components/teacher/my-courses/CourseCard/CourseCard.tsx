@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './CourseCard.module.css';
 import { TeacherCourse, CourseStatus } from '@/lib/data/teacherCourseData';
+import Link from 'next/link'; // 1. 导入 Link 组件
 
 interface CourseCardProps {
     course: TeacherCourse;
@@ -60,9 +61,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                         <span>{course.status}</span>
                     </div>
                 </div>
-                <button className={styles.actionButton}>
+                {/* 2. 将 button 替换为 Link 包裹的 a 标签 */}
+                <Link href={`/teacher/courses/${course.id}/classes`} className={styles.actionButton}>
                     进入管理
-                </button>
+                </Link>
             </div>
         </motion.div>
     );

@@ -1,0 +1,111 @@
+/* src/components/teacher/course-management/introduction/LearningObjectives/LearningObjectives.module.css */
+.card {
+    /* 与页面中其他卡片样式保持一致 */
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    color: var(--teacher-text-primary);
+    position: relative;
+    padding-left: 14px;
+}
+
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+.objectivesList {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 增大项目间距 */
+}
+
+.objectiveItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid transparent; /* 预留边框位置 */
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* 悬浮时的背景和轻微上浮效果 */
+.objectiveItem:hover {
+    background-color: #f9fafc;
+    transform: translateY(-3px);
+    border-color: var(--teacher-border-color);
+}
+
+/* 鼠标悬浮时的辉光效果 */
+.objectiveItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(47, 123, 255, 0.08), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.objectiveItem:hover::before {
+    opacity: 1;
+}
+
+.objectiveIcon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.objectiveItem:hover .objectiveIcon {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 4px 10px rgba(47, 123, 255, 0.2);
+}
+
+.objectiveText {
+    flex-grow: 1;
+}
+
+.objectiveText h4 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 0 0 6px 0;
+}
+
+.objectiveText p {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}

@@ -1,0 +1,18 @@
+/* src/app/teacher/(dashboard)/courses/[id]/classes/classes.module.css */
+.pageContainer {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    min-height: 100%;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.placeholder {
+    color: var(--teacher-text-secondary);
+}

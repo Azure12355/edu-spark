@@ -22,7 +22,8 @@ export default function TeacherDashboardLayout({
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
-    const isImmersivePage = pathname.startsWith('/teacher/assistant');
+    const isImmersivePage =
+        pathname.startsWith('/teacher/assistant') || pathname.startsWith('/teacher/courses/');;
 
     return (
         // .teacher-layout-wrapper 是所有布局的根，在 teacher.css 中定义

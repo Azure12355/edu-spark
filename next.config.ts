@@ -23,6 +23,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'img3.doubanio.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img9.doubanio.com',
+        port: '',
+        pathname: '/**',
+      },
     ]
   }
 };
