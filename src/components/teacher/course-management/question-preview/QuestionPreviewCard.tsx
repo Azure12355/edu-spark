@@ -94,7 +94,10 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
             <footer className={styles.footer}>
                 <div className={styles.pointList}>
                     <strong>关联知识点：</strong>
-                    {question.pointIds.map(id => <span key={id} className={styles.pointTag}>{id}</span>)}
+                    {/* --- 核心修改 --- */}
+                    {question.points.map(point =>
+                        <span key={point.id} className={styles.pointTag}>{point.title}</span>
+                    )}
                 </div>
                 <span>创建者: {question.creator} | 创建于: {question.createdAt}</span>
             </footer>

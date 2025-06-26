@@ -1,10 +1,13 @@
-// src/app/teacher/(dashboard)/courses/[id]/questions/[questionId]/edit/page.tsx
+// src/app/teacher/(dashboard)/courses/[id]/questions/ai-generate/[aiQuestionId]/edit/page.tsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useQuestionBankStore } from '@/store/questionBankStore';
-import { Question } from '@/lib/data/questionBankData';
+// --- 核心区别：导入 AI 题目专用的 Store ---
+import { useAIGeneratedQuestionsStore } from '@/store/aiGeneratedQuestionsStore';
+import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
 import styles from './edit.module.css';
+
+// --- 复用之前的编辑组件 ---
 import QuestionEditHeader from '@/components/teacher/course-management/question-edit/QuestionEditHeader';
 import QuestionConfigPanel from '@/components/teacher/course-management/question-edit/QuestionConfigPanel';
 import QuestionEditorPanel from '@/components/teacher/course-management/question-edit/QuestionEditorPanel';
@@ -13,30 +16,30 @@ import { useToast } from '@/hooks/useToast';
 import {KnowledgePoint} from "@/lib/data/syllabusData";
 import {useSyllabusStore} from "@/store/syllabusStore";
 
-export default function QuestionEditPage() {
+export default function AIQuestionEditPage() {
     const params = useParams();
     const router = useRouter();
     const showToast = useToast();
     const courseId = params.id as string;
-    const questionId = params.questionId as string;
+    const aiQuestionId = params.aiQuestionId as string;
     const { syllabus } = useSyllabusStore(); // 获取完整的教学大纲
 
-    const { getQuestionById, updateQuestion } = useQuestionBankStore();
+    // --- 核心区别：使用新的 Store ---
+    const { getQuestionById, updateQuestion } = useAIGeneratedQuestionsStore();
 
-    const [question, setQuestion] = useState<Question | null>(null);
+    const [question, setQuestion] = useState<AIGeneratedQuestion | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        const data = getQuestionById(questionId);
+        const data = getQuestionById(aiQuestionId);
         if (data) {
             setQuestion(JSON.parse(JSON.stringify(data)));
         } else {
-            // 如果没找到题目，可以跳转回列表页或显示错误
-            router.replace(`/teacher/courses/${courseId}/questions`);
+            router.replace(`/teacher/courses/${courseId}/questions/ai-generate`);
         }
-    }, [questionId, getQuestionById, courseId, router]);
+    }, [aiQuestionId, getQuestionById, courseId, router]);
 
-    const handleUpdate = (field: keyof Question, value: any) => {
+    const handleUpdate = (field: keyof AIGeneratedQuestion, value: any) => {
         setQuestion(prev => prev ? { ...prev, [field]: value } : null);
     };
 
@@ -57,8 +60,9 @@ export default function QuestionEditPage() {
     const handleSave = () => {
         if (question) {
             updateQuestion(question);
-            showToast({ message: '题目已成功保存！', type: 'success' });
-            router.back();
+            showToast({ message: 'AI 题目已成功保存！', type: 'success' });
+            // --- 核心区别：返回到 AI 出题页面 ---
+            router.push(`/teacher/courses/${courseId}/questions/ai-generate`);
         }
     };
 
@@ -68,6 +72,7 @@ export default function QuestionEditPage() {
 
     return (
         <div className={styles.pageContainer}>
+            {/* 复用 QuestionEditHeader，但返回路径需要调整 */}
             <QuestionEditHeader courseId={courseId} onSave={handleSave} />
             <div className={styles.mainContent}>
                 <aside>

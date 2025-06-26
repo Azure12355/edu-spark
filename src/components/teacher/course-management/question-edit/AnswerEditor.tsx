@@ -1,6 +1,6 @@
 // src/components/teacher/course-management/question-edit/AnswerEditor.tsx
 "use client";
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Question } from '@/lib/data/questionBankData';
 import styles from './AnswerEditor.module.css';
 import { Editor } from '@bytemd/react';
@@ -16,11 +16,57 @@ interface Props {
 const AnswerEditor: React.FC<Props> = ({ question, onUpdate }) => {
     const bytemdPlugins = useMemo(() => [gfm(), highlight()], []);
 
-    // --- Event Handlers ---
+    // --- 核心修复：使用 useEffect 监听题型变化，并重置答案格式 ---
+    useEffect(() => {
+        switch (question.type) {
+            case '单选题':
+                // 如果答案是数组或布尔值，则重置
+                if (Array.isArray(question.answer) || typeof question.answer === 'boolean') {
+                    onUpdate('answer', question.options?.[0] || ''); // 默认选中第一个或为空
+                }
+                break;
+            case '多选题':
+                // 如果答案不是数组，则重置为空数组
+                if (!Array.isArray(question.answer)) {
+                    onUpdate('answer', []);
+                }
+                break;
+            case '判断题':
+                // 如果答案不是布尔值，则重置为 true
+                if (typeof question.answer !== 'boolean') {
+                    onUpdate('answer', true);
+                }
+                break;
+            case '简答题':
+            case '填空题':
+            case '编程题':
+                // 如果答案不是字符串，则重置为空字符串
+                if (typeof question.answer !== 'string') {
+                    onUpdate('answer', '');
+                }
+                break;
+            default:
+                break;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [question.type]); // 仅在 question.type 变化时触发
+
+
+    // --- Event Handlers (保持不变) ---
     const handleOptionChange = (index: number, value: string) => {
+        const oldOptionValue = (question.options || [])[index];
         const newOptions = [...(question.options || [])];
         newOptions[index] = value;
         onUpdate('options', newOptions);
+
+        // 如果被修改的选项是答案，同步更新答案
+        if (question.type === '单选题' && question.answer === oldOptionValue) {
+            onUpdate('answer', value);
+        }
+        if (question.type === '多选题' && Array.isArray(question.answer) && question.answer.includes(oldOptionValue)) {
+            const newAnswer = question.answer.map(ans => ans === oldOptionValue ? value : ans);
+            onUpdate('answer', newAnswer);
+        }
     };
 
     const handleAddOption = () => {
@@ -29,15 +75,26 @@ const AnswerEditor: React.FC<Props> = ({ question, onUpdate }) => {
     };
 
     const handleRemoveOption = (index: number) => {
+        const optionToRemove = (question.options || [])[index];
         const newOptions = (question.options || []).filter((_, i) => i !== index);
         onUpdate('options', newOptions);
+
+        // 如果被删除的选项是答案，同步更新答案
+        if (question.type === '单选题' && question.answer === optionToRemove) {
+            onUpdate('answer', ''); // 清空答案或设为默认
+        }
+        if (question.type === '多选题' && Array.isArray(question.answer) && question.answer.includes(optionToRemove)) {
+            const newAnswer = question.answer.filter(ans => ans !== optionToRemove);
+            onUpdate('answer', newAnswer);
+        }
     };
 
     const handleAnswerChange = (value: any) => {
         onUpdate('answer', value);
     };
 
-    // --- UI Renderer Switcher ---
+
+    // --- UI Renderer Switcher (保持不变) ---
     const renderAnswerUI = () => {
         switch (question.type) {
             case '单选题': {
@@ -119,7 +176,8 @@ const AnswerEditor: React.FC<Props> = ({ question, onUpdate }) => {
                 return (
                     <div className={styles.editorWrapper}>
                         <Editor
-                            value={question.answer as string}
+                            // 关键修复：确保传递给 Editor 的是字符串
+                            value={String(question.answer || '')}
                             plugins={bytemdPlugins}
                             onChange={(v) => handleAnswerChange(v)}
                             placeholder="输入参考答案，支持 Markdown 格式..."

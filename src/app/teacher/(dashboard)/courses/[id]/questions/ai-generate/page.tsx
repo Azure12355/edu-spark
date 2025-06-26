@@ -4,42 +4,39 @@ import React, { useState } from 'react';
 import styles from './ai-generate.module.css';
 import ConfigPanel from '@/components/teacher/course-management/ai-generate/ConfigPanel';
 import ResultsPanel from '@/components/teacher/course-management/ai-generate/ResultsPanel';
-import { AIGeneratedQuestion, aiGeneratedQuestionsData } from '@/lib/data/aiGeneratedQuestionsData';
 import { QuestionDifficulty, QuestionType } from '@/lib/data/questionBankData';
-// 核心新增：导入新模态框和 Toast Hook
 import KnowledgePointSelectionModal from '@/components/teacher/course-management/ai-generate/ConfigPanel/KnowledgePointSelectionModal';
 import { useToast } from '@/hooks/useToast';
+// --- 核心修改：导入并使用新的 Store ---
+import { useAIGeneratedQuestionsStore } from '@/store/aiGeneratedQuestionsStore';
 
 export default function AIGeneratePage() {
-    const [generatedQuestions, setGeneratedQuestions] = useState<AIGeneratedQuestion[]>(aiGeneratedQuestionsData);
+    // --- 核心修改：从 Store 获取题目数据和操作 ---
+    const questions = useAIGeneratedQuestionsStore((state) => state.questions);
 
-    // --- 状态管理区 ---
+    // 配置项的状态保留在页面组件中，因为它们是“临时”的输入状态
     const [selectedTypes, setSelectedTypes] = useState<Set<QuestionType>>(new Set(['单选题']));
     const [selectedDifficulty, setSelectedDifficulty] = useState<QuestionDifficulty>('简单');
     const [knowledgePoints, setKnowledgePoints] = useState<string[]>(['布尔运算基础', 'Python逻辑非not', 'Python逻辑或or']);
     const [supplementaryContent, setSupplementaryContent] = useState('');
-    // 核心新增：控制模态框的显示状态
     const [isPointModalOpen, setIsPointModalOpen] = useState(false);
     const showToast = useToast();
 
-    // --- 逻辑处理函数区 ---
+    // ... (保留所有 handle... 函数)
     const handleTypeChange = (type: QuestionType) => {
         setSelectedTypes(prev => {
             const newSet = new Set(prev);
             if (newSet.has(type)) {
-                if(newSet.size > 1) newSet.delete(type); // 保证至少有一个被选中
+                if(newSet.size > 1) newSet.delete(type);
             } else {
                 newSet.add(type);
             }
             return newSet;
         });
     };
-
     const handleRemovePoint = (pointToRemove: string) => {
         setKnowledgePoints(prev => prev.filter(p => p !== pointToRemove));
     };
-
-    // 核心新增：手动添加知识点逻辑
     const handleAddPointManually = () => {
         const newPoint = window.prompt('请输入要手动添加的知识点名称：');
         if (newPoint && newPoint.trim() !== '') {
@@ -51,12 +48,11 @@ export default function AIGeneratePage() {
             }
         }
     };
-
-    // 核心新增：从模态框保存知识点选择的逻辑
     const handlePointsSelected = (newPoints: string[]) => {
         setKnowledgePoints(newPoints);
         showToast({ message: `已更新关联知识点 (${newPoints.length}个)`, type: 'info' });
     };
+
 
     return (
         <div className={styles.pageContainer}>
@@ -70,16 +66,15 @@ export default function AIGeneratePage() {
                     onRemovePoint={handleRemovePoint}
                     supplementaryContent={supplementaryContent}
                     onContentChange={setSupplementaryContent}
-                    // 核心新增：传递事件处理器
                     onAddManually={handleAddPointManually}
                     onSelectFromLibrary={() => setIsPointModalOpen(true)}
                 />
             </aside>
             <main className={styles.rightPanel}>
-                <ResultsPanel questions={generatedQuestions} />
+                {/* --- 核心修改：直接传递 questions --- */}
+                <ResultsPanel questions={questions} />
             </main>
 
-            {/* 核心新增：渲染模态框组件 */}
             <KnowledgePointSelectionModal
                 isOpen={isPointModalOpen}
                 onClose={() => setIsPointModalOpen(false)}

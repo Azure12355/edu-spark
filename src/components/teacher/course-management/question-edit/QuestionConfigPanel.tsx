@@ -37,8 +37,9 @@ const QuestionConfigPanel: React.FC<Props> = ({ question, onUpdate, onEditPoints
             <div className={styles.card}>
                 <h3 className={styles.cardTitle}>知识点关联</h3>
                 <div className={styles.pointList}>
-                    {question.pointIds.map(id => (
-                        <span key={id} className={styles.pointTag}>{id}</span>
+                    {/* --- 核心修改 --- */}
+                    {question.points.map(point => (
+                        <span key={point.id} className={styles.pointTag}>{point.title}</span>
                     ))}
                 </div>
                 <button onClick={onEditPoints} className={`teacher-button-secondary ${styles.editPointsButton}`}>编辑关联</button>

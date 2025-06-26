@@ -1,14 +1,28 @@
 // src/lib/data/aiGeneratedQuestionsData.ts
-import { Question, QuestionType } from './questionBankData';
+import { Question } from './questionBankData';
+import { syllabusData, KnowledgePoint } from './syllabusData'; // 导入所需类型和数据
 
-// AI生成的题目可能包含额外元数据，但这里我们复用Question类型
-export type AIGeneratedQuestion = Question;
+// 辅助函数：根据 title 查找知识点对象（因为AI题目用的是title）
+const findPointByTitle = (title: string): KnowledgePoint | null => {
+    for (const chapter of syllabusData) {
+        for (const section of chapter.sections) {
+            const point = section.points.find(p => p.title === title);
+            if (point) return point;
+        }
+    }
+    return null;
+};
+const findPointsByTitle = (titles: string[]): KnowledgePoint[] => {
+    return titles.map(title => findPointByTitle(title)).filter((p): p is KnowledgePoint => p !== null);
+};
+
+export interface AIGeneratedQuestion extends Question {};
 
 // 更新后的模拟数据，包含所有题型
 export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     {
         id: 'ai-q-1',
-        pointIds: ['布尔运算基础', 'Python逻辑非not'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '单选题',
         difficulty: '简单',
         stem: '在Python中，`not True`的结果是什么？',
@@ -20,7 +34,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-2',
-        pointIds: ['Python逻辑或or', '短路求值'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '单选题',
         difficulty: '简单',
         stem: '表达式 `5 > 3 or 1 < 0` 在Python中的值为？',
@@ -32,7 +46,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-3',
-        pointIds: ['数据结构', '时间复杂度'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '多选题',
         difficulty: '中等',
         stem: '下列哪些数据结构的操作，其平均时间复杂度为 O(1)？',
@@ -54,7 +68,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-4',
-        pointIds: ['二叉树遍历'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '判断题',
         difficulty: '中等',
         stem: '已知一棵二叉树的前序遍历序列和后序遍历序列，可以唯一确定这棵二叉树的结构。',
@@ -65,7 +79,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-5',
-        pointIds: ['HTTP协议'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '填空题',
         difficulty: '简单',
         stem: '在HTTP协议中，表示“页面未找到”的状态码是______。',
@@ -76,7 +90,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-6',
-        pointIds: ['CSS布局'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '简答题',
         difficulty: '中等',
         stem: '请简述 CSS 中 `Flexbox` 布局和 `Grid` 布局的主要区别和各自的适用场景。',
@@ -94,7 +108,7 @@ export const aiGeneratedQuestionsData: AIGeneratedQuestion[] = [
     },
     {
         id: 'ai-q-7',
-        pointIds: ['JavaScript', '数组方法'],
+        points: [{ id: 'p-2-2-1', title: '栈 (LIFO) 的实现与应用', type: '核心' }],
         type: '编程题',
         difficulty: '困难',
         stem: '请手写一个 JavaScript 函数 `myReduce`，模拟实现原生 `Array.prototype.reduce` 的功能，不能使用原生的 `reduce` 方法。',

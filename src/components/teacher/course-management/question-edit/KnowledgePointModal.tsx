@@ -4,23 +4,24 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/common/Modal/Modal';
 import { useSyllabusStore } from '@/store/syllabusStore';
 import styles from './KnowledgePointModal.module.css';
+import {KnowledgePoint} from "@/lib/data/syllabusData";
 
 interface KnowledgePointModalProps {
     isOpen: boolean;
     onClose: () => void;
-    currentPointIds: string[];
+    currentPoints: KnowledgePoint[];
     onSave: (newPointIds: string[]) => void;
 }
 
-const KnowledgePointModal: React.FC<KnowledgePointModalProps> = ({ isOpen, onClose, currentPointIds, onSave }) => {
+const KnowledgePointModal: React.FC<KnowledgePointModalProps> = ({ isOpen, onClose, currentPoints, onSave }) => {
     const { syllabus } = useSyllabusStore();
-    const [selectedIds, setSelectedIds] = useState(new Set(currentPointIds));
+    const [selectedIds, setSelectedIds] = useState(new Set(currentPoints.map(p => p.id)));
 
     useEffect(() => {
         if (isOpen) {
-            setSelectedIds(new Set(currentPointIds));
+            setSelectedIds(new Set(currentPoints.map(p => p.id)));
         }
-    }, [isOpen, currentPointIds]);
+    }, [isOpen, currentPoints]);
 
     const handleToggle = (pointId: string) => {
         setSelectedIds(prev => {
@@ -35,7 +36,7 @@ const KnowledgePointModal: React.FC<KnowledgePointModalProps> = ({ isOpen, onClo
     };
 
     const handleSave = () => {
-        onSave(Array.from(selectedIds));
+        onSave(Array.from(selectedIds)); // 传递ID数组
         onClose();
     };
 
@@ -66,6 +67,7 @@ const KnowledgePointModal: React.FC<KnowledgePointModalProps> = ({ isOpen, onClo
                                                     <label>
                                                         <input
                                                             type="checkbox"
+                                                            // --- 核心修改：使用 point.id 判断 ---
                                                             checked={selectedIds.has(point.id)}
                                                             onChange={() => handleToggle(point.id)}
                                                         />
