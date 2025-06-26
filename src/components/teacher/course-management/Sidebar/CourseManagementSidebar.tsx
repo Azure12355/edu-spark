@@ -13,8 +13,8 @@ import Tooltip from '@/components/common/Tooltip/Tooltip'; // 引入 Tooltip 组
 const sidebarLinks = [
     { name: '课程介绍', href: '/introduction', icon: 'fas fa-info-circle' }, // 新增项
     { name: '课程大纲', href: '/syllabus', icon: 'fas fa-sitemap' }, // 新增项
-    { name: '班级管理', href: '/classes', icon: 'fas fa-users' },
     { name: '题库管理', href: '/questions', icon: 'fas fa-file-alt' },
+    { name: '班级管理', href: '/classes', icon: 'fas fa-users' },
     { name: '知识库', href: '/knowledge', icon: 'fas fa-database' },
     { name: '在线作业', href: '/assignments', icon: 'fas fa-pencil-ruler' },
     { name: '线上考试', href: '/exams', icon: 'fas fa-scroll' },

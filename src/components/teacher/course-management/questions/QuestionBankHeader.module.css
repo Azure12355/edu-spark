@@ -1,0 +1,63 @@
+/* src/components/teacher/course-management/questions/QuestionBankHeader.module.css */
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+
+.titleGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.actionButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--teacher-border-color);
+}
+.secondaryButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+}
+.secondaryButton:hover {
+    border-color: var(--teacher-text-primary);
+    color: var(--teacher-text-primary);
+}
+.primaryButton {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: white;
+}
+.primaryButton:hover {
+    background-color: #1a5cff;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}

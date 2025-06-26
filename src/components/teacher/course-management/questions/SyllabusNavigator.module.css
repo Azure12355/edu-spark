@@ -1,0 +1,114 @@
+/* src/components/teacher/course-management/questions/SyllabusNavigator.module.css */
+.navigatorContainer {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+
+.headerIcon {
+    font-size: 20px;
+    color: var(--teacher-primary);
+}
+
+.headerTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.treeView {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 8px; /* 为滚动条留出空间 */
+}
+/* 美化滚动条 */
+.treeView::-webkit-scrollbar { width: 5px; }
+.treeView::-webkit-scrollbar-track { background: transparent; }
+.treeView::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+.chapterNode {
+    margin-bottom: 12px;
+}
+
+.chapterTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.chapterTitle:hover {
+    background-color: var(--teacher-bg-hover);
+}
+.chapterTitle .chevron {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+.chapterTitle .chevron.expanded {
+    transform: rotate(90deg);
+}
+
+.sectionList, .pointList {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 8px;
+}
+.pointList {
+    padding-left: 24px;
+}
+
+.sectionTitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.pointItem {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid transparent;
+}
+.pointItem:hover {
+    background-color: var(--teacher-primary-light);
+}
+.pointItem.active {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 600;
+    border-left-color: var(--teacher-primary);
+}
+.questionCount {
+    font-size: 12px;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+.pointItem.active .questionCount {
+    background-color: var(--teacher-primary);
+    color: white;
+}

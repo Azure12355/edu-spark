@@ -1,0 +1,33 @@
+/* src/app/teacher/(dashboard)/courses/[id]/questions/questions.module.css */
+.pageContainer {
+    display: flex;
+    gap: 24px;
+    height: 100%;
+    align-items: flex-start;
+}
+
+.leftPanel {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    /* 核心：让侧边栏成为 Flex 容器，以便其子元素能正确撑满 */
+    display: flex;
+    flex-direction: column;
+}
+
+.rightPanel {
+    flex-grow: 1;
+    min-width: 0; /* 防止内容过长时撑破布局 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- 新增样式：用于包裹 Toolbar 和 Table 的容器 --- */
+.tableArea {
+    flex-grow: 1; /* 占据所有剩余的垂直空间 */
+    min-height: 0; /* 关键！允许子元素（如可滚动的表格）正确计算高度 */
+    display: flex;
+    flex-direction: column;
+}

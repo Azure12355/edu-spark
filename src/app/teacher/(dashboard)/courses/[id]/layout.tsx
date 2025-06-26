@@ -18,7 +18,9 @@ export default function CourseManagementLayout({
     const currentCourse = teacherCourseData.find(c => c.id === courseId);
 
     // 2. 判断当前是否在知识点详情页
-    const isPointDetailPage = pathname.includes('/syllabus/');
+    const isPointDetailPage = pathname.includes('/syllabus/') ||
+        pathname.includes('/questions')
+    ;
 
     if (!currentCourse) {
         return (
