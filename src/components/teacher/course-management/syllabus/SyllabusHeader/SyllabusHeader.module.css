@@ -1,0 +1,81 @@
+/* src/components/teacher/course-management/syllabus/SyllabusHeader/SyllabusHeader.module.css */
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--teacher-bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-bg-hover);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 280px;
+    transition: all 0.2s ease;
+}
+.searchBar:focus-within {
+    background-color: white;
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
+}
+.searchBar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+}
+.searchBar i { color: var(--teacher-text-tertiary); }
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-bg-card);
+    border: 1px solid var(--teacher-border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.actionButton:hover {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+}
+
+/* 新增：为“大纲管理”按钮添加主色调样式 */
+.manageButton {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    font-weight: 600;
+}
+
+.manageButton:hover {
+    background-color: var(--teacher-primary);
+    color: var(--teacher-white);
+}

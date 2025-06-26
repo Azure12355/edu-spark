@@ -1,0 +1,127 @@
+/* src/components/teacher/course-management/syllabus/SyllabusTree/SyllabusTree.module.css */
+.treeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Chapter Node */
+.chapterNode {
+    background-color: var(--teacher-bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.3s;
+}
+.chapterNode:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+
+.chapterHeader {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    gap: 20px;
+}
+.chapterIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.chapterInfo { flex-grow: 1; }
+.chapterTitle { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+.chapterDesc { font-size: 14px; color: var(--teacher-text-secondary); margin: 0; }
+.chevron { transition: transform 0.3s ease; }
+.expanded { transform: rotate(180deg); }
+
+/* Section List */
+.sectionList {
+    padding: 0 20px 20px 40px;
+    margin-left: 33px; /* (48/2) + 20 - (1/2) */
+    border-left: 2px solid var(--teacher-primary-light);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+}
+
+/* Section Node */
+.sectionNode { position: relative; }
+.sectionNode::before { /* Connecting line to chapter */
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: -25px; /* (40 - 33/2) */
+    width: 24px;
+    height: 2px;
+    background-color: var(--teacher-primary-light);
+}
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+.sectionHeader .chevron { font-size: 12px; }
+.sectionTitle { font-size: 16px; font-weight: 500; }
+
+/* Point List */
+.pointList {
+    padding: 16px 0 0 40px;
+    margin-left: 5px; /* (12/2) */
+    border-left: 2px dashed #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+}
+
+/* Point Node */
+.pointNode {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+.pointNode:hover { background-color: #f9fafb; }
+.pointNode:hover .pointActions { opacity: 1; }
+.pointNode::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -35px; /* (40-5) */
+    width: 34px;
+    height: 2px;
+    background-color: #e5e7eb;
+}
+.pointType {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 16px;
+    margin-right: 12px;
+}
+.typeCore { background-color: #fef2f2; color: #b91c1c; }
+.typeImportant { background-color: #fffbeb; color: #b45309; }
+.typeOptional { background-color: #eff6ff; color: #1d4ed8; }
+.pointTitle { flex-grow: 1; font-size: 14px; }
+.pointActions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.pointActions button {
+    background: none; border: none; font-size: 14px;
+    color: var(--teacher-text-tertiary); cursor: pointer;
+}

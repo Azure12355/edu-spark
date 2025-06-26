@@ -12,6 +12,7 @@ import Tooltip from '@/components/common/Tooltip/Tooltip'; // 引入 Tooltip 组
 // 侧边栏链接数据保持不变
 const sidebarLinks = [
     { name: '课程介绍', href: '/introduction', icon: 'fas fa-info-circle' }, // 新增项
+    { name: '课程大纲', href: '/syllabus', icon: 'fas fa-sitemap' }, // 新增项
     { name: '班级管理', href: '/classes', icon: 'fas fa-users' },
     { name: '题库管理', href: '/questions', icon: 'fas fa-file-alt' },
     { name: '知识库', href: '/knowledge', icon: 'fas fa-database' },
