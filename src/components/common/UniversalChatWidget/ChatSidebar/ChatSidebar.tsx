@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ChatSidebar.module.css';
 import Tooltip from '@/components/common/Tooltip/Tooltip';
+// 新增导入
+import { TeacherCourse } from '@/lib/data/teacherAssistantCourseData';
 
-interface ChatSidebarProps {
-    children?: React.ReactNode;
-}
-
-// ... (模拟数据保持不变)
+// 原有的 mock 数据
 const topMenuItems = [
     { id: 'search', icon: 'fas fa-search', text: 'AI 搜索' },
     { id: 'write', icon: 'fas fa-pencil-alt', text: '帮我写作' },
@@ -25,12 +23,22 @@ const historyItems = [
     { id: 'h6', icon: 'far fa-comment', text: '绘制漫画场景' },
 ];
 
-const ChatSidebar: React.FC<ChatSidebarProps> = ({ children }) => {
+
+// 修改 Props 接口
+interface ChatSidebarProps {
+    children?: React.ReactNode;
+    currentCourse: TeacherCourse | null;
+    onCourseSelectClick: () => void;
+    onNewChatClick: () => void;
+}
+
+
+const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentCourse, onCourseSelectClick, onNewChatClick }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeItem, setActiveItem] = useState('h3');
 
     const sidebarVariants = {
-        open: { width: 260 },
+        open: { width: 280 },
         collapsed: { width: 68 }
     };
 
@@ -49,7 +57,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({ children }) => {
         >
             <div className={styles.sidebar}>
                 <div className={styles.header}>
-                    {/* 1. 将切换按钮放在最前面（由于 flex-direction: row-reverse, 它会显示在最右侧） */}
                     <button
                         className={styles.toggleButton}
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -60,20 +67,37 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({ children }) => {
                             animate={{ rotate: isCollapsed ? 180 : 0 }}
                         />
                     </button>
-                    {/* 2. 使用 AnimatePresence 包裹“新对话”按钮 */}
+
                     <AnimatePresence>
                         {!isCollapsed && (
-                            <motion.button
-                                key="new-chat-button"
-                                className={styles.newChatButton}
-                                initial={{ opacity: 0, flexGrow: 0 }}
-                                animate={{ opacity: 1, flexGrow: 1 }}
-                                exit={{ opacity: 0, flexGrow: 0 }}
-                                transition={{ duration: 0.1 }}
+                            <motion.div
+                                key="header-content"
+                                className={styles.headerContent}
+                                initial={{ opacity: 0, width: 0, x: -20 }}
+                                animate={{ opacity: 1, width: 'auto', x: 0 }}
+                                exit={{ opacity: 0, width: 0, x: -20, transition: { duration: 0.1 } }}
+                                transition={{ duration: 0.2, delay: 0.05 }}
                             >
-                                <i className="fas fa-plus"></i>
-                                <span>新对话</span>
-                            </motion.button>
+                                {/* --- 新增的课程选择框 --- */}
+                                <div className={styles.courseSelector} onClick={onCourseSelectClick} title="点击切换课程">
+                                    <div className={styles.courseSelectorContent}>
+                                        <div className={styles.courseIcon} style={{ backgroundColor: currentCourse?.color || '#6c757d' }}>
+                                            <i className={currentCourse?.icon || 'fas fa-book'}></i>
+                                        </div>
+                                        <div className={styles.courseDetails}>
+                                            <span className={styles.courseNameLabel}>当前课程</span>
+                                            <span className={styles.courseNameValue}>{currentCourse?.name || '未选择'}</span>
+                                        </div>
+                                    </div>
+                                    <i className={`fas fa-chevron-down ${styles.courseSelectorChevron}`}></i>
+                                </div>
+
+                                {/* 原有的新建对话按钮 */}
+                                <button className={styles.newChatButton} onClick={onNewChatClick}>
+                                    <i className="fas fa-plus"></i>
+                                    <span>新对话</span>
+                                </button>
+                            </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
@@ -114,7 +138,6 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({ children }) => {
                         ))}
                     </div>
                 </div>
-                {/* 底部用户区可以放在这里 */}
             </div>
         </motion.aside>
     );

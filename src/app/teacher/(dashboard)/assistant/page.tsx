@@ -1,23 +1,27 @@
-// src/app/teacher/assistant/page.tsx
+// src/app/teacher/(dashboard)/assistant/page.tsx
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './assistant.module.css';
 
-// 导入所有需要的组件
+// 导入所有需要的通用组件
 import ChatSidebar from '@/components/common/UniversalChatWidget/ChatSidebar/ChatSidebar';
 import ChatPanel from '@/components/common/UniversalChatWidget/ChatPanel/ChatPanel';
-import ChatHeader from '@/components/common/UniversalChatWidget/ChatHeader/ChatHeader';
 import WelcomeScreen from '@/components/common/UniversalChatWidget/WelcomeScreen/WelcomeScreen';
-import ChatInputForm from '@/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm';
-import SkillSelector, { Skill } from '@/components/common/UniversalChatWidget/SkillSelector/SkillSelector';
 import MessageBubble, { BubbleMessage } from '@/components/common/UniversalChatWidget/MessageBubble/MessageBubble';
 import { PromptCardData } from '@/components/common/UniversalChatWidget/PromptCard/PromptCard';
+import ChatInputForm from '@/components/common/UniversalChatWidget/ChatInputForm/ChatInputForm';
+import SkillSelector, { Skill } from '@/components/common/UniversalChatWidget/SkillSelector/SkillSelector';
 import ChatFooter from '@/components/common/UniversalChatWidget/ChatFooter/ChatFooter';
 import { useToast } from '@/hooks/useToast';
 
-// 模拟数据 (保持不变)
+// --- 核心改造：导入课程选择相关组件和数据 ---
+import CourseSelectionModal from '@/components/teacher/assistant/CourseSelectionModal/CourseSelectionModal';
+import { mockTeacherCourses, TeacherCourse } from '@/lib/data/teacherAssistantCourseData';
+
+
+// 原有的模拟数据
 const teacherWelcomeData = {
     title: "我是您的专属备课助教",
     subtitle: "从课程设计、教案生成到题目创作，我能为您提供全方位的教学支持。您可以直接提问，或从下面的卡片开始。",
@@ -38,7 +42,12 @@ const teacherSkills: Skill[] = [
 
 
 export default function TeacherAssistantPage() {
-    // 对话逻辑 (保持不变)
+    // --- 核心改造：添加课程选择相关状态 ---
+    const [courses, setCourses] = useState<TeacherCourse[]>([]);
+    const [selectedCourse, setSelectedCourse] = useState<TeacherCourse | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // 原有的对话状态
     const [messages, setMessages] = useState<BubbleMessage[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -47,6 +56,35 @@ export default function TeacherAssistantPage() {
     const abortControllerRef = useRef<AbortController | null>(null);
     const showToast = useToast();
 
+    // --- 核心改造：在页面加载时获取课程数据并设置默认课程 ---
+    useEffect(() => {
+        const loadedCourses = mockTeacherCourses; // 在实际应用中，这里会是 API 请求
+        setCourses(loadedCourses);
+
+        if (loadedCourses.length > 0) {
+            setSelectedCourse(loadedCourses[0]);
+        } else {
+            // 如果没有课程，设置一个默认的占位课程
+            setSelectedCourse({
+                id: 'default-course',
+                name: 'EduSpark 默认课程',
+                term: '通用',
+                icon: 'fas fa-chalkboard-teacher',
+                color: '#6c757d',
+                knowledgeBaseCount: 0,
+            });
+        }
+    }, []);
+
+    // --- 核心改造：处理课程选择的逻辑 ---
+    const handleSelectCourse = (course: TeacherCourse) => {
+        setSelectedCourse(course);
+        // 切换课程后，清空当前对话，并给出提示
+        setMessages([]);
+        showToast({ message: `已切换到《${course.name}》课程`, type: 'info' });
+    };
+
+    // 原有的对话处理逻辑
     const handleSendMessage = async (data: { text: string; mode: any }) => {
         let content = data.text.trim();
         if (!content) return;
@@ -55,6 +93,10 @@ export default function TeacherAssistantPage() {
         if (skillName) {
             content = `[使用${skillName}功能] ${content}`;
         }
+
+        // 在发送消息时，可以附带当前课程信息
+        const contextMessage = `当前课程: ${selectedCourse?.name || '无'}\n\n用户提问: ${content}`;
+        console.log("发送包含课程上下文的消息:", contextMessage);
 
         setIsSending(true);
         abortControllerRef.current = new AbortController();
@@ -72,7 +114,7 @@ export default function TeacherAssistantPage() {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: apiMessagesHistory }),
+                body: JSON.stringify({ messages: apiMessagesHistory, courseId: selectedCourse?.id }), // 向API传递courseId
                 signal: abortControllerRef.current.signal,
             });
 
@@ -128,7 +170,12 @@ export default function TeacherAssistantPage() {
 
     return (
         <div className={styles.pageContainer}>
-            <ChatSidebar />
+            <ChatSidebar
+                currentCourse={selectedCourse}
+                onCourseSelectClick={() => setIsModalOpen(true)}
+                onNewChatClick={handleClearChat}
+            />
+
             <div className={styles.chatPanelContainer}>
                 <ChatPanel
                     overrideClassName={styles.chatPanelOverride}
@@ -173,6 +220,15 @@ export default function TeacherAssistantPage() {
                     footer={<ChatFooter />}
                 />
             </div>
+
+            {/* --- 核心改造：渲染课程选择弹窗 --- */}
+            <CourseSelectionModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                courses={courses}
+                selectedCourse={selectedCourse}
+                onSelectCourse={handleSelectCourse}
+            />
         </div>
     );
 }

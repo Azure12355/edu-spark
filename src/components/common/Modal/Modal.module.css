@@ -14,7 +14,7 @@
     padding: 20px;
 }
 .modal {
-    background-color: var(--student-white);
+    background-color: var(--bg-light-gray);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -28,7 +28,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    border-bottom: 1px solid var(--student-border);
+    border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 .modalHeader h2 {
@@ -38,7 +38,7 @@
 }
 .closeButton {
     background: none; border: none; font-size: 18px;
-    color: var(--student-text-tertiary); cursor: pointer;
+    color: var(--text-light); cursor: pointer;
 }
 .modalBody {
     padding: 24px;
@@ -50,7 +50,7 @@
     justify-content: flex-end;
     gap: 12px;
     padding: 16px 24px;
-    border-top: 1px solid var(--student-border);
+    border-top: 1px solid var(--border-color);
     background-color: #f9fafb;
     flex-shrink: 0;
 }
@@ -60,16 +60,16 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px solid var(--student-border);
+    border: 1px solid var(--border-color);
 }
 .cancelButton {
-    background-color: var(--student-white);
-    color: var(--student-text-secondary);
+    background-color: var(--bg-light-gray);
+    color: var(--text-dark);
 }
 .confirmButton {
-    background-color: var(--student-primary);
+    background-color: var(--primary-blue);
     color: white;
-    border-color: var(--student-primary);
+    border-color: var(--primary-blue);
 }
 .confirmButton:disabled {
     opacity: 0.5;

@@ -1,0 +1,121 @@
+/* src/components/teacher/assistant/CourseSelectionModal/CourseSelectionModal.module.css */
+.courseList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.courseItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 2px solid var(--teacher-border-color);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.courseItem:hover {
+    border-color: #a5b4fc;
+    background-color: #f4f6ff;
+}
+
+.courseItem.selected {
+    border-color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.1);
+}
+
+.courseIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.courseInfo {
+    flex-grow: 1;
+}
+
+.courseName {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: var(--teacher-text-primary);
+}
+
+.courseTerm {
+    font-size: 13px;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+}
+
+.courseMeta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--teacher-text-secondary);
+}
+
+.knowledgeCount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    background-color: #f3f4f6;
+    padding: 4px 10px;
+    border-radius: 16px;
+}
+
+.courseItem.selected .knowledgeCount {
+    background-color: white;
+}
+
+.checkIcon {
+    font-size: 22px;
+    color: var(--teacher-primary);
+}
+
+.footerButton {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border);
+}
+
+.cancelButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+}
+.cancelButton:hover {
+    background-color: #f8f8f8;
+}
+
+.confirmButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+}
+.confirmButton:hover {
+    background-color: #1a5cff;
+}
+.confirmButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+}
+
+.noCourses {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--teacher-text-tertiary);
+}

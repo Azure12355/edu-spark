@@ -49,7 +49,7 @@ const contentConsumptionVolumeData = userRetentionVolumeData.map(item => ({...it
 // Welcome Header Component
 const WelcomeHeader = () => (
     <div>
-        <h2 style={{ fontSize: '24px', fontWeight: 600, margin: '0 0 4px' }}>欢迎回来，王立群</h2>
+        <h2 style={{ fontSize: '24px', fontWeight: 600, margin: '0 0 4px' }}>欢迎回来，章鱼哥</h2>
         <p style={{ fontSize: '14px', color: '#86909C', margin: 0 }}>高效管理您的课程智能体，开启新一代数字化教学。</p>
     </div>
 );
