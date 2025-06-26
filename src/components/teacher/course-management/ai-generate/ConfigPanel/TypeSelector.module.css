@@ -1,0 +1,13 @@
+/* src/components/teacher/course-management/ai-generate/ConfigPanel/TypeSelector.module.css */
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
+.cardTitle { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); margin: 0 0 16px; }
+.cardTitle span { color: var(--teacher-red); margin-right: 4px; }
+.checkboxGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 12px; }
+.checkboxLabel { display: flex; align-items: center; gap: 8px; cursor: pointer; position: relative; font-size: 14px; user-select: none; }
+.checkboxInput { opacity: 0; width: 0; height: 0; position: absolute; }
+.checkboxVisual { width: 18px; height: 18px; border: 2px solid #bdc3c7; border-radius: 4px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
+.checkboxVisual .icon { font-size: 12px; color: white; transform: scale(0); transition: transform 0.2s ease-in-out; }
+.checkboxInput:checked + .checkboxVisual { background-color: var(--teacher-primary); border-color: var(--teacher-primary); }
+.checkboxInput:checked + .checkboxVisual .icon { transform: scale(1); }
+.checkboxText { flex-grow: 1; }
+.checkboxLabel:hover .checkboxVisual { border-color: var(--teacher-primary); }

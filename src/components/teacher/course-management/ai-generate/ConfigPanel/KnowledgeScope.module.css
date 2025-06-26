@@ -1,0 +1,12 @@
+/* src/components/teacher/course-management/ai-generate/ConfigPanel/KnowledgeScope.module.css */
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
+.cardTitle { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+.list { display: flex; flex-direction: column; gap: 10px; max-height: 150px; overflow-y: auto; padding-right: 8px; margin-bottom: 12px; }
+.list::-webkit-scrollbar { width: 4px; }
+.list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+.tag { display: flex; justify-content: space-between; align-items: center; background-color: #f9fafb; border: 1px solid #f3f4f6; padding: 8px 12px; border-radius: 6px; transition: all 0.2s; }
+.tag button { background: none; border: none; color: #9ca3af; cursor: pointer; transition: color 0.2s; }
+.tag:hover { border-color: #e5e7eb; }
+.tag:hover button { color: var(--teacher-red); }
+.actions { display: flex; gap: 12px; }
+.actions button { flex: 1; } /* teacher-button-secondary is a global class */

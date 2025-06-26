@@ -1,0 +1,5 @@
+/* src/components/teacher/course-management/ai-generate/ConfigPanel/SupplementaryContent.module.css */
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
+.cardTitle { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); margin: 0 0 12px; }
+.textarea { width: 100%; min-height: 100px; resize: vertical; padding: 12px; border-radius: 8px; border: 1px solid var(--teacher-border-color); font-family: inherit; font-size: 14px; transition: all 0.2s; }
+.textarea:focus { border-color: var(--teacher-primary); box-shadow: 0 0 0 3px var(--teacher-primary-light-bg); outline: none; }
