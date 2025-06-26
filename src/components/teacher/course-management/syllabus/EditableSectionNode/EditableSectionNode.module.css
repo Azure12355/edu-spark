@@ -1,0 +1,24 @@
+/* src/components/teacher/course-management/syllabus/EditableSectionNode/EditableSectionNode.module.css */
+.sectionContainer {
+    margin-left: 40px;
+    border-left: 2px solid var(--teacher-primary-light);
+    padding-left: 20px;
+}
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.dragHandle { cursor: grab; color: #d1d5db; }
+.dragHandle:hover { color: #9ca3af; }
+.itemActions { margin-left: auto; display: flex; gap: 8px; }
+.itemActions button { background: none; border: none; font-size: 14px; color: var(--teacher-text-tertiary); cursor: pointer; transition: color 0.2s; }
+.deleteButton:hover { color: #ef4444; }
+.itemActions button:hover { color: var(--teacher-primary); }
+
+.pointList { list-style: none; padding: 0; margin: 0; }

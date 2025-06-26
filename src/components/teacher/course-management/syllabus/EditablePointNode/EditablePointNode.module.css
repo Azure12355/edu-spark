@@ -1,0 +1,46 @@
+/* src/components/teacher/course-management/syllabus/EditablePointNode/EditablePointNode.module.css */
+.pointItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.dragHandle { cursor: grab; color: #d1d5db; }
+.dragHandle:hover { color: #9ca3af; }
+
+.pointTitleInput { flex-grow: 1; }
+
+.itemActions {
+    margin-left: auto;
+    display: flex;
+}
+
+.itemActions button {
+    background: none; border: none; font-size: 14px;
+    color: var(--teacher-text-tertiary); cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px;
+}
+.deleteButton:hover { color: #ef4444; }
+
+/* 标签选择器样式 */
+.typeSelector { display: flex; align-items: center; gap: 8px; }
+.typeTag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.typeCore { background-color: #fef2f2; color: #b91c1c; }
+.typeImportant { background-color: #fffbeb; color: #b45309; }
+.typeOptional { background-color: #eff6ff; color: #1d4ed8; }
+
+.typeTag.activeType {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+}

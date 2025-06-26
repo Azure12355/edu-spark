@@ -26,6 +26,9 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none; /* for Link */
+    display: inline-flex;  /* for Link */
+    align-items: center;  /* for Link */
 }
 .cancelButton { background-color: white; color: var(--teacher-text-secondary); }
 .saveButton { background-color: var(--teacher-primary); color: white; border-color: var(--teacher-primary); }
@@ -53,11 +56,35 @@
     margin: 0 4px;
 }
 
-.chapterContainer, .sectionContainer {
+/* Reorder (拖拽) 容器和项目样式 */
+.reorderGroup {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.reorderItem {
     background-color: var(--teacher-bg-card);
     border-radius: 8px;
+    position: relative;
+    cursor: grab;
+}
+.reorderItem:active {
+    cursor: grabbing;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.chapterContainer {
+    border-radius: 8px;
     border: 1px solid var(--teacher-border-color);
-    margin-bottom: 16px;
+}
+.sectionContainer {
+    margin-left: 40px;
+    border-left: 2px solid var(--teacher-primary-light);
+    padding-left: 20px;
 }
 
 .chapterHeader, .sectionHeader, .pointItem {
@@ -68,14 +95,12 @@
     font-size: 16px;
     font-weight: 500;
 }
-.chapterHeader { padding: 16px 20px; font-size: 18px; font-weight: 600; }
-.sectionHeader { background-color: #f9fafb; }
+.chapterHeader { padding: 16px 20px; font-weight: 600; }
+.chapterTitle { font-size: 18px; }
+.sectionHeader { background-color: #f9fafb; border-radius: 6px; }
 .pointItem { border-top: 1px solid #f3f4f6; }
 
-.dragHandle {
-    cursor: grab;
-    color: #d1d5db;
-}
+.dragHandle { color: #d1d5db; }
 .dragHandle:hover { color: #9ca3af; }
 
 .editableInput {
@@ -83,8 +108,12 @@
     border-radius: 4px;
     border: 1px solid var(--teacher-primary);
     outline: none;
-    font: inherit;
-    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    flex-grow: 1;
+    min-width: 100px;
 }
 
 .itemActions {
@@ -95,17 +124,44 @@
 .itemActions button {
     background: none; border: none; font-size: 14px;
     color: var(--teacher-text-tertiary); cursor: pointer;
+    transition: color 0.2s;
 }
 .itemActions .deleteButton:hover { color: #ef4444; }
 .itemActions button:hover { color: var(--teacher-primary); }
 
 .pointList {
-    padding-left: 40px;
+    padding-left: 20px;
 }
+
+/* 标签选择器样式 */
+.typeSelector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.typeTag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.typeCore { background-color: #fef2f2; color: #b91c1c; }
+.typeImportant { background-color: #fffbeb; color: #b45309; }
+.typeOptional { background-color: #eff6ff; color: #1d4ed8; }
+
+.typeTag.activeType {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+}
+
 
 .addChapterButton {
     width: 100%;
     padding: 16px;
+    margin-top: 16px;
     border-radius: 8px;
     border: 2px dashed var(--teacher-border-color);
     background-color: #f9fafb;
@@ -118,4 +174,5 @@
 .addChapterButton:hover {
     border-color: var(--teacher-primary);
     color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
 }

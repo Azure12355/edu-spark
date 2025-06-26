@@ -1,0 +1,22 @@
+/* src/components/teacher/course-management/syllabus/EditableChapterNode/EditableChapterNode.module.css */
+.chapterContainer {
+    background-color: var(--teacher-bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color);
+}
+.chapterHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    font-weight: 600;
+}
+.chapterTitle { font-size: 18px; }
+.dragHandle { cursor: grab; color: #d1d5db; }
+.dragHandle:hover { color: #9ca3af; }
+.itemActions { margin-left: auto; display: flex; gap: 8px; }
+.itemActions button { background: none; border: none; font-size: 14px; color: var(--teacher-text-tertiary); cursor: pointer; transition: color 0.2s; }
+.deleteButton:hover { color: #ef4444; }
+.itemActions button:hover { color: var(--teacher-primary); }
+
+.sectionList { list-style: none; padding: 0 0 16px; margin: 0; display: flex; flex-direction: column; gap: 16px; }

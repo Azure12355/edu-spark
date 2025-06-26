@@ -1,62 +1,75 @@
 // src/app/teacher/(dashboard)/courses/[id]/syllabus/edit/page.tsx
 "use client";
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Reorder } from 'framer-motion';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { syllabusData as initialSyllabusData, KnowledgePoint, SyllabusSection, SyllabusChapter } from '@/lib/data/syllabusData';
+import { useRouter, useParams } from 'next/navigation';
+import { SyllabusChapter } from '@/lib/data/syllabusData';
 import styles from './edit.module.css';
+import { useToast } from '@/hooks/useToast';
+import { useSyllabusStore } from '@/store/syllabusStore';
 
-// 可编辑输入框组件
-const EditableInput: React.FC<{ value: string; onSave: (newValue: string) => void; }> = ({ value, onSave }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [text, setText] = useState(value);
-
-    const handleSave = () => {
-        onSave(text);
-        setIsEditing(false);
-    };
-
-    if (isEditing) {
-        return (
-            <input
-                type="text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onBlur={handleSave}
-                onKeyDown={(e) => e.key === 'Enter' && handleSave()}
-                className={styles.editableInput}
-                autoFocus
-            />
-        );
-    }
-    return <span onDoubleClick={() => setIsEditing(true)}>{value}</span>;
-};
-
+// 1. 导入所有新创建的组件
+import EditableChapterNode from '@/components/teacher/course-management/syllabus/EditableChapterNode/EditableChapterNode';
 
 export default function SyllabusEditPage() {
     const params = useParams();
+    const router = useRouter();
     const courseId = params.id;
-    const [syllabus, setSyllabus] = useState(initialSyllabusData);
-    const [draggedItem, setDraggedItem] = useState<any>(null);
+    const showToast = useToast();
 
-    // --- 编辑逻辑 (此处为示例，真实应用中应调用API) ---
-    const handleUpdate = (path: (string|number)[], newValue: any) => {
-        // 这是一个简化的更新逻辑，真实应用中会更复杂
-        console.log(`Updating path ${path.join('.')} with value:`, newValue);
-        // 实际应使用 immer 或类似库来安全地更新嵌套状态
+    const { syllabus: globalSyllabus, setSyllabus: setGlobalSyllabus } = useSyllabusStore();
+    const [localSyllabus, setLocalSyllabus] = useState<SyllabusChapter[]>([]);
+
+    useEffect(() => {
+        setLocalSyllabus(JSON.parse(JSON.stringify(globalSyllabus)));
+    }, [globalSyllabus]);
+
+    // --- 核心逻辑区 ---
+    const updateLocalSyllabus = (updater: (draft: SyllabusChapter[]) => void) => {
+        setLocalSyllabus(current => {
+            const draft = JSON.parse(JSON.stringify(current));
+            updater(draft);
+            return draft;
+        });
     };
 
-    const handleDelete = (path: (string|number)[]) => {
-        if (window.confirm("确定要删除吗？")) {
-            console.log(`Deleting path ${path.join('.')}`);
-        }
+    // 简化版的深层路径更新函数
+    const handleUpdate = (path: (number|string)[], value: any) => {
+        updateLocalSyllabus(draft => {
+            let current: any = draft;
+            // @ts-ignore
+            const pathSegments = path.flatMap((p: any) => typeof p === 'string' ? p.split('.') : [p]);
+            for (let i = 0; i < pathSegments.length - 1; i++) {
+                current = current[pathSegments[i]];
+            }
+            current[pathSegments[pathSegments.length - 1]] = value;
+        });
     };
 
-    const handleAdd = (path: (string|number)[], type: 'chapter' | 'section' | 'point') => {
-        console.log(`Adding new ${type} at path ${path.join('.')}`);
+    const handleAdd = (path: number[], type: 'chapter' | 'section' | 'point') => {
+        const newItemId = `${type}-${Date.now()}`;
+        updateLocalSyllabus(draft => {
+            if (type === 'chapter') {
+                draft.push({ id: newItemId, title: '新章节', description: '请填写描述', icon: 'fas fa-book', sections: [] });
+            } else if (type === 'section') {
+                draft[path[0]].sections.push({ id: newItemId, title: '新小节', points: [] });
+            } else if (type === 'point') {
+                draft[path[0]].sections[path[1]].points.push({ id: newItemId, title: '新知识点', type: '重点' });
+            }
+        });
+        showToast({ message: "添加成功", type: 'info' });
     };
 
+    const handleSaveSyllabus = () => {
+        setGlobalSyllabus(localSyllabus);
+        showToast({ message: "大纲已成功保存！", type: 'success' });
+        router.push(`/teacher/courses/${courseId}/syllabus`);
+    };
+
+    if (!localSyllabus.length && globalSyllabus.length > 0) {
+        return <div>正在加载大纲数据...</div>;
+    }
 
     return (
         <div className={styles.pageContainer}>
@@ -68,8 +81,8 @@ export default function SyllabusEditPage() {
                     <h1>编辑课程大纲</h1>
                 </div>
                 <div className={styles.headerActions}>
-                    <button className={`${styles.actionButton} ${styles.cancelButton}`}>取消</button>
-                    <button className={`${styles.actionButton} ${styles.saveButton}`}>保存大纲</button>
+                    <Link href={`/teacher/courses/${courseId}/syllabus`} className={`${styles.actionButton} ${styles.cancelButton}`}>取消</Link>
+                    <button onClick={handleSaveSyllabus} className={`${styles.actionButton} ${styles.saveButton}`}>保存并返回</button>
                 </div>
             </header>
 
@@ -79,43 +92,20 @@ export default function SyllabusEditPage() {
                     双击文本可直接编辑，拖动<i className="fas fa-grip-vertical"></i>图标可调整顺序。
                 </p>
 
-                {syllabus.map((chapter, chapIndex) => (
-                    <div key={chapter.id} className={styles.chapterContainer}>
-                        <div className={styles.chapterHeader}>
-                            <i className={`fas fa-grip-vertical ${styles.dragHandle}`}></i>
-                            <EditableInput value={chapter.title} onSave={(v) => handleUpdate([chapIndex, 'title'], v)} />
-                            <div className={styles.itemActions}>
-                                <button onClick={() => handleAdd([chapIndex], 'section')}><i className="fas fa-plus-circle"></i> 添加小节</button>
-                                <button onClick={() => handleDelete([chapIndex])} className={styles.deleteButton}><i className="fas fa-trash-alt"></i></button>
-                            </div>
-                        </div>
+                <Reorder.Group axis="y" values={localSyllabus} onReorder={setLocalSyllabus} className={styles.reorderGroup}>
+                    {localSyllabus.map((chapter, chapIndex) => (
+                        <Reorder.Item key={chapter.id} value={chapter}>
+                            <EditableChapterNode
+                                chapter={chapter}
+                                onUpdate={(field, value) => handleUpdate([chapIndex, field], value)}
+                                onDelete={() => setLocalSyllabus(localSyllabus.filter(c => c.id !== chapter.id))}
+                                onAddSection={() => handleAdd([chapIndex], 'section')}
+                                onAddPoint={(secIndex) => handleAdd([chapIndex, secIndex], 'point')}
+                            />
+                        </Reorder.Item>
+                    ))}
+                </Reorder.Group>
 
-                        {chapter.sections.map((section, secIndex) => (
-                            <div key={section.id} className={styles.sectionContainer}>
-                                <div className={styles.sectionHeader}>
-                                    <i className={`fas fa-grip-vertical ${styles.dragHandle}`}></i>
-                                    <EditableInput value={section.title} onSave={(v) => handleUpdate([chapIndex, 'sections', secIndex, 'title'], v)} />
-                                    <div className={styles.itemActions}>
-                                        <button onClick={() => handleAdd([chapIndex, 'sections', secIndex], 'point')}><i className="fas fa-plus-circle"></i> 添加知识点</button>
-                                        <button onClick={() => handleDelete([chapIndex, 'sections', secIndex])} className={styles.deleteButton}><i className="fas fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-
-                                <div className={styles.pointList}>
-                                    {section.points.map((point, ptIndex) => (
-                                        <div key={point.id} className={styles.pointItem}>
-                                            <i className={`fas fa-grip-vertical ${styles.dragHandle}`}></i>
-                                            <EditableInput value={point.title} onSave={(v) => handleUpdate([chapIndex, 'sections', secIndex, 'points', ptIndex, 'title'], v)} />
-                                            <div className={styles.itemActions}>
-                                                <button onClick={() => handleDelete([chapIndex, 'sections', secIndex, 'points', ptIndex])} className={styles.deleteButton}><i className="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
                 <button className={styles.addChapterButton} onClick={() => handleAdd([], 'chapter')}>
                     <i className="fas fa-plus"></i> 添加新章节
                 </button>
