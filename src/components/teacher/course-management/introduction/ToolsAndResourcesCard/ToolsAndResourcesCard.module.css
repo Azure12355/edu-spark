@@ -1,0 +1,104 @@
+/* src/components/teacher/course-management/introduction/ToolsAndResourcesCard/ToolsAndResourcesCard.module.css */
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 让两个部分上下分布 */
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--teacher-text-primary);
+    position: relative;
+    padding-left: 14px;
+}
+
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+.toolsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 16px;
+}
+
+.toolItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    background-color: #f9fafb;
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+    cursor: default;
+}
+
+.toolItem:hover {
+    transform: scale(1.05);
+    border-color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.toolItem i {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.toolItem span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+}
+
+.resourcesSection {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--teacher-border-color);
+}
+
+.onlineResourcesList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.onlineResourceItem {
+    font-size: 15px;
+    color: var(--teacher-link-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.onlineResourceItem:hover {
+    color: #1e5fe8;
+    text-decoration: underline;
+}
+
+.onlineResourceItem i {
+    font-size: 13px;
+    opacity: 0.8;
+}

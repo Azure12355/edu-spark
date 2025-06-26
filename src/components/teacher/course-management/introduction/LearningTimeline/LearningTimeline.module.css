@@ -1,7 +1,60 @@
 /* src/components/teacher/course-management/introduction/LearningTimeline/LearningTimeline.module.css */
-.timelineContainer {
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    /* 核心修改 1: 让卡片成为 flex 容器，并撑满其在网格布局中的分配高度 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--teacher-text-primary);
     position: relative;
-    padding: 20px 0;
+    padding-left: 14px;
+    flex-shrink: 0; /* 固定标题高度，不参与 flex-grow */
+}
+
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+/* 核心修改 2: 重构时间线容器的样式 */
+.timelineContainer {
+    flex-grow: 1; /* 让此容器占据卡片内所有剩余的垂直空间 */
+    overflow-y: auto; /* 当内容溢出时，显示垂直滚动条 */
+    min-height: 0; /* 关键修复！防止 flex 子项的内容撑开父容器 */
+    position: relative;
+    padding: 20px 10px 20px 20px; /* 调整内边距，给滚动条和左侧图标留出空间 */
+
+    /* 美化滚动条 (适用于 WebKit 内核浏览器, 如 Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #e5e7eb;
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #d1d5db;
+    }
 }
 
 /* 垂直中心线 */
@@ -9,7 +62,7 @@
     content: '';
     position: absolute;
     top: 0;
-    left: 24px; /* 图标中心位置 */
+    left: 44px; /* 20px padding + 24px (icon width/2) */
     height: 100%;
     width: 3px;
     background-color: var(--teacher-primary-light);
@@ -28,7 +81,7 @@
 
 .timelineIcon {
     position: absolute;
-    left: 0;
+    left: 20px; /* 与左侧 padding 保持一致 */
     top: 0;
     width: 50px;
     height: 50px;
@@ -44,7 +97,7 @@
 }
 
 .timelineContent {
-    padding-left: 80px;
+    padding-left: 85px; /* (20 padding + 50 icon + 15 gap) */
     width: 100%;
 }
 

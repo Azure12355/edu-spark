@@ -1,103 +1,163 @@
 /* src/components/teacher/course-management/introduction/ResourceCarousel/ResourceCarousel.module.css */
+
 .carouselContainer {
     position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 0; /* 移除内边距，因为卡片内部自己管理 */
+    background-color: var(--teacher-bg-card);
+    overflow: hidden; /* 隐藏溢出的辉光 */
+    border-radius: 16px; /* 与其他卡片统一 */
 }
 
-.carouselTrackWrapper {
-    overflow: hidden;
+/* 动态背景辉光效果 */
+.carouselContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 50% 0%, var(--bg-glow-color, transparent), transparent 70%);
+    transition: background-image 0.5s ease-in-out;
+    opacity: 0.8;
+    z-index: 0;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--teacher-text-primary);
     position: relative;
-    flex-grow: 1;
+    padding: 24px 24px 0;
+    z-index: 2;
 }
 
-.carouselTrack {
+.carouselWrapper {
+    position: relative;
+    height: 250px; /* 调整展示区域高度 */
     display: flex;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 16px 0;
+    z-index: 1;
 }
 
 .slide {
-    flex: 0 0 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    position: absolute;
+    width: 150px; /* 定义书籍宽度 */
+    height: 220px; /* 定义书籍高度 */
 }
 
 .bookCover {
-    width: 150px;
-    height: 220px;
+    width: 100%;
+    height: 100%;
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    transform: perspective(1000px) rotateY(-5deg);
-    transition: transform 0.3s ease;
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+    transform: perspective(1200px) rotateY(0deg) scale(1);
+    border: 2px solid white;
 }
 
-.slide:hover .bookCover {
-    transform: perspective(1000px) rotateY(0deg) scale(1.05);
+/* 左右两侧的背景书籍封面 */
+.backgroundCover {
+    position: absolute;
+    width: 130px;
+    height: 190px;
+    border-radius: 8px;
+    overflow: hidden;
+    filter: blur(4px) grayscale(0.5);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+.bgCoverLeft {
+    left: 15%;
+    transform: perspective(1000px) rotateY(25deg);
+}
+.bgCoverRight {
+    right: 15%;
+    transform: perspective(1000px) rotateY(-25deg);
 }
 
 .bookInfo {
     text-align: center;
+    padding: 0 24px;
+    z-index: 2;
 }
 
 .bookTitle {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     margin: 0 0 4px 0;
+    color: var(--teacher-text-primary);
 }
 
 .bookAuthor {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--teacher-text-secondary);
     margin: 0;
 }
 
+/* 将控制器整合进卡片底部 */
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px 0;
+    padding: 16px 24px 24px;
+    margin-top: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    border-top: 1px solid var(--teacher-border-color);
+    z-index: 2;
 }
 
 .navButton {
-    background: var(--teacher-bg-hover);
+    background: var(--teacher-bg-card);
     border: 1px solid var(--teacher-border-color);
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     color: var(--teacher-text-secondary);
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navButton:hover {
     background-color: var(--teacher-primary);
     color: white;
     border-color: var(--teacher-primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .dotsContainer {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background-color: #d1d5db;
     cursor: pointer;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dot:hover {
+    background-color: #a5b4fc;
 }
 
 .dot.active {
-    background-color: var(--teacher-primary);
+    background-color: var(--teacher-bg-card);
+    border-color: var(--teacher-primary);
     transform: scale(1.2);
 }

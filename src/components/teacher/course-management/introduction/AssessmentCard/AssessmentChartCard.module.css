@@ -1,0 +1,39 @@
+/* src/components/teacher/course-management/introduction/AssessmentChartCard/AssessmentChartCard.module.css */
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0; /* 减小标题与图表的间距 */
+    color: var(--teacher-text-primary);
+    position: relative;
+    padding-left: 14px;
+    flex-shrink: 0; /* 确保标题高度固定 */
+}
+
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+.chartContainer {
+    flex-grow: 1; /* 让图表容器填满所有剩余空间 */
+    width: 100%;
+    min-height: 250px; /* 保证图表在小容器中也有最小高度 */
+}
