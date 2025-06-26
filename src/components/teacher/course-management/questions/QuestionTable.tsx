@@ -1,6 +1,8 @@
 // src/components/teacher/course-management/questions/QuestionTable.tsx
 "use client";
 import React from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { Question } from '@/lib/data/questionBankData';
 import styles from './QuestionTable.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +12,9 @@ interface QuestionTableProps {
 }
 
 const QuestionTable: React.FC<QuestionTableProps> = ({ questions }) => {
+    const params = useParams();
+    const courseId = params.id;
+
     return (
         <div className={styles.tableContainer}>
             <div className={styles.tableWrapper}>
@@ -42,8 +47,14 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ questions }) => {
                                 <td>{q.createdAt}</td>
                                 <td className={styles.actionsCell}>
                                     <div className={styles.actions}>
-                                        <button title="预览"><i className="far fa-eye"></i></button>
-                                        <button title="编辑"><i className="fas fa-pen"></i></button>
+                                        {/* --- 核心修改：将预览按钮包裹在 Link 中 --- */}
+                                        <Link href={`/teacher/courses/${courseId}/questions/${q.id}/preview`} passHref>
+                                            <button title="预览"><i className="far fa-eye"></i></button>
+                                        </Link>
+                                        {/* --- 结束修改 --- */}
+                                        <Link href={`/teacher/courses/${courseId}/questions/${q.id}/edit`} passHref>
+                                            <button title="编辑"><i className="fas fa-pen"></i></button>
+                                        </Link>
                                         <button title="删除" className={styles.delete}><i className="fas fa-trash"></i></button>
                                     </div>
                                 </td>

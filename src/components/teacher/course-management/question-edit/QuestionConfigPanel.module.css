@@ -1,0 +1,12 @@
+/* src/components/teacher/course-management/question-edit/QuestionConfigPanel.module.css */
+.panel { display: flex; flex-direction: column; gap: 24px; }
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
+.cardTitle { font-size: 16px; font-weight: 600; margin: 0 0 16px; }
+.configGroup { display: flex; flex-direction: column; gap: 12px; }
+.label { font-size: 14px; color: var(--teacher-text-secondary); }
+.segmentedControl { display: flex; background-color: var(--teacher-bg-hover); padding: 4px; border-radius: 8px; }
+.segmentedControl button { flex: 1; padding: 8px; border: none; background: none; border-radius: 6px; cursor: pointer; }
+.segmentedControl button.active { background-color: var(--teacher-white); color: var(--teacher-primary); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.pointList { display: flex; flex-wrap: wrap; gap: 8px; }
+.pointTag { display: flex; align-items: center; gap: 6px; background-color: var(--teacher-primary-light); color: var(--teacher-primary); padding: 6px 10px; border-radius: 6px; font-size: 13px; }
+.editPointsButton { margin-top: 12px; width: 100%; }

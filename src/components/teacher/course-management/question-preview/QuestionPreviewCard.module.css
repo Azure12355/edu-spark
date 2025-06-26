@@ -1,0 +1,72 @@
+/* src/components/teacher/course-management/question-preview/QuestionPreviewCard.module.css */
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+}
+
+.header {
+    padding: 24px;
+    border-bottom: 1px solid var(--teacher-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h2 { font-size: 22px; font-weight: 600; margin: 0; }
+.metaTags { display: flex; gap: 12px; }
+.typeTag, .difficultyTag {
+    display: inline-block; padding: 6px 14px; border-radius: 16px;
+    font-size: 14px; font-weight: 500;
+}
+.typeTag { background-color: #eef2ff; color: #4338ca; }
+.difficultyTag.简单 { background-color: #dcfce7; color: #166534; }
+.difficultyTag.中等 { background-color: #fef9c3; color: #854d0e; }
+.difficultyTag.困难 { background-color: #fee2e2; color: #991b1b; }
+
+.body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.sectionTitle {
+    font-size: 16px; font-weight: 600; color: var(--teacher-text-primary);
+    padding-bottom: 8px; border-bottom: 1px solid #f3f4f6;
+    display: flex; align-items: center; gap: 8px;
+}
+.sectionTitle i { color: var(--teacher-primary); }
+
+.contentViewer, .optionsContainer {
+    font-size: 16px; line-height: 1.8; color: var(--teacher-text-secondary);
+}
+.optionsContainer { display: flex; flex-direction: column; gap: 12px; }
+.optionItem { display: flex; gap: 12px; align-items: center; }
+.optionItem .icon { color: #d1d5db; }
+.optionItem.correct .icon { color: #10b981; }
+.optionItem.correct .optionText { font-weight: 600; color: #059669; }
+
+.answerSection {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--teacher-border-color);
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+.pointList { display: flex; flex-wrap: wrap; gap: 8px; }
+.pointTag { background-color: #e5e7eb; color: #4b5563; padding: 4px 10px; border-radius: 6px; }

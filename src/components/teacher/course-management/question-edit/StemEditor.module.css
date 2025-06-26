@@ -1,0 +1,35 @@
+/* src/components/teacher/course-management/question-edit/StemEditor.module.css */
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px;
+}
+
+/* --- 核心修改区域 --- */
+.editorWrapper {
+    /* 移除所有高度和溢出限制 */
+    /* height: 300px; (删除) */
+    /* min-height: 200px; (删除) */
+    /* resize: vertical; (删除) */
+    /* overflow: hidden; (删除) */
+
+    /* 只保留边框和圆角样式 */
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+    overflow: hidden; /* 保留这个是为了让内部的圆角生效 */
+}
+.editorWrapper :global(.bytemd) {
+    /* 关键：让编辑器高度自适应内容，而不是填满父容器 */
+    height: auto;
+    border: none;
+}
+/* --- 结束修改 --- */
