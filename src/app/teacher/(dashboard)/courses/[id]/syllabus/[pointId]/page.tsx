@@ -8,22 +8,47 @@ import PointHeader from '@/components/teacher/course-management/point-detail/Poi
 import AuxiliarySidebar from '@/components/teacher/course-management/point-detail/AuxiliarySidebar/AuxiliarySidebar';
 import { getPointDetailById, PointDetail } from '@/lib/data/pointDetailData';
 import MarkdownRenderer from '@/components/common/MarkdownRenderer/MarkdownRenderer';
+import {useSyllabusStore} from "@/store/syllabusStore";
+import {KnowledgePoint} from "@/lib/data/syllabusData";
 
 export default function PointDetailPage() {
     const params = useParams();
     const pointId = params.pointId as string;
 
+    const { syllabus, pointDetails } = useSyllabusStore();
     const [pointDetail, setPointDetail] = useState<PointDetail | null>(null);
-    const contentRef = useRef<HTMLDivElement>(null); // Ref for the markdown content area
+    const contentRef = useRef<HTMLDivElement>(null);// Ref for the markdown content area
 
     useEffect(() => {
-        const detail = getPointDetailById(pointId);
-        setPointDetail(detail);
-        // 切换知识点时，滚动到顶部
+        let basePoint: KnowledgePoint | null = null;
+        for (const chapter of syllabus) {
+            for (const section of chapter.sections) {
+                const found = section.points.find(p => p.id === pointId);
+                if (found) {
+                    basePoint = found;
+                    break;
+                }
+            }
+            if (basePoint) break;
+        }
+
+        if (basePoint) {
+            const details = pointDetails[pointId] || {
+                difficulty: '中等',
+                tags: ['新知识点'],
+                viewCount: 0,
+                likeCount: 0,
+                content: '# 欢迎来到新知识点\n\n请点击右上角的【编辑内容】按钮开始创作。'
+            };
+            setPointDetail({ ...basePoint, ...details });
+        } else {
+            setPointDetail(null); // or redirect to a not found page
+        }
+
         if (contentRef.current) {
             contentRef.current.scrollTop = 0;
         }
-    }, [pointId]);
+    }, [pointId, syllabus, pointDetails]); // 依赖 store 中的数据
 
     if (!pointDetail) {
         return <div className={styles.pageContainer}>加载中...</div>;

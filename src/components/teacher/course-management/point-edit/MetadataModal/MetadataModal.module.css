@@ -1,0 +1,25 @@
+/* src/components/teacher/course-management/point-edit/MetadataModal/MetadataModal.module.css */
+.form { display: flex; flex-direction: column; gap: 20px; }
+.formGroup { display: flex; flex-direction: column; gap: 8px; }
+.formGroup label { font-size: 14px; font-weight: 500; }
+.formGroup input {
+    padding: 10px 12px; border: 1px solid var(--teacher-border-color);
+    border-radius: 6px; font-size: 15px; outline: none;
+    transition: all 0.2s;
+}
+.formGroup input:focus { border-color: var(--teacher-primary); box-shadow: 0 0 0 3px var(--teacher-primary-light-bg); }
+
+.difficultySelector { display: flex; gap: 12px; }
+.difficultySelector button {
+    flex: 1; padding: 10px; border: 1px solid var(--teacher-border-color);
+    background-color: var(--teacher-white); border-radius: 6px; cursor: pointer;
+}
+.difficultySelector button.active {
+    border-color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 600;
+}
+
+.footerButton { padding: 8px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; }
+.saveButton { background-color: var(--teacher-primary); color: white; border: 1px solid var(--teacher-primary); }

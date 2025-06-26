@@ -67,3 +67,41 @@
     align-items: center;
     gap: 6px;
 }
+.editButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+    font-weight: 500;
+}
+.editButton:hover {
+    background-color: #1e5fe8;
+    color: white;
+}
+
+/* --- 新增：骨架屏样式 --- */
+.skeleton {
+    min-height: 105px; /* 与真实卡片高度差不多 */
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeletonLine {
+    height: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.skeletonTitle {
+    width: 60%;
+    height: 28px;
+    margin-bottom: 8px;
+}
+
+.skeletonTags {
+    width: 40%;
+}

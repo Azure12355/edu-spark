@@ -17,7 +17,7 @@ export interface HotQuestion {
 }
 
 // 模拟的知识点详情数据
-const pointDetails: Record<string, Omit<PointDetail, keyof KnowledgePoint>> = {
+export const pointDetails: Record<string, Omit<PointDetail, keyof KnowledgePoint>> = {
     'p-3-1-1': {
         difficulty: '简单',
         tags: ['算法基础', '性能分析'],
