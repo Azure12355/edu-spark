@@ -14,18 +14,18 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background-color: var(--student-white);
+    background-color: white;
     border-radius: 8px;
     padding: 12px 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-left: 5px solid var(--toast-color);
+    border-left: 5px solid var(--primary-blue);
     width: 100%;
     max-width: 350px;
 }
 
 .toastIcon {
     font-size: 20px;
-    color: var(--toast-color);
+    color: var(--primary-blue);
     flex-shrink: 0;
 }
 
@@ -33,19 +33,19 @@
     flex-grow: 1;
     font-size: 14px;
     font-weight: 500;
-    color: var(--student-text-primary);
+    color: var(--text-light);
     margin: 0;
 }
 
 .closeButton {
     background: none;
     border: none;
-    color: var(--student-text-tertiary);
+    color: gray;
     cursor: pointer;
     font-size: 14px;
     padding: 4px;
     flex-shrink: 0;
 }
 .closeButton:hover {
-    color: var(--student-text-primary);
+    color: var(--text-dark);
 }
