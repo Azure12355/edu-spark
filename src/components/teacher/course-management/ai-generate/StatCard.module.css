@@ -1,0 +1,4 @@
+/* src/components/teacher/course-management/ai-generate/StatCard.module.css */
+.statCard { background-color: var(--teacher-bg-card); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 16px; text-align: center; }
+.statCard .label { font-size: 14px; color: var(--teacher-text-secondary); margin-bottom: 8px; }
+.statCard .value { font-size: 24px; font-weight: 600; color: var(--teacher-primary); }

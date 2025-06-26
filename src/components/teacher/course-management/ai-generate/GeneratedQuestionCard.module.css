@@ -1,0 +1,15 @@
+/* src/components/teacher/course-management/ai-generate/GeneratedQuestionCard.module.css */
+.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; }
+.header { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
+.meta { display: flex; align-items: center; gap: 8px; }
+.typeTag { background-color: var(--teacher-primary-light); color: var(--teacher-primary); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+.pointLabel { font-size: 12px; color: var(--teacher-text-secondary); }
+.pointTag { background-color: #f3f4f6; color: #4b5563; padding: 4px 8px; border-radius: 6px; font-size: 12px; }
+.actions button { background: none; border: none; color: var(--teacher-text-tertiary); cursor: pointer; padding: 4px 8px; }
+.actions button:hover { color: var(--teacher-primary); }
+.body { padding: 16px; }
+.stem { margin-bottom: 16px; }
+.options { list-style: none; padding: 0; margin: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.option { display: flex; gap: 10px; align-items: center; }
+.option .letter { font-weight: 600; }
+.answerSection { background-color: #f9fafb; padding: 12px; border-radius: 8px; }

@@ -61,3 +61,20 @@
     background-color: #1a5cff;
     box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
 }
+
+/* src/components/teacher/course-management/questions/QuestionBankHeader.module.css */
+/* ... (保留已有样式) ... */
+
+/* --- 新增AI出题按钮的独特样式 --- */
+.aiButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px -5px rgba(118, 75, 162, 0.6);
+}
+
+.aiButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -5px rgba(118, 75, 162, 0.7);
+    background: linear-gradient(135deg, #7088f0 0%, #8054aa 100%);
+}
