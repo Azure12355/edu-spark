@@ -1,15 +1,151 @@
 /* src/components/teacher/course-management/point-detail/AuxiliarySidebar/AuxiliarySidebar.module.css */
-.sidebar { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
-.card { background-color: var(--teacher-white); border: 1px solid var(--teacher-border-color); border-radius: 12px; padding: 20px; }
-.cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.cardTitle { font-size: 16px; font-weight: 600; }
-.toggleButton, .moreLink { color: var(--teacher-text-secondary); text-decoration: none; font-size: 14px; background: none; border: none; cursor: pointer; }
-.tocNav { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; }
-.tocLink { font-size: 14px; color: var(--teacher-text-secondary); text-decoration: none; transition: color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tocLink.level2 { padding-left: 16px; }
-.tocLink.level3 { padding-left: 32px; }
-.tocLink:hover, .tocLink.active { color: var(--teacher-primary); }
-.hotList { display: flex; flex-direction: column; gap: 12px; }
-.hotItem { display: flex; justify-content: space-between; align-items: center; font-size: 14px; text-decoration: none; color: var(--teacher-text-primary); }
-.hotViews { color: var(--teacher-text-tertiary); font-size: 12px; }
-.hotItem:hover span:first-child { color: var(--teacher-primary); }
+.sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: start;
+    padding: 20px 20px 0px 0px;
+    background-color: var(--teacher-bg-body);
+}
+
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    transform: translateY(-3px);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cardTitle i {
+    color: var(--teacher-primary);
+}
+.moreLink {
+    color: var(--teacher-text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* 目录 (TOC) 样式 */
+.tocNav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.tocLink {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border-left: 2px solid transparent;
+}
+.tocLink.level2 { padding-left: 24px; }
+.tocLink.level3 { padding-left: 40px; }
+.tocLink:hover {
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+}
+.tocLink.active {
+    color: var(--teacher-primary);
+    font-weight: 600;
+    background-color: var(--teacher-primary-light);
+    border-left-color: var(--teacher-primary);
+}
+.noToc {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    text-align: center;
+    padding: 20px 0;
+}
+
+
+/* 热门题目榜样式 */
+.hotQuestionsCard {
+    background: linear-gradient(180deg, #fffbeb 0%, #fff 100%);
+}
+.hotQuestionsCard .cardTitle i {
+    color: #f59e0b;
+}
+
+.hotList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.hotItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--teacher-text-primary);
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.hotItem:hover {
+    background-color: rgba(255,255,255,0.5);
+}
+
+.hotRank {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    flex-shrink: 0;
+}
+/* 彩色排名标签 */
+.hotnessTop1 { background: linear-gradient(135deg, #f87171, #ef4444); }
+.hotnessTop2 { background: linear-gradient(135deg, #fb923c, #f97316); }
+.hotnessTop3 { background: linear-gradient(135deg, #facc15, #eab308); }
+.hotnessNormal { background-color: #d1d5db; }
+
+.hotTitle {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.hotItem:hover .hotTitle {
+    color: var(--teacher-primary);
+}
+.hotViews {
+    color: var(--teacher-text-tertiary);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.hotViews i { margin-right: 4px; }

@@ -49,7 +49,10 @@ export default function PointDetailPage() {
             <main className={styles.mainContent} ref={contentRef}>
                 <PointHeader point={pointDetail} />
                 <div className={styles.contentBody}>
-                    <MarkdownRenderer content={contentWithIds} />
+                    {/* 核心修改：为 MarkdownRenderer 的容器添加一个类名 */}
+                    <div className="markdown-body">
+                        <MarkdownRenderer content={contentWithIds} />
+                    </div>
                     <div className={styles.contentFooter}>
                         <button><i className="far fa-thumbs-up"></i> 点赞</button>
                         <button>分享</button>
@@ -61,4 +64,5 @@ export default function PointDetailPage() {
             <AuxiliarySidebar markdownContent={pointDetail.content} />
         </div>
     );
+
 }
