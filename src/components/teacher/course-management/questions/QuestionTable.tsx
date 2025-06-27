@@ -3,9 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Question } from '@/lib/data/questionBankData';
 import styles from './QuestionTable.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
+import {Question} from "@/types/question";
 
 interface QuestionTableProps {
     questions: Question[];
@@ -43,15 +43,14 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ questions }) => {
                                 <td className={styles.stemCell}><p title={q.stem}>{q.stem}</p></td>
                                 <td><span className={styles.typeTag}>{q.type}</span></td>
                                 <td><span className={`${styles.difficultyTag} ${styles[q.difficulty]}`}>{q.difficulty}</span></td>
-                                <td>{q.creator}</td>
-                                <td>{q.createdAt}</td>
+                                {/* 核心修改：处理 creators 数组和 createdAt 时间戳 */}
+                                <td>{q.creators.join(', ')}</td>
+                                <td>{new Date(q.createdAt).toLocaleDateString()}</td>
                                 <td className={styles.actionsCell}>
                                     <div className={styles.actions}>
-                                        {/* --- 核心修改：将预览按钮包裹在 Link 中 --- */}
                                         <Link href={`/teacher/courses/${courseId}/questions/${q.id}/preview`} passHref>
                                             <button title="预览"><i className="far fa-eye"></i></button>
                                         </Link>
-                                        {/* --- 结束修改 --- */}
                                         <Link href={`/teacher/courses/${courseId}/questions/${q.id}/edit`} passHref>
                                             <button title="编辑"><i className="fas fa-pen"></i></button>
                                         </Link>

@@ -9,6 +9,7 @@ interface Props {
     stem: string;
 }
 
+// 该组件不处理 answer 和 analysis，无需修改
 const StemViewer: React.FC<Props> = ({ stem }) => {
     const plugins = useMemo(() => [gfm()], []);
     return (

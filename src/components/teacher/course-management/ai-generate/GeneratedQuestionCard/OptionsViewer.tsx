@@ -3,7 +3,8 @@
 import React, { useMemo } from 'react';
 import { Viewer } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
-import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion } from '@/types/question'; // 导入新类型
+import { QuestionType } from '@/constants/enums'; // 导入新枚举
 import styles from './OptionsViewer.module.css';
 
 interface Props {
@@ -13,13 +14,13 @@ interface Props {
 const OptionsViewer: React.FC<Props> = ({ question }) => {
     const plugins = useMemo(() => [gfm()], []);
 
-    if (!['单选题', '多选题'].includes(question.type) || !question.options) {
+    // 核心修改：判断题目类型时使用枚举
+    if (![QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE].includes(question.type) || !question.options) {
         return null;
     }
 
-    const correctAnswers = new Set(
-        Array.isArray(question.answer) ? question.answer : [question.answer]
-    );
+    // 核心修改：直接使用 `question.answers` 数组创建 Set
+    const correctAnswers = new Set(question.answers);
 
     return (
         <ul className={styles.optionsWrapper}>

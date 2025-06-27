@@ -3,7 +3,8 @@
 import React, { useMemo } from 'react';
 import { Viewer } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
-import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion } from '@/types/question'; // 导入新类型
+import { QuestionType } from '@/constants/enums'; // 导入新枚举
 import styles from './AnswerAnalysisViewer.module.css';
 
 interface Props {
@@ -12,7 +13,20 @@ interface Props {
 
 const AnswerAnalysisViewer: React.FC<Props> = ({ question }) => {
     const plugins = useMemo(() => [gfm()], []);
-    const answerString = Array.isArray(question.answer) ? question.answer.join(', ') : String(question.answer);
+
+    // 核心修改 1: 处理新的 answers 数组
+    const answerString = useMemo(() => {
+        if (question.type === QuestionType.TRUE_FALSE) {
+            return question.answers[0] === 'true' ? '正确' : '错误';
+        }
+        return question.answers.join(', ');
+    }, [question.answers, question.type]);
+
+    // 核心修改 2: 处理新的 analyses 数组
+    const analysisString = useMemo(() => {
+        // 使用 Markdown 的水平分割线来分隔多条解析
+        return question.analyses.join('\n\n---\n\n');
+    }, [question.analyses]);
 
     return (
         <div className={styles.answerWrapper}>
@@ -21,8 +35,7 @@ const AnswerAnalysisViewer: React.FC<Props> = ({ question }) => {
             <br />
             <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: '8px' }}>
                 <strong>答案解析：</strong>
-                {/* 使用 Viewer 渲染解析 */}
-                <Viewer value={question.analysis} plugins={plugins} />
+                <Viewer value={analysisString} plugins={plugins} />
             </div>
         </div>
     );

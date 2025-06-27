@@ -5,7 +5,8 @@ import { Viewer } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import math from '@bytemd/plugin-math';
-import { Question } from '@/lib/data/questionBankData';
+import { Question } from '@/types/question'; // 核心修改：导入新类型
+import { QuestionType } from '@/constants/enums'; // 核心修改：导入新枚举
 import styles from './QuestionPreviewCard.module.css';
 import 'bytemd/dist/index.css';
 import 'katex/dist/katex.css';
@@ -18,13 +19,11 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
     const bytemdPlugins = useMemo(() => [gfm(), highlight(), math()], []);
 
     const renderOptions = () => {
-        if (!['单选题', '多选题'].includes(question.type) || !question.options) {
+        if (![QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE].includes(question.type) || !question.options) {
             return null;
         }
 
-        const correctAnswers = new Set(
-            Array.isArray(question.answer) ? question.answer : [question.answer]
-        );
+        const correctAnswers = new Set(question.answers); // 直接使用 answers 数组
 
         return (
             <div className={styles.section}>
@@ -48,12 +47,11 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
 
     const renderAnswer = () => {
         let answerContent: string;
-        if (question.type === '判断题') {
-            answerContent = question.answer ? '正确' : '错误';
-        } else if (Array.isArray(question.answer)) {
-            answerContent = question.answer.join(', ');
+        // 核心修改：统一处理 answers 数组
+        if (question.type === QuestionType.TRUE_FALSE) {
+            answerContent = question.answers[0] === 'true' ? '正确' : '错误';
         } else {
-            answerContent = String(question.answer);
+            answerContent = question.answers.join(', ');
         }
 
         return (
@@ -87,19 +85,20 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
                 <div className={styles.section}>
                     <h4 className={styles.sectionTitle}><i className="fas fa-comment-dots"></i> 题目解析</h4>
                     <div className={styles.contentViewer}>
-                        <Viewer value={question.analysis} plugins={bytemdPlugins} />
+                        {/* 核心修改：显示所有解析 */}
+                        <Viewer value={question.analyses.join('\n\n---\n\n')} plugins={bytemdPlugins} />
                     </div>
                 </div>
             </div>
             <footer className={styles.footer}>
                 <div className={styles.pointList}>
                     <strong>关联知识点：</strong>
-                    {/* --- 核心修改 --- */}
                     {question.points.map(point =>
                         <span key={point.id} className={styles.pointTag}>{point.title}</span>
                     )}
                 </div>
-                <span>创建者: {question.creator} | 创建于: {question.createdAt}</span>
+                {/* 核心修改：显示所有创建者和格式化时间戳 */}
+                <span>创建者: {question.creators.join(', ')} | 创建于: {new Date(question.createdAt).toLocaleString()}</span>
             </footer>
         </div>
     );

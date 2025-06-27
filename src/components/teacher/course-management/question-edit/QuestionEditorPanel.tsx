@@ -1,11 +1,11 @@
 // src/components/teacher/course-management/question-edit/QuestionEditorPanel.tsx
 "use client";
 import React from 'react';
-import { Question } from '@/lib/data/questionBankData';
+import { Question } from '@/types/question';
 import styles from './QuestionEditorPanel.module.css';
 import StemEditor from './StemEditor';
 import AnswerEditor from './AnswerEditor';
-import AnalysisEditor from './AnalysisEditor';
+import AnalysesEditor from './AnalysesEditor'; // 核心修改：使用重命名后的组件
 
 interface Props {
     question: Question;
@@ -17,7 +17,8 @@ const QuestionEditorPanel: React.FC<Props> = ({ question, onUpdate }) => {
         <main className={styles.panel}>
             <StemEditor value={question.stem} onChange={v => onUpdate('stem', v)} />
             <AnswerEditor question={question} onUpdate={onUpdate} />
-            <AnalysisEditor value={question.analysis} onChange={v => onUpdate('analysis', v)} />
+            {/* 核心修改：传入 `analyses` 数组并更新它 */}
+            <AnalysesEditor values={question.analyses} onChange={v => onUpdate('analyses', v)} />
         </main>
     );
 };

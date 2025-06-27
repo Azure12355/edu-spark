@@ -1,4 +1,5 @@
 /* src/components/teacher/course-management/questions/QuestionTableToolbar.module.css */
+/* CSS 文件无需修改，样式可以复用 */
 .toolbarContainer {
     display: flex;
     justify-content: space-between;
@@ -41,6 +42,7 @@
     color: var(--teacher-text-secondary);
     position: relative;
     z-index: 1;
+    white-space: nowrap; /* 确保按钮内文字不换行 */
 }
 
 .activePill {

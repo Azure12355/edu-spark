@@ -1,10 +1,12 @@
 // src/components/teacher/course-management/question-edit/QuestionConfigPanel.tsx
 import React from 'react';
-import { Question, QuestionDifficulty, QuestionType } from '@/lib/data/questionBankData';
+import { Question } from '@/types/question'; // 导入新类型
+import { QuestionType, QuestionDifficulty } from '@/constants/enums'; // 导入新枚举
 import styles from './QuestionConfigPanel.module.css';
 
-const questionTypes: QuestionType[] = ['单选题', '多选题', '判断题', '填空题', '简答题', '编程题'];
-const difficulties: QuestionDifficulty[] = ['简单', '中等', '困难'];
+// 使用枚举值生成配置数组
+const questionTypes: QuestionType[] = Object.values(QuestionType);
+const difficulties: QuestionDifficulty[] = Object.values(QuestionDifficulty);
 
 interface Props {
     question: Question;
@@ -37,7 +39,6 @@ const QuestionConfigPanel: React.FC<Props> = ({ question, onUpdate, onEditPoints
             <div className={styles.card}>
                 <h3 className={styles.cardTitle}>知识点关联</h3>
                 <div className={styles.pointList}>
-                    {/* --- 核心修改 --- */}
                     {question.points.map(point => (
                         <span key={point.id} className={styles.pointTag}>{point.title}</span>
                     ))}

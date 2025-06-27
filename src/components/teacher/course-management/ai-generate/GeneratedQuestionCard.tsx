@@ -2,7 +2,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion } from '@/types/question'; // 已更新为新类型
 import styles from './GeneratedQuestionCard.module.css';
 import CardHeader from './GeneratedQuestionCard/CardHeader';
 import StemViewer from './GeneratedQuestionCard/StemViewer';
@@ -19,13 +19,13 @@ interface Props {
     };
 }
 
+// 该组件作为容器，本身不需要修改
 const GeneratedQuestionCard: React.FC<Props> = ({ question, theme }) => {
     const cardStyle = {
         '--card-theme-color': theme.colors.bgEnd,
         '--card-theme-bg': theme.colors.iconBg
     } as React.CSSProperties;
 
-    // 此处无需再添加 motion.div，因为父组件 QuestionList 已经为每个卡片包裹了 motion.div
     return (
         <div
             className={styles.card}

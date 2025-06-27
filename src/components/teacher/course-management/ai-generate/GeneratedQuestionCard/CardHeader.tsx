@@ -3,9 +3,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion } from '@/types/question'; // 已更新为新类型
 import { useAIGeneratedQuestionsStore } from '@/store/aiGeneratedQuestionsStore';
-// --- 核心新增：导入题库 Store ---
 import { useQuestionBankStore } from '@/store/questionBankStore';
 import { useToast } from '@/hooks/useToast';
 import styles from './CardHeader.module.css';
@@ -17,19 +16,17 @@ interface Props {
     themeBg: string;
 }
 
+// 该组件不直接处理 answer 和 analysis，无需修改
 const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
     const params = useParams();
     const courseId = params.id as string;
     const { deleteQuestion: deleteAIGeneratedQuestion } = useAIGeneratedQuestionsStore();
-    // --- 核心新增：获取题库的 action ---
     const addQuestionToBank = useQuestionBankStore((state) => state.addQuestion);
     const showToast = useToast();
 
-    // --- 核心新增：为两个模态框分别创建状态 ---
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAddToBankModalOpen, setIsAddToBankModalOpen] = useState(false);
 
-    // ... (滚动相关的 state 和 hooks 保持不变) ...
     const scrollRef = useRef<HTMLDivElement>(null);
     const [showLeftFade, setShowLeftFade] = useState(false);
     const [showRightFade, setShowRightFade] = useState(false);
@@ -52,19 +49,14 @@ const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
         };
     }, [checkScrollability, question.points]);
 
-    // 删除逻辑
     const handleDeleteConfirm = () => {
         deleteAIGeneratedQuestion(question.id);
         showToast({ message: '题目已成功删除', type: 'info' });
     };
 
-    // --- 核心新增：加入题库的确认逻辑 ---
     const handleAddToBankConfirm = () => {
-        // 1. 调用 action 将题目加入正式题库
         addQuestionToBank(question);
-        // 2. 从 AI 生成列表中移除该题目
         deleteAIGeneratedQuestion(question.id);
-        // 3. 给出成功提示
         showToast({ message: '题目已成功加入题库！', type: 'success' });
     };
 
@@ -97,7 +89,6 @@ const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
                 </div>
 
                 <div className={styles.actions}>
-                    {/* --- 核心修改：点击时打开“加入题库”模态框 --- */}
                     <button onClick={() => setIsAddToBankModalOpen(true)} title="加入题库"><i className="fas fa-plus-square"></i></button>
                     <Link href={`/teacher/courses/${courseId}/questions/ai-generate/${question.id}/edit`} passHref>
                         <button title="编辑"><i className="fas fa-pen"></i></button>
@@ -106,7 +97,6 @@ const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
                 </div>
             </header>
 
-            {/* 删除确认模态框 */}
             <ConfirmationModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
@@ -117,7 +107,6 @@ const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
                 type="danger"
             />
 
-            {/* --- 核心新增：加入题库确认模态框 --- */}
             <ConfirmationModal
                 isOpen={isAddToBankModalOpen}
                 onClose={() => setIsAddToBankModalOpen(false)}
@@ -132,7 +121,7 @@ const CardHeader: React.FC<Props> = ({ question, themeColor, themeBg }) => {
                     </div>
                 }
                 confirmText="确认加入"
-                type="info" // 使用信息类型
+                type="info"
             />
         </>
     );
