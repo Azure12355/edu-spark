@@ -12,9 +12,9 @@ import { QuestionType, QuestionDifficulty } from '@/constants/enums';
  */
 export interface Question {
     /**
-     * 题目的唯一标识符。
+     * 题目的唯一标识符，由AI生成。
      */
-    id: string;
+    id?: string; // AI 生成的题目可能没有ID，我们可以在前端处理
 
     /**
      * 题目关联的知识点对象数组。
@@ -44,10 +44,10 @@ export interface Question {
 
     /**
      * 答案数组，统一使用字符串数组存储。
-     * - 单选题: `['A']` 或 `['唯一的正确选项内容']`
-     * - 多选题: `['A', 'C']` 或 `['选项1内容', '选项3内容']`
-     * - 判断题: `['true']` 或 `['false']`
-     * - 填空/简答/编程题: `['参考答案1', '参考答案2', ...]`
+     * - 单选题: ['C']
+     * - 多选题: ['A', 'C']
+     * - 判断题: ['true'] 或 ['false']
+     * - 填空/简答/编程题: ['参考答案1', '参考答案2', ...]
      */
     answers: string[];
 
@@ -59,14 +59,13 @@ export interface Question {
     /**
      * 创建者数组，支持多个创建者（如 AI 和教师共同创建）。
      */
-    creators: string[];
+    creators?: string[]; // AI 生成时可能没有此字段
 
     /**
      * 题目创建时间的 Unix 时间戳 (毫秒)。
-     * 存储为数字便于排序和计算，在前端显示时进行格式化。
      */
-    createdAt: number;
+    createdAt?: number; // AI 生成时可能没有此字段
 }
 
-// 为了兼容 AI 生成题目的场景，可以创建一个别名或扩展类型
+// AI生成题目的别名，强调其来源
 export type AIGeneratedQuestion = Question;

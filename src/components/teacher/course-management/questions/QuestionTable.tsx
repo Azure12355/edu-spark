@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import styles from './QuestionTable.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import {Question} from "@/types/question";
+import { Question } from "@/types/question";
 
 interface QuestionTableProps {
     questions: Question[];
@@ -14,6 +14,13 @@ interface QuestionTableProps {
 const QuestionTable: React.FC<QuestionTableProps> = ({ questions }) => {
     const params = useParams();
     const courseId = params.id;
+
+    // Define animation variants for the rows
+    const rowVariants = {
+        initial: { opacity: 0, y: -10 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, x: -50 },
+    };
 
     return (
         <div className={styles.tableContainer}>
@@ -29,38 +36,39 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ questions }) => {
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <AnimatePresence>
-                        {questions.map(q => (
-                            <motion.tr
-                                key={q.id}
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <td className={styles.stemCell}><p title={q.stem}>{q.stem}</p></td>
-                                <td><span className={styles.typeTag}>{q.type}</span></td>
-                                <td><span className={`${styles.difficultyTag} ${styles[q.difficulty]}`}>{q.difficulty}</span></td>
-                                {/* 核心修改：处理 creators 数组和 createdAt 时间戳 */}
-                                <td>{q.creators.join(', ')}</td>
-                                <td>{new Date(q.createdAt).toLocaleDateString()}</td>
-                                <td className={styles.actionsCell}>
-                                    <div className={styles.actions}>
-                                        <Link href={`/teacher/courses/${courseId}/questions/${q.id}/preview`} passHref>
-                                            <button title="预览"><i className="far fa-eye"></i></button>
-                                        </Link>
-                                        <Link href={`/teacher/courses/${courseId}/questions/${q.id}/edit`} passHref>
-                                            <button title="编辑"><i className="fas fa-pen"></i></button>
-                                        </Link>
-                                        <button title="删除" className={styles.delete}><i className="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </motion.tr>
-                        ))}
-                    </AnimatePresence>
-                    </tbody>
+                    {/* BugFix: Move AnimatePresence and motion component outside of the direct children of table */}
+                    <motion.tbody>
+                        <AnimatePresence>
+                            {questions.map(q => (
+                                <motion.tr
+                                    key={q.id}
+                                    layout
+                                    variants={rowVariants}
+                                    initial="initial"
+                                    animate="animate"
+                                    exit="exit"
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                >
+                                    <td className={styles.stemCell}><p title={q.stem}>{q.stem}</p></td>
+                                    <td><span className={styles.typeTag}>{q.type}</span></td>
+                                    <td><span className={`${styles.difficultyTag} ${styles[q.difficulty]}`}>{q.difficulty}</span></td>
+                                    <td>{q.creators?.join(', ') || 'N/A'}</td>
+                                    <td>{q.createdAt ? new Date(q.createdAt).toLocaleDateString() : 'N/A'}</td>
+                                    <td className={styles.actionsCell}>
+                                        <div className={styles.actions}>
+                                            <Link href={`/teacher/courses/${courseId}/questions/${q.id}/preview`} passHref>
+                                                <button title="预览"><i className="far fa-eye"></i></button>
+                                            </Link>
+                                            <Link href={`/teacher/courses/${courseId}/questions/${q.id}/edit`} passHref>
+                                                <button title="编辑"><i className="fas fa-pen"></i></button>
+                                            </Link>
+                                            <button title="删除" className={styles.delete}><i className="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </motion.tr>
+                            ))}
+                        </AnimatePresence>
+                    </motion.tbody>
                 </table>
             </div>
             {questions.length === 0 && (

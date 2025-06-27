@@ -1,15 +1,16 @@
 // src/store/aiGeneratedQuestionsStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AIGeneratedQuestion, aiGeneratedQuestionsData as initialData } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion, Question } from '@/types/question'; // 导入 Question 类型
+import { useQuestionBankStore } from './questionBankStore';
+import { aiGeneratedQuestionsData as initialData } from '@/lib/data/aiGeneratedQuestionsData';
 
-// 定义 Store 的状态和操作类型
 interface AIGeneratedQuestionsState {
     questions: AIGeneratedQuestion[];
     getQuestionById: (id: string) => AIGeneratedQuestion | undefined;
     updateQuestion: (updatedQuestion: AIGeneratedQuestion) => void;
     deleteQuestion: (id: string) => void;
-    addQuestionsToBank: () => void; // 模拟加入题库
+    addQuestionsToBank: () => number;
     clearQuestions: () => void;
     setQuestions: (questions: AIGeneratedQuestion[]) => void;
 }
@@ -17,13 +18,10 @@ interface AIGeneratedQuestionsState {
 export const useAIGeneratedQuestionsStore = create<AIGeneratedQuestionsState>()(
     persist(
         (set, get) => ({
-            // 初始状态
             questions: initialData,
 
-            // 查询
             getQuestionById: (id) => get().questions.find(q => q.id === id),
 
-            // 更新
             updateQuestion: (updatedQuestion) => {
                 set((state) => ({
                     questions: state.questions.map(q =>
@@ -32,30 +30,50 @@ export const useAIGeneratedQuestionsStore = create<AIGeneratedQuestionsState>()(
                 }));
             },
 
-            // 删除
             deleteQuestion: (id) => {
                 set((state) => ({
                     questions: state.questions.filter(q => q.id !== id)
                 }));
             },
 
-            // 加入题库（模拟）
-            // 在实际应用中，这里会调用后端API，并可能与 questionBankStore 交互
             addQuestionsToBank: () => {
                 const questionsToMove = get().questions;
-                console.log('Adding to question bank:', questionsToMove);
-                // 成功后清空
+                if (questionsToMove.length === 0) return 0;
+
+                const addQuestion = useQuestionBankStore.getState().addQuestion;
+
+                questionsToMove.forEach(question => {
+                    const newId = `q-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+                    addQuestion({ ...question, id: newId });
+                });
+
                 set({ questions: [] });
+                return questionsToMove.length;
             },
 
-            // 清空
             clearQuestions: () => set({ questions: [] }),
 
-            // 设置（例如，从API获取新题目后）
-            setQuestions: (questions) => set({ questions }),
+            /**
+             * BugFix: 重构 setQuestions 方法
+             * 在将从API获取的题目存入store之前，对数据进行处理和规范化。
+             * 1. 为每个题目添加临时的、唯一的客户端ID。
+             * 2. 补充 `creators` 字段为 ['AI']。
+             * 3. 补充 `createdAt` 字段为当前时间戳。
+             */
+            setQuestions: (questions: AIGeneratedQuestion[]) => {
+                const now = Date.now(); // 获取当前时间戳
+                const questionsWithDefaults = questions.map((q, index) => ({
+                    ...q,
+                    id: `ai-q-${now}-${index}`, // 添加唯一的客户端ID
+                    creators: ['EduSpark Agent'], // 添加创建者信息
+                    createdAt: now, // 添加创建时间
+                }));
+                set({ questions: questionsWithDefaults });
+            },
         }),
         {
-            name: 'ai-generated-questions-storage', // localStorage 中的键名
+            name: 'ai-generated-questions-storage',
+            version: 1,
         }
     )
 );

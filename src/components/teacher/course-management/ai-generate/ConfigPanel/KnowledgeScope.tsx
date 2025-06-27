@@ -2,16 +2,19 @@
 "use client";
 import React from 'react';
 import styles from './KnowledgeScope.module.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+// BugFix: 导入 KnowledgePoint 类型
+import { KnowledgePoint } from '@/types/knowledge';
 
 interface Props {
-    points: string[];
-    onRemovePoint: (point: string) => void;
+    // BugFix: points 类型从 string[] 改为 KnowledgePoint[]
+    points: KnowledgePoint[];
+    // BugFix: onRemovePoint 参数从 string 改为 pointId: string
+    onRemovePoint: (pointId: string) => void;
     onAddManually: () => void;
     onSelectFromLibrary: () => void;
 }
 
-// 独立的空状态组件
 const EmptyState = () => (
     <div className={styles.emptyState}>
         <i className={`fas fa-lightbulb ${styles.icon}`}></i>
@@ -19,8 +22,8 @@ const EmptyState = () => (
     </div>
 );
 
-// 独立的知识点标签组件
-const KnowledgeTag = ({ point, onRemove }: { point: string, onRemove: (p: string) => void }) => (
+// BugFix: 更新 props 类型
+const KnowledgeTag = ({ point, onRemove }: { point: KnowledgePoint, onRemove: (id: string) => void }) => (
     <motion.div
         className={styles.tag}
         layout
@@ -29,8 +32,10 @@ const KnowledgeTag = ({ point, onRemove }: { point: string, onRemove: (p: string
         exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
     >
         <i className={`fas fa-tag ${styles.icon}`}></i>
-        <span className={styles.text}>{point}</span>
-        <button onClick={() => onRemove(point)} title={`移除 ${point}`} className={styles.deleteButton}>
+        {/* BugFix: 显示 point.title */}
+        <span className={styles.text}>{point.title}</span>
+        {/* BugFix: 回调时传递 point.id */}
+        <button onClick={() => onRemove(point.id)} title={`移除 ${point.title}`} className={styles.deleteButton}>
             <i className="fas fa-times"></i>
         </button>
     </motion.div>
@@ -43,9 +48,8 @@ const KnowledgeScope: React.FC<Props> = ({ points, onRemovePoint, onAddManually,
 
         {points.length > 0 ? (
             <div className={styles.listContainer}>
-
-                    {points.map(p => <KnowledgeTag key={p} point={p} onRemove={onRemovePoint} />)}
-
+                {/* BugFix: 使用 point.id 作为 key */}
+                {points.map(p => <KnowledgeTag key={p.id} point={p} onRemove={onRemovePoint} />)}
             </div>
         ) : (
             <EmptyState />

@@ -5,8 +5,8 @@ import { Viewer } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import math from '@bytemd/plugin-math';
-import { Question } from '@/types/question'; // 核心修改：导入新类型
-import { QuestionType } from '@/constants/enums'; // 核心修改：导入新枚举
+import { Question } from '@/types/question';
+import { QuestionType } from '@/constants/enums';
 import styles from './QuestionPreviewCard.module.css';
 import 'bytemd/dist/index.css';
 import 'katex/dist/katex.css';
@@ -23,7 +23,7 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
             return null;
         }
 
-        const correctAnswers = new Set(question.answers); // 直接使用 answers 数组
+        const correctAnswers = new Set(question.answers);
 
         return (
             <div className={styles.section}>
@@ -47,7 +47,6 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
 
     const renderAnswer = () => {
         let answerContent: string;
-        // 核心修改：统一处理 answers 数组
         if (question.type === QuestionType.TRUE_FALSE) {
             answerContent = question.answers[0] === 'true' ? '正确' : '错误';
         } else {
@@ -67,7 +66,8 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
     return (
         <div className={styles.card}>
             <header className={styles.header}>
-                <h2>{question.id}</h2>
+                {/* BugFix: Use question.id if available, otherwise a placeholder */}
+                <h2>题目 ID: {question.id || 'Unsaved'}</h2>
                 <div className={styles.metaTags}>
                     <span className={styles.typeTag}>{question.type}</span>
                     <span className={`${styles.difficultyTag} ${styles[question.difficulty]}`}>{question.difficulty}</span>
@@ -85,7 +85,6 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
                 <div className={styles.section}>
                     <h4 className={styles.sectionTitle}><i className="fas fa-comment-dots"></i> 题目解析</h4>
                     <div className={styles.contentViewer}>
-                        {/* 核心修改：显示所有解析 */}
                         <Viewer value={question.analyses.join('\n\n---\n\n')} plugins={bytemdPlugins} />
                     </div>
                 </div>
@@ -97,8 +96,10 @@ const QuestionPreviewCard: React.FC<Props> = ({ question }) => {
                         <span key={point.id} className={styles.pointTag}>{point.title}</span>
                     )}
                 </div>
-                {/* 核心修改：显示所有创建者和格式化时间戳 */}
-                <span>创建者: {question.creators.join(', ')} | 创建于: {new Date(question.createdAt).toLocaleString()}</span>
+                {/* BugFix: Safely render creator and creation date */}
+                <span>
+                    创建者: {question.creators?.join(', ') || 'N/A'} | 创建于: {question.createdAt ? new Date(question.createdAt).toLocaleString() : 'N/A'}
+                </span>
             </footer>
         </div>
     );

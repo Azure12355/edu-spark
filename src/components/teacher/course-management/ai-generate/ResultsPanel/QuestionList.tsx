@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GeneratedQuestionCard from '../GeneratedQuestionCard';
-import { AIGeneratedQuestion } from '@/lib/data/aiGeneratedQuestionsData';
+import { AIGeneratedQuestion } from '@/types/question'; // 已更新为新类型
 import styles from './QuestionList.module.css';
 
 interface StatTheme {
@@ -17,7 +17,7 @@ interface Props {
     themes: Record<string, StatTheme>;
 }
 
-// 独立的空状态组件，便于维护
+// 独立的空状态组件
 const EmptyState = () => (
     <div className={styles.emptyState}>
         <div className={styles.emptyStateIcon}>
@@ -30,9 +30,7 @@ const EmptyState = () => (
     </div>
 );
 
-
 const QuestionList: React.FC<Props> = ({ questions, themes }) => {
-    // --- 核心修改：判断题目列表是否为空 ---
     if (questions.length === 0) {
         return <EmptyState />;
     }
@@ -42,8 +40,8 @@ const QuestionList: React.FC<Props> = ({ questions, themes }) => {
             <AnimatePresence>
                 {questions.map(q => (
                     <motion.div
-                        key={q.id}
-                        layout // 启用布局动画，当题目被删除时，其他题目会平滑移动
+                        key={q.id} // 确保使用唯一的key
+                        layout
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}

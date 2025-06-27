@@ -4,47 +4,65 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Modal from '@/components/common/Modal/Modal';
 import { useSyllabusStore } from '@/store/syllabusStore';
 import styles from './KnowledgePointSelectionModal.module.css';
+// BugFix: 导入 KnowledgePoint 类型
+import { KnowledgePoint } from '@/types/knowledge';
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    currentPoints: string[];
-    onSave: (newPoints: string[]) => void;
+    // BugFix: 接收 KnowledgePoint 对象数组
+    currentPoints: KnowledgePoint[];
+    // BugFix: 保存时返回 KnowledgePoint 对象数组
+    onSave: (newPoints: KnowledgePoint[]) => void;
 }
 
 const KnowledgePointSelectionModal: React.FC<Props> = ({ isOpen, onClose, currentPoints, onSave }) => {
     const { syllabus } = useSyllabusStore();
-    const [selectedPoints, setSelectedPoints] = useState(new Set(currentPoints));
+    // BugFix: 内部状态改为存储 ID 集合，更高效
+    const [selectedIds, setSelectedIds] = useState(new Set(currentPoints.map(p => p.id)));
     const [searchTerm, setSearchTerm] = useState('');
 
-    // 当模态框打开时，同步外部已选中的知识点
     useEffect(() => {
         if (isOpen) {
-            setSelectedPoints(new Set(currentPoints));
+            // 当模态框打开时，用传入的 props 同步 ID 集合
+            setSelectedIds(new Set(currentPoints.map(p => p.id)));
         }
     }, [isOpen, currentPoints]);
 
-    const handleTogglePoint = (pointTitle: string) => {
-        setSelectedPoints(prev => {
+    const handleTogglePoint = (pointId: string) => {
+        setSelectedIds(prev => {
             const newSet = new Set(prev);
-            if (newSet.has(pointTitle)) {
-                newSet.delete(pointTitle);
+            if (newSet.has(pointId)) {
+                newSet.delete(pointId);
             } else {
-                newSet.add(pointTitle);
+                newSet.add(pointId);
             }
             return newSet;
         });
     };
 
     const handleSave = () => {
-        onSave(Array.from(selectedPoints));
+        // BugFix: 从 syllabus 数据中根据 ID 查找完整的 KnowledgePoint 对象
+        const allPointsMap = new Map<string, KnowledgePoint>();
+        syllabus.forEach(chapter =>
+            chapter.sections.forEach(section =>
+                section.points.forEach(point =>
+                    allPointsMap.set(point.id, point as KnowledgePoint)
+                )
+            )
+        );
+
+        const selectedPointObjects = Array.from(selectedIds)
+            .map(id => allPointsMap.get(id))
+            .filter((p): p is KnowledgePoint => p !== undefined); // 过滤掉可能未找到的项
+
+        onSave(selectedPointObjects);
         onClose();
     };
 
     const filteredSyllabus = useMemo(() => {
         if (!searchTerm) return syllabus;
         const lowercasedTerm = searchTerm.toLowerCase();
-
         return syllabus.map(chapter => ({
             ...chapter,
             sections: chapter.sections.map(section => ({
@@ -52,7 +70,6 @@ const KnowledgePointSelectionModal: React.FC<Props> = ({ isOpen, onClose, curren
                 points: section.points.filter(point => point.title.toLowerCase().includes(lowercasedTerm))
             })).filter(section => section.points.length > 0)
         })).filter(chapter => chapter.sections.length > 0);
-
     }, [syllabus, searchTerm]);
 
     return (
@@ -63,7 +80,7 @@ const KnowledgePointSelectionModal: React.FC<Props> = ({ isOpen, onClose, curren
             footer={
                 <>
                     <button onClick={onClose} className="teacher-button-secondary">取消</button>
-                    <button onClick={handleSave} className="teacher-button-primary">确认添加 ({selectedPoints.size})</button>
+                    <button onClick={handleSave} className="teacher-button-primary">确认添加 ({selectedIds.size})</button>
                 </>
             }
         >
@@ -86,8 +103,9 @@ const KnowledgePointSelectionModal: React.FC<Props> = ({ isOpen, onClose, curren
                                                     <label>
                                                         <input
                                                             type="checkbox"
-                                                            checked={selectedPoints.has(point.title)}
-                                                            onChange={() => handleTogglePoint(point.title)}
+                                                            // BugFix: 使用 point.id 进行判断和切换
+                                                            checked={selectedIds.has(point.id)}
+                                                            onChange={() => handleTogglePoint(point.id)}
                                                         />
                                                         {point.title}
                                                     </label>

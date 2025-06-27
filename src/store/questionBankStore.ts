@@ -1,7 +1,8 @@
 // src/store/questionBankStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Question, questionBankData as initialQuestionBankData } from '@/lib/data/questionBankData';
+import {questionBankData as initialQuestionBankData } from '@/lib/data/questionBankData';
+import {Question} from "@/types/question";
 
 interface QuestionBankState {
     questionBank: Record<string, Question[]>;

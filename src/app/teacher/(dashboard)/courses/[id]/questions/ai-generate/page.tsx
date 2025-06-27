@@ -1,40 +1,55 @@
 // src/app/teacher/(dashboard)/courses/[id]/questions/ai-generate/page.tsx
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styles from './ai-generate.module.css';
 import ConfigPanel from '@/components/teacher/course-management/ai-generate/ConfigPanel';
 import ResultsPanel from '@/components/teacher/course-management/ai-generate/ResultsPanel';
-// 核心修改 1：从新的枚举文件中导入类型
 import { QuestionDifficulty, QuestionType } from '@/constants/enums';
-import KnowledgePointSelectionModal from '@/components/teacher/course-management/ai-generate/ConfigPanel/KnowledgePointSelectionModal';
 import { useToast } from '@/hooks/useToast';
 import { useAIGeneratedQuestionsStore } from '@/store/aiGeneratedQuestionsStore';
 import InputModal from "@/components/common/InputModal/InputModal";
+// BugFix: 导入知识点相关类型和数据
+import { KnowledgePoint, KnowledgePointType } from '@/types/knowledge';
+import { useSyllabusStore } from '@/store/syllabusStore';
+import KnowledgePointSelectionModal from '@/components/teacher/course-management/ai-generate/ConfigPanel/KnowledgePointSelectionModal';
+
+// 辅助函数，用于从 syllabusData 中根据标题查找初始知识点
+const findInitialPoints = (titles: string[], syllabus: any[]): KnowledgePoint[] => {
+    const points: KnowledgePoint[] = [];
+    const titleSet = new Set(titles);
+
+    for (const chapter of syllabus) {
+        for (const section of chapter.sections) {
+            for (const point of section.points) {
+                if (titleSet.has(point.title)) {
+                    points.push(point as KnowledgePoint);
+                }
+            }
+        }
+    }
+    return points;
+};
 
 export default function AIGeneratePage() {
     const questions = useAIGeneratedQuestionsStore((state) => state.questions);
+    const { syllabus } = useSyllabusStore();
+    const showToast = useToast();
 
-    // 核心修改 2：更新状态的类型注解和初始值
+    // BugFix: 将状态类型改为 KnowledgePoint[] 并使用辅助函数初始化
+    const [knowledgePoints, setKnowledgePoints] = useState<KnowledgePoint[]>(() =>
+        findInitialPoints(['布尔运算基础', 'Python逻辑非not', 'Python逻辑或or'], syllabus)
+    );
     const [selectedTypes, setSelectedTypes] = useState<Set<QuestionType>>(new Set([QuestionType.SINGLE_CHOICE]));
     const [selectedDifficulty, setSelectedDifficulty] = useState<QuestionDifficulty>(QuestionDifficulty.EASY);
-
-    // 其他状态保持不变
-    const [knowledgePoints, setKnowledgePoints] = useState<string[]>(['布尔运算基础', 'Python逻辑非not', 'Python逻辑或or']);
     const [supplementaryContent, setSupplementaryContent] = useState('');
     const [isPointModalOpen, setIsPointModalOpen] = useState(false);
     const [isAddPointModalOpen, setIsAddPointModalOpen] = useState(false);
-    const showToast = useToast();
 
-    // 核心修改 3：更新 handleTypeChange 的参数类型
     const handleTypeChange = (type: QuestionType) => {
         setSelectedTypes(prev => {
             const newSet = new Set(prev);
-            // 允许多选，如果已存在则移除，否则添加
-            if (newSet.has(type)) {
-                // 如果只剩一个，则不允许取消选中
-                if (newSet.size > 1) {
-                    newSet.delete(type);
-                }
+            if (newSet.size > 1 && newSet.has(type)) {
+                newSet.delete(type);
             } else {
                 newSet.add(type);
             }
@@ -42,21 +57,29 @@ export default function AIGeneratePage() {
         });
     };
 
-    // 其他事件处理函数保持不变
-    const handleRemovePoint = (pointToRemove: string) => {
-        setKnowledgePoints(prev => prev.filter(p => p !== pointToRemove));
+    // BugFix: onRemovePoint 参数改为 pointId
+    const handleRemovePoint = (pointIdToRemove: string) => {
+        setKnowledgePoints(prev => prev.filter(p => p.id !== pointIdToRemove));
     };
 
-    const handleAddPointSubmit = (newPoint: string) => {
-        if (knowledgePoints.includes(newPoint.trim())) {
-            showToast({ message: `知识点 "${newPoint}" 已存在！`, type: 'warning' });
+    // BugFix: 手动添加时创建一个完整的 KnowledgePoint 对象
+    const handleAddPointSubmit = (newPointTitle: string) => {
+        const trimmedTitle = newPointTitle.trim();
+        if (knowledgePoints.some(p => p.title === trimmedTitle)) {
+            showToast({ message: `知识点 "${trimmedTitle}" 已存在！`, type: 'warning' });
             return;
         }
-        setKnowledgePoints(prev => [...prev, newPoint.trim()]);
+        const newPoint: KnowledgePoint = {
+            id: `manual-${Date.now()}`,
+            title: trimmedTitle,
+            type: KnowledgePointType.CORE, // 默认为核心
+        };
+        setKnowledgePoints(prev => [...prev, newPoint]);
         showToast({ message: '添加成功！', type: 'success' });
     };
 
-    const handlePointsSelected = (newPoints: string[]) => {
+    // BugFix: 从模态框保存时，直接设置 KnowledgePoint[]
+    const handlePointsSelected = (newPoints: KnowledgePoint[]) => {
         setKnowledgePoints(newPoints);
         showToast({ message: `已更新关联知识点 (${newPoints.length}个)`, type: 'info' });
     };
@@ -98,7 +121,7 @@ export default function AIGeneratePage() {
                 confirmText="确认添加"
                 validation={(value) => {
                     if (!value.trim()) return "知识点名称不能为空。";
-                    if (knowledgePoints.includes(value.trim())) return `知识点 "${value.trim()}" 已存在。`;
+                    if (knowledgePoints.some(p => p.title === value.trim())) return `知识点 "${value.trim()}" 已存在。`;
                     return null;
                 }}
             />
