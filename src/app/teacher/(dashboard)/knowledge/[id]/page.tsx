@@ -6,10 +6,10 @@ import { useKnowledgeStore } from '@/store/knowledgeStore';
 import { useChunkStore } from '@/store/chunkStore';
 import { Document, KnowledgeBase, Chunk } from '@/types/knowledge';
 
+// --- Component Imports ---
 import KnowledgeDetailLayout from '@/components/teacher/knowledge/detail/layout/KnowledgeDetailLayout';
 import Pagination from '@/components/common/Pagination/Pagination';
 import AddChunkModal from '@/components/teacher/knowledge/detail/ChunkTab/AddChunkModal/AddChunkModal';
-
 import KnowledgeBaseInfo from '@/components/teacher/knowledge/detail/BasicInfoTab/KnowledgeBaseInfo';
 import DocumentTable from '@/components/teacher/knowledge/detail/DocumentTab/DocumentTable/DocumentTable';
 import DocumentToolbar from '@/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar';
@@ -20,6 +20,7 @@ import QAParameters from '@/components/teacher/knowledge/detail/QAChatTab/QAPara
 import RetrievalParameters from '@/components/teacher/knowledge/detail/RetrievalTab/RetrievalParameters/RetrievalParameters';
 import SearchAndResults from '@/components/teacher/knowledge/detail/RetrievalTab/SearchAndResults/SearchAndResults';
 
+// --- Style and Hook Imports ---
 import styles from './knowledgeDetail.module.css';
 import { useToast } from '@/hooks/useToast';
 
@@ -32,12 +33,19 @@ export default function KnowledgeDetailPage() {
     const router = useRouter();
     const kbId = params.id as string;
 
+    // --- State from Stores ---
     const { getKnowledgeBaseById, getDocumentsByKbId } = useKnowledgeStore();
     const {
-        chunks, addChunk, sourceFilter, searchTerm,
-        currentPage, setCurrentPage, itemsPerPage
+        chunks: allChunks, // 获取所有切片
+        addChunk,
+        sourceFilter,
+        searchTerm,
+        currentPage,
+        setCurrentPage,
+        itemsPerPage
     } = useChunkStore();
 
+    // --- Local Component State ---
     const [kb, setKb] = useState<KnowledgeBase | null>(null);
     const [documents, setDocuments] = useState<Document[]>([]);
     const [activeTab, setActiveTab] = useState('切片详情');
@@ -45,6 +53,7 @@ export default function KnowledgeDetailPage() {
     const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
     const showToast = useToast();
 
+    // --- Data Fetching and Hydration Effect ---
     useEffect(() => {
         const knowledgeBase = getKnowledgeBaseById(kbId);
         if (knowledgeBase) {
@@ -53,7 +62,9 @@ export default function KnowledgeDetailPage() {
             setDocuments(associatedDocs);
             setIsLoading(false);
         } else {
-            const timer = setTimeout(() => router.push('/teacher/knowledge'), 2000);
+            const timer = setTimeout(() => {
+                router.push('/teacher/knowledge');
+            }, 2000);
             return () => clearTimeout(timer);
         }
     }, [kbId, getKnowledgeBaseById, getDocumentsByKbId, router]);
@@ -67,25 +78,33 @@ export default function KnowledgeDetailPage() {
             content: newChunkData.content,
             source_document_name: sourceDoc.name,
             char_count: newChunkData.content.length,
-            order_in_document: (chunks.filter(c => c.document_id === newChunkData.documentId).length || 0) + 1,
+            order_in_document: (allChunks.filter(c => c.document_id === newChunkData.documentId).length || 0) + 1,
             created_at: new Date().toISOString(),
         });
         showToast({ message: "新切片已添加", type: 'success' });
     };
 
-    // 核心：分页逻辑
+    // --- CORE FIX: Data Filtering and Pagination Logic ---
     const filteredChunks = useMemo(() => {
-        let processedData = [...chunks];
+        // Step 1: Create a Set of document IDs that belong to the current knowledge base for fast lookup.
+        const currentDocIds = new Set(documents.map(doc => doc.id));
+
+        // Step 2: Filter the global chunks to get only the ones related to the current KB.
+        let chunksForCurrentKb = allChunks.filter(chunk => currentDocIds.has(chunk.document_id));
+
+        // Step 3: Apply the source document filter.
         if (sourceFilter !== 'ALL') {
-            const selectedDoc = documents.find(d => d.id === sourceFilter);
-            processedData = selectedDoc ? processedData.filter(c => c.source_document_name === selectedDoc.name) : [];
+            chunksForCurrentKb = chunksForCurrentKb.filter(chunk => chunk.document_id === sourceFilter);
         }
+
+        // Step 4: Apply the search term filter.
         if (searchTerm.trim()) {
             const lowercasedTerm = searchTerm.toLowerCase();
-            processedData = processedData.filter(c => c.content.toLowerCase().includes(lowercasedTerm));
+            chunksForCurrentKb = chunksForCurrentKb.filter(chunk => chunk.content.toLowerCase().includes(lowercasedTerm));
         }
-        return processedData;
-    }, [chunks, sourceFilter, searchTerm, documents]);
+
+        return chunksForCurrentKb;
+    }, [allChunks, documents, sourceFilter, searchTerm]);
 
     const totalPages = Math.ceil(filteredChunks.length / itemsPerPage);
     const currentChunks = useMemo(() => {
@@ -93,6 +112,12 @@ export default function KnowledgeDetailPage() {
         return filteredChunks.slice(startIndex, startIndex + itemsPerPage);
     }, [currentPage, itemsPerPage, filteredChunks]);
 
+    // Reset page to 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [sourceFilter, searchTerm, setCurrentPage]);
+
+    // --- Tab Content Renderer ---
     const renderTabContent = () => {
         if (!kb) return null;
         switch(activeTab) {
@@ -113,13 +138,12 @@ export default function KnowledgeDetailPage() {
                         />
                     </div>
                 );
-            // ... 其他 case 保持不变
             case '基本信息': return <KnowledgeBaseInfo kb={kb} />;
             case '原始文档': return (
                 <div className={styles.singleColumnView}>
                     <DocumentToolbar kbId={kb.id} />
                     <div className={styles.tableContainer}><DocumentTable documents={documents} kbId={kb.id} /></div>
-                    <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
+                    <Pagination currentPage={1} totalPages={Math.ceil(documents.length / 10)} onPageChange={() => {}} />
                 </div>
             );
             case '知识检索': return (
@@ -138,6 +162,7 @@ export default function KnowledgeDetailPage() {
         }
     }
 
+    // --- Main Component Render ---
     if (isLoading) return <LoadingOrErrorState message="正在加载知识库数据..." />;
     if (!kb) return <LoadingOrErrorState message="知识库不存在，即将返回列表页..." />;
 

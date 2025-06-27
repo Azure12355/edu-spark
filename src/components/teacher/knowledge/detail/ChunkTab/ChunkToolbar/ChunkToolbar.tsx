@@ -1,26 +1,22 @@
 "use client";
-import React, { useState, useMemo } from 'react'; // Import useMemo
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ChunkToolbar.module.css';
 import { useKnowledgeStore } from '@/store/knowledgeStore';
-import { useChunkStore, ChunkViewMode } from '@/store/chunkStore';
+import { useChunkStore, ChunkViewMode } from '@/store/chunkStore'; // 1. 引入 chunkStore
 import { useParams } from 'next/navigation';
 
 interface ChunkToolbarProps {
     chunkCount: number;
     onOpenAddModal: () => void;
-    // We no longer need to pass filter props, the component gets them from the store
 }
 
 const ChunkToolbar: React.FC<ChunkToolbarProps> = ({ chunkCount, onOpenAddModal }) => {
     const params = useParams();
     const kbId = params.id as string;
+    const documents = useKnowledgeStore(state => state.getDocumentsByKbId(kbId));
 
-    // --- CORE FIX: Select the entire documents object, which is stable ---
-    const allDocuments = useKnowledgeStore(state => state.documents);
-    // --- Use useMemo to get the specific documents for this kbId. This only recalculates if allDocuments or kbId changes ---
-    const documents = useMemo(() => allDocuments[kbId] || [], [allDocuments, kbId]);
-
+    // 2. 从 chunkStore 获取状态和 actions
     const {
         sourceFilter,
         setSourceFilter,

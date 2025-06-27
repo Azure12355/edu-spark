@@ -1,130 +1,97 @@
 // src/lib/data/knowledgeMockData.ts
 
-import { KnowledgeBase, Document, KnowledgeStatus, KnowledgeFormatType } from '@/types/knowledge';
+import { KnowledgeBase, Document, KnowledgeStatus, KnowledgeFormatType, DocumentStatus, DocumentSourceType } from '@/types/knowledge';
 
-// --- 1. 素材库 (保持不变) ---
-const kbNames = [
-    "嵌入式Linux开发教程", "考研政治核心考点", "UI/UX 设计灵感库", "课程论文参考文献",
-    "Web安全攻防实战", "机器学习白皮书", "前端工程化体系", "Go语言并发编程",
-    "产品经理的自我修养", "西方艺术史概论", "量子物理入门", "市场营销案例分析"
-];
+// --- 素材库 (保持不变) ---
+const kbNames = [ "嵌入式Linux开发教程", "考研政治核心考点", "UI/UX 设计灵感库", "Web安全攻防实战", "机器学习白皮书" ];
+const owners = [ { id: 'user_teacher_01', name: '王老师' }, { id: 'user_teacher_02', name: '李教授' } ];
+const statuses: KnowledgeStatus[] = ['READY', 'BUILDING', 'ERROR', 'DISABLED', 'READY'];
+const formatTypes: KnowledgeFormatType[] = [0, 0, 2, 0, 0];
+const docTypes: Document['type'][] = ['pdf', 'docx', 'url', 'md', 'txt'];
+const docStatuses: DocumentStatus[] = ['COMPLETED', 'PROCESSING', 'FAILED', 'COMPLETED'];
 
-const kbDescriptions = [
-    "涵盖了从底层到应用层的完整知识体系。", "专为2025年考生准备的核心考点与真题解析。",
-    "收集全球顶尖App的交互与视觉设计案例。", "课程研究所需的核心期刊与会议论文集合。",
-    "从SQL注入到XSS，系统性讲解Web安全。", "深入探讨机器学习模型的原理与实践。",
-    "包含Webpack, Vite, CI/CD等现代前端技术。", "深度解析Goroutine和Channel的底层机制。",
-    "一份全面的产品经理成长指南和工具箱。", "从古希腊到当代艺术的视觉之旅。",
-    "用通俗易懂的语言解释复杂的量子世界。", "精选最新的成功与失败市场营销案例。"
-];
-
-const owners = [
-    { id: 'user_teacher_01', name: '王老师' },
-    { id: 'user_teacher_02', name: '李教授' },
-    { id: 'user_teacher_03', name: '艺术系' },
-    { id: 'user_teacher_04', name: '教研组' },
-];
-
-const statuses: KnowledgeStatus[] = ['READY', 'BUILDING', 'ERROR', 'DISABLED', 'READY', 'READY'];
-const formatTypes: KnowledgeFormatType[] = [0, 0, 2, 0];
-const visibilities: KnowledgeBase['visibility'][] = ['PUBLIC', 'PRIVATE', 'PRIVATE'];
-
-// --- 2. 优化后的确定性数据生成函数 ---
+// --- 数据生成函数 ---
 
 /**
- * 生成指定数量的、可预测的模拟知识库数据。
- * @param count 要生成的知识库数量
- * @returns KnowledgeBase[] 知识库对象数组
+ * 为单个知识库生成一组关联的文档
+ * @param kb - 所属的知识库对象
+ * @param count - 要生成的文档数量
+ * @returns Document[]
  */
-const generateMockKnowledgeBases = (count: number): KnowledgeBase[] => {
-    const data: KnowledgeBase[] = [];
-    const now = new Date('2024-07-22T10:00:00Z').getTime(); // 使用一个固定的基准时间
-
+const generateMockDocumentsForKb = (kb: KnowledgeBase, count: number): Document[] => {
+    const docs: Document[] = [];
     for (let i = 0; i < count; i++) {
-        const owner = owners[i % owners.length];
-        const status = statuses[i % statuses.length];
-        const visibility = visibilities[i % visibilities.length];
-        const isForked = visibility === 'PRIVATE' && (i % 4 === 0); // 让fork可预测
+        const type = docTypes[i % docTypes.length];
+        const now = new Date();
+        const docDate = new Date(now.getTime() - i * 3 * 24 * 60 * 60 * 1000); // 每3天一个文档
+        const doc: Document = {
+            id: `doc_${kb.id}_${i}`,
+            coze_document_id: `coze_doc_${kb.id}_${i}`,
+            knowledge_base_id: kb.id, // 明确绑定到传入的知识库ID
+            name: `${kb.name} - 参考资料${i + 1}.${type}`, // 名称与知识库关联
+            type: type,
+            size: Math.floor(Math.random() * 5 * 1024 * 1024) + 102400, // 100KB to 5MB
+            source_type: 0,
+            status: docStatuses[i % docStatuses.length],
+            slice_count: Math.floor(Math.random() * 200) + 1,
+            char_count: Math.floor(Math.random() * 300000) + 5000,
+            created_at: docDate.toISOString(),
+            updated_at: docDate.toISOString(),
+            error_message: docStatuses[i % docStatuses.length] === 'FAILED' ? '文件解析失败，请检查格式。' : undefined,
+        };
+        docs.push(doc);
+    }
+    return docs;
+}
 
-        // 使用固定的偏移量来生成时间，不再随机
-        const updatedDate = new Date(now - i * (24 * 60 * 60 * 1000));
-        const createdDate = new Date(updatedDate.getTime() - (i * 3 + 1) * (24 * 60 * 60 * 1000));
 
-        const kb: KnowledgeBase = {
+/**
+ * 生成所有模拟数据，包括知识库和它们各自的文档
+ * @param kbCount - 要生成的知识库数量
+ * @param docsPerKb - 每个知识库平均的文档数量
+ * @returns { knowledgeBases: KnowledgeBase[], documents: Record<string, Document[]> }
+ */
+const generateAllMockData = (kbCount: number, docsPerKb: number) => {
+    const knowledgeBases: KnowledgeBase[] = [];
+    const documents: Record<string, Document[]> = {};
+    const now = new Date();
+
+    for (let i = 0; i < kbCount; i++) {
+        const updatedDate = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000); // 每周一个知识库
+        const kb: Omit<KnowledgeBase, 'stats'> = {
             id: `kb_local_${1000 + i}`,
             coze_dataset_id: `755123456789000${1000 + i}`,
-            owner_id: owner.id,
-            name: `${kbNames[i % kbNames.length]} #${i + 1}`,
-            description: kbDescriptions[i % kbDescriptions.length],
+            owner_id: owners[i % owners.length].id,
+            name: `${kbNames[i % kbNames.length]}`,
+            description: `这是关于 ${kbNames[i % kbNames.length]} 的综合知识库。`,
             format_type: formatTypes[i % formatTypes.length],
-            visibility: visibility,
-            fork_from_kb_id: isForked ? `kb_local_${Math.floor(i / 2)}` : undefined, // 可预测的 fork
-            fork_count: visibility === 'PUBLIC' ? (i * 37 + 5) % 500 : 0, // 可预测的 fork 数量
-            icon_url: 'https://lf-coze-web-cdn.coze.cn/obj/coze-web/image/icon_knowledge_url.svg',
-            status: status,
-            stats: {
-                // --- 核心修复：使用可预测的公式代替 Math.random() ---
-                doc_count: (i * 3 + 1) % 100,
-                slice_count: (i * 123 + 45) % 10000,
-                hit_count: (i * 234 + 56) % 20000,
-                all_file_size: ((i * 567 + 89) % 500) * 1024 * 1024,
-                bot_used_count: (i % 10),
-            },
-            created_at: createdDate.toISOString(),
+            visibility: 'PRIVATE',
+            fork_count: 0,
+            status: statuses[i % statuses.length],
+            created_at: updatedDate.toISOString(),
             updated_at: updatedDate.toISOString(),
         };
-        data.push(kb);
+
+        const docsForThisKb = generateMockDocumentsForKb(kb as KnowledgeBase, Math.floor(Math.random() * docsPerKb) + 1);
+        documents[kb.id] = docsForThisKb;
+
+        const finalKb: KnowledgeBase = {
+            ...kb,
+            stats: {
+                doc_count: docsForThisKb.length,
+                slice_count: docsForThisKb.reduce((sum, doc) => sum + doc.slice_count, 0),
+                hit_count: Math.floor(Math.random() * 10000),
+                all_file_size: docsForThisKb.reduce((sum, doc) => sum + doc.size, 0),
+                bot_used_count: Math.floor(Math.random() * 5),
+            }
+        };
+        knowledgeBases.push(finalKb);
     }
-    return data;
+
+    return { knowledgeBases, documents };
 };
 
-// --- 3. 导出生成的数据 (保持不变) ---
-export const mockKnowledgeBases: KnowledgeBase[] = generateMockKnowledgeBases(30);
+const allData = generateAllMockData(15, 8); // 生成15个知识库，每个最多8个文档
 
-export const mockDocuments: Document[] = [
-    {
-        id: 'doc_local_01',
-        coze_document_id: '7385083080979001234',
-        knowledge_base_id: mockKnowledgeBases[0].id,
-        name: '01_Bootloader与U-Boot.pdf',
-        type: 'pdf',
-        size: 5242880,
-        source_type: 0,
-        status: 'COMPLETED',
-        slice_count: 256,
-        char_count: 350000,
-        created_at: '2024-07-20T10:00:00Z',
-        updated_at: '2024-07-20T10:05:00Z',
-    },
-    // ... 其他 mockDocuments 数据保持不变
-    {
-        id: 'doc_local_02',
-        coze_document_id: '7385083080979005678',
-        knowledge_base_id: mockKnowledgeBases[0].id,
-        name: '02_Linux内核裁剪与编译.docx',
-        type: 'docx',
-        size: 2097152,
-        source_type: 0,
-        status: 'PROCESSING',
-        slice_count: 100,
-        char_count: 150000,
-        created_at: '2024-07-21T11:00:00Z',
-        updated_at: '2024-07-21T11:02:00Z',
-    },
-    {
-        id: 'doc_local_03',
-        coze_document_id: '7385083080979009999',
-        knowledge_base_id: mockKnowledgeBases[0].id,
-        name: 'qemu-vexpress-a9官方文档.url',
-        type: 'url',
-        size: 0,
-        source_type: 1,
-        status: 'FAILED',
-        slice_count: 0,
-        char_count: 0,
-        error_message: '网页无法访问或超时 (Timeout)。',
-        created_at: '2024-07-21T12:00:00Z',
-        updated_at: '2024-07-21T12:01:00Z',
-    },
-];
-
+export const mockKnowledgeBases: KnowledgeBase[] = allData.knowledgeBases;
+export const mockDocuments: Record<string, Document[]> = allData.documents;

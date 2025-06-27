@@ -90,7 +90,7 @@ export interface Document {
     coze_document_id: string; // Coze 文档 ID
     knowledge_base_id: string; // 关联的本地知识库 ID
     name: string;
-    type: 'pdf' | 'txt' | 'doc' | 'docx' | 'png' | 'jpg' | 'url'; // 文件类型或来源
+    type: 'pdf' | 'txt' | 'doc' | 'docx' | 'png' | 'jpg' | 'url' | any; // 文件类型或来源
     size: number; // in bytes
     source_type: DocumentSourceType;
     status: DocumentStatus;

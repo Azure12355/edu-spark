@@ -1,19 +1,17 @@
 "use client";
 import React, { useEffect } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Document, DocumentStatus } from '@/types/knowledge';
-import { useKnowledgeStore } from '@/store/knowledgeStore';
-import { getFileIcon } from '@/lib/data/documentData';
+import { useDocumentTableStore } from '@/store/documentTableStore'; // 1. 从新的 Store 导入
+import { getFileIcon } from '@/lib/data/documentData'; // 确保这个路径正确
 import styles from './DocumentTable.module.css';
-import {useDocumentTableStore} from "@/store/documentTableStore";
 
 interface DocumentTableProps {
     documents: Document[];
     kbId: string;
 }
 
-// 状态图标组件
+// 状态图标组件 (保持不变)
 const StatusDisplay: React.FC<{ status: DocumentStatus }> = ({ status }) => {
     const statusMap = {
         COMPLETED: { text: '处理完成', icon: 'fas fa-check-circle', className: styles.statusCompleted },
@@ -26,13 +24,14 @@ const StatusDisplay: React.FC<{ status: DocumentStatus }> = ({ status }) => {
 
 // 表格行组件
 const TableRow: React.FC<{ doc: Document; isSelected: boolean; onToggle: () => void }> = ({ doc, isSelected, onToggle }) => {
-    const iconInfo = getFileIcon(doc.type as any);
+    // 确保 getFileIcon 接收的是字符串，doc.type 是 string
+    const iconInfo = getFileIcon(doc.type as any); // 假设 doc.type 可以安全地转换为 getFileIcon 接受的类型
 
     return (
         <motion.tr
-            layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            layout // 启用布局动画，使高度变化平滑
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={isSelected ? styles.selectedRow : ''}
@@ -57,7 +56,10 @@ const TableRow: React.FC<{ doc: Document; isSelected: boolean; onToggle: () => v
             <td>{new Date(doc.created_at).toLocaleString()}</td>
             <td className={styles.actionsCell}>
                 <div className={styles.actions}>
+                    {/* 请确保 Link 的 href 路径正确，如果需要跳转到详情页 */}
+                    {/* <Link href={`/teacher/knowledge/${kbId}/documents/${doc.id}`} passHref> */}
                     <button title="查看切片"><i className="fas fa-th-list"></i></button>
+                    {/* </Link> */}
                     <button title="重新处理"><i className="fas fa-redo"></i></button>
                 </div>
             </td>
@@ -65,24 +67,28 @@ const TableRow: React.FC<{ doc: Document; isSelected: boolean; onToggle: () => v
     );
 }
 
+// 主表格组件
 const DocumentTable: React.FC<DocumentTableProps> = ({ documents, kbId }) => {
-    // CORE FIX: Use the new, dedicated store for selection state
+    // 2. 从 documentTableStore 获取选择状态和操作
     const {
         selectedDocIds,
         toggleDocumentSelection,
         toggleAllDocumentsSelection,
-        clearSelection
+        clearSelection // 确保导入这个action
     } = useDocumentTableStore();
 
+    // 3. 当 documents prop 变化时，清空之前的选择 (重要，防止跨页/过滤选择残留)
     useEffect(() => {
         clearSelection();
-    }, [documents, clearSelection]);
+    }, [documents, clearSelection]); // clearSelection 也是依赖项
 
     const allDocIdsOnPage = documents.map(d => d.id);
+    // 4. 判断是否当前页所有文档都被选中
     const areAllSelected = allDocIdsOnPage.length > 0 && allDocIdsOnPage.every(id => selectedDocIds.has(id));
 
     return (
         <div className={styles.tableWrapper}>
+            {/* 这里的 table 元素依然需要保持 block 样式以使 overflow-y: auto 生效 */}
             <table className={styles.table}>
                 <thead>
                 <tr>
@@ -90,6 +96,7 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documents, kbId }) => {
                         <input
                             type="checkbox"
                             checked={areAllSelected}
+                            // 当点击全选时，传递当前页的所有文档ID和当前是否已经全选的状态
                             onChange={() => toggleAllDocumentsSelection(allDocIdsOnPage, areAllSelected)}
                         />
                     </th>
@@ -101,6 +108,7 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documents, kbId }) => {
                     <th>操作</th>
                 </tr>
                 </thead>
+                {/* 使用 tbody 来包裹 AnimatePresence，以正确应用动画 */}
                 <tbody>
                 <AnimatePresence>
                     {documents.length > 0 ? (
@@ -114,7 +122,7 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documents, kbId }) => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={7}>
+                            <td colSpan={7}> {/* 确保横跨所有列 */}
                                 <div className={styles.emptyState}>
                                     <i className={`fas fa-file-excel ${styles.emptyIcon}`}></i>
                                     <p>知识库中还没有文档</p>
