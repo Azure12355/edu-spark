@@ -2,44 +2,33 @@
 import { create } from 'zustand';
 import { KnowledgeStatus, KnowledgeFormatType } from '@/types/knowledge';
 
-export type KnowledgeSortBy = 'updated_at' | 'name' | 'doc_count';
-export type KnowledgeView = 'grid' | 'list';
+// Define the filter and sort types that this store will manage
+export type KnowledgeFilterStatus = 'ALL' | KnowledgeStatus;
+export type KnowledgeFilterType = 'ALL' | KnowledgeFormatType;
+export type KnowledgeSortBy = 'updated_at' | 'name' | 'fork_count';
 
+// Define the state and actions for this store
 interface KnowledgeViewState {
-    // State
+    filterStatus: KnowledgeFilterStatus;
+    filterType: KnowledgeFilterType;
     searchTerm: string;
-    filterStatus: KnowledgeStatus | 'ALL';
-    filterType: KnowledgeFormatType | 'ALL';
     sortBy: KnowledgeSortBy;
-    view: KnowledgeView;
-
-    // Actions
+    setFilterStatus: (status: KnowledgeFilterStatus) => void;
+    setFilterType: (type: KnowledgeFilterType) => void;
     setSearchTerm: (term: string) => void;
-    setFilterStatus: (status: KnowledgeStatus | 'ALL') => void;
-    setFilterType: (type: KnowledgeFormatType | 'ALL') => void;
     setSortBy: (sort: KnowledgeSortBy) => void;
-    setView: (view: KnowledgeView) => void;
-    resetFilters: () => void;
 }
 
 export const useKnowledgeViewStore = create<KnowledgeViewState>((set) => ({
-    // Initial State
-    searchTerm: '',
+    // Initial state for all the view controls
     filterStatus: 'ALL',
     filterType: 'ALL',
+    searchTerm: '',
     sortBy: 'updated_at',
-    view: 'grid',
 
-    // Actions
-    setSearchTerm: (searchTerm) => set({ searchTerm }),
+    // Actions to update the state
     setFilterStatus: (status) => set({ filterStatus: status }),
     setFilterType: (type) => set({ filterType: type }),
+    setSearchTerm: (term) => set({ searchTerm: term }),
     setSortBy: (sort) => set({ sortBy: sort }),
-    setView: (view) => set({ view }),
-    resetFilters: () => set({
-        searchTerm: '',
-        filterStatus: 'ALL',
-        filterType: 'ALL',
-        sortBy: 'updated_at',
-    }),
 }));

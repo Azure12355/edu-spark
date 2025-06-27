@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useKnowledgeStore, KnowledgeFilterStatus, KnowledgeFilterType, KnowledgeSortBy } from '@/store/knowledgeStore';
+// --- CORE FIX: Import the new dedicated store ---
+import { useKnowledgeViewStore, KnowledgeFilterStatus, KnowledgeFilterType, KnowledgeSortBy } from '@/store/knowledgeViewStore';
 import styles from './KnowledgeToolbar.module.css';
 
-// 1. 定义筛选和排序选项的数据
+// Data for dropdowns (no change)
 const statusOptions: { value: KnowledgeFilterStatus, label: string }[] = [
     { value: 'ALL', label: '所有状态' },
     { value: 'READY', label: '就绪' },
@@ -26,7 +27,7 @@ const sortOptions: { value: KnowledgeSortBy, label: string }[] = [
     { value: 'fork_count', label: '按热度' },
 ];
 
-// 2. 自定义下拉菜单子组件
+// FilterDropdown sub-component (no change)
 interface FilterDropdownProps {
     options: { value: any, label: string }[];
     selectedValue: any;
@@ -53,7 +54,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, selectedValue,
                         exit={{ opacity: 0, y: -10 }}
                     >
                         {options.map(option => (
-                            <li key={option.value} onClick={() => { onSelect(option.value); setIsOpen(false); }}>
+                            <li key={String(option.value)} onClick={() => { onSelect(option.value); setIsOpen(false); }}>
                                 {option.label}
                             </li>
                         ))}
@@ -64,13 +65,13 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, selectedValue,
     );
 };
 
-// 3. 主工具栏组件
+// Main Toolbar component
 interface KnowledgeToolbarProps {
     onOpenCreateModal: () => void;
 }
 
 const KnowledgeToolbar: React.FC<KnowledgeToolbarProps> = ({ onOpenCreateModal }) => {
-    // 4. 从 Store 中获取所有需要的状态和 actions
+    // --- CORE FIX: Use the new useKnowledgeViewStore ---
     const {
         searchTerm,
         setSearchTerm,
@@ -80,7 +81,7 @@ const KnowledgeToolbar: React.FC<KnowledgeToolbarProps> = ({ onOpenCreateModal }
         setFilterType,
         sortBy,
         setSortBy
-    } = useKnowledgeStore();
+    } = useKnowledgeViewStore();
 
     return (
         <motion.div
