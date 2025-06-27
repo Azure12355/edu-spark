@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './KnowledgeDetailLayout.module.css';
 import DocumentHeader from '@/components/teacher/knowledge/detail/DocumentTab/DocumentHeader/DocumentHeader';
 import DocumentTabs from '@/components/teacher/knowledge/detail/DocumentTab/DocumentTabs/DocumentTabs';
-import { KnowledgeBase } from '@/lib/data/knowledgeData';
+import {KnowledgeBase} from "@/types/knowledge";
 
 interface KnowledgeDetailLayoutProps {
     kb: KnowledgeBase;
