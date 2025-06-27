@@ -1,45 +1,101 @@
-/* src/components/teacher/component/knowledge/detail/DocumentToolbar.module.css */
+/* src/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar.module.css */
+
 .toolbar {
+    padding: 16px 0; /* 只保留垂直内边距 */
+    height: 68px; /* 固定高度，防止视图切换时布局跳动 */
+    display: flex;
+    align-items: center;
+}
+
+.actionsContainer {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
 }
-.importButton {
-    background-color: var(--teacher-primary);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
+
+/* --- 默认视图样式 --- */
+.filterDropdown {
     display: flex;
     align-items: center;
     gap: 8px;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s;
 }
+.filterDropdown:hover {
+    border-color: #9ca3af;
+    color: var(--teacher-text-primary);
+}
+
 .searchContainer {
     display: flex;
     align-items: center;
     border: 1px solid var(--teacher-border);
     border-radius: 8px;
     overflow: hidden;
+    background-color: var(--teacher-white);
+    width: 320px;
+    transition: all 0.2s ease;
 }
-.filterDropdown {
-    padding: 10px 16px;
-    background-color: #f9fafb;
-    border-right: 1px solid var(--teacher-border);
-    cursor: pointer;
+.searchContainer:focus-within {
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
 }
-.searchInput {
-    padding: 10px 16px;
+.searchContainer i { color: var(--teacher-text-tertiary); padding-left: 14px; }
+.searchContainer input {
+    padding: 10px 14px;
     border: none;
     outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
 }
-.searchButton {
-    padding: 10px 16px;
-    border: none;
-    background: none;
+
+/* --- 批量操作视图样式 --- */
+.selectionInfo {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+}
+
+.buttonGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    color: var(--teacher-text-tertiary);
+    border: 1px solid var(--teacher-border-color);
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s;
+}
+
+.actionButton:hover {
+    border-color: var(--teacher-text-primary);
+    color: var(--teacher-text-primary);
+}
+
+.deleteButton {
+    color: var(--teacher-red);
+    border-color: var(--teacher-red);
+}
+.deleteButton:hover {
+    background-color: var(--teacher-red);
+    color: white;
 }

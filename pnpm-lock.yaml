@@ -50,6 +50,9 @@ importers:
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
+      immer:
+        specifier: ^10.1.1
+        version: 10.1.1
       katex:
         specifier: ^0.16.22
         version: 0.16.22
@@ -100,7 +103,7 @@ importers:
         version: 2.0.0
       zustand:
         specifier: ^5.0.5
-        version: 5.0.5(@types/react@19.1.6)(react@19.1.0)
+        version: 5.0.5(@types/react@19.1.6)(immer@10.1.1)(react@19.1.0)
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -1207,6 +1210,9 @@ packages:
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
+
+  immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
 
   inline-style-parser@0.2.4:
     resolution: {integrity: sha512-0aO8FkhNZlj/ZIbNi7Lxxr12obT7cL1moPfE4tg1LkX7LlLfC6DeX4l2ZEud1ukP9jNQyNnfzQVqwbwmAATY4Q==}
@@ -3414,6 +3420,8 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
+  immer@10.1.1: {}
+
   inline-style-parser@0.2.4: {}
 
   internmap@1.0.1: {}
@@ -4999,9 +5007,10 @@ snapshots:
     dependencies:
       tslib: 2.3.0
 
-  zustand@5.0.5(@types/react@19.1.6)(react@19.1.0):
+  zustand@5.0.5(@types/react@19.1.6)(immer@10.1.1)(react@19.1.0):
     optionalDependencies:
       '@types/react': 19.1.6
+      immer: 10.1.1
       react: 19.1.0
 
   zwitch@2.0.4: {}

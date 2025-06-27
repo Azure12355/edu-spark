@@ -1,140 +1,152 @@
 "use client";
-import React, { useState } from 'react';
+
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import styles from './knowledgeDetail.module.css';
+import { useKnowledgeStore } from '@/store/knowledgeStore';
+import { useChunkStore } from '@/store/chunkStore';
+import { Document, KnowledgeBase, Chunk } from '@/types/knowledge';
 
-// Data imports
-import { knowledgeData, KnowledgeBase } from '@/lib/data/knowledgeData';
-import { documentData } from '@/lib/data/documentData';
-import { chunkData as initialChunkData, Chunk } from '@/lib/data/chunkData';
-
-// Layout and Component imports
 import KnowledgeDetailLayout from '@/components/teacher/knowledge/detail/layout/KnowledgeDetailLayout';
-import Pagination from '@/components/teacher/knowledge/common/Pagination';
+import Pagination from '@/components/common/Pagination/Pagination';
 import AddChunkModal from '@/components/teacher/knowledge/detail/ChunkTab/AddChunkModal/AddChunkModal';
 
-// View-specific component imports for each tab
-import DocumentToolbar from '@/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar';
+import KnowledgeBaseInfo from '@/components/teacher/knowledge/detail/BasicInfoTab/KnowledgeBaseInfo';
 import DocumentTable from '@/components/teacher/knowledge/detail/DocumentTab/DocumentTable/DocumentTable';
-import ChunkToolbar from '@/components/teacher/knowledge/detail/ChunkTab/ChunkToolbar/ChunkToolbar';
+import DocumentToolbar from '@/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar';
 import ChunkGrid from '@/components/teacher/knowledge/detail/ChunkTab/ChunkGrid/ChunkGrid';
+import ChunkToolbar from '@/components/teacher/knowledge/detail/ChunkTab/ChunkToolbar/ChunkToolbar';
+import QAChatView from '@/components/teacher/knowledge/detail/QAChatTab/QAChatView/QAChatView';
+import QAParameters from '@/components/teacher/knowledge/detail/QAChatTab/QAParameters/QAParameters';
 import RetrievalParameters from '@/components/teacher/knowledge/detail/RetrievalTab/RetrievalParameters/RetrievalParameters';
 import SearchAndResults from '@/components/teacher/knowledge/detail/RetrievalTab/SearchAndResults/SearchAndResults';
-import QAParameters from '@/components/teacher/knowledge/detail/QAChatTab/QAParameters/QAParameters';
-import QAChatView from '@/components/teacher/knowledge/detail/QAChatTab/QAChatView/QAChatView';
-import KnowledgeBaseInfo from '@/components/teacher/knowledge/detail/BasicInfoTab/KnowledgeBaseInfo';
 
+import styles from './knowledgeDetail.module.css';
+import { useToast } from '@/hooks/useToast';
+
+const LoadingOrErrorState: React.FC<{ message: string }> = ({ message }) => (
+    <div className={styles.centeredState}><div className={styles.spinner}></div><p>{message}</p></div>
+);
 
 export default function KnowledgeDetailPage() {
     const params = useParams();
     const router = useRouter();
     const kbId = params.id as string;
 
-    const [activeTab, setActiveTab] = useState('知识问答'); // 默认激活 "知识问答" Tab
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [chunks, setChunks] = useState<Chunk[]>(initialChunkData);
+    const { getKnowledgeBaseById, getDocumentsByKbId } = useKnowledgeStore();
+    const {
+        chunks, addChunk, sourceFilter, searchTerm,
+        currentPage, setCurrentPage, itemsPerPage
+    } = useChunkStore();
 
-    const kb = knowledgeData.find(k => k.id === kbId);
+    const [kb, setKb] = useState<KnowledgeBase | null>(null);
+    const [documents, setDocuments] = useState<Document[]>([]);
+    const [activeTab, setActiveTab] = useState('切片详情');
+    const [isLoading, setIsLoading] = useState(true);
+    const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
+    const showToast = useToast();
 
-    // 如果找不到知识库，则安全地重定向或显示错误信息
-    if (!kb) {
-        // 在客户端组件中，确保 window 对象存在再执行路由跳转
-        if (typeof window !== 'undefined') {
-            router.push('/student/knowledge');
+    useEffect(() => {
+        const knowledgeBase = getKnowledgeBaseById(kbId);
+        if (knowledgeBase) {
+            setKb(knowledgeBase);
+            const associatedDocs = getDocumentsByKbId(kbId);
+            setDocuments(associatedDocs);
+            setIsLoading(false);
+        } else {
+            const timer = setTimeout(() => router.push('/teacher/knowledge'), 2000);
+            return () => clearTimeout(timer);
         }
-        // 在服务器端或跳转前，可以显示一个加载/错误状态
-        return <div>加载中或知识库不存在...</div>;
-    }
+    }, [kbId, getKnowledgeBaseById, getDocumentsByKbId, router]);
 
-    // 处理新增切片的逻辑
     const handleAddChunk = (newChunkData: { documentId: string, content: string }) => {
-        console.log("新增切片:", newChunkData);
-        const newChunk: Chunk = {
-            id: `custom-chunk-${Date.now()}`,
-            index: chunks.length + 1,
+        const sourceDoc = documents.find(d => d.id === newChunkData.documentId);
+        if (!sourceDoc) return;
+
+        addChunk({
+            document_id: newChunkData.documentId,
             content: newChunkData.content,
-            sourceDocument: documentData.find(d => d.id === newChunkData.documentId)?.name || '未知文档',
-            charCount: newChunkData.content.length,
-            updatedAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        };
-        // 更新状态，将新切片添加到列表最前面
-        setChunks(prevChunks => [newChunk, ...prevChunks]);
+            source_document_name: sourceDoc.name,
+            char_count: newChunkData.content.length,
+            order_in_document: (chunks.filter(c => c.document_id === newChunkData.documentId).length || 0) + 1,
+            created_at: new Date().toISOString(),
+        });
+        showToast({ message: "新切片已添加", type: 'success' });
     };
 
-    // 根据激活的Tab渲染不同的核心内容视图
-    const renderContent = () => {
+    // 核心：分页逻辑
+    const filteredChunks = useMemo(() => {
+        let processedData = [...chunks];
+        if (sourceFilter !== 'ALL') {
+            const selectedDoc = documents.find(d => d.id === sourceFilter);
+            processedData = selectedDoc ? processedData.filter(c => c.source_document_name === selectedDoc.name) : [];
+        }
+        if (searchTerm.trim()) {
+            const lowercasedTerm = searchTerm.toLowerCase();
+            processedData = processedData.filter(c => c.content.toLowerCase().includes(lowercasedTerm));
+        }
+        return processedData;
+    }, [chunks, sourceFilter, searchTerm, documents]);
+
+    const totalPages = Math.ceil(filteredChunks.length / itemsPerPage);
+    const currentChunks = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        return filteredChunks.slice(startIndex, startIndex + itemsPerPage);
+    }, [currentPage, itemsPerPage, filteredChunks]);
+
+    const renderTabContent = () => {
+        if (!kb) return null;
         switch(activeTab) {
-            case '基本信息':
-                return <KnowledgeBaseInfo kb={kb} />;
-            case '原始文档':
-                return (
-                    <div className={styles.singleColumnView}>
-                        <DocumentToolbar />
-                        <div className={styles.tableContainer}>
-                            <DocumentTable documents={documentData} />
-                        </div>
-                        <Pagination />
-                    </div>
-                );
             case '切片详情':
                 return (
                     <div className={styles.singleColumnView}>
-                        <ChunkToolbar chunkCount={chunks.length} onOpenAddModal={() => setIsModalOpen(true)} />
+                        <ChunkToolbar
+                            chunkCount={filteredChunks.length}
+                            onOpenAddModal={() => setIsChunkModalOpen(true)}
+                        />
                         <div className={styles.tableContainer}>
-                            <ChunkGrid chunks={chunks} />
+                            <ChunkGrid chunks={currentChunks} />
                         </div>
-                        <Pagination />
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                        />
                     </div>
                 );
-            case '知识检索':
-                return (
-                    <div className={styles.viewContainer}>
-                        <div className={styles.leftPanel}>
-                            <RetrievalParameters />
-                        </div>
-                        <div className={styles.rightPanel}>
-                            <SearchAndResults />
-                        </div>
-                    </div>
-                );
-            case '知识问答':
-                return (
-                    <div className={styles.viewContainer}>
-                        <div className={styles.leftPanel}>
-                            <QAParameters />
-                        </div>
-                        <div className={styles.rightPanel}>
-                            <QAChatView />
-                        </div>
-                    </div>
-                );
-            default:
-                return (
-                    <div style={{padding: '40px', textAlign: 'center', color: '#6c757d'}}>
-                        <p>{activeTab} 功能正在开发中...</p>
-                    </div>
-                );
+            // ... 其他 case 保持不变
+            case '基本信息': return <KnowledgeBaseInfo kb={kb} />;
+            case '原始文档': return (
+                <div className={styles.singleColumnView}>
+                    <DocumentToolbar kbId={kb.id} />
+                    <div className={styles.tableContainer}><DocumentTable documents={documents} kbId={kb.id} /></div>
+                    <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
+                </div>
+            );
+            case '知识检索': return (
+                <div className={styles.viewContainer}>
+                    <div className={styles.leftPanel}><RetrievalParameters /></div>
+                    <div className={styles.rightPanel}><SearchAndResults /></div>
+                </div>
+            );
+            case '知识问答': return (
+                <div className={styles.viewContainer}>
+                    <div className={styles.leftPanel}><QAParameters /></div>
+                    <div className={styles.rightPanel}><QAChatView /></div>
+                </div>
+            );
+            default: return <div className={styles.centeredState}><p>{activeTab} 功能正在开发中...</p></div>;
         }
     }
 
+    if (isLoading) return <LoadingOrErrorState message="正在加载知识库数据..." />;
+    if (!kb) return <LoadingOrErrorState message="知识库不存在，即将返回列表页..." />;
+
     return (
         <>
-            {/* 使用主布局组件包裹所有内容 */}
-            <KnowledgeDetailLayout
-                kb={kb}
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-            >
-                {/* 渲染当前激活Tab对应的内容 */}
-                {renderContent()}
+            <KnowledgeDetailLayout kb={kb} activeTab={activeTab} onTabChange={setActiveTab}>
+                {renderTabContent()}
             </KnowledgeDetailLayout>
-
-            {/* "新增切片"弹窗，独立于主布局之外，通过状态控制 */}
-            <AddChunkModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onAddChunk={handleAddChunk}
-            />
+            <AddChunkModal isOpen={isChunkModalOpen} onClose={() => setIsChunkModalOpen(false)} onAddChunk={handleAddChunk}/>
         </>
     );
 }

@@ -100,3 +100,16 @@ export interface Document {
     created_at: string; // ISO 格式日期字符串
     updated_at: string; // ISO 格式日期字符串
 }
+
+/**
+ * 知识切片 (Chunk) 实体类型定义
+ */
+export interface Chunk {
+    id: string;
+    document_id: string; // 来源文档的本地ID
+    source_document_name: string;
+    content: string;
+    char_count: number;
+    order_in_document: number;
+    created_at: string; // ISO 格式日期字符串
+}

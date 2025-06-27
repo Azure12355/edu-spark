@@ -40,3 +40,30 @@
 }
 .actions i.fa-check-circle { color: #22c55e; }
 .actions button { background: none; border: none; cursor: pointer; color: inherit; }
+
+/* ... (保留原有样式) ... */
+
+/* 新增样式 */
+.progressBar {
+    width: 100px;
+    height: 6px;
+    background-color: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.progressBar div {
+    height: 100%;
+    background-color: var(--teacher-primary);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.statusSuccess { color: #16a34a; font-weight: 500; }
+.statusFailed { color: #ef4444; font-weight: 500; cursor: help; }
+.statusWaiting { color: var(--teacher-text-tertiary); }
+.statusSuccess i, .statusFailed i { margin-right: 4px; }
+
+.actions button:disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+}

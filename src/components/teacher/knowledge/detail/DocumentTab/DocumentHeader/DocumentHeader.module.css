@@ -1,83 +1,137 @@
-/* src/components/teacher/component/knowledge/detail/DocumentHeader.module.css */
-/* 全新、紧凑的头部样式 */
+/* src/components/teacher/knowledge/detail/DocumentTab/DocumentHeader/DocumentHeader.module.css */
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
-    height: 60px; /* 固定高度 */
-    background-color: var(--teacher-white);
-    border-bottom: 1px solid var(--teacher-border);
+    padding: 16px 24px;
+    height: 80px; /* 增加头部高度以容纳更多信息 */
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--teacher-border-color);
     flex-shrink: 0;
 }
 
-.leftSection {
+.leftSection, .rightSection {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.backLink {
+.backButton {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid transparent;
     color: var(--teacher-text-secondary);
-    text-decoration: none;
-    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s ease;
 }
-.divider {
-    width: 1px;
-    height: 20px;
-    background-color: var(--teacher-border);
+
+.backButton:hover {
+    background: var(--teacher-white);
+    color: var(--teacher-primary);
+    border-color: var(--teacher-border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+
 .titleInfo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
-.icon {
-    font-size: 24px;
-    color: var(--teacher-primary);
+
+.titleText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
-.titleText h1 {
-    font-size: 18px;
+
+.title {
+    font-size: 20px;
     font-weight: 600;
+    color: var(--teacher-text-primary);
     margin: 0;
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.metaInfo {
     display: flex;
     align-items: center;
     gap: 12px;
+    font-size: 13px;
 }
+
 .statusTag {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 99px;
     font-weight: 500;
-    background-color: #e0f2fe;
-    color: #0284c7;
 }
 
-.rightSection {
+.spinning {
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--teacher-border-color);
+}
+
+.metaItem {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-.menuButton, .manageButton {
-    border: 1px solid var(--teacher-border);
-    background-color: var(--teacher-white);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
+    gap: 6px;
     color: var(--teacher-text-secondary);
-    transition: all 0.2s;
 }
-.menuButton {
-    width: 36px;
-    height: 36px;
+.metaItem i {
+    font-size: 14px;
 }
-.manageButton {
-    padding: 8px 16px;
+
+/* --- 按钮样式 --- */
+.secondaryButton, .primaryButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color);
+    transition: all 0.2s ease;
 }
-.menuButton:hover, .manageButton:hover {
-    border-color: #d1d5db;
-    background-color: #f9fafb;
+
+.secondaryButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-primary);
+}
+.secondaryButton:hover {
+    border-color: var(--teacher-text-primary);
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+}
+
+.primaryButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+    box-shadow: 0 4px 12px -2px rgba(47, 123, 255, 0.3);
+}
+.primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px -3px rgba(47, 123, 255, 0.4);
 }

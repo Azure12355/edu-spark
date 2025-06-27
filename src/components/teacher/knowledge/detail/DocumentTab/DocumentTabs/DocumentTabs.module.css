@@ -1,10 +1,20 @@
-/* src/components/teacher/component/knowledge/detail/DocumentTabs.module.css */
+/* src/components/teacher/knowledge/detail/DocumentTab/DocumentTabs/DocumentTabs.module.css */
+
 .tabsContainer {
-    display: flex;
-    border-bottom: 1px solid var(--teacher-border);
+    background-color: var(--teacher-white);
+    border-bottom: 1px solid var(--teacher-border-color);
+    padding: 0 24px; /* 增加左右内边距，让整体不贴边 */
+    flex-shrink: 0;
 }
+
+.tabsList {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* 增大标签间距 */
+}
+
 .tabButton {
-    padding: 12px 20px;
+    padding: 14px 4px; /* 增加垂直内边距，减小水平内边距以适应下划线 */
     background: none;
     border: none;
     cursor: pointer;
@@ -12,10 +22,33 @@
     font-weight: 500;
     color: var(--teacher-text-secondary);
     position: relative;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px; /* 让边框覆盖容器边框 */
+    border-bottom: 2px solid transparent; /* 预留底部边框空间 */
+    transition: color 0.2s ease;
 }
+
+.tabButton:hover:not(.active) {
+    color: var(--teacher-text-primary);
+}
+
 .tabButton.active {
     color: var(--teacher-primary);
-    border-bottom-color: var(--teacher-primary);
+    font-weight: 600;
+}
+
+/* 按钮内的文字，用于 z-index 控制 */
+.tabText {
+    position: relative;
+    z-index: 2;
+}
+
+/* 动态活动指示器 */
+.activePill {
+    position: absolute;
+    bottom: -1px; /* 覆盖容器的下边框 */
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--teacher-primary);
+    border-radius: 1px;
+    z-index: 1;
 }
