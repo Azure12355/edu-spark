@@ -1,6 +1,61 @@
-/* src/components/teacher/component/knowledge/KnowledgeGrid/KnowledgeGrid.module.css */
+/* src/components/teacher/knowledge/home/KnowledgeGrid/KnowledgeGrid.module.css */
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    /* 使用 auto-fill 和 minmax 实现响应式布局 */
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 24px;
+    padding-top: 4px; /* 与 Toolbar 保持一点距离 */
+    position: relative; /* 为空状态的绝对定位提供上下文 */
+}
+
+/* --- 空状态样式 --- */
+.emptyStateContainer {
+    /* 关键：让空状态占据整个网格区域，无论网格有多少列 */
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    background-color: var(--teacher-bg-card);
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.emptyIcon {
+    font-size: 48px;
+    margin-bottom: 24px;
+    color: #9ca3af;
+    /* 一个微妙的动画效果 */
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.emptyTitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 0 0 12px;
+}
+
+.emptyMessage {
+    font-size: 15px;
+    color: var(--teacher-text-secondary);
+    max-width: 400px;
+    line-height: 1.7;
+    margin: 0;
 }

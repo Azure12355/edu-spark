@@ -1,20 +1,14 @@
-// src/components/common/Pagination/Pagination.tsx
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import styles from './Pagination.module.css';
 
-// 为组件定义清晰的 Props 接口
 interface PaginationProps {
     currentPage: number;
     totalPages: number;
     onPageChange: (page: number) => void;
 }
 
-/**
- * 一个通用的、可复用的分页组件。
- * 支持页码显示、前后翻页、首页/末页跳转，以及快速跳转到指定页面。
- */
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
     const [jumpValue, setJumpValue] = useState(String(currentPage));
 
@@ -24,11 +18,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 
     const handleJump = () => {
         const pageNum = parseInt(jumpValue, 10);
-        if (!isNaN(pageNum) && pageNum > 0 && pageNum <= totalPages) {
+        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
             onPageChange(pageNum);
         } else {
-            // 如果输入无效，则重置为当前页码
-            setJumpValue(String(currentPage));
+            setJumpValue(String(currentPage)); // Reset if invalid
         }
     };
 
@@ -39,48 +32,43 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         }
     };
 
-    // 动态生成页码的逻辑
+    // 智能生成页码数组的逻辑
     const getPaginationNumbers = () => {
-        const pages = [];
-        const siblingCount = 1; // 当前页码左右各显示1个页码
-        const totalPageNumbers = siblingCount * 2 + 5; // (siblings * 2) + first + last + current + 2*ellipsis
+        if (totalPages <= 7) { // 如果总页数不多，全部显示
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
 
-        if (totalPages <= totalPageNumbers) {
-            for (let i = 1; i <= totalPages; i++) {
+        const pages = [];
+        const siblingCount = 1;
+        const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+        const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+
+        const shouldShowLeftDots = leftSiblingIndex > 2;
+        const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+
+        pages.push(1); // 首页
+
+        if (shouldShowLeftDots) {
+            pages.push('...');
+        }
+
+        for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
+            if (i > 1 && i < totalPages) {
                 pages.push(i);
             }
-        } else {
-            const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-            const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
-
-            const shouldShowLeftDots = leftSiblingIndex > 2;
-            const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
-
-            const firstPageIndex = 1;
-            const lastPageIndex = totalPages;
-
-            if (shouldShowLeftDots && !shouldShowRightDots) {
-                const rightItemCount = 3 + 2 * siblingCount;
-                const rightRange = Array.from({ length: rightItemCount }, (_, i) => totalPages - rightItemCount + 1 + i);
-                pages.push(firstPageIndex, '...');
-                pages.push(...rightRange);
-            } else if (!shouldShowLeftDots && shouldShowRightDots) {
-                const leftItemCount = 3 + 2 * siblingCount;
-                const leftRange = Array.from({ length: leftItemCount }, (_, i) => i + 1);
-                pages.push(...leftRange, '...', lastPageIndex);
-            } else if (shouldShowLeftDots && shouldShowRightDots) {
-                pages.push(firstPageIndex, '...');
-                for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
-                    pages.push(i);
-                }
-                pages.push('...', lastPageIndex);
-            }
         }
-        return [...new Set(pages)];
+
+        if (shouldShowRightDots) {
+            pages.push('...');
+        }
+
+        pages.push(totalPages); // 末页
+
+        return [...new Set(pages)]; // 去重，防止边界情况
     };
 
     if (totalPages <= 1) {
-        return null; // 如果只有一页或没有，不显示分页
+        return null;
     }
 
     const pages = getPaginationNumbers();
@@ -116,7 +104,6 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
                 <input
                     type="text"
                     inputMode="numeric"
-                    pattern="[0-9]*"
                     value={jumpValue}
                     onChange={(e) => setJumpValue(e.target.value.replace(/\D/g, ''))}
                     onKeyDown={handleKeyDown}

@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { KnowledgeFormatType } from '@/types/knowledge';
 import styles from './CreateKnowledgeModal.module.css';
 
 interface CreateKnowledgeModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (name: string, description: string) => void;
+    onCreate: (data: { name: string, description: string, format_type: KnowledgeFormatType }) => void;
 }
 
 const backdropVariants = {
@@ -23,30 +25,25 @@ const modalVariants = {
 const CreateKnowledgeModal: React.FC<CreateKnowledgeModalProps> = ({ isOpen, onClose, onCreate }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [formatType, setFormatType] = useState<KnowledgeFormatType>(0); // 默认文本类型
 
-    const isFormValid = name.trim() !== '' && description.trim() !== '';
+    const isFormValid = name.trim() !== '';
+
+    useEffect(() => {
+        // 当弹窗打开时，重置表单
+        if (isOpen) {
+            setName('');
+            setDescription('');
+            setFormatType(0);
+        }
+    }, [isOpen]);
 
     const handleCreate = () => {
         if (isFormValid) {
-            onCreate(name, description);
-            // 清空表单并关闭弹窗
-            setName('');
-            setDescription('');
-            onClose();
+            onCreate({ name, description, format_type: formatType });
+            onClose(); // 创建成功后关闭弹窗
         }
     };
-
-    // 按下 Escape 键关闭弹窗
-    React.useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                onClose();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [onClose]);
 
     return (
         <AnimatePresence>
@@ -62,41 +59,61 @@ const CreateKnowledgeModal: React.FC<CreateKnowledgeModalProps> = ({ isOpen, onC
                     <motion.div
                         className={styles.modal}
                         variants={modalVariants}
-                        onClick={(e) => e.stopPropagation()} // 防止点击弹窗内部关闭
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <div className={styles.modalHeader}>
+                        <header className={styles.modalHeader}>
                             <h2>创建新知识库</h2>
                             <button className={styles.closeButton} onClick={onClose} title="关闭">
                                 <i className="fas fa-times"></i>
                             </button>
-                        </div>
+                        </header>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="kb-name">知识库名称</label>
-                            <input
-                                id="kb-name"
-                                type="text"
-                                className={styles.input}
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="例如：考研政治核心知识点"
-                                required
-                            />
-                        </div>
+                        <main className={styles.modalBody}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="kb-name">知识库名称 <span className={styles.required}>*</span></label>
+                                <input
+                                    id="kb-name"
+                                    type="text"
+                                    className={styles.input}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="例如：考研政治核心知识点"
+                                    required
+                                />
+                            </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="kb-desc">描述</label>
-                            <textarea
-                                id="kb-desc"
-                                className={styles.textarea}
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="简要描述此知识库的用途和内容范围"
-                                required
-                            />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="kb-desc">描述 (可选)</label>
+                                <textarea
+                                    id="kb-desc"
+                                    className={styles.textarea}
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    placeholder="简要描述此知识库的用途和内容范围"
+                                    rows={3}
+                                />
+                            </div>
 
-                        <div className={styles.modalFooter}>
+                            <div className={styles.formGroup}>
+                                <label>知识库类型 <span className={styles.required}>*</span></label>
+                                <div className={styles.typeSelector}>
+                                    <button
+                                        className={`${styles.typeButton} ${formatType === 0 ? styles.active : ''}`}
+                                        onClick={() => setFormatType(0)}
+                                    >
+                                        <i className="fas fa-file-alt"></i> 文本类型
+                                    </button>
+                                    <button
+                                        className={`${styles.typeButton} ${formatType === 2 ? styles.active : ''}`}
+                                        onClick={() => setFormatType(2)}
+                                    >
+                                        <i className="fas fa-image"></i> 图片类型
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+
+                        <footer className={styles.modalFooter}>
                             <button className={`${styles.footerButton} ${styles.cancelButton}`} onClick={onClose}>
                                 取消
                             </button>
@@ -105,9 +122,9 @@ const CreateKnowledgeModal: React.FC<CreateKnowledgeModalProps> = ({ isOpen, onC
                                 onClick={handleCreate}
                                 disabled={!isFormValid}
                             >
-                                创建
+                                确认创建
                             </button>
-                        </div>
+                        </footer>
                     </motion.div>
                 </motion.div>
             )}

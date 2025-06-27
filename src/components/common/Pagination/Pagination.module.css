@@ -5,18 +5,22 @@
     justify-content: center;
     gap: 8px;
     margin-top: 40px;
-    /* 移除背景和边框，使其更融入页面 */
+    padding: 12px;
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
 .paginationButton {
-    background-color: var(--teacher-bg-card);
+    background-color: var(--teacher-white);
     border: 1px solid var(--teacher-border-color);
     color: var(--teacher-text-secondary);
     border-radius: 8px;
-    min-width: 44px; /* 增大点击区域 */
-    height: 44px;
-    padding: 0 12px;
-    font-size: 15px; /* 增大字体 */
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -48,7 +52,7 @@
     padding: 0 8px;
     display: flex;
     align-items: center;
-    height: 44px;
+    height: 40px;
 }
 
 .jumpToPageContainer {
@@ -62,39 +66,30 @@
 
 .jumpInput {
     width: 50px;
-    height: 44px;
+    height: 40px;
     border-radius: 8px;
     border: 1px solid var(--teacher-border-color);
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--teacher-text-primary);
-    background-color: var(--teacher-bg-card);
+    background-color: var(--teacher-white);
     transition: border-color 0.2s, box-shadow 0.2s;
     -moz-appearance: textfield;
 }
 .jumpInput::-webkit-outer-spin-button,
 .jumpInput::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none; margin: 0;
 }
 
 .jumpInput:focus {
     outline: none;
     border-color: var(--teacher-primary);
-    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
 }
 
 @media (max-width: 768px) {
-    .paginationContainer {
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-    .jumpToPageContainer {
-        display: none;
-    }
-    .paginationButton, .ellipsis {
-        height: 40px;
-        min-width: 40px;
-    }
+    .paginationContainer { flex-wrap: wrap; gap: 6px; }
+    .jumpToPageContainer { display: none; }
+    .paginationButton, .ellipsis { height: 36px; min-width: 36px; }
 }
