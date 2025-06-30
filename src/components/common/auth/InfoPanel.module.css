@@ -1,0 +1,50 @@
+.infoPanel {
+    width: 276px;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: #ffffff;
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px 0 0 12px;
+}
+
+.logoAndTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+
+}
+
+.platformName {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.slogan {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 32px;
+}
+
+.featureList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.featureItem i {
+    color: #a7f3d0; /* A light green for the checkmark */
+}

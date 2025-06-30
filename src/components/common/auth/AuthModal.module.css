@@ -1,0 +1,50 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalWrapper {
+    position: relative;
+}
+
+.modalContent {
+    width: 760px;
+    height: 550px;
+    background-color: #ffffff;
+    border-radius: 16px; /* 增加圆角 */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    overflow: hidden;
+}
+
+.closeButton {
+    position: absolute;
+    /* 调整位置到弹窗右上角外部 */
+    top: calc(50% - 250px - 40px); /* (modal_height/2) - (button_height/2 + gap) */
+    right: calc(50% - 380px - 40px); /* (modal_width/2) - (button_width/2 + gap) */
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+    background: rgba(0, 0, 0, 0.4);
+    transform: rotate(90deg) scale(1.1);
+}

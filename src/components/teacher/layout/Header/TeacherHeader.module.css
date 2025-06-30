@@ -110,3 +110,26 @@
     border: 2px solid white;
     box-shadow: 0 0 0 1px var(--teacher-border-color);
 }
+
+/* ... (保留原有样式) ... */
+
+.authButtons {
+    display: flex;
+    align-items: center;
+}
+
+.loginButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.loginButton:hover {
+    background-color: #3674db;
+    color: white;
+}

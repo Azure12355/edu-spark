@@ -1,0 +1,175 @@
+.formPanel {
+    width: 484px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.switchMode {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.qrCodeButton {
+    background: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #718096;
+    transition: all 0.2s;
+}
+
+.qrCodeButton:hover {
+    color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.footer {
+    width: 100%;
+    padding: 5px 15px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #a0aec0;
+    background: rgba(128, 128, 128, 0.07);
+    border-radius: 10px;
+
+}
+
+.footer a {
+    color: #718096;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footerLink {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* ... (保留原有样式) ... */
+
+.formPanel {
+    width: 484px;
+    padding: 40px 48px; /* 增加左右内边距 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    position: relative; /* 为返回按钮定位 */
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color 0.2s;
+}
+.backButton:hover {
+    color: #3b82f6;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a202c;
+    text-align: center;
+    flex-grow: 1; /* 让标题居中 */
+}
+
+.qrCodeButton {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e2e8f0;
+    background: url('/images/qr-code-icon.svg') no-repeat center center; /* 使用背景图片 */
+    background-size: 60%;
+    cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 0 10px 0 10px;
+    transition: opacity 0.2s;
+}
+.qrCodeButton:hover {
+    opacity: 0.8;
+}
+.qrCodeButton i { display: none; } /* 隐藏原来的font-awesome图标 */
+
+/* 表单容器，用于动画 */
+.formContainer {
+    width: 100%;
+}
+
+/* 新增：二维码面板样式 */
+.qrPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+}
+
+.qrText {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a202c;
+}
+
+.qrSubText {
+    font-size: 12px;
+    color: #a0aec0;
+    text-align: center;
+    max-width: 240px;
+    line-height: 1.5;
+}
+
+.qrHelpLink {
+    font-size: 12px;
+    color: #3b82f6;
+    text-decoration: none;
+    margin-top: 8px;
+}
