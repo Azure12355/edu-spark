@@ -133,3 +133,29 @@
     background-color: #3674db;
     color: white;
 }
+
+/* ... (保留原有样式) ... */
+
+/* 新增样式 */
+.profileContainer {
+    position: relative; /* 为下拉菜单定位 */
+}
+
+.avatarButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex; /* 确保图片完全显示 */
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.avatarButton:hover .avatar {
+    border-color: #3b82f6;
+}

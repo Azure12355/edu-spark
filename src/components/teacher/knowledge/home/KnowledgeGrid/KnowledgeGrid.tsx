@@ -10,6 +10,7 @@ import {KnowledgeBaseVO} from "@/services/knowledgeService";
 interface KnowledgeGridProps {
     kbs: KnowledgeBaseVO[];
     isLoading: boolean; // 新增 isLoading prop
+    onDelete: (id: number) => Promise<void>; // 确认 prop 类型
 }
 
 const SkeletonCard = () => (
@@ -48,7 +49,7 @@ const EmptyState = () => (
 );
 
 // 3. 修改主组件，使用传入的 kbs prop
-const KnowledgeGrid: React.FC<KnowledgeGridProps> = ({ kbs, isLoading }) => {
+const KnowledgeGrid: React.FC<KnowledgeGridProps> = ({ kbs, isLoading, onDelete }) => {
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -81,7 +82,8 @@ const KnowledgeGrid: React.FC<KnowledgeGridProps> = ({ kbs, isLoading }) => {
                 {kbs.length > 0 ? (
                     kbs.map(kb => (
                         <motion.div key={kb.id} layout="position">
-                            <KnowledgeCard kb={kb as any} />
+                            {/* 【核心】: 传递 onDelete 函数 */}
+                            <KnowledgeCard kb={kb} onDelete={onDelete} />
                         </motion.div>
                     ))
                 ) : (

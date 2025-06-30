@@ -1,0 +1,132 @@
+.dropdownContainer {
+    position: absolute;
+    top: calc(100% + 12px); /* 增加与Header的间距 */
+    right: 0;
+    width: 280px; /* 宽度调整为更紧凑 */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+    padding: 12px;
+    z-index: 1001;
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transform-origin: top right;
+    animation: fadeIn 0.2s ease-out forwards;
+    color: #333;
+    cursor: default;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.profileAvatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profileDetails h4 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1a202c;
+}
+
+.roleTag {
+    font-size: 11px;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.profileDetails p {
+    margin: 0;
+    font-size: 12px;
+    color: #718096;
+}
+
+.separator {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 8px 0;
+}
+
+.actionList {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #4a5568;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.actionItem:hover {
+    background-color: #f7fafc;
+    color: #3b82f6;
+}
+
+.actionItem i {
+    width: 18px;
+    text-align: center;
+    color: #a0aec0;
+    transition: color 0.2s;
+}
+
+.actionItem:hover i {
+    color: #3b82f6;
+}
+
+.logoutWrapper {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.logoutButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ef4444; /* 突出注销按钮 */
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.logoutButton:hover {
+    background-color: #fef2f2;
+}
+
+.logoutButton i {
+    width: 18px;
+    text-align: center;
+}

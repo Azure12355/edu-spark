@@ -1,5 +1,6 @@
-import axios, { AxiosError } from 'axios';
-import { useToastStore } from '@/hooks/useToast'; // 引入我们之前创建的 Toast Store
+import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useToastStore } from '@/hooks/useToast';
+import { useUserStore } from '@/store/userStore';
 
 /**
  * 后端返回的标准响应体结构
@@ -10,89 +11,109 @@ interface ApiResponse<T = any> {
     message: string;
 }
 
-// 1. 创建 Axios 实例
+// 全局标志位，防止因并发请求的401错误导致多次重定向
+let isRedirecting = false;
+
+// 1. 创建 Axios 实例 (配置保持不变)
 const apiClient = axios.create({
-    // 从环境变量中读取 API 基础路径，如果没有则使用本地开发地址
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8101/api',
-    // 设置请求超时时间
     timeout: 10000,
-    // 允许跨域请求携带 cookie (对于 session 认证至关重要)
     withCredentials: true,
 });
 
-// 2. 添加请求拦截器 (Request Interceptor)
+// 2. 请求拦截器 (Request Interceptor)
 apiClient.interceptors.request.use(
-    (config) => {
-        // 在这里可以统一处理请求头，例如添加 token
-        // const token = localStorage.getItem('token');
-        // if (token) {
+    (config: InternalAxiosRequestConfig) => {
+        // 【扩展点】: 未来如果使用 JWT，可以在这里统一添加认证头
+        // const token = useUserStore.getState().token; // 假设 token 存储在 userStore 中
+        // if (token && config.headers) {
         //     config.headers.Authorization = `Bearer ${token}`;
         // }
         return config;
     },
     (error) => {
-        // 对请求错误做些什么
         return Promise.reject(error);
     }
 );
 
-// 3. 添加响应拦截器 (Response Interceptor)
+// 3. 响应拦截器 (Response Interceptor)
 apiClient.interceptors.response.use(
     (response) => {
-        // --- 成功的响应处理 ---
         const res: ApiResponse = response.data;
-
-        // 业务成功 (code === 0)，直接返回解包后的 data
         if (res.code === 0) {
-            return res.data;
+            return res.data; // 直接返回 data，简化业务层调用
         }
 
-        // 业务失败 (code !== 0)，集中处理业务异常
-        console.error('API Business Error:', res.message);
-
-        // 使用 Toast 显示业务错误信息
+        // 处理后端返回的业务错误 (code !== 0)
+        console.error('API Business Error:', res);
         useToastStore.getState().showToast({
             message: res.message || '操作失败，请稍后重试',
             type: 'error',
         });
 
-        // 拒绝 Promise，让调用处的 .catch() 可以捕获到
+        // 【重要】: 即使是业务错误，也应该以 reject 的形式抛出，
+        // 这样 .catch() 逻辑才能捕获到，防止业务代码继续执行 .then()。
         return Promise.reject(new Error(res.message));
     },
     (error: AxiosError) => {
-        // --- 失败的响应处理 (网络错误、服务器错误等) ---
-        console.error('API Network Error:', error.message);
+        console.error('API Network/Server Error:', error);
 
-        // 默认的错误消息
-        let errorMessage = '网络请求异常，请检查您的网络连接';
-
-        if (error.response) {
-            // 服务器返回了响应，但状态码不是 2xx
-            const status = error.response.status;
-            // 尝试从后端返回的 data 中获取更具体的错误信息
-            const responseData = error.response.data as ApiResponse;
-            errorMessage = responseData?.message || `服务器错误，状态码: ${status}`;
-
-            // 针对特定状态码进行处理
-            if (status === 401) {
-                errorMessage = '登录状态已过期，请重新登录';
-                // TODO: 在这里可以触发跳转到登录页的操作
-                // window.location.href = '/login';
-            } else if (status === 403) {
-                errorMessage = '您没有权限执行此操作';
-            } else if (status === 404) {
-                errorMessage = '请求的资源未找到';
-            }
-        } else if (error.request) {
-            // 请求已发出，但没有收到响应 (例如网络断开)
-            errorMessage = '无法连接到服务器，请检查网络';
+        // 如果没有 error.response，说明是网络断开或请求超时等客户端错误
+        if (!error.response) {
+            useToastStore.getState().showToast({
+                message: '网络请求异常，请检查您的网络连接',
+                type: 'error',
+            });
+            return Promise.reject(error);
         }
 
-        // 使用 Toast 显示最终的错误信息
-        useToastStore.getState().showToast({
-            message: errorMessage,
-            type: 'error',
-        });
+        // --- 有响应的服务器错误处理 ---
+        const status = error.response.status;
+        const responseData = error.response.data as ApiResponse;
+        let errorMessage = responseData?.message || `服务器内部错误，状态码: ${status}`;
+
+        switch (status) {
+            case 401: // 未授权 (未登录或Session过期)
+                // 【核心逻辑】: 处理认证失败
+                errorMessage = '登录状态已过期，请重新登录';
+
+                // 检查是否正在重定向，防止重复触发
+                if (!isRedirecting) {
+                    isRedirecting = true;
+                    // 使用 Toast 提示用户
+                    useToastStore.getState().showToast({ message: errorMessage, type: 'warning' });
+
+                    // 清除本地的用户状态
+                    useUserStore.getState().clearUser();
+
+                    // 延迟一小段时间后重定向到首页，给Toast显示的时间
+                    setTimeout(() => {
+                        window.location.href = '/'; // 使用原生跳转，强制刷新页面和状态
+                        isRedirecting = false;
+                    }, 1500);
+                }
+                break;
+
+            case 403: // 禁止访问 (无权限)
+                errorMessage = '您没有权限执行此操作';
+                useToastStore.getState().showToast({ message: errorMessage, type: 'error' });
+                break;
+
+            case 404: // 未找到
+                errorMessage = '请求的资源不存在';
+                useToastStore.getState().showToast({ message: errorMessage, type: 'error' });
+                break;
+
+            case 500:
+                errorMessage = "服务器开小差了，请稍后重试~";
+                useToastStore.getState().showToast({ message: errorMessage, type: 'error' });
+                break;
+
+            default:
+                // 其他 HTTP 错误
+                useToastStore.getState().showToast({ message: errorMessage, type: 'error' });
+                break;
+        }
 
         return Promise.reject(error);
     }

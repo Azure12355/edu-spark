@@ -62,6 +62,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                             <FormPanel
                                 currentMode={authMode}
                                 onModeChange={handleModeChange}
+                                onCloseModal={handleClose}
                             />
                         </div>
                     </motion.div>

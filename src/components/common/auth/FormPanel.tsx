@@ -24,9 +24,10 @@ const QrCodePanel = () => (
 interface FormPanelProps {
     currentMode: AuthMode;
     onModeChange: (mode: AuthMode) => void;
+    onCloseModal: () => void;
 }
 
-const FormPanel: React.FC<FormPanelProps> = ({ currentMode, onModeChange }) => {
+const FormPanel: React.FC<FormPanelProps> = ({ currentMode, onModeChange, onCloseModal }) => {
 
     const getTitle = () => {
         switch (currentMode) {
@@ -70,8 +71,8 @@ const FormPanel: React.FC<FormPanelProps> = ({ currentMode, onModeChange }) => {
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className={styles.formContainer}
                 >
-                    {currentMode === 'login' && <LoginForm />}
-                    {currentMode === 'register' && <RegisterForm />}
+                    {currentMode === 'login' && <LoginForm onSuccess={onCloseModal} />}
+                    {currentMode === 'register' && <RegisterForm onSuccess={() => onModeChange('login')} />}
                     {currentMode === 'qr-code' && <QrCodePanel />}
                 </motion.div>
             </AnimatePresence>

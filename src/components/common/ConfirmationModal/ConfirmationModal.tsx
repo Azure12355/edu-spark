@@ -15,6 +15,7 @@ interface Props {
     confirmText?: string;
     cancelText?: string;
     type?: ConfirmationType;
+    isConfirming?: boolean; // 【新增】: 确认操作是否正在进行中
 }
 
 const typeConfig = {
@@ -43,6 +44,7 @@ const ConfirmationModal: React.FC<Props> = ({
                                                 confirmText = '确认',
                                                 cancelText = '取消',
                                                 type = 'warning',
+                                                isConfirming = false, // 【新增】: 解构并设置默认值
                                             }) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -81,11 +83,19 @@ const ConfirmationModal: React.FC<Props> = ({
                         <h2 className={styles.title}>{title}</h2>
                         <div className={styles.message}>{message}</div>
                         <div className={styles.actions}>
-                            <button className={`${styles.button} ${styles.cancelButton}`} onClick={onClose}>
+                            <button className={`${styles.button} ${styles.cancelButton}`} onClick={onClose} disabled={isConfirming}>
                                 {cancelText}
                             </button>
-                            <button className={`${styles.button} ${styles.confirmButton} ${config.className}`} onClick={handleConfirm}>
-                                {confirmText}
+                            <button
+                                className={`${styles.button} ${styles.confirmButton} ${config.className}`}
+                                onClick={handleConfirm}
+                                disabled={isConfirming} // 【新增】: 禁用按钮
+                            >
+                                {isConfirming ? (
+                                    <i className="fas fa-spinner fa-spin"></i>
+                                ) : (
+                                    confirmText
+                                )}
                             </button>
                         </div>
                     </motion.div>

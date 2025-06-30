@@ -348,3 +348,10 @@
   }
   .veMainHeader { padding: 0 16px; } /* 缩小Header内边距 */
 }
+
+.avatarButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}

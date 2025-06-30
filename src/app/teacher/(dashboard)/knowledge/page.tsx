@@ -11,6 +11,8 @@ import {
     // API调用
     listKnowledgeBasesByPage,
     createKnowledgeBase,
+    deleteKnowledgeBase,
+
 } from '@/services/knowledgeService';
 
 // 组件导入
@@ -83,6 +85,27 @@ export default function KnowledgePage() {
         }
     };
 
+    // --- 【核心】: 新增并完善删除处理函数 ---
+    const handleDeleteKnowledgeBase = async (id: number) => {
+        try {
+            await deleteKnowledgeBase(id);
+            showToast({ message: `知识库已成功删除`, type: 'success' });
+
+            // 删除成功后，刷新当前页的数据
+            // 一个小优化：如果当前页是最后一项被删除，则跳转到前一页
+            if (kbPage && kbPage.records.length === 1 && currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+            } else {
+                fetchData(currentPage);
+            }
+        } catch (error: any) {
+            // 错误提示已由 apiClient 统一处理
+            console.error("Failed to delete knowledge base:", error.message);
+            // 抛出异常，让卡片组件知道操作失败，可以停止 loading 状态
+            throw error;
+        }
+    };
+
     return (
         <div className={styles.knowledgeContainer}>
             {/* Header 和 Steps 组件通常不需要修改 */}
@@ -101,6 +124,7 @@ export default function KnowledgePage() {
             <KnowledgeGrid
                 kbs={kbPage?.records || []}
                 isLoading={isLoading}
+                onDelete={handleDeleteKnowledgeBase} // 【核心】: 传递删除函数
             />
 
             {/* 分页组件 */}
