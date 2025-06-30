@@ -4,11 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KnowledgeFormatType } from '@/types/knowledge';
 import styles from './CreateKnowledgeModal.module.css';
+import {KnowledgeBaseAddRequest} from "@/services/knowledgeService";
 
 interface CreateKnowledgeModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (data: { name: string, description: string, format_type: KnowledgeFormatType }) => void;
+    onCreate: (data: KnowledgeBaseAddRequest) => Promise<void>;
 }
 
 const backdropVariants = {
@@ -25,23 +26,36 @@ const modalVariants = {
 const CreateKnowledgeModal: React.FC<CreateKnowledgeModalProps> = ({ isOpen, onClose, onCreate }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [formatType, setFormatType] = useState<KnowledgeFormatType>(0); // 默认文本类型
+    // 【核心修改】: formatType 现在是 number 类型
+    const [formatType, setFormatType] = useState<number>(0);
+
+    // 【核心修改】: 增加一个 loading 状态来处理异步提交
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const isFormValid = name.trim() !== '';
 
     useEffect(() => {
-        // 当弹窗打开时，重置表单
         if (isOpen) {
             setName('');
             setDescription('');
             setFormatType(0);
+            setIsSubmitting(false);
         }
     }, [isOpen]);
 
-    const handleCreate = () => {
-        if (isFormValid) {
-            onCreate({ name, description, format_type: formatType });
-            onClose(); // 创建成功后关闭弹窗
+    const handleCreate = async () => {
+        if (!isFormValid || isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+            // 调用父组件传入的异步 onCreate 函数
+            await onCreate({ name, description, formatType });
+            onClose(); // 仅在成功后关闭弹窗
+        } catch (error) {
+            // 错误已由 apiClient 统一处理，此处无需操作
+            // 如果需要，可以在这里处理一些额外的UI逻辑
+        } finally {
+            setIsSubmitting(false);
         }
     };
 

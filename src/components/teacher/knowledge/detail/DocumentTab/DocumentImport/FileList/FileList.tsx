@@ -2,26 +2,25 @@
 import React from 'react';
 import styles from './FileList.module.css';
 import { getFileIcon } from '@/lib/data/documentData';
-
-// 1. 更新 Props 接口
-interface UploadableFile {
-    file: File;
-    id: string;
-    status: 'waiting' | 'uploading' | 'success' | 'failed';
-    progress: number;
-    error?: string;
-}
+import { UploadableFile, UploadStatus } from '@/hooks/useFileUpload'; // 从Hook导入类型
 
 interface FileListProps {
     files: UploadableFile[];
     onDelete: (fileId: string) => void;
 }
 
-// 2. 状态显示组件
+// 状态显示子组件，增加 processing 状态
 const StatusDisplay: React.FC<{ file: UploadableFile }> = ({ file }) => {
     switch (file.status) {
         case 'uploading':
-            return <div className={styles.progressBar}><div style={{ width: `${file.progress}%` }} /></div>;
+            return (
+                <div className={styles.progressBarWrapper}>
+                    <span>上传中...</span>
+                    <div className={styles.progressBar}><div style={{ width: `${file.progress}%` }} /></div>
+                </div>
+            );
+        case 'processing': // 新增状态
+            return <span className={styles.statusProcessing}><i className="fas fa-spinner fa-spin"></i> 处理中</span>;
         case 'success':
             return <span className={styles.statusSuccess}><i className="fas fa-check-circle"></i> 成功</span>;
         case 'failed':
@@ -32,7 +31,9 @@ const StatusDisplay: React.FC<{ file: UploadableFile }> = ({ file }) => {
     }
 }
 
+// 主组件保持不变
 const FileList: React.FC<FileListProps> = ({ files, onDelete }) => {
+    // ... (内部 JSX 结构完全不需要修改)
     if (files.length === 0) return null;
 
     return (
@@ -51,7 +52,7 @@ const FileList: React.FC<FileListProps> = ({ files, onDelete }) => {
                             <span className={styles.fileName}>{file.name}</span>
                             <div className={styles.actions}>
                                 <StatusDisplay file={uploadableFile} />
-                                <button onClick={() => onDelete(uploadableFile.id)} disabled={uploadableFile.status === 'uploading'}><i className="fas fa-trash-alt"></i></button>
+                                <button onClick={() => onDelete(uploadableFile.id)} disabled={uploadableFile.status === 'uploading' || uploadableFile.status === 'processing'}><i className="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
                     );

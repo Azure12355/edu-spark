@@ -25,8 +25,8 @@ const generateMockDocumentsForKb = (kb: KnowledgeBase, count: number): Document[
         const now = new Date();
         const docDate = new Date(now.getTime() - i * 3 * 24 * 60 * 60 * 1000); // 每3天一个文档
         const doc: Document = {
-            id: `doc_${kb.id}_${i}`,
-            coze_document_id: `coze_doc_${kb.id}_${i}`,
+            id: `12345${kb.id}_${i}`,
+            coze_document_id: `1234123${kb.id}_${i}`,
             knowledge_base_id: kb.id, // 明确绑定到传入的知识库ID
             name: `${kb.name} - 参考资料${i + 1}.${type}`, // 名称与知识库关联
             type: type,
@@ -59,7 +59,7 @@ const generateAllMockData = (kbCount: number, docsPerKb: number) => {
     for (let i = 0; i < kbCount; i++) {
         const updatedDate = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000); // 每周一个知识库
         const kb: Omit<KnowledgeBase, 'stats'> = {
-            id: `kb_local_${1000 + i}`,
+            id: `12345${1000 + i}`,
             coze_dataset_id: `755123456789000${1000 + i}`,
             owner_id: owners[i % owners.length].id,
             name: `${kbNames[i % kbNames.length]}`,

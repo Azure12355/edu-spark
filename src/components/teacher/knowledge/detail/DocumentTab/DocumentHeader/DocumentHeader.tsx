@@ -55,7 +55,7 @@ const DocumentHeader: React.FC<DocumentHeaderProps> = ({ kb }) => {
                     <i className="fas fa-sliders-h"></i>
                     <span>配置</span>
                 </button>
-                <Link href={`/teacher/knowledge/${kb.id}/import`} passHref>
+                <Link href={`/teacher/knowledge/${kb.id}/import`} >
                     <button className={styles.primaryButton}>
                         <i className="fas fa-plus"></i>
                         <span>导入文档</span>

@@ -9,7 +9,7 @@ const ImportHeader = () => {
     const kbId = params.id;
     return (
         <div className={styles.header}>
-            <Link href={`/src/app/teacher/(dashboard)/knowledge/${kbId}`} className={styles.backLink}>
+            <Link href={`/teacher/knowledge/${kbId}`} className={styles.backLink}>
                 <i className="fas fa-chevron-left"></i>
             </Link>
             <h1 className={styles.title}>导入文档</h1>
