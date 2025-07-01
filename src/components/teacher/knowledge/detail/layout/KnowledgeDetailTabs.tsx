@@ -1,31 +1,30 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from './DocumentTabs.module.css';
+import styles from './KnowledgeDetailTabs.module.css';
 
-// 1. 数据驱动：将Tabs定义为常量数组，便于管理和扩展
-const TABS = ['基本信息', '原始文档', '切片详情', '知识检索', '知识问答', '使用统计'];
-
-interface DocumentTabsProps {
+// 1. 【类型安全】更新 Props 接口
+interface KnowledgDetailTabsProps {
+    tabs: string[]; // 接收一个字符串数组作为标签页列表
     activeTab: string;
     onTabChange: (tab: string) => void;
 }
 
-const DocumentTabs: React.FC<DocumentTabsProps> = ({ activeTab, onTabChange }) => {
+const KnowledgeDetailTabs: React.FC<KnowledgDetailTabsProps> = ({ tabs, activeTab, onTabChange }) => {
     return (
         <nav className={styles.tabsContainer}>
             <div className={styles.tabsList}>
-                {TABS.map(tab => (
+                {/* 2. 【数据驱动】遍历从 props 接收的 tabs 数组 */}
+                {tabs.map(tab => (
                     <button
                         key={tab}
                         className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
                         onClick={() => onTabChange(tab)}
                     >
-                        {/* 2. 为活动指示器添加一个 motion.div */}
                         {activeTab === tab && (
                             <motion.div
                                 className={styles.activePill}
-                                layoutId="activeTabIndicator" // 关键：让Framer Motion追踪这个元素
+                                layoutId="activeTabIndicator"
                                 transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                             />
                         )}
@@ -37,4 +36,4 @@ const DocumentTabs: React.FC<DocumentTabsProps> = ({ activeTab, onTabChange }) =
     );
 };
 
-export default DocumentTabs;
+export default KnowledgeDetailTabs;

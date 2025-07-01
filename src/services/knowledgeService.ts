@@ -119,6 +119,30 @@ export const uploadDocument = async (
     return { documentId }; // 直接构造返回对象，类型匹配
 };
 
+// 【新增】文档VO类型 (对应后端的DocumentVO)
+export interface DocumentVO {
+    id: number;
+    knowledgeBaseId: number;
+    name: string;
+    type: string;
+    size: number;
+    status: number;
+    sliceCount?: number;
+    cosUrl: string;
+    errorMessage?: string;
+    createdAt: string;
+}
+
+// 【新增】ChunkVO类型 (假设后端未来会提供)
+export interface ChunkVO {
+    id: number;
+    documentId: number;
+    content: string;
+    charCount: number;
+    metadata: any;
+    createdAt: string;
+}
+
 
 /**
  * 文档状态视图对象 (VO)
@@ -134,4 +158,34 @@ export interface DocumentStatusVO {
  */
 export const getDocumentStatus = (documentId: number): Promise<DocumentStatusVO | any> => {
     return apiClient.get<DocumentStatusVO>(`/kb/document/get?id=${documentId}`);
+};
+
+/**
+ * 【新增】根据ID获取单个知识库的详细信息
+ */
+export const getKnowledgeBaseById = (id: number | string): Promise<KnowledgeBaseVO | any> => {
+    return apiClient.get<KnowledgeBaseVO>(`/kb/get/vo?id=${id}`);
+};
+
+/**
+ * 【新增】分页获取指定知识库下的文档列表
+ */
+export const listDocumentsByKbId = (params: {
+    kbId: number | string;
+    current: number;
+    pageSize: number;
+}): Promise<Page<DocumentVO> | any> => {
+    const { kbId, current, pageSize } = params;
+    return apiClient.get<Page<DocumentVO>>(`/kb/document/list/page?kbId=${kbId}¤t=${current}&size=${pageSize}`);
+};
+
+/**
+ * 【新增】分页获取指定文档下的切片列表 (假设未来有此接口)
+ */
+export const listChunksByDocId = (params: {
+    docId: number | string;
+    current: number;
+    pageSize: number;
+}): Promise<Page<ChunkVO> | any> => {
+    return apiClient.get<Page<ChunkVO>>(`/kb/chunk/list/page?docId=${params.docId}¤t=${params.current}&size=${params.pageSize}`);
 };

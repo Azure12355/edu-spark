@@ -1,64 +1,49 @@
 "use client";
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useKnowledgeStore } from '@/store/knowledgeStore';
-import { useDocumentTableStore } from '@/store/documentTableStore'; // CORE FIX: Import new store
 import ConfirmationModal from '@/components/common/ConfirmationModal/ConfirmationModal';
-import { useToast } from '@/hooks/useToast';
 import styles from './DocumentToolbar.module.css';
 
-const DocumentToolbar: React.FC<{ kbId: string }> = ({ kbId }) => {
-    // CORE FIX: Get selection state from documentTableStore
-    const selectedDocIds = useDocumentTableStore(state => state.selectedDocIds);
-    // Get deletion action from knowledgeStore
-    const deleteSelectedDocuments = useKnowledgeStore(state => state.deleteSelectedDocuments);
+interface DocumentToolbarProps {
+    selectionCount: number;
+    onDelete: () => Promise<boolean>; // 回调现在是异步的
+}
 
-    const showToast = useToast();
+const DocumentToolbar: React.FC<DocumentToolbarProps> = ({ selectionCount, onDelete }) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const selectionCount = selectedDocIds.size;
+    const [isDeleting, setIsDeleting] = useState(false); // 新增删除中的状态
 
-    const handleDeleteConfirm = () => {
-        deleteSelectedDocuments(kbId);
-        showToast({ message: `成功删除 ${selectionCount} 个文档`, type: 'success' });
+    const handleConfirmDelete = async () => {
+        setIsDeleting(true);
+        await onDelete(); // 等待异步删除操作完成
+        setIsDeleting(false);
+        setIsDeleteModalOpen(false); // 关闭弹窗
     };
 
-    const toolbarVariants = { /* ... (no change) ... */ };
+    const toolbarVariants = {
+        initial: { opacity: 0, y: -10 },
+        animate: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } },
+        exit: { opacity: 0, y: -10 },
+    };
 
     return (
         <>
             <div className={styles.toolbar}>
                 <AnimatePresence mode="wait">
                     {selectionCount > 0 ? (
-                        <motion.div
-                            key="batch-actions"
-                            className={styles.actionsContainer}
-                            variants={toolbarVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                        >
+                        <motion.div key="batch-actions" className={styles.actionsContainer} {...toolbarVariants}>
                             <span className={styles.selectionInfo}>已选择 {selectionCount} 项</span>
                             <div className={styles.buttonGroup}>
                                 <button className={styles.actionButton}>
                                     <i className="fas fa-redo"></i> 重新处理
                                 </button>
-                                <button
-                                    className={`${styles.actionButton} ${styles.deleteButton}`}
-                                    onClick={() => setIsDeleteModalOpen(true)}
-                                >
+                                <button className={`${styles.actionButton} ${styles.deleteButton}`} onClick={() => setIsDeleteModalOpen(true)}>
                                     <i className="fas fa-trash-alt"></i> 删除
                                 </button>
                             </div>
                         </motion.div>
                     ) : (
-                        <motion.div
-                            key="default-filters"
-                            className={styles.actionsContainer}
-                            variants={toolbarVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                        >
+                        <motion.div key="default-filters" className={styles.actionsContainer} {...toolbarVariants}>
                             <div className={styles.filterDropdown}>
                                 <span>所有状态</span>
                                 <i className="fas fa-chevron-down"></i>
@@ -75,13 +60,15 @@ const DocumentToolbar: React.FC<{ kbId: string }> = ({ kbId }) => {
             <ConfirmationModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
-                onConfirm={handleDeleteConfirm}
+                onConfirm={handleConfirmDelete}
+                isConfirming={isDeleting} // 传递加载状态
                 title="确认批量删除"
                 message={<>您确定要永久删除选中的 <strong>{selectionCount}</strong> 个文档吗？<br/>此操作不可撤销。</>}
-                confirmText="确认删除"
+                confirmText={isDeleting ? "删除中..." : "确认删除"}
                 type="danger"
             />
         </>
     );
 };
+
 export default DocumentToolbar;

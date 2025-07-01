@@ -1,0 +1,28 @@
+/* src/components/teacher/knowledge/detail/view/KnowledgeDetailView.module.css */
+
+.tabContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableContainer {
+    flex-grow: 1; /* 占据所有剩余的垂直空间 */
+    min-height: 0; /* 允许子元素（如可滚动的表格）正确计算高度 */
+    display: flex; /* 让内部的 TableWrapper 能够撑满 */
+    flex-direction: column;
+}
+
+.tableContainer > div { /* 指向 TableWrapper */
+    height: 100%;
+}
+
+.centeredMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--teacher-text-secondary);
+    font-size: 16px;
+}

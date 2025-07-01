@@ -125,3 +125,15 @@ export const myAgentsData: MyAgent[] = [
         courseName: 'MKT101 市场营销学',
     },
 ];
+
+import { UserVO } from "@/services/userService";
+
+export const mockUser: UserVO = {
+    id: 1,
+    username: "weilanx",
+    nickname: "蔚蓝",
+    avatarUrl: "/default-avatar.jpg",
+    role: 'TEACHER',
+    status: "ACTIVE",
+    createdAt: ""
+};

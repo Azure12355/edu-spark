@@ -5,7 +5,7 @@ import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useKnowledgeStore } from '@/store/knowledgeStore';
 import styles from './KnowledgeBaseHeader.module.css';
 
-// 1. 新增一个自定义 SVG 图标组件，增加独特性
+// BrainCircuitIcon SVG 组件保持不变
 const BrainCircuitIcon = () => (
     <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.2"/>
@@ -28,13 +28,21 @@ const BrainCircuitIcon = () => (
 
 
 const KnowledgeBaseHeader = () => {
-    // 2. 从 Zustand Store 获取动态数据
     const knowledgeBases = useKnowledgeStore(state => state.knowledgeBases);
     const documents = useKnowledgeStore(state => state.documents);
 
     const stats = useMemo(() => {
-        const totalDocs = Object.values(documents).flat().length;
-        const totalSlices = knowledgeBases.reduce((acc, kb) => acc + kb.stats.slice_count, 0);
+        // 【修复1】: 增加对 documents 对象的空值检查
+        const totalDocs = documents ? Object.values(documents).flat().length : 0;
+
+        // 【核心修复】:
+        // 1. 使用正确的属性名 kb.metadataStats
+        // 2. 使用可选链 `?.` 和空值合并 `??` 来安全地访问嵌套属性
+        const totalSlices = knowledgeBases.reduce((acc, kb) => {
+            const sliceCount = kb.metadataStats?.slice_count ?? 0;
+            return acc + sliceCount;
+        }, 0);
+
         return {
             kbCount: knowledgeBases.length,
             docCount: totalDocs,
@@ -42,7 +50,7 @@ const KnowledgeBaseHeader = () => {
         };
     }, [knowledgeBases, documents]);
 
-    // 3. 设置 Framer Motion 动画
+    // Framer Motion 动画相关的 Hooks (保持不变)
     const containerRef = useRef<HTMLDivElement>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -78,7 +86,6 @@ const KnowledgeBaseHeader = () => {
             initial="hidden"
             animate="visible"
         >
-            {/* 4. 动态极光背景 */}
             <motion.div className={styles.aurora} style={{ backgroundPositionX: bgX, backgroundPositionY: bgY }} />
             <div className={styles.gridPattern} />
 
@@ -104,7 +111,6 @@ const KnowledgeBaseHeader = () => {
                 </div>
 
                 <div className={styles.rightSection}>
-                    {/* 5. 动态数据卡片 */}
                     <motion.div className={styles.statCard} variants={itemVariants}>
                         <span className={styles.statValue}>{stats.kbCount}</span>
                         <span className={styles.statLabel}>知识库总数</span>

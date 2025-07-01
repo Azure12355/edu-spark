@@ -1,0 +1,153 @@
+/* src/components/teacher/knowledge/detail/tabs/basic-info/KnowledgeBaseInfo.module.css */
+
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 核心指标网格 */
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.metricCard {
+    position: relative;
+    background: linear-gradient(145deg, #ffffff, #f9fafb);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metricCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--metric-color);
+}
+
+.metricIconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background-color: rgba(var(--metric-color), 0.1);
+    color: var(--metric-color);
+}
+
+.metricValue {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--teacher-text-primary);
+    line-height: 1.1;
+}
+
+.metricLabel {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+}
+
+/* --- 下方信息与图表网格 --- */
+.detailsAndChartsGrid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 24px;
+    flex-grow: 1;
+    grid-template-areas:
+        "info pie"
+        "info trend";
+}
+
+.card {
+    background: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.cardTitle {
+    font-size: 18px; /* 增大标题 */
+    font-weight: 600;
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--teacher-text-primary);
+    flex-shrink: 0;
+    font-family: 'Poppins', sans-serif; /* 使用更具设计感的字体 */
+}
+
+.cardTitle i {
+    color: var(--teacher-primary);
+    font-size: 20px;
+}
+
+/* 分配网格区域 */
+.infoCard { grid-area: info; }
+.pieCard { grid-area: pie; }
+.trendCard { grid-area: trend; }
+
+/* 基础信息卡片 */
+.infoGrid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px 16px;
+    align-items: center;
+}
+
+.infoItem {
+    display: contents; /* 让 item 成为其父 grid 的一部分 */
+}
+.infoItemBlock > .infoLabel {
+    align-self: start;
+    padding-top: 2px;
+}
+.infoItemBlock > .infoValue {
+    grid-column: 1 / -1; /* 描述信息单独占一行 */
+    margin-top: -12px; /* 调整与上方标签的间距 */
+}
+
+.infoLabel {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.infoValue {
+    font-size: 15px;
+    color: var(--teacher-text-secondary);
+    font-weight: 500;
+    word-break: break-all;
+    background-color: #f9fafb;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #f3f4f6;
+}
+
+/* 图表容器 */
+.chartWrapper {
+    flex-grow: 1;
+    min-height: 200px;
+}

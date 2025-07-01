@@ -5,23 +5,24 @@ import { useKnowledgeStore } from '@/store/knowledgeStore';
 import { useParams } from 'next/navigation';
 import { getFileIcon } from '@/lib/data/documentData';
 import styles from './AddChunkModal.module.css';
+import { DocumentVO } from '@/services/knowledgeService';
+import {AddChunkRequest} from "@/services/chunkService";
 
 // 1. 定义 Props 接口，明确回调函数的数据结构
 interface AddChunkModalProps {
     isOpen: boolean;
     onClose: () => void;
-    // 回调函数现在传递一个包含 documentId 和 content 的对象
-    onAddChunk: (chunkData: { documentId: string, content: string }) => void;
+    onAddChunk: (chunkData: AddChunkRequest) => Promise<boolean>;
+    documents: DocumentVO[];
 }
 
 // 2. 将下拉菜单提取为独立的子组件，增加复用性和可维护性
 const DocumentSelector: React.FC<{
-    selectedId: string | null;
-    onSelect: (id: string) => void;
-}> = ({ selectedId, onSelect }) => {
+    documents: DocumentVO[];
+    selectedId: number | null;
+    onSelect: (id: number) => void;
+}> = ({ selectedId, onSelect, documents }) => {
     const params = useParams();
-    const kbId = params.id as string;
-    const documents = useKnowledgeStore(state => state.getDocumentsByKbId(kbId));
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -76,28 +77,33 @@ const DocumentSelector: React.FC<{
 
 
 // 3. 主模态框组件
-const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChunk }) => {
-    const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChunk, documents }) => {
+    const [selectedDocId, setSelectedDocId] = useState<number | null>(null);
     const [content, setContent] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const MAX_CHARS = 2000;
 
-    // 表单验证逻辑
     const isFormValid = selectedDocId && content.trim() !== '' && content.length <= MAX_CHARS;
 
-    // 在弹窗关闭时重置内部状态
     useEffect(() => {
         if (!isOpen) {
             setSelectedDocId(null);
             setContent('');
+            setIsSubmitting(false);
         }
     }, [isOpen]);
 
-    const handleAdd = () => {
-        if (isFormValid) {
-            onAddChunk({ documentId: selectedDocId, content });
-            onClose(); // 成功后关闭弹窗
+    const handleAdd = async () => {
+        if (!isFormValid || isSubmitting) return;
+
+        setIsSubmitting(true);
+        const success = await onAddChunk({ documentId: selectedDocId, content });
+        setIsSubmitting(false);
+        if (success) {
+            onClose();
         }
     };
+
 
     const backdropVariants = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
     const modalVariants = {
@@ -117,10 +123,8 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                         </div>
                         <div className={styles.modalBody}>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>
-                                    <span className={styles.required}>*</span> 所属文档
-                                </label>
-                                <DocumentSelector selectedId={selectedDocId} onSelect={setSelectedDocId} />
+                                <label className={styles.label}><span className={styles.required}>*</span> 所属文档</label>
+                                <DocumentSelector documents={documents} selectedId={selectedDocId} onSelect={(id) => setSelectedDocId(Number(id))} />
                             </div>
                             <div className={styles.formGroup}>
                                 <label className={styles.label}><span className={styles.required}>*</span> 切片内容</label>
@@ -132,13 +136,15 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                                         placeholder="请输入切片内容..."
                                         maxLength={MAX_CHARS}
                                     />
-                                    <span className={`${styles.charCount} ${content.length > MAX_CHARS ? styles.error : ''}`}>{content.length}/{MAX_CHARS}</span>
+                                    <span className={`${styles.charCount} ${content.length >= MAX_CHARS ? styles.error : ''}`}>{content.length}/{MAX_CHARS}</span>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.modalFooter}>
                             <button onClick={onClose} className={`${styles.footerButton} ${styles.cancelButton}`}>取消</button>
-                            <button onClick={handleAdd} className={`${styles.footerButton} ${styles.addButton}`} disabled={!isFormValid}>确认添加</button>
+                            <button onClick={handleAdd} className={`${styles.footerButton} ${styles.addButton}`} disabled={!isFormValid || isSubmitting}>
+                                {isSubmitting ? '添加中...' : '确认添加'}
+                            </button>
                         </div>
                     </motion.div>
                 </motion.div>

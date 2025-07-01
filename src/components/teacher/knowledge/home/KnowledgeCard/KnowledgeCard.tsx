@@ -128,11 +128,11 @@ const KnowledgeCard: React.FC<KnowledgeCardProps> = ({ kb, onDelete }) => {
                         <div className={styles.cardActions}>
                             {/* 【核心修改】: 将按钮用 Next.js 的 <Link> 组件包裹 */}
                             {/* passHref 属性会确保 <a> 标签的 href 属性被正确传递 */}
-                            <a href={`/teacher/knowledge/${kb.id}`} >
+                            <Link href={`/teacher/knowledge/${kb.id}`} passHref legacyBehavior>
                                 <a className={styles.actionButton} title="管理知识库">
                                     <i className="fas fa-arrow-right"></i>
                                 </a>
-                            </a>
+                            </Link>
                             <button
                                 className={`${styles.actionButton} ${styles.deleteButton}`}
                                 title="删除"

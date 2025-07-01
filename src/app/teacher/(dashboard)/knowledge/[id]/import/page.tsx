@@ -4,14 +4,17 @@ import { useParams, useRouter } from 'next/navigation';
 import { useFileUpload, UploadableFile } from '@/hooks/useFileUpload'; // 引入新的Hook
 
 // 组件导入保持不变
-import ImportHeader from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/ImportHeader/ImportHeader';
-import ImportSourceTabs from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/ImportSourceTabs/ImportSourceTabs';
-import FileUploadArea from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/FileUploadArea/FileUploadArea';
-import FileList from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/FileList/FileList';
-import ImportOptions from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/ImportOptions/ImportOptions';
-import ImportActions from '@/components/teacher/knowledge/detail/DocumentTab/DocumentImport/ImportActions/ImportActions';
 
 import styles from './import.module.css';
+import ImportHeader from '@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/ImportHeader/ImportHeader';
+import ImportSourceTabs from '@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/ImportSourceTabs/ImportSourceTabs';
+import FileUploadArea
+    from "@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/FileUploadArea/FileUploadArea";
+import ImportOptions
+    from "@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/ImportOptions/ImportOptions";
+import ImportActions
+    from "@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/ImportActions/ImportActions";
+import FileList from "@/components/teacher/knowledge/detail/tabs/documents/import/DocumentImport/FileList/FileList";
 
 export default function ImportDocumentPage() {
     const router = useRouter();
@@ -60,6 +63,7 @@ export default function ImportDocumentPage() {
         // 可以在这里添加一个判断，如果所有文件都成功了再跳转
         handleImportSuccess();
     };
+
 
     return (
         <div className={styles.pageContainer}>

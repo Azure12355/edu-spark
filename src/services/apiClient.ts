@@ -51,6 +51,27 @@ apiClient.interceptors.response.use(
             type: 'error',
         });
 
+        if (res.code === 40100) {
+            // 【核心逻辑】: 处理认证失败
+            const errorMessage = '登录状态已过期，请重新登录';
+
+            // 检查是否正在重定向，防止重复触发
+            if (!isRedirecting) {
+                isRedirecting = true;
+                // 使用 Toast 提示用户
+                useToastStore.getState().showToast({ message: errorMessage, type: 'warning' });
+
+                // 清除本地的用户状态
+                useUserStore.getState().clearUser();
+
+                // 延迟一小段时间后重定向到首页，给Toast显示的时间
+                setTimeout(() => {
+                    window.location.href = '/'; // 使用原生跳转，强制刷新页面和状态
+                    isRedirecting = false;
+                }, 1500);
+            }
+        }
+
         // 【重要】: 即使是业务错误，也应该以 reject 的形式抛出，
         // 这样 .catch() 逻辑才能捕获到，防止业务代码继续执行 .then()。
         return Promise.reject(new Error(res.message));
