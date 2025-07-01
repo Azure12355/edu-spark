@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useKnowledgeStore } from '@/store/knowledgeStore';
 import { useToast } from '@/hooks/useToast';
 import { Page } from '@/services/knowledgeService';
 import { DocumentVO } from '@/services/documentService';
@@ -11,7 +10,7 @@ const ITEMS_PER_PAGE = 12;
  * @description 管理知识库切片的自定义 Hook
  * @param kbId - 当前知识库的 ID
  */
-export const useChunkManagement = (kbId: number | string) => {
+export const useChunkManagement = (kbId: number | string, documents: DocumentVO[]) => {
     // --- 状态定义 ---
     const [page, setPage] = useState<Page<ChunkVO> | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +20,6 @@ export const useChunkManagement = (kbId: number | string) => {
 
     // --- 外部依赖 ---
     const showToast = useToast();
-    const documents = useKnowledgeStore(state => state.getDocumentsByKbId(String(kbId))) as unknown as  DocumentVO[];
 
     // --- 数据获取 ---
     const fetchChunks = useCallback(async (page: number, filter: number | 'ALL', term: string) => {
@@ -104,6 +102,7 @@ export const useChunkManagement = (kbId: number | string) => {
             totalItems: page?.total ?? 0,
         },
         filters: {
+            // 【核心修改】: 直接使用从 props 传入的 documents
             documents,
             sourceFilter,
             searchTerm,

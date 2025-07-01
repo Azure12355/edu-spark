@@ -1,14 +1,18 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DocumentVO } from '@/services/documentService';
-import { useDocumentTableStore } from '@/store/documentTableStore';
 import { getFileIcon } from '@/lib/data/documentData';
 import styles from './DocumentTable.module.css';
 
+// --- Props 定义 ---
 interface DocumentTableProps {
     documents: DocumentVO[];
     isLoading: boolean;
+    selectedIds: Set<string | number>;
+    areAllSelected: boolean;
+    onToggleRow: (id: number) => void;
+    onToggleAllRows: () => void;
 }
 
 const StatusDisplay: React.FC<{ status: number }> = ({ status }) => {
@@ -23,9 +27,9 @@ const StatusDisplay: React.FC<{ status: number }> = ({ status }) => {
     return <span className={`${styles.statusTag} ${info.className}`}><i className={info.icon}></i> {info.text}</span>;
 };
 
-const TableRow: React.FC<{ doc: DocumentVO, isSelected: boolean, onToggle: () => void }> = ({ doc, isSelected, onToggle }) => {
+// --- TableRow 子组件现在接收更简单的 props ---
+const TableRow: React.FC<{ doc: DocumentVO; isSelected: boolean; onToggle: () => void }> = ({ doc, isSelected, onToggle }) => {
     const iconInfo = getFileIcon(doc.type as any);
-
     return (
         <motion.tr layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -50 }} className={isSelected ? styles.selectedRow : ''}>
             <td className={styles.checkboxCell}>
@@ -54,29 +58,41 @@ const TableRow: React.FC<{ doc: DocumentVO, isSelected: boolean, onToggle: () =>
     );
 };
 
+
 const SkeletonRow = () => (
     <tr>
         <td colSpan={7}><div className={styles.skeletonRow}></div></td>
     </tr>
 );
 
-const DocumentTable: React.FC<DocumentTableProps> = ({ documents, isLoading }) => {
-    const { selectedDocIds, toggleDocumentSelection, toggleAllDocumentsSelection, clearSelection } = useDocumentTableStore();
+function EmptyState() {
+    return (
+        <>
+            组件为空
+        </>);
+}
 
-    useEffect(() => {
-        return () => { clearSelection(); }; // 组件卸载时清空选择
-    }, [clearSelection]);
-
-    const allDocIdsOnPage = documents.map(d => String(d.id));
-    const areAllSelected = allDocIdsOnPage.length > 0 && allDocIdsOnPage.every(id => selectedDocIds.has(id));
-
+// --- 主表格组件 ---
+const DocumentTable: React.FC<DocumentTableProps> = ({
+                                                         documents,
+                                                         isLoading,
+                                                         selectedIds,
+                                                         areAllSelected,
+                                                         onToggleRow,
+                                                         onToggleAllRows
+                                                     }) => {
     return (
         <div className={styles.tableWrapper}>
             <table className={styles.table}>
-                <thead style={{ zIndex: 1 }}> {/* 确保表头在滚动时位于上层 */}
+                <thead>
                 <tr>
                     <th className={styles.checkboxCell}>
-                        <input type="checkbox" checked={areAllSelected} onChange={() => toggleAllDocumentsSelection(allDocIdsOnPage, areAllSelected)} />
+                        <input
+                            type="checkbox"
+                            checked={areAllSelected}
+                            onChange={onToggleAllRows} // 调用从 props 传入的回调
+                            disabled={isLoading || documents.length === 0}
+                        />
                     </th>
                     <th>文档名称 / ID</th><th>状态</th><th>切片数</th><th>来源</th><th>上传时间</th><th>操作</th>
                 </tr>
@@ -87,18 +103,15 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documents, isLoading }) =
                         Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)
                     ) : documents.length > 0 ? (
                         documents.map(doc => (
-                            <TableRow key={doc.id} doc={doc} isSelected={selectedDocIds.has(String(doc.id))} onToggle={() => toggleDocumentSelection(String(doc.id))} />
+                            <TableRow
+                                key={doc.id}
+                                doc={doc}
+                                isSelected={selectedIds.has(doc.id)} // 使用 props.selectedIds
+                                onToggle={() => onToggleRow(doc.id)} // 调用 props.onToggleRow
+                            />
                         ))
                     ) : (
-                        <tr>
-                            <td colSpan={7}>
-                                <div className={styles.emptyState}>
-                                    <i className={`fas fa-file-excel ${styles.emptyIcon}`}></i>
-                                    <p>知识库中还没有文档</p>
-                                    <span>点击右上角的“导入文档”按钮开始添加吧！</span>
-                                </div>
-                            </td>
-                        </tr>
+                        <EmptyState />
                     )}
                 </AnimatePresence>
                 </tbody>

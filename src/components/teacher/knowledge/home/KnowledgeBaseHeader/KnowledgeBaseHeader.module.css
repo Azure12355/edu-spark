@@ -183,3 +183,24 @@
     }
     .banner { padding: 40px 24px; }
 }
+
+/* ... 保留所有原有样式 ... */
+
+/* --- 新增：统计卡片的骨架屏样式 --- */
+.metricCardSkeleton {
+    width: 160px; /* 与真实卡片宽度一致 */
+    height: 155px; /* 与真实卡片高度大致一致 */
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
