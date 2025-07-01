@@ -1,30 +1,15 @@
-/* src/shared/components/ui/Pagination/Pagination.module.css */
+/* src/components/common/KnowledgePagination/KnowledgePagination.module.css */
 .paginationContainer {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* 靠右对齐 */
+    justify-content: center;
     gap: 8px;
-    padding: 20px 0; /* 仅上下内边距 */
-    width: 100%;
-}
-
-.totalInfo {
-    font-size: 14px;
-    color: var(--teacher-text-secondary);
-    margin-right: 16px;
-}
-
-.divider {
-    height: 20px;
-    width: 1px;
-    background-color: var(--teacher-border-color);
-    margin-right: 8px;
-}
-
-.pageNumbers {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-top: 40px;
+    padding: 12px;
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
 .paginationButton {
@@ -32,8 +17,8 @@
     border: 1px solid var(--teacher-border-color);
     color: var(--teacher-text-secondary);
     border-radius: 8px;
-    min-width: 36px;
-    height: 36px;
+    min-width: 40px;
+    height: 40px;
     padding: 0 10px;
     font-size: 14px;
     font-weight: 500;
@@ -45,7 +30,7 @@
     border-color: var(--teacher-primary);
     color: var(--teacher-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 .paginationButton.active {
@@ -64,11 +49,10 @@
 
 .ellipsis {
     color: var(--teacher-text-tertiary);
-    padding: 0 4px;
+    padding: 0 8px;
     display: flex;
     align-items: center;
-    height: 36px;
-    user-select: none;
+    height: 40px;
 }
 
 .jumpToPageContainer {
@@ -82,7 +66,7 @@
 
 .jumpInput {
     width: 50px;
-    height: 36px;
+    height: 40px;
     border-radius: 8px;
     border: 1px solid var(--teacher-border-color);
     text-align: center;
@@ -93,11 +77,9 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     -moz-appearance: textfield;
 }
-
 .jumpInput::-webkit-outer-spin-button,
 .jumpInput::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none; margin: 0;
 }
 
 .jumpInput:focus {
@@ -107,15 +89,7 @@
 }
 
 @media (max-width: 768px) {
-    .paginationContainer {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-    }
-    .jumpToPageContainer {
-        display: none;
-    }
-    .totalInfo, .divider {
-        display: none;
-    }
+    .paginationContainer { flex-wrap: wrap; gap: 6px; }
+    .jumpToPageContainer { display: none; }
+    .paginationButton, .ellipsis { height: 36px; min-width: 36px; }
 }
