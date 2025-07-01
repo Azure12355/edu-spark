@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './LoginForm.module.css';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/common/useAuth';
 
 interface RegisterFormProps {
     onSuccess: () => void; // 注册成功后的回调，用于切换到登录界面

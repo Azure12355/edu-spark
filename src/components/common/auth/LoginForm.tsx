@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './LoginForm.module.css';
-import { useAuth } from '@/hooks/useAuth'; // 引入 Hook
+import { useAuth } from '@/hooks/common/useAuth'; // 引入 Hook
 
 interface LoginFormProps {
     onSuccess: () => void; // 登录成功后的回调，用于关闭弹窗

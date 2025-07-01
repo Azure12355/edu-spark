@@ -14,8 +14,9 @@ export default function TeacherDashboardLayout({
     const isImmersivePage =
         pathname.startsWith('/teacher/assistant') ||
         pathname.startsWith('/teacher/courses/') ||
-        // --- 核心新增：将AI出题页面也识别为沉浸式页面 ---
-        pathname.includes('/ai-generate');
+        pathname.includes('/ai-generate') ||
+        pathname.includes('/teacher/knowledge/')
+    ;
 
     return (
         <div className="teacher-layout-wrapper">

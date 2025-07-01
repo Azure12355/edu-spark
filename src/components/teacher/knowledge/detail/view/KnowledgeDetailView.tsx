@@ -31,7 +31,7 @@ export const TABS_CONFIG = [
 
 interface KnowledgeDetailViewProps {
     kb: KnowledgeBaseVO;
-    initialTab?: string;
+    initialTab?: string | null;
 }
 
 const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTab }) => {

@@ -8,7 +8,7 @@ import {usePathname} from 'next/navigation';
 import styles from './TeacherHeader.module.css';
 import AuthModal from '@/components/common/auth/AuthModal';
 import {useUserStore} from "@/store/userStore";
-import {useAuth} from "@/hooks/useAuth";
+import {useAuth} from "@/hooks/common/useAuth";
 import UserProfileDropdown from "@/components/common/UserProfileDropdown/UserProfileDropdown";
 import {AnimatePresence, motion } from 'framer-motion';
 

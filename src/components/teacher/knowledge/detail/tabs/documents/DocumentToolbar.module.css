@@ -1,7 +1,7 @@
 /* src/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar.module.css */
 
 .toolbar {
-    padding: 16px 0; /* 只保留垂直内边距 */
+    padding: 5px 0; /* 只保留垂直内边距 */
     height: 68px; /* 固定高度，防止视图切换时布局跳动 */
     display: flex;
     align-items: center;

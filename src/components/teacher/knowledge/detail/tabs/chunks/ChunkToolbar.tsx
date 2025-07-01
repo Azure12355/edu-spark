@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useDebounce } from '@/hooks/useDebounce'; // 假设你有一个防抖 Hook
+import { useDebounce } from '@/hooks/common/useDebounce'; // 假设你有一个防抖 Hook
 import { DocumentVO } from '@/services/documentService';
 
 // 导入新的子组件

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useToast } from '@/hooks/useToast';
-import { useDebounce } from '@/hooks/useDebounce'; // 引入我们之前创建的防抖 Hook
+import { useDebounce } from '@/hooks/common/useDebounce'; // 引入我们之前创建的防抖 Hook
 import { Page } from '@/services/knowledgeService';
 import { ChunkVO, listChunksByKbId, deleteChunk, addChunk, AddChunkRequest } from '@/services/chunkService';
 
@@ -30,7 +30,7 @@ export const useChunkManagement = (kbId: number | string) => {
     const debouncedSearchTerm = useDebounce(searchTerm as any, 500);
 
     // --- 数据获取逻辑 ---
-    const fetchChunks = useCallback(async (page: number) => {
+    const fetchChunks    = useCallback(async (page: number) => {
         // isLoading 状态现在由 debouncedSearchTerm 的变化来间接控制
         setIsLoading(true);
         try {

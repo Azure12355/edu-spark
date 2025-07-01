@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import { login, register, logout, UserLoginRequest, UserRegisterRequest } from '@/services/userService';
-import { useToast } from './useToast';
+import { useToast } from '../useToast';
 
 /**
  * 封装所有认证相关逻辑的自定义 Hook

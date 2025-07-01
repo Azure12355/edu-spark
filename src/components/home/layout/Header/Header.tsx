@@ -6,7 +6,7 @@ import Link from 'next/link';
 import {AnimatePresence, motion} from 'framer-motion';
 import styles from './Header.module.css';
 import {useUserStore} from "@/store/userStore";
-import {useAuth} from "@/hooks/useAuth";
+import {useAuth} from "@/hooks/common/useAuth";
 import UserProfileDropdown from "@/components/common/UserProfileDropdown/UserProfileDropdown";
 import AuthModal from "@/components/common/auth/AuthModal";
 
