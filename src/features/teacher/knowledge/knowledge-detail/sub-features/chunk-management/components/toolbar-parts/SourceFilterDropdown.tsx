@@ -3,7 +3,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropdown } from '@/shared/hooks/useDropdown';
 import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
-import styles from './ChunkToolbar.module.css'; // 复用样式
+import styles from '../../styles/ChunkToolbar.module.css'; // 复用样式
 
 interface SourceFilterDropdownProps {
     documents: DocumentVO[];

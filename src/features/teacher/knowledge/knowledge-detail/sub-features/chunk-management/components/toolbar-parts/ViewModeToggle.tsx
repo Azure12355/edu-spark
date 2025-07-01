@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import styles from './ChunkToolbar.module.css'; // 复用样式
+import styles from '../../styles/ChunkToolbar.module.css'; // 复用样式
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 
 export type ViewMode = 'grid' | 'list';

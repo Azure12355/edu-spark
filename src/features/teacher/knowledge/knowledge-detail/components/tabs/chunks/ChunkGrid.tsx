@@ -7,9 +7,11 @@ import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/services/
 import ChunkCard from './ChunkCard';
 import ChunkGridSkeleton from './ChunkGridSkeleton';
 import EmptyState from './EmptyState';
-import { ViewMode } from './ViewModeToggle'; // 假设 ViewMode 类型在这里
 
 import styles from './ChunkGrid.module.css';
+import {
+    ViewMode
+} from "@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/ViewModeToggle";
 
 // 更新 Props 接口
 interface ChunkGridProps {

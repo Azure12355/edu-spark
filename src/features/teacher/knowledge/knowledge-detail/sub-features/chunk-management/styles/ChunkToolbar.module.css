@@ -1,19 +1,25 @@
-/* src/features/teacher/knowledge/knowledge-detail/components/tabs/chunks/ChunkToolbar.module.css */
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/styles/ChunkToolbar.module.css */
+
 .toolbarContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    flex-shrink: 0;
+    padding: 16px 0; /* 调整内边距，使其更紧凑 */
+    width: 100%;
 }
 
+/* --- Sections --- */
 .leftSection, .rightSection {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
+/* --- Left Section Controls --- */
 .newButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background: var(--teacher-primary);
     color: white;
     border: none;
@@ -22,46 +28,62 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     transition: all 0.2s ease;
     box-shadow: 0 4px 12px -2px rgba(47, 123, 255, 0.3);
 }
-.newButton:hover {
+
+.newButton:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 7px 15px -3px rgba(47, 123, 255, 0.4);
+}
+
+.newButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .divider {
     width: 1px;
     height: 24px;
     background-color: var(--teacher-border-color);
+    margin: 0 4px;
 }
 
 .countInfo {
     font-size: 14px;
     color: var(--teacher-text-secondary);
 }
+
 .countNumber {
     font-weight: 600;
     color: var(--teacher-text-primary);
 }
 
-/* 搜索框 */
+/* --- Right Section Controls --- */
 .searchBar {
     display: flex;
     align-items: center;
-    border: 1px solid var(--teacher-border);
+    border: 1px solid var(--teacher-border-color);
     border-radius: 8px;
-    padding-left: 12px;
     background: var(--teacher-white);
-    width: 280px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
+
 .searchBar:focus-within {
     border-color: var(--teacher-primary);
     box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
 }
-.searchInput { padding: 9px 10px; border: none; outline: none; background: transparent; width: 100%; }
-.searchIcon { color: var(--teacher-text-tertiary); }
+
+.searchInput {
+    padding: 9px 12px 9px 0; /* 移除左侧内边距 */
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 220px;
+    font-size: 14px;
+}
+
+.searchIcon {
+    color: var(--teacher-text-tertiary);
+    padding: 0 12px;
+}

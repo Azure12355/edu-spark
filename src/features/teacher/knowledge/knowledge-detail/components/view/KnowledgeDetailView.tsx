@@ -14,11 +14,12 @@ import Pagination from '@/shared/components/ui/Pagination/Pagination';
 import KnowledgeBaseInfo from '../tabs/basic-info/KnowledgeBaseInfo';
 import DocumentToolbar from '../tabs/documents/DocumentToolbar';
 import DocumentTable from '../tabs/documents/DocumentTable';
-import ChunkToolbar from "../tabs/chunks/ChunkToolbar";
+import ChunkToolbar from "../../sub-features/chunk-management/components/ChunkToolbar";
 import ChunkGrid from "../tabs/chunks/ChunkGrid";
 import AddChunkModal from "../tabs/chunks/AddChunkModal";
 
 import styles from './KnowledgeDetailView.module.css';
+import ChunkManagementTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management";
 
 export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
@@ -82,41 +83,10 @@ const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTa
 
             case '切片详情':
                 return (
-                    <>
-                        <div className={styles.tabContentContainer}>
-                            <ChunkToolbar
-                                chunkCount={chunkManager.pagination.totalItems}
-                                documents={documentManager.documents} // 从 documentManager 获取文档列表
-                                activeFilterId={chunkManager.filters.sourceFilter}
-                                onFilterChange={chunkManager.actions.handleFilterChange}
-                                searchTerm={chunkManager.filters.searchTerm}
-                                onSearchChange={chunkManager.actions.setSearchTerm}
-                                // 假设你已经为 ChunkGrid 添加了 viewMode 的支持
-                                viewMode={'grid'} // 临时硬编码
-                                onViewModeChange={() => {}} // 临时空函数
-                                onOpenAddModal={() => setIsChunkModalOpen(true)}
-                                isSearching={chunkManager.isLoading}
-                            />
-                            <div className={styles.tableContainer}>
-                                <ChunkGrid
-                                    chunks={chunkManager.chunks}
-                                    isLoading={chunkManager.isLoading}
-                                    onDeleteChunk={chunkManager.actions.handleDeleteChunk}
-                                    viewMode={'grid'} // 临时硬编码
-                                    hasActiveFilters={chunkManager.filters.sourceFilter !== 'ALL' || !!chunkManager.filters.searchTerm}
-                                />
-                            </div>
-                            {chunkManager.pagination.totalItems > 0 && (
-                                <Pagination {...chunkManager.pagination} onPageChange={chunkManager.actions.setCurrentPage} />
-                            )}
-                        </div>
-                        <AddChunkModal
-                            isOpen={isChunkModalOpen}
-                            onClose={() => setIsChunkModalOpen(false)}
-                            onAddChunk={chunkManager.actions.handleAddChunk}
-                            documents={documentManager.documents} // 同样从 documentManager 获取
-                        />
-                    </>
+                    <ChunkManagementTab
+                        kbId={kb.id}
+                        documents={documentManager.documents} // 传入文档列表用于筛选
+                    />
                 );
 
             default:
