@@ -1,38 +1,91 @@
-/* src/components/teacher/knowledge/detail/ChunkTab/ChunkGrid/ChunkGrid.module.css */
+/* src/components/teacher/knowledge/detail/tabs/chunks/ChunkGrid.module.css */
+
 .grid {
     display: grid;
+    /* 默认是网格视图 */
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 20px;
+    position: relative;
 }
 
-/* 新增空状态容器 */
+/* 【新增】列表视图模式样式 */
+.listView {
+    grid-template-columns: 1fr; /* 列表模式下变为单列 */
+    gap: 12px;
+}
+
+/* ... emptyContainer 和 emptyState 样式保持不变 ... */
 .emptyContainer {
-    grid-column: 1 / -1; /* 占据整行 */
+    grid-column: 1 / -1;
 }
-
 .emptyState {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    border: 2px dashed var(--teacher-border-color);
+}
+
+
+/* --- 【新增】骨架屏样式 --- */
+@keyframes pulse {
+    50% { opacity: 0.6; }
+}
+
+.skeletonCard {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
     border-radius: 12px;
-    color: var(--teacher-text-tertiary);
-    text-align: center;
+    padding: 20px 24px;
+    height: 220px; /* 固定高度以保持对齐 */
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-.emptyState i {
-    font-size: 40px;
+
+.skeletonHeader, .skeletonContent, .skeletonFooter {
+    display: flex;
+    align-items: center;
+}
+
+.skeletonHeader {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f2f5;
     margin-bottom: 16px;
-    opacity: 0.6;
 }
-.emptyState h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--teacher-text-secondary);
-    margin: 0 0 8px;
+
+.skeletonIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background-color: #e5e7eb;
+    margin-right: 12px;
 }
-.emptyState p {
-    font-size: 14px;
-    margin: 0;
+
+.skeletonTextLong {
+    height: 20px;
+    width: 70%;
+    border-radius: 4px;
+    background-color: #e5e7eb;
+}
+
+.skeletonContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.skeletonTextShort {
+    height: 16px;
+    width: 40%;
+    border-radius: 4px;
+    background-color: #f3f4f6;
+}
+
+.skeletonTextMedium {
+    height: 16px;
+    width: 90%;
+    border-radius: 4px;
+    background-color: #f3f4f6;
+}
+
+.skeletonFooter {
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f2f5;
 }

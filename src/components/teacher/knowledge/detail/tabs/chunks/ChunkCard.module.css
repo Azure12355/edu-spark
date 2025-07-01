@@ -1,14 +1,16 @@
-/* src/components/teacher/knowledge/detail/ChunkTab/ChunkCard/ChunkCard.module.css */
+/* src/components/teacher/knowledge/detail/tabs/chunks/ChunkCard.module.css */
 
 .card {
-    background: var(--teacher-white);
-    border: 1px solid var(--teacher-border);
+    background: linear-gradient(135deg, var(--teacher-white) 0%, #f7f8fa 100%);
+    border: 1px solid var(--teacher-border-color);
     border-radius: 12px;
-    padding: 20px;
+    padding: 20px 24px;
     display: flex;
     flex-direction: column;
     position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    /* 为悬浮按钮的出现提供动画上下文 */
+    overflow: hidden;
 }
 
 .cardHeader {
@@ -16,8 +18,8 @@
     justify-content: space-between;
     align-items: center;
     gap: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f2f5;
     margin-bottom: 16px;
 }
 
@@ -25,27 +27,16 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-width: 0; /* 允许 flex item 收缩 */
-}
-
-.indexTag {
-    background-color: var(--teacher-primary);
-    color: white;
-    padding: 2px 10px;
-    border-radius: 99px;
-    font-size: 13px;
-    font-weight: 700;
-    flex-shrink: 0;
+    min-width: 0;
 }
 
 .sourceInfo {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--teacher-text-secondary);
-    min-width: 0;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
 }
 .sourceInfo span {
     white-space: nowrap;
@@ -53,103 +44,78 @@
     text-overflow: ellipsis;
 }
 .sourceInfo i {
-    font-size: 18px;
+    font-size: 20px;
 }
 
-/* --- 内容区域 --- */
 .content {
     font-size: 14px;
-    color: var(--teacher-text-primary);
-    line-height: 1.7;
+    color: #4E5969; /* 次要文本颜色，增加对比 */
+    line-height: 1.8; /* 增加行高，提升可读性 */
     flex-grow: 1;
     overflow: hidden;
-    transition: max-height 0.4s ease-in-out;
-    max-height: 8.5em; /* 约 5 行的高度 (1.7 * 5) */
 }
+/* 这里不再使用 max-height，而是用 Framer Motion 的 height: 'auto' 来实现动画 */
 
-.content.expanded {
-    max-height: 500px; /* 展开后的最大高度 */
-}
-
-.content p {
-    margin: 0;
-}
-
-/* --- 页脚 --- */
 .cardFooter {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid #f3f4f6;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f2f5;
 }
 
-.metaInfo {
-    display: flex;
-    gap: 16px;
-    font-size: 12px;
-    color: var(--teacher-text-tertiary);
-}
-.metaInfo span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+.metaInfo { display: flex; gap: 20px; font-size: 13px; color: var(--teacher-text-tertiary); }
+.metaItem { display: flex; align-items: center; gap: 6px; }
 
-.expandButton {
-    background: none;
-    border: none;
+.footerActions { display: flex; align-items: center; gap: 8px; }
+
+.expandButton, .previewButton {
+    background: none; border: none; font-weight: 500;
+    color: var(--teacher-text-secondary); cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 8px; transition: all 0.2s;
+}
+.expandButton:hover, .previewButton:hover {
+    background-color: var(--teacher-bg-hover);
     color: var(--teacher-primary);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 10px;
-    border-radius: 6px;
 }
-.expandButton:hover {
-    background-color: var(--teacher-primary-light);
-}
-.expandButton i {
-    transition: transform 0.3s ease;
-}
+.expandButton i { transition: transform 0.3s ease; }
+.previewButton { background-color: var(--teacher-primary-light); color: var(--teacher-primary); }
 
-/* --- 悬浮操作按钮 --- */
 .cardActions {
+    position: absolute;
+    top: 16px;
+    right: 20px;
     display: flex;
-    gap: 4px;
+    gap: 6px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    padding: 6px;
+    border-radius: 20px;
+    border: 1px solid var(--teacher-border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     opacity: 0;
-    transform: scale(0.9);
-    transition: all 0.2s ease-in-out;
+    transform: translateY(10px);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .card:hover .cardActions {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
 }
-
 .cardActions button {
-    background: var(--teacher-bg-hover);
-    border: 1px solid var(--teacher-border-color);
+    background: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
     color: var(--teacher-text-secondary);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
 }
 .cardActions button:hover {
     color: var(--teacher-primary);
-    background-color: var(--teacher-primary-light);
-    border-color: var(--teacher-primary);
+    transform: scale(1.1);
+    border-color: var(--teacher-primary-light);
 }
 .deleteButton:hover {
-    background-color: #fee2e2;
-    color: var(--teacher-red);
-    border-color: var(--teacher-red);
+    background-color: #fee2e2; color: var(--teacher-red); border-color: transparent;
 }

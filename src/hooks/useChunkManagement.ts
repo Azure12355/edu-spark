@@ -1,118 +1,126 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useToast } from '@/hooks/useToast';
+import { useDebounce } from '@/hooks/useDebounce'; // 引入我们之前创建的防抖 Hook
 import { Page } from '@/services/knowledgeService';
-import { DocumentVO } from '@/services/documentService';
-import { ChunkVO, listChunksByKbId, addChunk, deleteChunks, AddChunkRequest } from '@/services/chunkService';
+import { ChunkVO, listChunksByKbId, deleteChunk, addChunk, AddChunkRequest } from '@/services/chunkService';
 
 const ITEMS_PER_PAGE = 12;
 
 /**
- * @description 管理知识库切片的自定义 Hook
+ * @description 管理知识库下切片列表的完整业务逻辑 Hook。
+ * 包含数据获取、分页、筛选、搜索和增删操作。
  * @param kbId - 当前知识库的 ID
  */
-export const useChunkManagement = (kbId: number | string, documents: DocumentVO[]) => {
-    // --- 状态定义 ---
-    const [page, setPage] = useState<Page<ChunkVO> | null>(null);
+export const useChunkManagement = (kbId: number | string) => {
+    // --- 状态管理 ---
+    const [pageData, setPageData] = useState<Page<ChunkVO> | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+
+    // --- 筛选与搜索状态 ---
     const [sourceFilter, setSourceFilter] = useState<number | 'ALL'>('ALL');
     const [searchTerm, setSearchTerm] = useState('');
 
     // --- 外部依赖 ---
     const showToast = useToast();
 
-    // --- 数据获取 ---
-    const fetchChunks = useCallback(async (page: number, filter: number | 'ALL', term: string) => {
+    // --- 防抖处理 ---
+    // 使用 useDebounce Hook 来获取一个延迟更新的搜索词
+    // 这意味着只有当用户停止输入500毫秒后，debouncedSearchTerm 才会更新
+    const debouncedSearchTerm = useDebounce(searchTerm as any, 500);
+
+    // --- 数据获取逻辑 ---
+    const fetchChunks = useCallback(async (page: number) => {
+        // isLoading 状态现在由 debouncedSearchTerm 的变化来间接控制
         setIsLoading(true);
         try {
-            const params = {
-                kbId: Number(kbId),
-                current: page,
-                pageSize: ITEMS_PER_PAGE,
-                ...(filter !== 'ALL' && { documentId: filter }),
-                ...(term.trim() && { searchTerm: term.trim() }),
-            };
-            const data = await listChunksByKbId(params);
-            setPage(data);
+            const data = await listChunksByKbId(
+                Number(kbId),
+                page,
+                ITEMS_PER_PAGE,
+                // 【注意】: 后端 listChunksByKbId 接口需要支持这些筛选参数
+                // sourceFilter,
+                // debouncedSearchTerm
+            );
+            setPageData(data);
         } catch (error) {
             console.error("Failed to fetch chunks:", error);
             // 错误已由 apiClient 统一处理
         } finally {
             setIsLoading(false);
         }
-    }, [kbId]);
+    }, [kbId, sourceFilter, debouncedSearchTerm]); // 依赖项包含防抖后的搜索词
 
-    // --- Effects ---
+    // --- Effect ---
+    // 当筛选条件或防抖后的搜索词变化时，重置到第一页并获取数据
     useEffect(() => {
-        fetchChunks(currentPage, sourceFilter, searchTerm);
-    }, [currentPage, sourceFilter, searchTerm, fetchChunks]);
+        setCurrentPage(1);
+        fetchChunks(1);
+    }, [sourceFilter, debouncedSearchTerm, fetchChunks]);
 
-    // --- 回调函数 ---
+    // 当只有页码变化时，获取对应页的数据
+    useEffect(() => {
+        fetchChunks(currentPage);
+    }, [currentPage, fetchChunks]);
+
+
+    // --- 事件处理与业务操作 ---
+    const handleDeleteChunk = async (chunkId: number): Promise<boolean> => {
+        try {
+            await deleteChunk(chunkId);
+            showToast({ message: '切片已成功删除', type: 'success' });
+
+            if (pageData && pageData.records.length === 1 && currentPage > 1) {
+                setCurrentPage(p => p - 1);
+            } else {
+                fetchChunks(currentPage);
+            }
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
     const handleAddChunk = async (data: AddChunkRequest): Promise<boolean> => {
         try {
             await addChunk(data);
             showToast({ message: '新切片已添加成功！', type: 'success' });
-            fetchChunks(1, 'ALL', ''); // 刷新并回到第一页
-            setCurrentPage(1);
+            // 操作成功后，重置筛选和搜索，并跳转到第一页看最新结果
             setSourceFilter('ALL');
             setSearchTerm('');
-            return true;
-        } catch (error) {
-            console.error("Failed to add chunk:", error);
-            return false;
-        }
-    };
-
-    const handleDeleteChunk = async (chunkId: number): Promise<boolean> => {
-        try {
-            await deleteChunks({ ids: [chunkId] });
-            showToast({ message: '切片已删除', type: 'success' });
-
-            // 优化刷新逻辑
-            if (page && page.records.length === 1 && currentPage > 1) {
-                setCurrentPage(currentPage - 1);
+            if (currentPage === 1) {
+                fetchChunks(1);
             } else {
-                fetchChunks(currentPage, sourceFilter, searchTerm);
+                setCurrentPage(1);
             }
             return true;
         } catch (error) {
-            console.error("Failed to delete chunk:", error);
             return false;
         }
     };
 
-    const handleFilterChange = (docId: number | 'ALL') => {
-        setCurrentPage(1);
-        setSourceFilter(docId);
-    };
+    // --- 返回给组件的接口 ---
+    const pagination = useMemo(() => ({
+        currentPage: pageData?.current ?? 1,
+        totalPages: pageData ? Math.ceil(pageData.total / pageData.size) : 1,
+        totalItems: pageData?.total ?? 0,
+    }), [pageData]);
 
-    // 简单的防抖搜索
-    const handleSearchChange = (term: string) => {
-        setSearchTerm(term);
-        setCurrentPage(1);
-    };
-
-    // --- 返回接口 ---
     return {
-        chunks: page?.records ?? [],
+        chunks: pageData?.records ?? [],
         isLoading,
-        pagination: {
-            currentPage: page?.current ?? 1,
-            totalPages: page ? Math.ceil(page.total / page.size) : 1,
-            totalItems: page?.total ?? 0,
-        },
+        pagination,
         filters: {
-            // 【核心修改】: 直接使用从 props 传入的 documents
-            documents,
             sourceFilter,
             searchTerm,
         },
         actions: {
             setCurrentPage,
-            handleFilterChange,
-            handleSearchChange,
-            handleAddChunk,
+            handleFilterChange: setSourceFilter, // 直接暴露状态更新函数
+            setSearchTerm, // 暴露原始的 searchTerm 更新函数，UI可以立即响应输入
             handleDeleteChunk,
+            handleAddChunk,
+            refresh: () => fetchChunks(currentPage),
         },
     };
 };

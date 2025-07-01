@@ -1,11 +1,12 @@
 "use client";
 
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { KnowledgeBaseVO } from '@/services/knowledgeService';
 
 // --- 自定义 Hooks ---
 import { useDocumentManagement } from '@/hooks/useDocumentManagement';
 import { useChunkManagement } from '@/hooks/useChunkManagement';
+import { useDocumentTable } from '@/hooks/useDocumentTable';
 
 // --- 子组件 ---
 import KnowledgeDetailLayout from '../layout/KnowledgeDetailLayout';
@@ -17,17 +18,8 @@ import ChunkToolbar from "../tabs/chunks/ChunkToolbar";
 import ChunkGrid from "../tabs/chunks/ChunkGrid";
 import AddChunkModal from "../tabs/chunks/AddChunkModal";
 
-// --- 样式和辅助 ---
 import styles from './KnowledgeDetailView.module.css';
-import {useDocumentTable} from "@/hooks/useDocumentTable";
-import {useKnowledgeDetail} from "@/hooks/useKnowledgeDetail";
 
-interface KnowledgeDetailViewProps {
-    kb: KnowledgeBaseVO; // kb 依然由父组件传入
-    initialTab?: string;
-}
-
-// Tab 的配置数据可以保留在此处，因为它与视图逻辑紧密相关
 export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
     { id: 'Documents', label: '原始文档' },
@@ -37,102 +29,96 @@ export const TABS_CONFIG = [
     { id: 'Statistics', label: '使用统计' },
 ];
 
-// 【新】为“原始文档”标签页创建一个独立的组件
-const DocumentsTab: React.FC<{ kbId: number | string }> = ({ kbId }) => {
-    const documentManager = useDocumentManagement(kbId);
-    const docIdsOnCurrentPage = documentManager.documents.map(d => d.id);
-    const tableManager = useDocumentTable(docIdsOnCurrentPage);
+interface KnowledgeDetailViewProps {
+    kb: KnowledgeBaseVO;
+    initialTab?: string;
+}
 
+const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTab }) => {
+    // --- 统一的状态和 Hooks 管理 ---
+    const [activeTab, setActiveTab] = useState<string>(initialTab || TABS_CONFIG[0].label);
+    const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
+
+    // --- 各功能模块的逻辑 Hooks 在顶层调用 ---
+    const documentManager = useDocumentManagement(kb.id);
+    const chunkManager = useChunkManagement(kb.id); // 不再需要传递 documents
+
+    // UI Hook 依赖于数据 Hook 的结果
+    const tableManager = useDocumentTable(documentManager.documents.map(d => d.id));
+
+    // 当文档数据变化时，清空表格选择
     useEffect(() => {
         tableManager.clearSelection();
     }, [documentManager.documents, tableManager.clearSelection]);
-
-    return (
-        <div className={styles.tabContentContainer}>
-            <DocumentToolbar
-                selectionCount={tableManager.selectedIds.size}
-                onDelete={() => documentManager.handleDeleteSelected(tableManager.selectedIds)}
-            />
-            <div className={styles.tableContainer}>
-                <DocumentTable
-                    documents={documentManager.documents}
-                    isLoading={documentManager.isLoading}
-                    selectedIds={tableManager.selectedIds}
-                    areAllSelected={tableManager.areAllSelected}
-                    onToggleRow={tableManager.toggleSelection}
-                    onToggleAllRows={tableManager.toggleAllSelection}
-                />
-            </div>
-            {documentManager.pagination.totalItems > 0 && (
-                <Pagination
-                    currentPage={documentManager.pagination.currentPage}
-                    totalPages={documentManager.pagination.totalPages}
-                    onPageChange={documentManager.handlePageChange}
-                />
-            )}
-        </div>
-    );
-};
-
-// 【新】为“切片详情”标签页创建一个独立的组件
-const ChunksTab: React.FC<{ kb: KnowledgeBaseVO }> = ({ kb }) => {
-    // 【注意】: 这里的 documents 依赖于 kb 对象，如果 kb 是动态获取的，需要确保它已经存在
-    const documentsForChunks = kb.documents || [];
-    const chunkManager = useChunkManagement(kb.id, documentsForChunks);
-    const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
-
-    return (
-        <>
-            <div className={styles.tabContentContainer}>
-                <ChunkToolbar
-                    chunkCount={chunkManager.pagination.totalItems}
-                    documents={chunkManager.filters.documents}
-                    activeFilterId={chunkManager.filters.sourceFilter}
-                    onFilterChange={chunkManager.actions.handleFilterChange}
-                    searchTerm={chunkManager.filters.searchTerm}
-                    onSearchChange={chunkManager.actions.handleSearchChange}
-                    onOpenAddModal={() => setIsChunkModalOpen(true)}
-                />
-                <div className={styles.tableContainer}>
-                    <ChunkGrid
-                        chunks={chunkManager.chunks}
-                        isLoading={chunkManager.isLoading}
-                        onDeleteChunk={chunkManager.actions.handleDeleteChunk}
-                    />
-                </div>
-                {chunkManager.pagination.totalItems > 0 && (
-                    <Pagination
-                        currentPage={chunkManager.pagination.currentPage}
-                        totalPages={chunkManager.pagination.totalPages}
-                        onPageChange={chunkManager.actions.setCurrentPage}
-                    />
-                )}
-            </div>
-            <AddChunkModal
-                isOpen={isChunkModalOpen}
-                onClose={() => setIsChunkModalOpen(false)}
-                onAddChunk={chunkManager.actions.handleAddChunk}
-                documents={chunkManager.filters.documents}
-            />
-        </>
-    );
-};
-
-
-const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTab }) => {
-    const [activeTab, setActiveTab] = useState<string>(initialTab || TABS_CONFIG[0].label);
-
 
     // --- 渲染不同标签页内容的函数 ---
     const renderTabContent = () => {
         switch(activeTab) {
             case '基本信息':
                 return <KnowledgeBaseInfo kb={kb} />;
+
             case '原始文档':
-                return <DocumentsTab kbId={kb.id} />;
+                return (
+                    <div className={styles.tabContentContainer}>
+                        <DocumentToolbar
+                            selectionCount={tableManager.selectedIds.size}
+                            onDelete={() => documentManager.handleDeleteSelected(tableManager.selectedIds)}
+                        />
+                        <div className={styles.tableContainer}>
+                            <DocumentTable
+                                documents={documentManager.documents}
+                                isLoading={documentManager.isLoading}
+                                selectedIds={tableManager.selectedIds}
+                                areAllSelected={tableManager.areAllSelected}
+                                onToggleRow={tableManager.toggleSelection}
+                                onToggleAllRows={tableManager.toggleAllSelection}
+                            />
+                        </div>
+                        {documentManager.pagination.totalItems > 0 && (
+                            <Pagination {...documentManager.pagination} onPageChange={documentManager.handlePageChange} />
+                        )}
+                    </div>
+                );
+
             case '切片详情':
-                // 假设 KnowledgeBaseVO 中包含了 documents 数组
-                return <ChunksTab kb={kb} />;
+                return (
+                    <>
+                        <div className={styles.tabContentContainer}>
+                            <ChunkToolbar
+                                chunkCount={chunkManager.pagination.totalItems}
+                                documents={documentManager.documents} // 从 documentManager 获取文档列表
+                                activeFilterId={chunkManager.filters.sourceFilter}
+                                onFilterChange={chunkManager.actions.handleFilterChange}
+                                searchTerm={chunkManager.filters.searchTerm}
+                                onSearchChange={chunkManager.actions.setSearchTerm}
+                                // 假设你已经为 ChunkGrid 添加了 viewMode 的支持
+                                viewMode={'grid'} // 临时硬编码
+                                onViewModeChange={() => {}} // 临时空函数
+                                onOpenAddModal={() => setIsChunkModalOpen(true)}
+                                isSearching={chunkManager.isLoading}
+                            />
+                            <div className={styles.tableContainer}>
+                                <ChunkGrid
+                                    chunks={chunkManager.chunks}
+                                    isLoading={chunkManager.isLoading}
+                                    onDeleteChunk={chunkManager.actions.handleDeleteChunk}
+                                    viewMode={'grid'} // 临时硬编码
+                                    hasActiveFilters={chunkManager.filters.sourceFilter !== 'ALL' || !!chunkManager.filters.searchTerm}
+                                />
+                            </div>
+                            {chunkManager.pagination.totalItems > 0 && (
+                                <Pagination {...chunkManager.pagination} onPageChange={chunkManager.actions.setCurrentPage} />
+                            )}
+                        </div>
+                        <AddChunkModal
+                            isOpen={isChunkModalOpen}
+                            onClose={() => setIsChunkModalOpen(false)}
+                            onAddChunk={chunkManager.actions.handleAddChunk}
+                            documents={documentManager.documents} // 同样从 documentManager 获取
+                        />
+                    </>
+                );
+
             default:
                 return (
                     <div className={styles.centeredMessage}>

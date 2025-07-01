@@ -1,7 +1,14 @@
 "use client";
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useDebounce } from '@/hooks/useDebounce'; // 假设你有一个防抖 Hook
 import { DocumentVO } from '@/services/documentService';
+
+// 导入新的子组件
+import SourceFilterDropdown from './SourceFilterDropdown';
+import ViewModeToggle, { ViewMode } from './ViewModeToggle';
+
 import styles from './ChunkToolbar.module.css';
 
 interface ChunkToolbarProps {
@@ -11,7 +18,10 @@ interface ChunkToolbarProps {
     onFilterChange: (id: number | 'ALL') => void;
     searchTerm: string;
     onSearchChange: (term: string) => void;
+    viewMode: ViewMode;
+    onViewModeChange: (mode: ViewMode) => void;
     onOpenAddModal: () => void;
+    isSearching: boolean; // 新增：用于显示加载状态
 }
 
 const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
@@ -21,16 +31,25 @@ const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
                                                        onFilterChange,
                                                        searchTerm,
                                                        onSearchChange,
-                                                       onOpenAddModal
+                                                       viewMode,
+                                                       onViewModeChange,
+                                                       onOpenAddModal,
+                                                       isSearching
                                                    }) => {
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const selectedDocName = documents.find(d => d.id === activeFilterId)?.name || '所有文档';
+    // 使用防抖处理搜索输入
+    const debouncedSearch = useDebounce(onSearchChange, 300);
 
     return (
-        <div className={styles.toolbar}>
+        <motion.div
+            className={styles.toolbarContainer}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+        >
             <div className={styles.leftSection}>
                 <button className={styles.newButton} onClick={onOpenAddModal}>
-                    <i className="fas fa-plus"></i> 新增切片
+                    <i className="fas fa-plus"></i>
+                    <span>新增切片</span>
                 </button>
                 <div className={styles.divider}></div>
                 <div className={styles.countInfo}>
@@ -39,38 +58,33 @@ const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
             </div>
 
             <div className={styles.rightSection}>
-                <div className={styles.dropdownContainer}>
-                    <button className={styles.filterButton} onClick={() => setIsFilterOpen(!isFilterOpen)}>
-                        <i className="fas fa-filter"></i>
-                        <span title={selectedDocName}>{selectedDocName}</span>
-                        <i className={`fas fa-chevron-down ${styles.chevron} ${isFilterOpen ? styles.open : ''}`}></i>
-                    </button>
-                    <AnimatePresence>
-                        {isFilterOpen && (
-                            <motion.ul className={styles.dropdownMenu} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-                                <li onClick={() => { onFilterChange('ALL'); setIsFilterOpen(false); }}>所有文档</li>
-                                {documents.map(doc => (
-                                    <li key={doc.id} onClick={() => { onFilterChange(doc.id); setIsFilterOpen(false); }}>
-                                        {doc.name}
-                                    </li>
-                                ))}
-                            </motion.ul>
-                        )}
-                    </AnimatePresence>
-                </div>
+                <SourceFilterDropdown
+                    documents={documents}
+                    activeFilterId={activeFilterId}
+                    onFilterChange={onFilterChange}
+                />
 
                 <div className={styles.searchBar}>
-                    <i className={`fas fa-search ${styles.searchIcon}`}></i>
+                    {isSearching ? (
+                        <i className={`fas fa-spinner fa-spin ${styles.searchIcon}`}></i>
+                    ) : (
+                        <i className={`fas fa-search ${styles.searchIcon}`}></i>
+                    )}
                     <input
                         type="text"
                         placeholder="搜索切片内容..."
-                        className={styles.searchInput}
-                        value={searchTerm}
-                        onChange={(e) => onSearchChange(e.target.value)}
+                        defaultValue={searchTerm} // 使用 defaultValue 避免与防抖冲突
+                        onChange={(e) => debouncedSearch(e.target.value)}
+                        aria-label="搜索切片"
                     />
                 </div>
+
+                <ViewModeToggle
+                    currentMode={viewMode}
+                    onModeChange={onViewModeChange}
+                />
             </div>
-        </div>
+        </motion.div>
     );
 };
 
