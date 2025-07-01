@@ -1,6 +1,6 @@
-// src/app/student/(dashboard)/assistant/page.tsx
+// src/app/student/(dashboard)/assistant/KnowledgeDetailPage.tsx
 import React from 'react';
-import AssistantContainer from '../../../../components/student/component/assistant/AssistantContainer'; // 引入新的容器组件
+import AssistantContainer from '@/features/student/sub-features/assistant/AssistantContainer'; // 引入新的容器组件
 
 export default function AgentAssistantPage() {
     return (

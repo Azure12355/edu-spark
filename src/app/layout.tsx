@@ -4,7 +4,7 @@ import "./globals.css";
 import 'github-markdown-css/github-markdown-light.css';
 
 // 1. 引入 ToastProvider
-import ToastProvider from "@/components/common/Toast/Toast";
+import ToastProvider from "@/shared/components/ui/Toast/Toast";
 
 export const metadata: Metadata = {
     title: "EduSpark - AI 驱动的教学实训平台",

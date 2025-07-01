@@ -1,15 +1,15 @@
-// src/app/student/page.tsx
+// src/app/student/KnowledgeDetailPage.tsx
 import React from 'react';
 // 导入重命名后的组件
-import AgentSearchBanner from '@/components/student/component/plaza/AgentSearchBanner/AgentSearchBanner';
-import AgentCategoryFilter from '@/components/student/component/plaza/AgentCategoryFilter/AgentCategoryFilter';
-import MyRecentAgents from '@/components/student/component/plaza/MyRecentAgents/MyRecentAgents';
-import AgentGrid from '@/components/student/component/plaza/AgentGrid/AgentGrid';
+import AgentSearchBanner from '@/features/student/sub-features/plaza/AgentSearchBanner/AgentSearchBanner';
+import AgentCategoryFilter from '@/features/student/sub-features/plaza/AgentCategoryFilter/AgentCategoryFilter';
+import MyRecentAgents from '@/features/student/sub-features/plaza/MyRecentAgents/MyRecentAgents';
+import AgentGrid from '@/features/student/sub-features/plaza/AgentGrid/AgentGrid';
 
 // 导入新创建的组件
-import PopularCreators from '@/components/student/component/plaza/PopularCreators/PopularCreators';
-import HotAgents from '@/components/student/component/plaza/HotAgents/HotAgents';
-import Announcements from '@/components/student/component/plaza/Announcements/Announcements';
+import PopularCreators from '@/features/student/sub-features/plaza/PopularCreators/PopularCreators';
+import HotAgents from '@/features/student/sub-features/plaza/HotAgents/HotAgents';
+import Announcements from '@/features/student/sub-features/plaza/Announcements/Announcements';
 
 import styles from './plaza.module.css';
 

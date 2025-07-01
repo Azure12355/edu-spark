@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useMemo } from 'react';
 import styles from './myAgents.module.css';
-import { myAgentsData } from '@/lib/data/myAgentsData';
-import MyAgentsHeader from '@/components/student/component/my-agents/MyAgentsHeader/MyAgentsHeader';
-import MyAgentsToolbar from '@/components/student/component/my-agents/MyAgentsToolbar/MyAgentsToolbar';
-import AgentTabs from '@/components/student/component/my-agents/AgentTabs/AgentTabs';
-import AgentList from '@/components/student/component/my-agents/AgentList/AgentList';
+import { myAgentsData } from '@/shared/lib/data/myAgentsData';
+import MyAgentsHeader from '@/features/student/sub-features/my-agents/MyAgentsHeader/MyAgentsHeader';
+import MyAgentsToolbar from '@/features/student/sub-features/my-agents/MyAgentsToolbar/MyAgentsToolbar';
+import AgentTabs from '@/features/student/sub-features/my-agents/AgentTabs/AgentTabs';
+import AgentList from '@/features/student/sub-features/my-agents/AgentList/AgentList';
 
 export default function MyAgentsPage() {
     const [activeTab, setActiveTab] = useState('all');

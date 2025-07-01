@@ -2643,7 +2643,7 @@ export default FloatingSidebar;
 │   ├── favicon.ico
 │   ├── globals.css
 │   ├── layout.tsx
-│   └── page.tsx
+│   └── KnowledgeDetailPage.tsx
 ├── components
 │   ├── common
 │   │   └── Button

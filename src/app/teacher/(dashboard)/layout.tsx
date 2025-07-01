@@ -2,7 +2,7 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import TeacherHeader from '@/components/teacher/layout/Header/TeacherHeader';
+import TeacherHeader from '@/features/teacher/course/course-management/components/Header/TeacherHeader';
 import '../teacher.css';
 
 export default function TeacherDashboardLayout({

@@ -1,7 +1,7 @@
 // src/app/api/generate-questions/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { CozeAPI, APIError } from '@coze/api';
-import type { CozeWorkflowInputParameters, CozeRawWorkflowResponse } from '@/types/coze';
+import type { CozeWorkflowInputParameters, CozeRawWorkflowResponse } from '@/shared/types/coze';
 
 const COZE_API_KEY = process.env.COZE_API_KEY;
 const WORKFLOW_ID = '7520409387987943424';

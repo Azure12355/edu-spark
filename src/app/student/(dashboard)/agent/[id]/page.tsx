@@ -2,11 +2,11 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import styles from './agentDetail.module.css';
-import { agentDetailData } from '@/lib/data/agentDetailData';
-import AgentDetailHeader from '@/components/student/component/agent-detail/AgentDetailHeader';
-import CoreCapabilities from '@/components/student/component/agent-detail/CoreCapabilities';
-import ContentSection from '@/components/student/component/agent-detail/ContentSection';
-import FloatingCta from '@/components/student/component/agent-detail/FloatingCta';
+import { agentDetailData } from '@/shared/lib/data/agentDetailData';
+import AgentDetailHeader from '@/features/student/sub-features/agent-detail/AgentDetailHeader';
+import CoreCapabilities from '@/features/student/sub-features/agent-detail/CoreCapabilities';
+import ContentSection from '@/features/student/sub-features/agent-detail/ContentSection';
+import FloatingCta from '@/features/student/sub-features/agent-detail/FloatingCta';
 
 export default function AgentDetailPage() {
     const params = useParams();

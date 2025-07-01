@@ -1,0 +1,55 @@
+/* src/app/teacher/(dashboard)/courses/[id]/syllabus/[pointId]/edit/QuestionEditPage.module.css */
+.pageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--teacher-bg-body);
+}
+
+.editorContainer {
+    flex-grow: 1;
+    min-height: 0; /* 修复 flex 布局下的 overflow 问题 */
+}
+
+/*
+  使用 :global 来微调 Bytemd 内部元素的样式，
+  使其与我们的项目设计风格更统一
+*/
+.editorContainer :global(.bytemd) {
+    height: 100%;
+    border-radius: 0;
+    border: none;
+}
+
+.editorContainer :global(.bytemd-toolbar) {
+    background-color: var(--teacher-white);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--teacher-border-color);
+}
+
+.editorContainer :global(.bytemd-toolbar-tab.bytemd-toolbar-tab-active) {
+    border-bottom: 2px solid var(--teacher-primary);
+    color: var(--teacher-primary);
+}
+
+.editorContainer :global(.bytemd-status-item) {
+    color: var(--teacher-text-secondary);
+}
+
+.editorContainer :global(.CodeMirror-gutters) {
+    background-color: var(--teacher-white);
+}
+
+.editorContainer :global(.markdown-body) {
+    background-color: var(--teacher-white);
+    padding: 24px 32px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 20px;
+}

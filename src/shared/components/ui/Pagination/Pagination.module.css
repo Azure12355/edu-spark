@@ -1,0 +1,121 @@
+/* src/shared/components/ui/Pagination/Pagination.module.css */
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 靠右对齐 */
+    gap: 8px;
+    padding: 20px 0; /* 仅上下内边距 */
+    width: 100%;
+}
+
+.totalInfo {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin-right: 16px;
+}
+
+.divider {
+    height: 20px;
+    width: 1px;
+    background-color: var(--teacher-border-color);
+    margin-right: 8px;
+}
+
+.pageNumbers {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.paginationButton {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+    border-radius: 8px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.paginationButton.active {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: var(--teacher-bg-card);
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.paginationButton:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+    background-color: #f8fafc;
+}
+
+.ellipsis {
+    color: var(--teacher-text-tertiary);
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    user-select: none;
+}
+
+.jumpToPageContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+    color: var(--teacher-text-secondary);
+    font-size: 14px;
+}
+
+.jumpInput {
+    width: 50px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+    background-color: var(--teacher-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+}
+
+.jumpInput::-webkit-outer-spin-button,
+.jumpInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.jumpInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
+}
+
+@media (max-width: 768px) {
+    .paginationContainer {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+    .jumpToPageContainer {
+        display: none;
+    }
+    .totalInfo, .divider {
+        display: none;
+    }
+}

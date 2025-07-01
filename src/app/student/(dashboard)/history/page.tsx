@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
 import styles from './history.module.css';
-import HistoryBanner from '@/components/student/component/history/HistoryBanner/HistoryBanner';
-import HistoryCard from '@/components/student/component/history/HistoryCard/HistoryCard';
-import { historyData } from '@/lib/data/historyData';
+import HistoryBanner from '@/features/student/sub-features/history/HistoryBanner/HistoryBanner';
+import HistoryCard from '@/features/student/sub-features/history/HistoryCard/HistoryCard';
+import { historyData } from '@/shared/lib/data/historyData';
 
 export default function HistoryPage() {
     return (

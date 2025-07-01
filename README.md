@@ -176,7 +176,7 @@ EduSpark/
 │   ├── app/              # Next.js App Router 核心目录
 │   │   ├── api/          # 前端轻量级API (如: /api/chat)
 │   │   ├── layout.tsx    # 全局根布局
-│   │   └── page.tsx      # 网站主页
+│   │   └── KnowledgeDetailPage.tsx      # 网站主页
 │   ├── components/       # ✨ 所有React组件的家
 │   │   ├── common/       # 通用基础组件 (Button)
 │   │   ├── layout/       # 布局组件 (Header, Footer, FloatingSidebar)

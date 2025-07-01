@@ -2,8 +2,8 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import StudentHeader from '@/components/student/layout/Header/StudentHeader';
-import StudentSidebar from '@/components/student/layout/Sidebar/StudentSidebar';
+import StudentHeader from '@/features/student/components/Header/StudentHeader';
+import StudentSidebar from '@/features/student/components/Sidebar/StudentSidebar';
 import '../student.css'; // 引入学生端专属全局样式
 
 export default function StudentDashboardLayout({

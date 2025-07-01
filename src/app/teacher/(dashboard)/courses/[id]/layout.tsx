@@ -4,8 +4,8 @@
 import React from 'react';
 import { usePathname, useParams } from 'next/navigation';
 import styles from './course-management-layout.module.css';
-import CourseManagementSidebar from '@/components/teacher/course-management/Sidebar/CourseManagementSidebar';
-import { teacherCourseData } from '@/lib/data/teacherCourseData';
+import CourseManagementSidebar from '@/features/teacher/course/course-management/components/Sidebar/CourseManagementSidebar';
+import { teacherCourseData } from '@/shared/lib/data/teacherCourseData';
 
 export default function CourseManagementLayout({
                                                    children,

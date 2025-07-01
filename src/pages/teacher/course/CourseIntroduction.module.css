@@ -1,0 +1,104 @@
+/* src/app/teacher/(dashboard)/courses/[id]/introduction/CourseIntroduction.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.card {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+/* --- 核心优化：最终的网格布局 --- */
+.mainGrid {
+    display: grid;
+    gap: 24px;
+    /* 1. 调整列宽比例，定义一个三列布局 */
+    grid-template-columns: 1fr 0.8fr 0.8fr;
+    grid-auto-rows: min-content; /* 让行高由内容决定 */
+
+    /* 2. 最核心的布局定义，注意 'tools' 横跨了两列 */
+    grid-template-areas:
+        "objectives resources timeline"
+        "methods    methods  timeline"
+        "assessment tools     tools";
+}
+
+/* 3. 为每个区域的包裹容器分配 grid-area */
+.objectivesCardWrapper {
+    grid-area: objectives;
+}
+.timelineCardWrapper {
+    grid-area: timeline;
+    /* 让时间线卡片填满其分配的区域 */
+    &  { height: 100%; }
+}
+.methodsCardWrapper {
+    grid-area: methods;
+}
+.resourcesCardWrapper {
+    grid-area: resources;
+    /* 让资源卡片填满其分配的区域 */
+    & > div { height: 100%; }
+}
+.assessmentCardWrapper {
+    grid-area: assessment;
+}
+.toolsCardWrapper {
+    grid-area: tools;
+    /* 让工具卡片填满其分配的区域 */
+    & > div { height: 100%; }
+}
+
+/* 确保所有卡片组件的根元素都能撑满其包裹容器 */
+.objectivesCardWrapper > div,
+
+.methodsCardWrapper > div,
+.resourcesCardWrapper > div,
+.assessmentCardWrapper > div,
+.toolsCardWrapper > div {
+    height: 100%;
+    width: 100%;
+}
+
+.timelineCardWrapper > div {
+    height: 850px;
+}
+
+
+/* --- 响应式布局调整 --- */
+@media (max-width: 1200px) {
+    .mainGrid {
+        /* 在中等屏幕上变为两列 */
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "timeline   timeline"
+          "objectives objectives"
+          "methods    resources"
+          "assessment tools";
+    }
+}
+
+@media (max-width: 900px) {
+    /* 在小屏幕上变为单列布局 */
+    .mainGrid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "objectives"
+          "timeline"
+          "methods"
+          "resources"
+          "assessment"
+          "tools";
+    }
+    .timelineCardWrapper > div {
+        height: auto;
+    }
+}

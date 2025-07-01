@@ -1,0 +1,27 @@
+/* src/app/teacher/assistant/Assistant.module.css */
+
+/* 1. 页面根容器 */
+.pageContainer {
+    width: 100%;
+    height: 100%; /* 关键：继承父级（main）的高度 */
+    display: flex; /* 关键：自身也成为 flex 容器 */
+    background-color: white;
+}
+
+/* 2. 右侧主聊天面板的包裹器 */
+.chatPanelContainer {
+    flex-grow: 1; /* 关键：占据所有剩余空间 */
+    height: 100%;
+    display: flex; /* 让内部的 ChatPanel 可以撑满 */
+    border-left: 1px solid var(--teacher-border-color);
+    min-width: 0; /* 防止被压缩 */
+}
+
+/* 3. ChatPanel 的覆盖样式 */
+.chatPanelOverride {
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 100% !important;
+    background-color: transparent !important;
+}

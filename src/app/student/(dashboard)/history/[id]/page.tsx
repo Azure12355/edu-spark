@@ -3,10 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import styles from './historyDetail.module.css';
-import HistoryDetailHeader from '@/components/student/component/history/HistoryDetailHeader/HistoryDetailHeader';
-import ConversationView from '@/components/student/component/history/ConversationView/ConversationView';
-import { historyData } from '@/lib/data/historyData';
-import { agentData } from '@/lib/data/agentData';
+import HistoryDetailHeader from '@/features/student/sub-features/history/HistoryDetailHeader/HistoryDetailHeader';
+import ConversationView from '@/features/student/sub-features/history/ConversationView/ConversationView';
+import { historyData } from '@/shared/lib/data/historyData';
+import { agentData } from '@/shared/lib/data/agentData';
 
 export default function HistoryDetailPage() {
     const params = useParams();

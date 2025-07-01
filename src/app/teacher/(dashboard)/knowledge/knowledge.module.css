@@ -1,6 +1,0 @@
-/* src/app/student/(dashboard)/knowledge/knowledge.module.css */
-.knowledgeContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}

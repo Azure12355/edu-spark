@@ -1,0 +1,14 @@
+/* src/app/teacher/(dashboard)/courses/[id]/questions/[questionId]/preview/QuestionPreview.module.css */
+.pageContainer {
+    padding: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading, .notFound {
+    text-align: center;
+    padding: 80px 0;
+    font-size: 18px;
+    color: var(--teacher-text-secondary);
+}

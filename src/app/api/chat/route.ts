@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZhipuAI } from 'zhipuai';
 import { Readable } from 'stream';
-import { EDU_SPARK_ASSISTANT_PROMPT } from '@/lib/prompts'; // 导入我们新的系统提示词
+import { EDU_SPARK_ASSISTANT_PROMPT } from '@/shared/lib/prompts'; // 导入我们新的系统提示词
 
 const API_KEY = process.env.ZHIPUAI_API_KEY;
 const MODEL_NAME = "glm-z1-flash"; // 您可以根据需要更改模型
