@@ -52,9 +52,15 @@ export default function ImportDocumentPage() {
 
     // 导入成功后，2秒后跳转回详情页
     const handleImportSuccess = () => {
+        // 目标标签页的名称
+        const targetTab = '原始文档';
+        // 构建带有查询参数的新 URL
+        const destinationUrl = `/teacher/knowledge/${kbId}?tab=${encodeURIComponent(targetTab)}`;
+
+        // 2秒后跳转
         setTimeout(() => {
-            router.push(`/teacher/knowledge/${kbId}`);
-        }, 2000);
+            router.push(destinationUrl);
+        }, 1500); // 留出时间给用户看到成功提示
     };
 
     // 将 handleBatchUpload 和 handleImportSuccess 结合

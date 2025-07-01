@@ -1,12 +1,12 @@
 // src/app/teacher/(dashboard)/knowledge/[id]/page.tsx
 "use client";
 
-import React, { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import React, {Suspense, useEffect} from 'react';
+import {useParams, useRouter, useSearchParams} from 'next/navigation';
 
 // --- 新的 Hooks 和组件 ---
 import { useKnowledgeDetail } from '@/hooks/useKnowledgeDetail';
-import KnowledgeDetailView from '@/components/teacher/knowledge/detail/view/KnowledgeDetailView';
+import KnowledgeDetailView, {TABS_CONFIG} from '@/components/teacher/knowledge/detail/view/KnowledgeDetailView';
 
 // --- 样式和辅助组件 ---
 import styles from './knowledgeDetail.module.css'; // 复用原有的 centeredState, spinner 等样式
@@ -38,15 +38,20 @@ const NotFoundState: React.FC = () => {
     );
 };
 
-
-export default function KnowledgeDetailPage() {
+function KnowledgeDetailContent() {
     const params = useParams();
+    const searchParams = useSearchParams();
     const kbId = params.id as string;
 
-    // --- 核心：只调用一个 Hook 来管理页面核心状态 ---
+    // 1. 读取 URL 中的 'tab' 参数
+    const tabFromUrl = searchParams.get('tab');
+
+    // 2. 校验 tabFromUrl 是否是一个合法的标签页名称
+    const isValidTab = TABS_CONFIG.some(t => t.label === tabFromUrl);
+    const initialTab = isValidTab ? tabFromUrl : undefined;
+
     const { kb, isLoading, isNotFound } = useKnowledgeDetail(kbId);
 
-    // --- 根据状态进行渲染决策 ---
     if (isLoading) {
         return <LoadingState message="正在加载知识库数据..." />;
     }
@@ -55,6 +60,16 @@ export default function KnowledgeDetailPage() {
         return <NotFoundState />;
     }
 
-    // --- 数据加载成功，渲染主视图组件 ---
-    return <KnowledgeDetailView kb={kb} />;
+    // 3. 将验证过的 initialTab 传递给主视图组件
+    return <KnowledgeDetailView kb={kb} initialTab={initialTab} />;
+}
+
+
+// 主页面组件现在只负责提供 Suspense 边界
+export default function KnowledgeDetailPage() {
+    return (
+        <Suspense fallback={<LoadingState message="正在加载页面..." />}>
+            <KnowledgeDetailContent />
+        </Suspense>
+    );
 }

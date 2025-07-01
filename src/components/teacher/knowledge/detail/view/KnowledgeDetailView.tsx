@@ -22,10 +22,11 @@ import styles from './KnowledgeDetailView.module.css';
 
 interface KnowledgeDetailViewProps {
     kb: KnowledgeBaseVO;
+    initialTab?: string | null;
 }
 
 // Tab 的配置数据可以保留在此处，因为它与视图逻辑紧密相关
-const TABS_CONFIG = [
+export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
     { id: 'Documents', label: '原始文档' },
     { id: 'Chunks', label: '切片详情' },
@@ -34,9 +35,9 @@ const TABS_CONFIG = [
     { id: 'Statistics', label: '使用统计' },
 ];
 
-const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb }) => {
+const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTab }) => {
     // --- 状态管理 ---
-    const [activeTab, setActiveTab] = useState<string>(TABS_CONFIG[0].label);
+    const [activeTab, setActiveTab] = useState<string>(initialTab || TABS_CONFIG[0].label);
     const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
 
     // --- 各功能模块的逻辑 Hooks ---
