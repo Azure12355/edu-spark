@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useToast } from '@/shared/hooks/useToast';
 import { useDebounce } from '@/shared/hooks/useDebounce'; // 引入我们之前创建的防抖 Hook
 import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
-import { ChunkVO, listChunksByKbId, deleteChunk, addChunk, AddChunkRequest } from '@/features/teacher/knowledge/knowledge-detail/services/chunkService';
+import { ChunkVO, listChunksByKbId, deleteChunk, addChunk, AddChunkRequest } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
 
 const ITEMS_PER_PAGE = 12;
 

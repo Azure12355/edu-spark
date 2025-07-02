@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from './ChunkGrid.module.css'; // 复用样式
+import styles from '../styles/ChunkGrid.module.css'; // 复用样式
 
 const SkeletonCard = () => (
     <div className={styles.skeletonCard}>

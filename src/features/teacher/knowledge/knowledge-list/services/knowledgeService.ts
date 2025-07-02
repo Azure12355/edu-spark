@@ -176,7 +176,7 @@ export const listDocumentsByKbId = (params: {
     pageSize: number;
 }): Promise<Page<DocumentVO> | any> => {
     const { kbId, current, pageSize } = params;
-    return apiClient.get<Page<DocumentVO>>(`/kb/document/list/page?kbId=${kbId}¤t=${current}&size=${pageSize}`);
+    return apiClient.get<Page<DocumentVO>>(`/kb/document/list/page?kbId=${kbId}&t=${current}&size=${pageSize}`);
 };
 
 /**
@@ -187,5 +187,5 @@ export const listChunksByDocId = (params: {
     current: number;
     pageSize: number;
 }): Promise<Page<ChunkVO> | any> => {
-    return apiClient.get<Page<ChunkVO>>(`/kb/chunk/list/page?docId=${params.docId}¤t=${params.current}&size=${params.pageSize}`);
+    return apiClient.get<Page<ChunkVO>>(`/kb/chunk/list/page?docId=${params.docId}&t=${params.current}&size=${params.pageSize}`);
 };

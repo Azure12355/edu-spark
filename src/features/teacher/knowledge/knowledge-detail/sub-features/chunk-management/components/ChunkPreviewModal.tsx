@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/services/chunkService';
-import styles from './ChunkPreviewModal.module.css';
+import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
+import styles from '../styles/ChunkPreviewModal.module.css';
 
 interface ChunkPreviewModalProps {
     isOpen: boolean;

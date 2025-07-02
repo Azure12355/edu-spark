@@ -1,4 +1,4 @@
-import apiClient from '../../../../../shared/api/apiClient';
+import apiClient from '../../../../../../../shared/api/apiClient';
 import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService'; // 复用已有的 Page 类型
 
 // ===================================================================

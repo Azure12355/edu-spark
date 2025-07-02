@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from './ChunkGrid.module.css'; // 复用样式
+import styles from '../styles/ChunkGrid.module.css'; // 复用样式
 
 interface EmptyStateProps {
     hasFilters: boolean; // 是否有筛选或搜索条件

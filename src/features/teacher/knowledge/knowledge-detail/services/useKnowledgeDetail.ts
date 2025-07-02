@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 // 【核心修改】: 直接从 service 中导入 API 调用函数
-import { KnowledgeBaseVO, getKnowledgeBaseById } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
-import { DocumentVO, listDocumentsByKbId } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
+import {
+    KnowledgeBaseVO,
+    getKnowledgeBaseById,
+    listDocumentsByKbId, DocumentVO
+} from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
 import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
 
 /**
@@ -31,7 +34,7 @@ export const useKnowledgeDetail = (kbId: string | number) => {
             // 【核心修改】: 并行获取知识库详情和其第一页的文档
             const [kbData, docPageData] = await Promise.all([
                 getKnowledgeBaseById(kbId),
-                listDocumentsByKbId({ kbId: kbId, current: 1, pageSize: 100 }) // 假设文档不多，一次性获取
+                listDocumentsByKbId({ kbId: kbId, current: 1, pageSize: 50 }) // 假设文档不多，一次性获取
             ]);
 
             if (kbData) {

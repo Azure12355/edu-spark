@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChunkDetailVO, getChunkDetailById } from '@/features/teacher/knowledge/knowledge-detail/services/chunkService';
+import { ChunkDetailVO, getChunkDetailById } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
 
 /**
  * @description 获取单个切片详细信息的自定义 Hook

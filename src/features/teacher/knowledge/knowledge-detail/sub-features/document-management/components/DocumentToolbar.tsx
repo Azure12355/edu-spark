@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfirmationModal from '@/shared/components/ui/ConfirmationModal/ConfirmationModal';
-import styles from './DocumentToolbar.module.css';
+import styles from '../style/DocumentToolbar.module.css';
 
 interface DocumentToolbarProps {
     selectionCount: number;

@@ -1,0 +1,25 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/style/DocumentManagementTab.module.css */
+
+.tabContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableContainer {
+    flex-grow: 1; /* 占据所有剩余的垂直空间 */
+    min-height: 0; /* 允许子元素（如可滚动的表格）正确计算高度 */
+    display: flex; /* 让内部的 TableWrapper 能够撑满 */
+    flex-direction: column;
+}
+
+/* 确保内部的 TableWrapper 高度正确 */
+.tableContainer > div {
+    height: 100%;
+}
+
+.paginationContainer {
+    flex-shrink: 0; /* 防止分页组件被压缩 */
+    padding-top: 24px;
+}

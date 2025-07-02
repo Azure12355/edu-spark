@@ -1,17 +1,18 @@
-// src/app/teacher/(dashboard)/knowledge/[id]/KnowledgeDetailPage.tsx
+// src/pages/teacher/knowledge/KnowledgeDetailPage.tsx
 "use client";
 
-import React, {Suspense, useEffect} from 'react';
-import {useParams, useRouter, useSearchParams} from 'next/navigation';
+import React, { Suspense } from 'react';
 
-// --- 新的 Hooks 和组件 ---
-import { useKnowledgeDetail } from '@/features/teacher/knowledge/knowledge-detail/services/useKnowledgeDetail';
-import KnowledgeDetailView, {TABS_CONFIG} from '@/features/teacher/knowledge/knowledge-detail/components/view/KnowledgeDetailView';
+// [!code focus start]
+// --- 导入新的自定义 Hook ---
+import { useKnowledgeDetailPage } from '@/features/teacher/knowledge/knowledge-detail/hooks/useKnowledgeDetailPage';
+// [!code focus end]
 
-// --- 样式和辅助组件 ---
-import styles from './KnowledgeDetail.module.css'; // 复用原有的 centeredState, spinner 等样式
+// --- UI 组件 ---
+import KnowledgeDetailView from '@/features/teacher/knowledge/knowledge-detail/components/view/KnowledgeDetailView';
+import styles from './KnowledgeDetail.module.css'; // 样式文件保持不变
 
-// --- 可复用的状态显示组件 ---
+// --- 可复用的状态显示组件 (保持不变) ---
 const LoadingState: React.FC<{ message: string }> = ({ message }) => (
     <div className={styles.centeredState}>
         <div className={styles.spinner}></div>
@@ -19,39 +20,24 @@ const LoadingState: React.FC<{ message: string }> = ({ message }) => (
     </div>
 );
 
-const NotFoundState: React.FC = () => {
-    const router = useRouter();
+const NotFoundState: React.FC = () => (
+    <div className={styles.centeredState}>
+        <i className="fas fa-exclamation-triangle" style={{ fontSize: '48px', color: '#f59e0b' }}></i>
+        <p style={{ fontSize: '18px', fontWeight: 600 }}>知识库不存在</p>
+        <p>无法找到您要访问的资源，即将返回列表页...</p>
+    </div>
+);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            router.push('/teacher/knowledge');
-        }, 2500);
-        return () => clearTimeout(timer);
-    }, [router]);
 
-    return (
-        <div className={styles.centeredState}>
-            <i className="fas fa-exclamation-triangle" style={{ fontSize: '48px', color: '#f59e0b' }}></i>
-            <p style={{ fontSize: '18px', fontWeight: 600 }}>知识库不存在</p>
-            <p>无法找到您要访问的资源，即将返回列表页...</p>
-        </div>
-    );
-};
-
+/**
+ * @description 页面核心装配组件。
+ * 负责调用主 Hook，并根据返回的状态渲染对应的 UI。
+ */
 function KnowledgeDetailContent() {
-    const params = useParams();
-    const searchParams = useSearchParams();
-    const kbId = params.id as string;
+    // 从自定义 Hook 中获取所有页面所需的状态和逻辑
+    const { isLoading, isNotFound, kb, activeTab, handleTabChange } = useKnowledgeDetailPage();
 
-    // 1. 读取 URL 中的 'tab' 参数
-    const tabFromUrl = searchParams.get('tab');
-
-    // 2. 校验 tabFromUrl 是否是一个合法的标签页名称
-    const isValidTab = TABS_CONFIG.some(t => t.label === tabFromUrl);
-    const initialTab = isValidTab ? tabFromUrl : undefined;
-
-    const { kb, isLoading, isNotFound } = useKnowledgeDetail(kbId);
-
+    // 根据状态渲染不同的 UI
     if (isLoading) {
         return <LoadingState message="正在加载知识库数据..." />;
     }
@@ -60,12 +46,14 @@ function KnowledgeDetailContent() {
         return <NotFoundState />;
     }
 
-    // 3. 将验证过的 initialTab 传递给主视图组件
-    return <KnowledgeDetailView kb={kb} initialTab={initialTab} />;
+    // 渲染主视图
+    return <KnowledgeDetailView kb={kb} activeTab={activeTab} onTabChange={handleTabChange} />;
 }
 
-
-// 主页面组件现在只负责提供 Suspense 边界
+/**
+ * @description 知识库详情页的根组件。
+ * 主要作用是提供 React.Suspense 边界，以支持未来可能的异步组件或数据加载。
+ */
 export default function KnowledgeDetailPage() {
     return (
         <Suspense fallback={<LoadingState message="正在加载页面..." />}>

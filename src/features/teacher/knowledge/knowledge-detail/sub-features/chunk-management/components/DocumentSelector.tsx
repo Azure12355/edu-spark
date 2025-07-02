@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useDropdown } from '@/shared/hooks/useDropdown';
 import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
 import { getFileIcon } from '@/shared/lib/data/documentData';
-import styles from './AddChunkModal.module.css'; // 复用样式
+import styles from '../styles/AddChunkModal.module.css'; // 复用样式
 
 interface DocumentSelectorProps {
     documents: DocumentVO[];

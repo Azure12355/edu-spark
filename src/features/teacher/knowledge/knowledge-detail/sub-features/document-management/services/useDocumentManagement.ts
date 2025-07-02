@@ -1,6 +1,7 @@
+// src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/useDocumentManagement.ts
 import { useState, useEffect, useCallback } from 'react';
 import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
-import { DocumentVO, listDocumentsByKbId, deleteDocuments } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
+import { DocumentVO, listDocumentsByKbId, deleteDocuments } from '@/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/documentService';
 import { useToast } from '@/shared/hooks/useToast';
 
 const ITEMS_PER_PAGE = 10;

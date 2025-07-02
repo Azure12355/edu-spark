@@ -1,4 +1,5 @@
-import apiClient from '../../../../../shared/api/apiClient';
+// src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/documentService.ts
+import apiClient from '@/shared/api/apiClient';
 import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService'; // 复用已有的Page类型
 
 // 1. 定义与后端 DocumentVO.java 精确匹配的类型

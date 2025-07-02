@@ -2,15 +2,19 @@
 "use client";
 
 import React from 'react';
-import { useChunkManagementTab } from '../hooks/useChunkManagementTab';
+import { useChunkManagementTab } from './hooks/useChunkManagementTab';
 
 // 导入所有需要的 UI 子组件
-import ChunkToolbar from './ChunkToolbar'; // 导入重构后的 Toolbar
-import ChunkGrid from '@/features/teacher/knowledge/knowledge-detail/components/tabs/chunks/ChunkGrid';
+import ChunkToolbar from './components/ChunkToolbar';
+import ChunkGrid from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/ChunkGrid';
 import Pagination from '@/shared/components/ui/Pagination/Pagination';
-import AddChunkModal from '@/features/teacher/knowledge/knowledge-detail/components/tabs/chunks/AddChunkModal';
+import AddChunkModal from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/AddChunkModal';
+// 导入骨架屏和空状态组件
+import ChunkGridSkeleton from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/ChunkGridSkeleton';
+import EmptyState from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/EmptyState';
 
-import styles from '../styles/ChunkManagementTab.module.css';
+
+import styles from './styles/ChunkManagementTab.module.css';
 import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
 
 interface ChunkManagementTabProps {
@@ -32,6 +36,27 @@ const ChunkManagementTab: React.FC<ChunkManagementTabProps> = ({ kbId, documents
         actions,
     } = useChunkManagementTab({ kbId });
 
+    /**
+     * @description 根据当前状态决定渲染哪个主内容组件。
+     * 这将加载、空状态和实际内容的渲染逻辑集中在了父组件中。
+     */
+    const renderMainContent = () => {
+        if (isLoading) {
+            return <ChunkGridSkeleton viewMode={viewMode} />;
+        }
+        if (chunks.length === 0) {
+            return <EmptyState hasFilters={hasActiveFilters} />;
+        }
+        return (
+            <ChunkGrid
+                chunks={chunks}
+                onDeleteChunk={actions.handleDeleteChunk}
+                viewMode={viewMode}
+            />
+        );
+    };
+
+
     return (
         <>
             <div className={styles.tabContentContainer}>
@@ -48,15 +73,10 @@ const ChunkManagementTab: React.FC<ChunkManagementTabProps> = ({ kbId, documents
                     isSearching={isLoading}
                 />
                 <div className={styles.gridContainer}>
-                    <ChunkGrid
-                        chunks={chunks}
-                        isLoading={isLoading}
-                        onDeleteChunk={actions.handleDeleteChunk}
-                        viewMode={viewMode}
-                        hasActiveFilters={hasActiveFilters}
-                    />
+                    {renderMainContent()}
                 </div>
-                {pagination.totalItems > 0 && !isLoading && (
+                {/* 仅在不加载且有内容时显示分页 */}
+                {!isLoading && pagination.totalItems > 0 && (
                     <Pagination {...pagination} onPageChange={actions.setCurrentPage} />
                 )}
             </div>

@@ -20,7 +20,7 @@ const TABS_CONFIG = [
 interface KnowledgeDetailLayoutProps {
     kb: KnowledgeBaseVO;
     tabContent: React.ReactNode;
-    activeTab: string;
+    activeTab: string | null;
     onTabChange: (tab: string) => void;
 }
 

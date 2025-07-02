@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/services/chunkService';
+import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
 import { getFileIcon } from '@/shared/lib/data/documentData';
 import { useToast } from '@/shared/hooks/useToast';
 import ConfirmationModal from '@/shared/components/ui/ConfirmationModal/ConfirmationModal';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 import ChunkPreviewModal from './ChunkPreviewModal'; // 引入预览弹窗
-import styles from './ChunkCard.module.css';
+import styles from '../styles/ChunkCard.module.css';
 
 interface ChunkCardProps {
     chunk: ChunkVO;

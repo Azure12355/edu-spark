@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
 import { getFileIcon } from '@/shared/lib/data/documentData';
-import styles from './DocumentTable.module.css';
+import styles from '../style/DocumentTable.module.css';
+import { DocumentVO } from '../services/documentService';
 
 // --- Props 定义 ---
 interface DocumentTableProps {

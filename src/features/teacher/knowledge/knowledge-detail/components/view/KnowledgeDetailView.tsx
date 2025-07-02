@@ -1,25 +1,16 @@
+// src/features/teacher/knowledge/knowledge-detail/components/view/KnowledgeDetailView.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { KnowledgeBaseVO } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
 
-// --- 自定义 Hooks ---
-import { useDocumentManagement } from '@/features/teacher/knowledge/knowledge-detail/services/useDocumentManagement';
-import { useChunkManagement } from '@/features/teacher/knowledge/knowledge-detail/services/useChunkManagement';
-import { useDocumentTable } from '@/features/teacher/knowledge/knowledge-detail/services/useDocumentTable';
-
-// --- 子组件 ---
+// --- 子组件和布局 ---
 import KnowledgeDetailLayout from '../layout/KnowledgeDetailLayout';
-import Pagination from '@/shared/components/ui/Pagination/Pagination';
-import KnowledgeBaseInfo from '../tabs/basic-info/KnowledgeBaseInfo';
-import DocumentToolbar from '../tabs/documents/DocumentToolbar';
-import DocumentTable from '../tabs/documents/DocumentTable';
-import ChunkToolbar from "../../sub-features/chunk-management/components/ChunkToolbar";
-import ChunkGrid from "../tabs/chunks/ChunkGrid";
-import AddChunkModal from "../tabs/chunks/AddChunkModal";
+import KnowledgeBaseInfo from '@/features/teacher/knowledge/knowledge-detail/sub-features/basic-info/KnowledgeBaseInfo';
+import ChunkManagementTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management";
+import DocumentManagementTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/document-management/DocumentManagementTab";
 
 import styles from './KnowledgeDetailView.module.css';
-import ChunkManagementTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management";
 
 export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
@@ -32,60 +23,28 @@ export const TABS_CONFIG = [
 
 interface KnowledgeDetailViewProps {
     kb: KnowledgeBaseVO;
-    initialTab?: string | null;
+    activeTab: string | null;
+    onTabChange: (tab: string) => void;
 }
 
-const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTab }) => {
-    // --- 统一的状态和 Hooks 管理 ---
-    const [activeTab, setActiveTab] = useState<string>(initialTab || TABS_CONFIG[0].label);
-    const [isChunkModalOpen, setIsChunkModalOpen] = useState(false);
-
-    // --- 各功能模块的逻辑 Hooks 在顶层调用 ---
-    const documentManager = useDocumentManagement(kb.id);
-    const chunkManager = useChunkManagement(kb.id); // 不再需要传递 documents
-
-    // UI Hook 依赖于数据 Hook 的结果
-    const tableManager = useDocumentTable(documentManager.documents.map(d => d.id));
-
-    // 当文档数据变化时，清空表格选择
-    useEffect(() => {
-        tableManager.clearSelection();
-    }, [documentManager.documents, tableManager.clearSelection]);
+// [!code focus start]
+const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, activeTab, onTabChange }) => {
+// [!code focus end]
 
     // --- 渲染不同标签页内容的函数 ---
     const renderTabContent = () => {
-        switch(activeTab) {
+        switch (activeTab) {
             case '基本信息':
                 return <KnowledgeBaseInfo kb={kb} />;
 
             case '原始文档':
-                return (
-                    <div className={styles.tabContentContainer}>
-                        <DocumentToolbar
-                            selectionCount={tableManager.selectedIds.size}
-                            onDelete={() => documentManager.handleDeleteSelected(tableManager.selectedIds)}
-                        />
-                        <div className={styles.tableContainer}>
-                            <DocumentTable
-                                documents={documentManager.documents}
-                                isLoading={documentManager.isLoading}
-                                selectedIds={tableManager.selectedIds}
-                                areAllSelected={tableManager.areAllSelected}
-                                onToggleRow={tableManager.toggleSelection}
-                                onToggleAllRows={tableManager.toggleAllSelection}
-                            />
-                        </div>
-                        {documentManager.pagination.totalItems > 0 && (
-                            <Pagination {...documentManager.pagination} onPageChange={documentManager.handlePageChange} />
-                        )}
-                    </div>
-                );
+                return <DocumentManagementTab kbId={kb.id} />;
 
             case '切片详情':
                 return (
                     <ChunkManagementTab
                         kbId={kb.id}
-                        documents={documentManager.documents} // 传入文档列表用于筛选
+                        documents={[]} // 假设这个依赖可以被优化掉或从 kb prop 中获取
                     />
                 );
 
@@ -102,7 +61,7 @@ const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, initialTa
         <KnowledgeDetailLayout
             kb={kb}
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={onTabChange} // 将从 props 接收的回调函数传递下去
             tabContent={renderTabContent()}
         />
     );

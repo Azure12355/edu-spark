@@ -3,7 +3,7 @@
 
 import { useState, useCallback } from 'react';
 import { useDebounce } from '@/shared/hooks/useDebounce';
-import { useChunkManagement } from '@/features/teacher/knowledge/knowledge-detail/services/useChunkManagement';
+import { useChunkManagement } from '@/features/teacher/knowledge/knowledge-detail/hooks/useChunkManagement';
 import { ViewMode } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/ViewModeToggle';
 
 

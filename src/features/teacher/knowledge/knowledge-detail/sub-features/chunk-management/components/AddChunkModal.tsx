@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
-import { AddChunkRequest } from '@/features/teacher/knowledge/knowledge-detail/services/chunkService';
+import { AddChunkRequest } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
 
 // 导入子组件
 import DocumentSelector from './DocumentSelector';
 
-import styles from './AddChunkModal.module.css';
+import styles from '../styles/AddChunkModal.module.css';
 
 // --- Props 定义 ---
 interface AddChunkModalProps {

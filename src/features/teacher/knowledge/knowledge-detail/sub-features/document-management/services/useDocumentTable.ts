@@ -1,4 +1,4 @@
-// src/hooks/useDocumentTable.ts
+// src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/useDocumentTable.ts
 import { useState, useCallback } from 'react';
 
 /**

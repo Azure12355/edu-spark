@@ -4,9 +4,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
+// 导入路径已更新
 import { ViewMode } from './toolbar-parts/ViewModeToggle';
 import SourceFilterDropdown from './toolbar-parts/SourceFilterDropdown';
 import ViewModeToggle from './toolbar-parts/ViewModeToggle';
+// 导入新的样式文件路径
 import styles from '../styles/ChunkToolbar.module.css';
 
 interface ChunkToolbarProps {
@@ -34,7 +36,7 @@ const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
                                                        onOpenAddModal,
                                                        isSearching,
                                                    }) => {
-    // Animation variants for a staggered entrance effect
+    // 动画变体保持不变
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -45,7 +47,7 @@ const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
 
     const itemVariants = {
         hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1 },
+        visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 200 } },
     };
 
     return (
@@ -98,6 +100,7 @@ const ChunkToolbar: React.FC<ChunkToolbarProps> = ({
                     />
                 </motion.div>
 
+                {/* 视图切换按钮的结构保持不变，但其内部样式已在 CSS 中更新 */}
                 <motion.div variants={itemVariants}>
                     <ViewModeToggle
                         currentMode={viewMode}
