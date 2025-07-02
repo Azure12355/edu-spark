@@ -1,13 +1,15 @@
-import apiClient from '../../../../../../../shared/api/apiClient';
-import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService'; // 复用已有的 Page 类型
+// src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService.ts
+
+import apiClient from '@/shared/api/apiClient';
+import { Page } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService'; // 复用已有的Page类型
 
 // ===================================================================
-// 1. 类型定义 (与后端 VO 和 DTO 精确对应)
+//  1. 类型定义 (与后端 VO 和 DTO 精确对应)
 // ===================================================================
 
 /**
  * 知识切片视图对象 (ChunkVO)
- * @description 聚合了切片和所属文档的关键信息
+ * 与后端的 ChunkVO.java 对应。
  */
 export interface ChunkVO {
     id: number;
@@ -19,11 +21,13 @@ export interface ChunkVO {
     documentName: string;
     documentType: string;
     documentCosUrl: string;
+    knowledgeBaseId: number;
     distance?: number; // 向量搜索时可能返回
 }
 
 /**
  * 知识切片详情视图对象 (ChunkDetailVO)
+ * 与后端的 ChunkDetailVO.java 对应。
  */
 export interface ChunkDetailVO {
     id: number;
@@ -41,66 +45,78 @@ export interface ChunkDetailVO {
 }
 
 /**
- * 添加新切片的请求体 (DTO)
+ * 分页查询知识切片的请求体 (DTO)
+ * 与后端的 ChunkQueryRequest.java 对应。
+ */
+export interface ChunkQueryRequest {
+    current: number;
+    pageSize: number;
+    knowledgeBaseId?: number | string;
+    documentId?: number | string;
+    searchText?: string;
+    vectorSearchText?: string;
+    minCharCount?: number;
+    maxCharCount?: number;
+    sortField?: 'created_at' | 'char_count';
+    sortOrder?: 'ascend' | 'descend';
+}
+
+/**
+ * 手动添加新切片的请求体 (DTO)
+ * 与后端的 ChunkAddRequest.java 对应。
  */
 export interface AddChunkRequest {
     documentId: number;
     content: string;
 }
 
+/**
+ * 批量删除知识切片的请求体 (DTO)
+ * 与后端的 ChunkDeleteRequest.java 对应。
+ */
+export interface BatchDeleteChunkRequest {
+    ids: number[];
+}
+
+
 // ===================================================================
-// 2. API 调用函数
+//  2. API 调用函数
 // ===================================================================
 
 /**
- * @description 根据知识库ID分页获取切片列表
- * @param kbId - 知识库 ID
- * @param current - 当前页码
- * @param size - 每页数量
- * @returns 切片的分页数据
+ * 【查询】根据多种条件分页查询知识切片。
+ * @param queryRequest - 包含所有分页、筛选和排序条件的查询请求对象。
+ * @returns 返回知识切片的分页数据。
  */
-export const listChunksByKbId = (kbId: number, current: number, size: number): Promise<Page<ChunkVO>> => {
-    return apiClient.get('/chunk/list/page/by_kb', {
-        params: { kbId, current, size }
-    });
+export const listChunksByPage = (queryRequest: ChunkQueryRequest): Promise<Page<ChunkVO> | any> => {
+    return apiClient.post<Page<ChunkVO>>('/chunk/list/page', queryRequest);
 };
 
 /**
- * @description 根据文档ID分页获取切片列表
- * @param docId - 文档 ID
- * @param current - 当前页码
- * @param size - 每页数量
- * @returns 切片的分页数据
+ * 【查询】根据 ID 获取单个切片的详细信息。
+ * @param chunkId - 要查询的切片 ID。
+ * @returns 返回包含完整关联信息的切片详情。
  */
-export const listChunksByDocId = (docId: number, current: number, size: number): Promise<Page<ChunkVO>> => {
-    return apiClient.get('/chunk/list/page/by_doc', {
-        params: { docId, current, size }
-    });
+export const getChunkDetailById = (chunkId: number): Promise<ChunkDetailVO | any> => {
+    return apiClient.get<ChunkDetailVO>(`/chunk/${chunkId}/detail`);
 };
 
-/**
- * @description 手动添加一个新切片
- * @param data - 新切片的数据
- * @returns 新创建的切片的 ID
- */
-export const addChunk = (data: AddChunkRequest): Promise<number> => {
-    return apiClient.post('/chunk/add', data);
-};
 
 /**
- * @description 根据 ID 删除一个知识切片
- * @param chunkId - 要删除的切片 ID
- * @returns 操作是否成功
+ * 【增加】手动添加一个新切片。
+ * @param data - 新切片的数据。
+ * @returns 返回新创建的切片的 ID。
  */
-export const deleteChunk = (chunkId: number): Promise<boolean> => {
-    return apiClient.delete(`/chunk/${chunkId}`);
+export const addChunk = (data: AddChunkRequest): Promise<number | any> => {
+    return apiClient.post<number>('/chunk/add', data);
 };
 
+
 /**
- * @description 根据 ID 获取单个切片的详细信息
- * @param chunkId - 要查询的切片 ID
- * @returns 包含完整关联信息的切片详情
+ * 【删除】批量删除一个或多个知识切片。
+ * @param data - 包含要删除的切片ID数组的对象。
+ * @returns 返回操作是否成功。
  */
-export const getChunkDetailById = (chunkId: number): Promise<ChunkDetailVO> => {
-    return apiClient.get(`/chunk/${chunkId}/detail`);
+export const batchDeleteChunks = (data: BatchDeleteChunkRequest): Promise<boolean | any> => {
+    return apiClient.delete<boolean>('/chunk/batchDelete', { data });
 };

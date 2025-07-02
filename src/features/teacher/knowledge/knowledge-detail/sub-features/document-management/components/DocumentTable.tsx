@@ -11,7 +11,7 @@ import styles from '../style/DocumentTable.module.css';
 interface DocumentTableProps {
     documents: DocumentVO[];
     isLoading: boolean;
-    selectedIds: Set<number>;
+    selectedIds: Set<number | string>;
     areAllSelected: boolean;
     onToggleRow: (id: number) => void;
     onToggleAllRows: () => void;

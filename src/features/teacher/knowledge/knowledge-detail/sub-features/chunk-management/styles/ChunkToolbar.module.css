@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 0; /* 仅保留垂直内边距，让其在父容器中左右撑满 */
+    padding: 16px 0; /* 移除左右内边距，让其在父容器中撑满 */
     width: 100%;
 }
 
@@ -39,6 +39,8 @@
 .newButton:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .divider {
@@ -65,7 +67,7 @@
     gap: 16px;
 }
 
-/* 搜索框样式，精确还原截图 */
+/* 搜索框样式 */
 .searchBar {
     display: flex;
     align-items: center;
@@ -74,111 +76,29 @@
     padding-left: 12px;
     background: var(--teacher-white);
     transition: all 0.2s ease;
+    width: 240px; /* 默认宽度 */
 }
 
 .searchBar:focus-within {
     border-color: var(--teacher-primary);
     box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
+    width: 280px; /* 聚焦时变宽 */
 }
 
 .searchInput {
-    padding: 9px 12px 9px 8px; /* 调整内边距，使其与图标间距合适 */
+    padding: 9px 12px 9px 8px;
     border: none;
     outline: none;
     background: transparent;
-    width: 220px;
+    width: 100%;
     font-size: 14px;
 }
 
 .searchIcon {
     color: var(--teacher-text-tertiary);
-    font-size: 16px; /* 调整图标大小 */
-}
-
-/* 视图切换按钮样式，精确还原截图 */
-.viewToggle {
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
-    align-items: center;
-    background-color: transparent; /* 无背景 */
-    gap: 4px; /* 图标之间的微小间距 */
-}
-
-.toggleButton {
-    width: 34px;
-    height: 34px;
-    border: 1px solid var(--teacher-border-color); /* 默认边框 */
-    background-color: var(--teacher-white);
-    border-radius: 6px;
-    color: var(--teacher-text-tertiary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.2s ease;
-}
-
-.toggleButton:hover {
-    border-color: var(--teacher-primary);
-    color: var(--teacher-primary);
-}
-
-.toggleButton.active {
-    background-color: var(--teacher-primary);
-    border-color: var(--teacher-primary);
-    color: var(--teacher-white);
-    box-shadow: 0 2px 8px rgba(47, 123, 255, 0.2);
-}
-
-/* 添加到 src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/styles/ChunkToolbar.module.css */
-
-/* --- 下拉菜单按钮样式 --- */
-.filterButton {
-    background: var(--teacher-white);
-    border: 1px solid var(--teacher-border);
-    padding: 8px 14px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
     font-size: 14px;
-    transition: all 0.2s;
 }
 
-.filterButton:hover {
-    border-color: var(--teacher-primary);
-    color: var(--teacher-primary);
+.searchInput::placeholder {
+    color: #9ca3af;
 }
-
-.filterButton span {
-    font-weight: 500;
-}
-
-.filterButton .chevron {
-    transition: transform 0.2s;
-}
-
-.filterButton .chevron.open {
-    transform: rotate(180deg);
-}
-
-/* 下拉菜单本身的样式（如果需要微调）*/
-.dropdownMenu {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    background: var(--teacher-white);
-    border: 1px solid var(--teacher-border);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 4px;
-    z-index: 20;
-    list-style: none;
-    margin: 0;
-    min-width: 200px;
-    max-height: 250px;
-    overflow-y: auto;
-}
-/* ... */

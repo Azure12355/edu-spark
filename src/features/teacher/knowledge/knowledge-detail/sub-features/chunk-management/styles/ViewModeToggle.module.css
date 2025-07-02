@@ -1,0 +1,48 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/style/ViewModeToggle.module.css */
+
+.viewToggle {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6; /* 浅灰色背景，形成一个整体 */
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid var(--teacher-border);
+}
+
+.toggleButton {
+    width: 36px;
+    height: 36px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    border-radius: 6px;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.25s ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+.toggleButton:hover:not(.active) {
+    color: var(--teacher-text-primary);
+}
+
+.toggleButton.active {
+    color: var(--teacher-primary);
+}
+
+/* 动态背景滑块的样式 */
+.activePill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    background-color: var(--teacher-white);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}

@@ -1,0 +1,119 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/style/DocumentSelector.module.css */
+
+.selectorContainer {
+    position: relative;
+    width: 100%;
+}
+
+.displayButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid var(--teacher-border);
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--teacher-white);
+    transition: all 0.2s;
+}
+
+.displayButton:hover:not(:disabled),
+.displayButton.open {
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
+}
+
+.displayButton:disabled {
+    background-color: #f9fafb;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.displayButton i {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.displayButton .text {
+    flex-grow: 1;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.displayButton .placeholder {
+    color: var(--teacher-text-tertiary);
+}
+
+.displayButton .chevron {
+    margin-left: auto;
+    transition: transform 0.2s;
+    color: var(--teacher-text-tertiary);
+}
+
+.displayButton.open .chevron {
+    transform: rotate(180deg);
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 10;
+    padding: 6px;
+    list-style: none;
+    margin: 0;
+}
+.dropdownMenu::-webkit-scrollbar { width: 4px; }
+.dropdownMenu::-webkit-scrollbar-track { background: transparent; }
+.dropdownMenu::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 2px; }
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+.dropdownItem i:first-child {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.dropdownItem:hover {
+    background-color: #f3f4f6;
+}
+.dropdownItem.selected {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 500;
+}
+.dropdownItem.selected i {
+    color: var(--teacher-primary);
+}
+.dropdownItem .text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dropdownItem .checkIcon {
+    margin-left: auto;
+    color: var(--teacher-primary);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.dropdownItem.selected .checkIcon {
+    opacity: 1;
+}

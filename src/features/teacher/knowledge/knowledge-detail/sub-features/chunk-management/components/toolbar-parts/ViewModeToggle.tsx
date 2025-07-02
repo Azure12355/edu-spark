@@ -1,8 +1,15 @@
+// src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/ViewModeToggle.tsx
 "use client";
-import React from 'react';
-import styles from '../../styles/ChunkToolbar.module.css'; // 复用样式
-import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 
+import React from 'react';
+import { motion } from 'framer-motion';
+import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+// [!code focus start]
+// 导入新的、专属的样式文件
+import styles from '../../styles/ViewModeToggle.module.css';
+// [!code focus end]
+
+// 类型定义保持不变
 export type ViewMode = 'grid' | 'list';
 
 const VIEW_MODES: { id: ViewMode; icon: string; label: string }[] = [
@@ -27,6 +34,14 @@ const ViewModeToggle: React.FC<ViewModeToggleProps> = ({ currentMode, onModeChan
                         aria-checked={currentMode === id}
                         role="radio"
                     >
+                        {/* 当按钮激活时，渲染动态背景滑块 */}
+                        {currentMode === id && (
+                            <motion.div
+                                className={styles.activePill}
+                                layoutId="activeViewModePill" // 关键：为布局动画提供唯一ID
+                                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                            />
+                        )}
                         <i className={icon}></i>
                     </button>
                 </Tooltip>

@@ -1,0 +1,107 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/toolbar-parts/style/SourceFilterDropdown.module.css */
+
+.dropdownContainer {
+    position: relative; /* 为下拉菜单的绝对定位提供父级参考 */
+}
+
+.filterButton {
+    background: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    padding: 8px 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s;
+    min-width: 180px; /* 确保按钮有足够的初始宽度 */
+    justify-content: space-between;
+}
+
+.filterButton:hover:not(:disabled) {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+}
+
+.filterButton:disabled {
+    cursor: not-allowed;
+    background-color: #f9fafb;
+    opacity: 0.7;
+}
+
+.filterButton .filterText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 减去图标、箭头和间距的宽度，给文本留出空间 */
+    max-width: 150px;
+}
+
+.filterButton .chevron {
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.filterButton.open .chevron {
+    transform: rotate(180deg);
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    min-width: 220px;
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+    z-index: 20;
+    list-style: none;
+    margin: 0;
+}
+.dropdownMenu::-webkit-scrollbar { width: 4px; }
+.dropdownMenu::-webkit-scrollbar-track { background: transparent; }
+.dropdownMenu::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 2px; }
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdownItem i {
+    font-size: 16px;
+    width: 18px;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.dropdownItem:hover {
+    background-color: #f3f4f6;
+}
+
+.dropdownItem.active {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 500;
+}
+
+.dropdownItem.active i {
+    color: var(--teacher-primary);
+}

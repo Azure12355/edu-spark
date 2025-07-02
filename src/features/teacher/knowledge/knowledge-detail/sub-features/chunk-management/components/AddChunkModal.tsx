@@ -1,78 +1,81 @@
+// src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/AddChunkModal.tsx
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DocumentVO } from '@/features/teacher/knowledge/knowledge-detail/services/documentService';
-import { AddChunkRequest } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
-
-// 导入子组件
-import DocumentSelector from './DocumentSelector';
-
 import styles from '../styles/AddChunkModal.module.css';
+import {
+    DocumentVO
+} from "@/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/documentService";
+import DocumentSelector
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/components/DocumentSelector";
 
-// --- Props 定义 ---
+// 1. 定义清晰的 Props 接口
 interface AddChunkModalProps {
     isOpen: boolean;
+    documents: DocumentVO[]; // 文档列表，用于下拉选择
+
+    // 表单状态
+    selectedDocId: number | null;
+    content: string;
+    isSubmitting: boolean;
+
+    // 事件回调
     onClose: () => void;
-    onAddChunk: (chunkData: AddChunkRequest) => Promise<boolean>;
-    documents: DocumentVO[];
+    onSelectedDocIdChange: (id: number | null) => void;
+    onContentChange: (content: string) => void;
+    onSubmit: () => void; // 提交事件现在不带参数，因为状态由外部管理
 }
 
-// --- 动画变体 ---
-const backdropVariants = { /* ... */ };
-const modalVariants = { /* ... */ };
+// 2. 动画变体 (保持不变)
+const backdropVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+};
+const modalVariants = {
+    hidden: { opacity: 0, y: -50, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 25 } },
+    exit: { opacity: 0, y: 30, scale: 0.95 },
+};
 
+const MAX_CHARS = 2000;
 
-const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChunk, documents }) => {
-    // --- 状态管理 ---
-    const [selectedDocId, setSelectedDocId] = useState<number | null>(null);
-    const [content, setContent] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const MAX_CHARS = 2000;
+const AddChunkModal: React.FC<AddChunkModalProps> = ({
+                                                         isOpen,
+                                                         documents,
+                                                         selectedDocId,
+                                                         content,
+                                                         isSubmitting,
+                                                         onClose,
+                                                         onSelectedDocIdChange,
+                                                         onContentChange,
+                                                         onSubmit,
+                                                     }) => {
 
-    // --- 派生状态 ---
-    const isFormValid = selectedDocId && content.trim() !== '' && content.length <= MAX_CHARS;
+    // 3. 将表单校验逻辑变成一个简单的派生状态
+    const isFormValid = selectedDocId !== null && content.trim() !== '' && content.length <= MAX_CHARS;
 
-    // --- 副作用 ---
-    // 在弹窗关闭时重置内部状态
-    useEffect(() => {
-        if (!isOpen) {
-            // 使用 setTimeout 延迟重置，让退出动画更平滑
-            const timer = setTimeout(() => {
-                setSelectedDocId(null);
-                setContent('');
-                setIsSubmitting(false);
-            }, 300); // 匹配动画时长
-            return () => clearTimeout(timer);
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault(); // 阻止表单的默认提交行为
+        if (isFormValid && !isSubmitting) {
+            onSubmit(); // 调用从 Hook 传入的提交函数
         }
-    }, [isOpen]);
+    };
 
-    // --- 回调函数 ---
-    const handleSubmit = useCallback(async (event: React.FormEvent) => {
-        event.preventDefault(); // 防止表单默认提交行为
-        if (!isFormValid || isSubmitting) return;
-
-        setIsSubmitting(true);
-        const success = await onAddChunk({ documentId: selectedDocId!, content });
-        setIsSubmitting(false);
-
-        if (success) {
-            onClose(); // 仅在成功后关闭弹窗
-        }
-    }, [isFormValid, isSubmitting, onAddChunk, selectedDocId, content, onClose]);
-
-    // --- 渲染 ---
     return (
         <AnimatePresence>
             {isOpen && (
                 <motion.div
                     className={styles.backdrop}
-                    variants={backdropVariants} initial="hidden" animate="visible" exit="hidden"
+                    variants={backdropVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
                     onClick={onClose}
                 >
                     <motion.div
                         className={styles.modal}
-                        variants={modalVariants} initial="hidden" animate="visible" exit="hidden"
+                        variants={modalVariants}
                         onClick={(e) => e.stopPropagation()}
                         role="dialog"
                         aria-modal="true"
@@ -80,11 +83,14 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                     >
                         <header className={styles.modalHeader}>
                             <h2 id="add-chunk-title">手动添加切片</h2>
-                            <button onClick={onClose} className={styles.closeButton} aria-label="关闭"><i className="fas fa-times"></i></button>
+                            <button onClick={onClose} className={styles.closeButton} aria-label="关闭" disabled={isSubmitting}>
+                                <i className="fas fa-times"></i>
+                            </button>
                         </header>
 
                         <form onSubmit={handleSubmit}>
                             <main className={styles.modalBody}>
+                                {/* 文档选择器 */}
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>
                                         <span className={styles.required}>*</span> 所属文档
@@ -92,10 +98,12 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                                     <DocumentSelector
                                         documents={documents}
                                         selectedId={selectedDocId}
-                                        onSelect={setSelectedDocId}
+                                        onSelect={onSelectedDocIdChange} // 绑定回调
                                         disabled={isSubmitting}
                                     />
                                 </div>
+
+                                {/* 内容输入框 */}
                                 <div className={styles.formGroup}>
                                     <label htmlFor="chunk-content-textarea" className={styles.label}>
                                         <span className={styles.required}>*</span> 切片内容
@@ -105,9 +113,9 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                                             id="chunk-content-textarea"
                                             className={styles.textarea}
                                             value={content}
-                                            onChange={(e) => setContent(e.target.value)}
+                                            onChange={(e) => onContentChange(e.target.value)} // 绑定回调
                                             placeholder="请输入切片内容..."
-                                            maxLength={MAX_CHARS + 10} // 稍微放宽一点，让用户看到超出提示
+                                            maxLength={MAX_CHARS + 10}
                                             rows={8}
                                             disabled={isSubmitting}
                                             required
@@ -119,6 +127,7 @@ const AddChunkModal: React.FC<AddChunkModalProps> = ({ isOpen, onClose, onAddChu
                                 </div>
                             </main>
 
+                            {/* 底部按钮 */}
                             <footer className={styles.modalFooter}>
                                 <button type="button" className={`${styles.footerButton} ${styles.cancelButton}`} onClick={onClose} disabled={isSubmitting}>
                                     取消

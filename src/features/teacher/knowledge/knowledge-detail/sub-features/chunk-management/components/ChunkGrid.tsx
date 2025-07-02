@@ -17,7 +17,7 @@ import styles from '../styles/ChunkGrid.module.css';
  */
 interface ChunkGridProps {
     chunks: ChunkVO[];
-    onDeleteChunk: (chunkId: number) => Promise<boolean>;
+    onDeleteChunk: (chunkId: number) => Promise<boolean | any>;
     viewMode: ViewMode;
 }
 

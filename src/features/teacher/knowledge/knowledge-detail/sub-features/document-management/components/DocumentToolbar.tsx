@@ -51,7 +51,11 @@ interface FilterDropdownProps<T> {
 
 const FilterDropdown = <T extends string | number>({ options, value, onChange, label }: FilterDropdownProps<T>) => {
     const { isOpen, toggle, close, dropdownRef } = useDropdown<HTMLDivElement>();
-    const selectedLabel = options.find(opt => opt.value === value)?.label || '未知';
+
+    // 如果 options 是 undefined 或 null，则 selectedLabel 会安全地回退到 '未知'。
+    const selectedLabel = Array.isArray(options)
+        ? options.find(opt => opt.value === value)?.label || '未知'
+        : '未知';
 
     return (
         <div ref={dropdownRef} style={{ position: 'relative' }}>
@@ -125,17 +129,13 @@ const DocumentToolbar: React.FC<DocumentToolbarProps> = ({
             <div className={styles.rightSection}>
                 <div className={styles.searchContainer}>
                     <i className={`fas ${isSearching ? 'fa-spinner fa-spin' : 'fa-search'}`}></i>
-                    <input
-                        type="text"
-                        placeholder="搜索文档名称..."
-                        value={searchTerm}
-                        onChange={(e) => onSearchTermChange(e.target.value)}
-                        disabled={isSearching}
-                    />
+                    <input type="text" placeholder="搜索文档名称..." value={searchTerm} onChange={(e) => onSearchTermChange(e.target.value)} disabled={isSearching} />
                 </div>
             </div>
         </motion.div>
     );
+
+
 
     const renderBatchActionsView = () => (
         <motion.div key="batch-actions" className={styles.actionsContainer} {...toolbarVariants}>

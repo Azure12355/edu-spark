@@ -1,4 +1,5 @@
-/* src/components/teacher/knowledge/detail/ChunkTab/AddChunkModal/AddChunkModal.module.css */
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/styles/AddChunkModal.module.css */
+/* (The CSS code from your previous prompt remains unchanged here) */
 
 .backdrop {
     position: fixed; inset: 0;
@@ -33,45 +34,6 @@
 .formGroup { display: flex; flex-direction: column; gap: 8px; }
 .label { font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); }
 .required { color: #ef4444; margin-right: 4px; }
-
-/* Custom Select Dropdown */
-.customSelectWrapper { position: relative; }
-.selectDisplay {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 16px; border: 1px solid var(--teacher-border);
-    border-radius: 8px; cursor: pointer; background-color: var(--teacher-white);
-    transition: all 0.2s;
-}
-.selectDisplay:hover, .selectDisplay.open {
-    border-color: var(--teacher-primary);
-    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
-}
-.selectDisplay i:first-child { font-size: 20px; }
-.selectDisplay span { flex-grow: 1; font-size: 15px; }
-.selectDisplay .placeholder { color: var(--teacher-text-tertiary); }
-.selectDisplay .chevron { margin-left: auto; transition: transform 0.2s; }
-.selectDisplay.open .chevron { transform: rotate(180deg); }
-
-.dropdownList {
-    position: absolute; top: calc(100% + 4px); left: 0;
-    width: 100%; max-height: 220px; overflow-y: auto;
-    background-color: var(--teacher-white); border: 1px solid var(--teacher-border);
-    border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 10; padding: 4px; list-style: none; margin: 0;
-}
-.dropdownItem {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px; cursor: pointer; border-radius: 6px;
-    transition: background-color 0.2s;
-}
-.dropdownItem i:first-child { font-size: 20px; }
-.dropdownItem:hover { background-color: #f3f4f6; }
-.dropdownItem.selected {
-    background-color: var(--teacher-primary-light);
-    color: var(--teacher-primary);
-    font-weight: 500;
-}
-.dropdownItem .fa-check { margin-left: auto; }
 
 .textareaWrapper { position: relative; }
 .textarea {

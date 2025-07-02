@@ -11,6 +11,7 @@ import ChunkManagementTab from "@/features/teacher/knowledge/knowledge-detail/su
 import DocumentManagementTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/document-management/DocumentManagementTab";
 
 import styles from './KnowledgeDetailView.module.css';
+import { useDocumentManagement } from '../../sub-features/document-management/services/useDocumentManagement';
 
 export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
@@ -27,9 +28,10 @@ interface KnowledgeDetailViewProps {
     onTabChange: (tab: string) => void;
 }
 
-// [!code focus start]
 const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, activeTab, onTabChange }) => {
-// [!code focus end]
+
+
+    const documentManager = useDocumentManagement(kb.id);
 
     // --- 渲染不同标签页内容的函数 ---
     const renderTabContent = () => {
@@ -38,13 +40,13 @@ const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, activeTab
                 return <KnowledgeBaseInfo kb={kb} />;
 
             case '原始文档':
-                return <DocumentManagementTab kbId={kb.id} />;
+                return <DocumentManagementTab kbId={kb.id} documentManager={documentManager} />;
 
             case '切片详情':
                 return (
                     <ChunkManagementTab
                         kbId={kb.id}
-                        documents={[]} // 假设这个依赖可以被优化掉或从 kb prop 中获取
+                        documents={documentManager.documents}
                     />
                 );
 
