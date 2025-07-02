@@ -93,31 +93,6 @@ export const deleteKnowledgeBase = (id: number): Promise<boolean | any> => {
     return apiClient.delete<boolean>(`/kb/delete?id=${id}`);
 };
 
-/**
- * 【优化】上传文档到指定的知识库
- * @returns 返回一个包含文档ID的对象
- */
-export const uploadDocument = async (
-    kbId: number | string,
-    file: File,
-    onUploadProgress: (progressEvent: any) => void
-): Promise<{ documentId: number | any }> => {
-    const formData = new FormData();
-    formData.append('kbId', String(kbId));
-    formData.append('file', file);
-
-    // apiClient.post<number> 返回 Promise<number>
-    const documentId = await apiClient.post<number>(
-        '/kb/document/upload',
-        formData,
-        {
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress,
-        }
-    );
-
-    return { documentId }; // 直接构造返回对象，类型匹配
-};
 
 // 【新增】文档VO类型 (对应后端的DocumentVO)
 export interface DocumentVO {

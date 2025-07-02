@@ -15,7 +15,6 @@ export const useKnowledgeDetail = (kbId: string | number) => {
     // --- 状态定义 ---
     const [kb, setKb] = useState<KnowledgeBaseVO | null>(null);
     // 【新增】: 将文档列表的管理也移到这个主 Hook 中
-    const [documents, setDocuments] = useState<DocumentVO[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isNotFound, setIsNotFound] = useState(false);
 
@@ -32,14 +31,12 @@ export const useKnowledgeDetail = (kbId: string | number) => {
         setIsNotFound(false);
         try {
             // 【核心修改】: 并行获取知识库详情和其第一页的文档
-            const [kbData, docPageData] = await Promise.all([
+            const [kbData] = await Promise.all([
                 getKnowledgeBaseById(kbId),
-                listDocumentsByKbId({ kbId: kbId, current: 1, pageSize: 50 }) // 假设文档不多，一次性获取
             ]);
 
             if (kbData) {
                 setKb(kbData);
-                setDocuments(docPageData.records);
             } else {
                 setIsNotFound(true);
             }
@@ -56,5 +53,5 @@ export const useKnowledgeDetail = (kbId: string | number) => {
         fetchData();
     }, [fetchData]);
 
-    return { kb, documents, isLoading, isNotFound, refresh: fetchData };
+    return { kb, isLoading, isNotFound, refresh: fetchData };
 };

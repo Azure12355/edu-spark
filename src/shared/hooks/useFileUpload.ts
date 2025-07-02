@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { uploadDocument, getDocumentStatus } from '@/features/teacher/knowledge/knowledge-list/services/knowledgeService';
+import { uploadDocument, getDocumentStatus } from '@/features/teacher/knowledge/knowledge-detail/sub-features/document-management/services/documentService';
 import { useToast } from './useToast';
 
 // ... (UploadableFile, UploadStatus, POLLING_INTERVAL 定义保持不变) ...

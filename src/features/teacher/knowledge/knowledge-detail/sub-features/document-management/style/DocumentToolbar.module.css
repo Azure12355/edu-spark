@@ -1,10 +1,12 @@
-/* src/components/teacher/knowledge/detail/DocumentTab/DocumentToolbar/DocumentToolbar.module.css */
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/components/DocumentToolbar.module.css */
 
 .toolbar {
-    padding: 5px 0; /* 只保留垂直内边距 */
-    height: 68px; /* 固定高度，防止视图切换时布局跳动 */
+    padding: 12px 0; /* 调整内边距，使其更紧凑 */
+    height: 68px;
     display: flex;
     align-items: center;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
 }
 
 .actionsContainer {
@@ -14,24 +16,45 @@
     align-items: center;
 }
 
-/* --- 默认视图样式 --- */
-.filterDropdown {
+/* --- 默认视图样式 (左侧) --- */
+.leftSection {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background-color: var(--teacher-white);
+    gap: 12px;
+}
+
+/* --- 通用下拉菜单按钮样式 --- */
+.dropdownButton {
+    background: var(--teacher-white);
     border: 1px solid var(--teacher-border);
     padding: 8px 14px;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     color: var(--teacher-text-secondary);
     transition: all 0.2s;
 }
-.filterDropdown:hover {
-    border-color: #9ca3af;
-    color: var(--teacher-text-primary);
+.dropdownButton:hover:not(:disabled) {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+}
+.dropdownButton .chevron {
+    transition: transform 0.2s;
+}
+.dropdownButton.open .chevron {
+    transform: rotate(180deg);
+}
+
+/* --- 右侧区域 --- */
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .searchContainer {
@@ -41,21 +64,28 @@
     border-radius: 8px;
     overflow: hidden;
     background-color: var(--teacher-white);
-    width: 320px;
+    width: 280px; /* 增加宽度 */
     transition: all 0.2s ease;
 }
 .searchContainer:focus-within {
     border-color: var(--teacher-primary);
     box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
 }
-.searchContainer i { color: var(--teacher-text-tertiary); padding-left: 14px; }
+.searchContainer i {
+    color: var(--teacher-text-tertiary);
+    padding-left: 14px;
+    font-size: 14px;
+}
 .searchContainer input {
-    padding: 10px 14px;
+    padding: 9px 12px;
     border: none;
     outline: none;
     background: transparent;
     width: 100%;
     font-size: 14px;
+}
+.searchContainer input::placeholder {
+    color: #9ca3af;
 }
 
 /* --- 批量操作视图样式 --- */
@@ -85,17 +115,54 @@
     color: var(--teacher-text-secondary);
     transition: all 0.2s;
 }
-
-.actionButton:hover {
+.actionButton:hover:not(:disabled) {
     border-color: var(--teacher-text-primary);
     color: var(--teacher-text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+}
+.actionButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .deleteButton {
     color: var(--teacher-red);
-    border-color: var(--teacher-red);
 }
-.deleteButton:hover {
-    background-color: var(--teacher-red);
-    color: white;
+.deleteButton:hover:not(:disabled) {
+    background-color: #fef2f2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+/* --- 下拉菜单内容样式 --- */
+/* 这是假设的，实际可能由通用组件库提供 */
+.dropdownMenu {
+    position: absolute;
+    background: var(--teacher-white);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border: 1px solid var(--teacher-border-color);
+    padding: 8px;
+    list-style: none;
+    margin-top: 6px;
+    z-index: 10;
+    min-width: 160px;
+}
+.dropdownMenu li {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.dropdownMenu li.active {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 500;
+}
+.dropdownMenu li:not(.active):hover {
+    background-color: #f3f4f6;
 }
