@@ -19,6 +19,7 @@ export interface DocumentVO {
     status: number; // 0(待处理), 1(处理中), 2(完毕), 9(失败)
     sliceCount: number;
     cosUrl: string;
+    previewUrl?: string | null | undefined;
     errorMessage?: string;
     createdAt: string; // ISO Date String
 }

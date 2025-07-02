@@ -1,0 +1,122 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/components/TableRow/style/TableRow.module.css */
+
+.tableRow {
+    transition: background-color 0.2s ease;
+}
+
+.tableRow.selected {
+    background-color: var(--teacher-primary-light) !important;
+}
+
+.tableRow:hover {
+    background-color: #f8fafc;
+}
+
+.tableCell {
+    padding: 12px 20px; /* Reduced vertical padding for more density */
+    border-bottom: 1px solid var(--teacher-border);
+    vertical-align: middle;
+}
+
+/* Specific cell styles */
+.checkboxCell {
+    text-align: center;
+}
+
+.checkboxCell input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--teacher-primary);
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0; /* Critical for flexbox truncation */
+}
+
+.fileIcon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.fileText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex-grow: 1;
+}
+
+/* Crucial fix for text overflow */
+.name, .id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.name {
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+    font-size: 15px; /* Slightly larger for emphasis */
+}
+
+.id {
+    font-size: 12px;
+    color: var(--teacher-text-tertiary);
+}
+
+.textCell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--teacher-text-secondary);
+}
+
+.actionsCell {
+    padding-right: 24px !important;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tableRow:hover .actions,
+.tableRow.selected .actions {
+    opacity: 1;
+}
+
+.actionButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.actionButton:hover:not(:disabled) {
+    background-color: #e2e8f0;
+    color: var(--teacher-text-primary);
+}
+
+.deleteButton:hover:not(:disabled) {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.actionButton:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+}

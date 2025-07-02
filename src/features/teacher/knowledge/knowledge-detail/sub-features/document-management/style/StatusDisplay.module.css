@@ -1,0 +1,38 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/document-management/components/StatusDisplay/style/StatusDisplay.module.css */
+
+.statusTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 99px; /* Pill shape */
+    white-space: nowrap;
+}
+
+.statusTag i {
+    font-size: 12px;
+}
+
+/* Status-specific colors */
+.statusCompleted {
+    color: #15803d; /* Darker green */
+    background-color: #dcfce7; /* Lighter green */
+}
+
+.statusProcessing {
+    color: #1d4ed8; /* Darker blue */
+    background-color: #dbeafe; /* Lighter blue */
+}
+
+.statusError {
+    color: #b91c1c; /* Darker red */
+    background-color: #fee2e2; /* Lighter red */
+    cursor: help;
+}
+
+.statusWaiting {
+    color: #374151; /* Darker gray */
+    background-color: #f3f4f6; /* Lighter gray */
+}

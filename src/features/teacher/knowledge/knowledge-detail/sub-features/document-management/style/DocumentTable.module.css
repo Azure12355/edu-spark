@@ -7,14 +7,13 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--teacher-white); /* 给包裹器一个背景色 */
+    background-color: var(--teacher-white);
 }
 
-/* 表格主体，使其可滚动 */
 .tableScrollContainer {
     flex-grow: 1;
     overflow-y: auto;
-    position: relative; /* 为空状态定位提供上下文 */
+    position: relative;
 }
 .tableScrollContainer::-webkit-scrollbar { width: 6px; }
 .tableScrollContainer::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -27,109 +26,32 @@
 }
 
 .table thead {
-    position: sticky; /* 关键：表头吸顶 */
+    position: sticky;
     top: 0;
     z-index: 1;
-    background-color: #f8fafc; /* 表头背景色，与内容区区分 */
+    background-color: #f8fafc;
     box-shadow: inset 0 -1px 0 var(--teacher-border);
 }
 
-.table th, .table td {
+.table th {
     padding: 14px 20px;
     text-align: left;
-    font-size: 14px;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--teacher-border);
-    white-space: nowrap; /* 防止内容换行 */
-}
-
-.table tr:last-child td { border-bottom: none; }
-.table tr:hover { background-color: #f8fafc; }
-
-.table th {
     font-weight: 500;
     color: var(--teacher-text-secondary);
-}
-
-/* --- 列宽定义 (重新调整以适应新布局) --- */
-.table th:nth-child(1), .table td:nth-child(1) { width: 4%; text-align: center; } /* Checkbox */
-.table th:nth-child(2), .table td:nth-child(2) { width: 35%; } /* Name/ID */
-.table th:nth-child(3), .table td:nth-child(3) { width: 10%; text-align: center; } /* Status */
-.table th:nth-child(4), .table td:nth-child(4) { width: 8%; text-align: right; } /* Slice Count */
-.table th:nth-child(5), .table td:nth-child(5) { width: 10%; } /* Type */
-.table th:nth-child(6), .table td:nth-child(6) { width: 15%; } /* Upload Time */
-.table th:nth-child(7), .table td:nth-child(7) { width: 18%; text-align: right; } /* Actions */
-
-
-/* --- 复选框样式 --- */
-.checkboxCell input {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    accent-color: var(--teacher-primary);
-}
-.selectedRow { background-color: var(--teacher-primary-light) !important; }
-
-/* --- 文件信息样式 --- */
-.fileInfo { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.fileIcon { font-size: 24px; flex-shrink: 0; }
-.fileText {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    flex-grow: 1;
-}
-.name {
-    font-weight: 500;
-    color: var(--teacher-text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.id { font-size: 12px; color: var(--teacher-text-tertiary); }
-
-/* --- 状态标签样式 --- */
-.statusTag { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; }
-.statusCompleted { color: #16a34a; }
-.statusProcessing { color: #2563eb; }
-.statusError { color: #dc2626; cursor: help; } /* 为错误状态添加 help 光标 */
-.statusWaiting { color: #64748b; }
-
-/* --- 操作按钮样式 --- */
-.actionsCell { padding-right: 24px !important; } /* 增加右内边距 */
-.actions {
-    display: flex;
-    justify-content: flex-end; /* 按钮靠右对齐 */
-    gap: 8px;
-    opacity: 0; /* 默认隐藏 */
-    transition: opacity 0.2s ease;
-}
-.table tr:hover .actions { opacity: 1; } /* 悬浮时显示 */
-.selectedRow .actions { opacity: 1; } /* 选中时也显示 */
-
-.actionButton {
-    background: none;
-    border: none;
-    cursor: pointer;
     font-size: 14px;
-    color: var(--teacher-text-secondary);
-    padding: 6px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
+    white-space: nowrap;
 }
-.actionButton:hover {
-    background-color: #e2e8f0;
-    color: var(--teacher-text-primary);
-}
-.deleteButton:hover { background-color: #fee2e2; color: #ef4444; }
 
+/* Column width definitions, now centralized here */
+.table th:nth-child(1) { width: 4%; text-align: center; }
+.table th:nth-child(2) { width: 35%; }
+.table th:nth-child(3) { width: 10%; text-align: center; }
+.table th:nth-child(4) { width: 8%; text-align: right; }
+.table th:nth-child(5) { width: 10%; }
+.table th:nth-child(6) { width: 15%; }
+.table th:nth-child(7) { width: 18%; }
 
-/* --- 空状态/加载状态样式 --- */
+/* State and Skeleton styles */
 .stateContainer {
     position: absolute;
     inset: 0;
@@ -147,11 +69,15 @@
 .stateContainer p { font-size: 16px; font-weight: 500; }
 
 .skeletonRow {
-    height: 57px; /* 与真实行高一致 */
+    height: 53px; /* Match the new cell padding */
+    display: block;
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
     animation: skeleton-pulse 1.5s infinite;
+    margin: 0 20px;
+    border-radius: 4px;
 }
+
 @keyframes skeleton-pulse {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
