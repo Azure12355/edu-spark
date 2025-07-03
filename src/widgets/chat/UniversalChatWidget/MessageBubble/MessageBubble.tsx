@@ -1,93 +1,103 @@
+// src/components/common/MessageBubble/MessageBubble.tsx
 "use client";
-
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './MessageBubble.module.css';
 
-// 导入所有子组件
 import MessageHeader from './MessageHeader/MessageHeader';
 import MessageContent from './MessageContent/MessageContent';
 import MessageThinkingPanel from './MessageThinkingPanel/MessageThinkingPanel';
-import MessageReferences from './MessageReferences/MessageReferences';
+import MessageReferences, { ReferenceItem } from './MessageReferences/MessageReferences';
 import MessageActions from './MessageActions/MessageActions';
 
-// 导入类型
-import type { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
-
-/**
- * @interface AgentInfo
- * @description 定义了渲染一个智能体头像和主题色所需的信息。
- */
-export interface AgentInfo {
-    avatar: React.ReactNode;
-    themeColor?: string;
-}
-
-/**
- * @interface BubbleMessage
- * @description 定义了渲染一个完整消息气泡所需的所有数据。
- */
 export interface BubbleMessage {
     id: string;
     role: 'user' | 'assistant';
     content: string;
-    isComplete: boolean;
-    isThinking?: boolean;
     thinkingText?: string | null;
-    references?: ChunkVO[];
-    agent?: AgentInfo;
-    timestamp?: string;
+    isThinking?: boolean;
+    isComplete?: boolean;
+    references?: ReferenceItem[];
+    agent?: {
+        avatar: React.ReactNode;
+        themeColor?: string;
+    };
 }
 
 interface MessageBubbleProps {
     message: BubbleMessage;
-    isThinkingPanelOpen?: boolean;
-    onToggleThinkingPanel?: (id: string) => void;
-    showAvatar?: boolean;
+    isThinkingPanelOpen: boolean;
+    onToggleThinkingPanel: (id: string) => void;
+    showAvatar: boolean;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({
-                                                         message,
-                                                         isThinkingPanelOpen = false,
-                                                         onToggleThinkingPanel = () => {},
-                                                         showAvatar = true,
-                                                     }) => {
-    const isUser = message.role === 'user';
-    const bubbleVariants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelOpen, onToggleThinkingPanel, showAvatar=false }) => {
+    const [highlightedRefIndex, setHighlightedRefIndex] = useState<number | null>(null);
+
+    const { role, agent, id } = message;
+    const isUser = role === 'user';
+    const userAvatar = <i className="fas fa-user"></i>;
+
+    const bubbleStyle = !isUser && agent?.themeColor ? { '--bubble-theme-color': agent.themeColor } as React.CSSProperties : {};
+
+    const handleRefEnter = (index: number) => {
+        setHighlightedRefIndex(index);
+    };
+    const handleRefLeave = () => {
+        setHighlightedRefIndex(null);
     };
 
     return (
         <motion.div
-            className={`${styles.bubbleContainer} ${isUser ? styles.user : styles.assistant}`}
-            variants={bubbleVariants}
-            initial="hidden"
-            animate="visible"
+            key={id}
+            id={`message-${id}`}
+            className={`${styles.messageContainer} ${isUser ? styles.user : styles.assistant}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            style={bubbleStyle}
         >
-            {showAvatar && (
-                <div className={styles.avatarWrapper} style={{ '--agent-theme-color': message.agent?.themeColor } as React.CSSProperties}>
-                    {message.agent?.avatar}
-                </div>
-            )}
-            <div className={styles.messageContentWrapper}>
-                <MessageHeader message={message} />
 
-                {/* 【核心修复】: 渲染 MessageContent 组件 */}
-                <MessageContent content={message.content} isUser={isUser} />
+            {
+                showAvatar && (
+                    <div className={styles.avatar}>
+                    {isUser ? userAvatar : (agent?.avatar || <i className="fas fa-robot"></i>)}
+                    </div>
+                )
+            }
 
-                {message.isThinking && <MessageThinkingPanel />}
-
-                {message.isComplete && message.references && message.references.length > 0 && (
-                    <MessageReferences references={message.references} />
+            <div className={styles.bubble}>
+                {!isUser && (
+                    <MessageHeader
+                        isThinking={message.isThinking}
+                        isComplete={message.isComplete}
+                        hasThinkingText={!!message.thinkingText}
+                        isThinkingPanelOpen={isThinkingPanelOpen}
+                        onToggleThinkingPanel={() => onToggleThinkingPanel(id)}
+                    />
                 )}
 
-                {message.isComplete && (
-                    <MessageActions
-                        message={message}
-                        isThinkingPanelOpen={isThinkingPanelOpen}
-                        onToggleThinkingPanel={() => onToggleThinkingPanel(message.id)}
-                    />
+                <MessageContent
+                    content={message.content}
+                    isThinking={message.isThinking}
+                    isUser={isUser}
+                    messageId={id}
+                    onRefEnter={handleRefEnter}
+                    onRefLeave={handleRefLeave}
+                    highlightedIndex={highlightedRefIndex}
+                />
+
+                <MessageThinkingPanel isOpen={isThinkingPanelOpen} thinkingText={message.thinkingText || ''} />
+
+                <MessageReferences
+                    references={message.references}
+                    highlightedIndex={highlightedRefIndex}
+                    onRefEnter={handleRefEnter}
+                    onRefLeave={handleRefLeave}
+                />
+
+                {!isUser && message.isComplete && id !== 'init-assistant' && (
+                    <MessageActions contentToCopy={message.content} />
                 )}
             </div>
         </motion.div>

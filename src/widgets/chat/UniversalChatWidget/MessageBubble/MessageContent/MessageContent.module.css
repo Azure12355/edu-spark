@@ -1,33 +1,138 @@
-/*
- * src/widgets/chat/UniversalChatWidget/MessageBubble/MessageContent/MessageContent.module.css
- */
+/* src/components/common/UniversalChatWidget/MessageBubble/MessageContent/MessageContent.module.css */
+
 .contentWrapper {
-    word-break: break-word;
     line-height: 1.7;
     font-size: 15px;
-    /* 让 MarkdownRenderer 的样式生效 */
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
-/*
- * 关键：为用户消息气泡内的 Markdown 元素提供特殊的颜色覆盖。
- * 这样可以确保即使用了通用的 MarkdownRenderer，用户消息的文本颜色依然是白色。
-*/
-.userMessage {
-    color: white;
+.paragraph {
+    margin: 0;
+    min-height: 1.7em;
 }
 
-.userMessage code {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #dbeafe;
+/* --- 1. 标题样式 (完整版) --- */
+.heading1, .heading2, .heading3, .heading4, .heading5, .heading6 {
+    margin: 1.5em 0 0.8em 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.heading1 { font-size: 1.8em; padding-bottom: 0.3em; border-bottom: 1px solid var(--widget-border-color); }
+.heading2 { font-size: 1.5em; padding-bottom: 0.3em; border-bottom: 1px solid var(--widget-border-color); }
+.heading3 { font-size: 1.25em; }
+.heading4 { font-size: 1.1em; }
+.heading5 { font-size: 1em; color: var(--widget-text-secondary); }
+.heading6 { font-size: 0.9em; color: var(--widget-text-tertiary); }
+
+
+/* --- 2. 列表样式 (保持不变) --- */
+.unorderedList, .orderedList {
+    padding-left: 2em;
+    margin: 1em 0;
+}
+.listItem {
+    margin-bottom: 0.5em;
 }
 
-.userMessage a {
+/* --- 3. 引用块样式 (保持不变) --- */
+.blockquote {
+    margin: 1em 0;
+    padding: 10px 16px;
+    background-color: #f7f9fc;
+    border-left: 4px solid var(--widget-primary-blue);
+    color: var(--widget-text-secondary);
+}
+
+/* --- 4. 分割线样式 --- */
+.hr {
+    height: 1px;
+    background-color: var(--widget-border-color);
+    border: 0;
+    margin: 2em 0;
+}
+
+/* --- 行内元素 (保持不变) --- */
+.inlineCode {
+    background-color: #eef2ff; color: #4338ca; padding: 2px 6px;
+    border-radius: 4px; font-family: 'SFMono-Regular', Consolas, Menlo, monospace; font-size: 0.9em;
+}
+.bold { font-weight: 600; }
+.italic { font-style: italic; }
+.link { color: var(--widget-link-color); text-decoration: none; font-weight: 500; }
+.link:hover { text-decoration: underline; }
+
+/* --- 5. 表格样式 --- */
+.tableWrapper {
+    margin: 1.5em 0;
+    overflow-x: auto; /* 让宽表格可以水平滚动 */
+    border: 1px solid var(--widget-border-color);
+    border-radius: 8px;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.table th, .table td {
+    padding: 12px 16px;
+    border: 1px solid var(--widget-border-color);
+    text-align: left;
+}
+.table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+.table thead {
+    border-bottom: 2px solid #e5e7eb;
+}
+.table tbody tr:nth-of-type(even) {
+    background-color: #f9fafb; /* 斑马条纹 */
+}
+
+/* --- 代码块和 LaTeX (保持不变) --- */
+.codeBlock {
+    margin: 1em 0; background-color: #f9fafb; border: 1px solid #e5e7eb;
+    border-radius: 8px; overflow: hidden; font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+}
+.codeHeader {
+    display: flex; justify-content: space-between; align-items: center;
+    background-color: #f3f4f6; padding: 8px 12px; font-size: 13px; color: var(--widget-text-secondary);
+}
+.copyButton {
+    background: none; border: none; cursor: pointer; color: var(--widget-text-tertiary);
+    display: flex; align-items: center; gap: 4px; font-size: 12px;
+}
+.copyButton:hover { color: var(--widget-primary-blue); }
+.codeContent { padding: 16px; overflow-x: auto; font-size: 14px; line-height: 1.6; }
+.latexBlock { display: block; padding: 1em 0; overflow-x: auto; text-align: center; }
+.latexInline { /* 样式可自定义 */ }
+
+/* --- 打字指示器 (保持不变) --- */
+.typingIndicator {
+    display: inline-block; width: 8px; height: 1.5em; background-color: currentColor;
+    border-radius: 4px; animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ... add to the end of MessageContent.module.css ... */
+
+/* 这个类名会被传递给 MarkdownRenderer 的根元素 */
+.userMessageOverride {
+    color: white; /* 用户消息气泡内的文本颜色 */
+}
+/* 针对用户气泡内的链接进行特殊样式处理 */
+.userMessageOverride :global(.MarkdownRenderer_link__XYZ) { /* XYZ 是动态hash，使用:global确保生效 */
     color: #93c5fd;
-    text-decoration: underline;
 }
-
-.userMessage blockquote {
+/* 针对用户气泡内的引用块进行特殊样式处理 */
+.userMessageOverride :global(.MarkdownRenderer_blockquote__XYZ) {
     background-color: rgba(255, 255, 255, 0.1);
     border-left-color: rgba(255, 255, 255, 0.5);
     color: #e5e7eb;
+}
+/* 针对用户气泡内的行内代码进行特殊样式处理 */
+.userMessageOverride :global(.MarkdownRenderer_inlineCode__XYZ) {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #dbeafe;
 }
