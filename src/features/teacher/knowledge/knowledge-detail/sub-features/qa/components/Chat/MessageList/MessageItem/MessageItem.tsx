@@ -6,12 +6,8 @@ import MarkdownRenderer from "@/shared/components/ui/MarkdownRenderer/MarkdownRe
 import ReferencesContainer from "../References/ReferencesContainer";
 import { Reference } from '../References/ReferenceCard';
 
-/**
- * @interface Message
- * @description 定义单条消息的完整数据结构，用于前端UI渲染
- */
 export interface Message {
-    id: string; // [!code ++] 核心增补：为每条消息添加唯一的ID
+    id: string;
     role: 'user' | 'assistant';
     content: string;
     isThinking?: boolean;
@@ -25,25 +21,29 @@ interface MessageItemProps {
 
 const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
     const { role, content, references, isThinking, thinkingText } = message;
+    const isUser = role === 'user';
     const isAssistant = role === 'assistant';
 
     return (
         <div className={`${styles.messageItem} ${styles[role]}`}>
-            <div className={styles.avatar}>
-                {isAssistant ? (
+            {/* [!code focus start] */}
+            {/* --- 核心修复：只有当角色是 assistant 时才渲染头像 --- */}
+            {isAssistant && (
+                <div className={styles.avatar}>
                     <Image src="/robot.gif" alt="AI 助手" width={40} height={40} style={{ borderRadius: '50%' }} />
-                ) : (
-                    <i className="fas fa-user"></i>
-                )}
-            </div>
+                </div>
+            )}
+            {/* --- 核心修复结束 --- */}
+            {/* [!code focus end] */}
 
             <div className={styles.messageContent}>
                 <div className={styles.messageBubble}>
-                    <MarkdownRenderer content={content} />
                     {/* [!code focus start] */}
-                    {/* 修复：只要在思考中，就显示光标 */}
-                    {isThinking && <span className={styles.blinkingCursor}></span>}
+                    {/* --- 核心修复：为用户消息传递一个特定的 className 以便在渲染器中修改样式 --- */}
+                    <MarkdownRenderer content={content} className={isUser ? styles.userMessageContent : ''} />
+                    {/* --- 核心修复结束 --- */}
                     {/* [!code focus end] */}
+                    {isThinking && <span className={styles.blinkingCursor}></span>}
                 </div>
 
                 {isAssistant && thinkingText && (

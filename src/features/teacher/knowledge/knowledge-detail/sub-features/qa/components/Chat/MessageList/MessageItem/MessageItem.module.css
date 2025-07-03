@@ -1,17 +1,22 @@
-/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/MessageItem.module.css */
+/* [!file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/MessageItem/MessageItem.module.css] */
 
 .messageItem {
     display: flex;
     gap: 16px;
-    max-width: 85%;
-    /* 使用 align-items: flex-start 确保头像和内容顶部对齐 */
+    /* [!code focus start] */
+    /* --- 核心修复：移除固定的 max-width，让其由子元素决定 --- */
+    /* max-width: 85%; */ /* [!code --] */
+    /* [!code focus end] */
     align-items: flex-start;
 }
 
+/* [!code focus start] */
+/* --- 核心修复：用户消息整体靠右对齐 --- */
 .messageItem.user {
-    margin-left: auto;
-    flex-direction: row-reverse;
+    /* 使用 justify-content 实现靠右 */
+    justify-content: flex-end;
 }
+/* [!code focus end] */
 
 .avatar {
     width: 40px;
@@ -22,42 +27,71 @@
     justify-content: center;
     font-size: 18px;
     flex-shrink: 0;
-    /* 为头像添加细微的边框和阴影，提升质感 */
     border: 2px solid var(--teacher-white);
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.messageItem.user .avatar {
-    background-color: #f0fdf4; /* 浅绿色 */
-    color: #16a34a; /* 深绿色 */
-}
-
 .messageItem.assistant .avatar {
-    background-color: #eef2ff; /* 浅紫色 */
+    background-color: #eef2ff;
     color: var(--teacher-primary);
 }
 
 .messageContent {
-    flex-grow: 1;
+    /* [!code focus start] */
+    /* --- 核心修复：为内容区域设置最大宽度和对齐 --- */
+    max-width: 75%; /* 最大宽度为父容器的一半 */
+    display: flex;
+    flex-direction: column;
+    /* [!code focus end] */
     min-width: 0;
 }
+
+/* [!code focus start] */
+.messageItem.user .messageContent {
+    align-items: flex-end; /* 让用户气泡在其容器内也靠右 */
+}
+
+.messageItem.assistant .messageContent {
+    align-items: flex-start; /* 助手气泡靠左 */
+}
+/* [!code focus end] */
+
 
 .messageBubble {
     padding: 12px 20px;
     border-radius: 12px;
     line-height: 1.7;
+    /* [!code focus start] */
+    /* --- 核心修复：让气泡宽度自适应内容 --- */
+    display: inline-block; /* 关键！让DIV像行内元素一样包裹内容 */
+    max-width: 100%;       /* 继承父容器（messageContent）的最大宽度限制 */
+    text-align: left;      /* 确保多行文本是左对齐的 */
+    /* [!code focus end] */
 }
 
 .messageItem.user .messageBubble {
-    background: linear-gradient(135deg, var(--teacher-primary) 0%, #4f46e5 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--teacher-primary) 0%, #4166e2 100%);
+    /* [!code focus start] */
+    color: white; /* --- 核心修复：确保用户气泡内所有文本默认为白色 --- */
+    /* [!code focus end] */
 }
 
 .messageItem.assistant .messageBubble {
-    background-color: #f3f4f6; /* 更柔和的灰色 */
+    background-color: #f3f4f6;
     color: var(--teacher-text-primary);
     border: 1px solid #e5e7eb;
 }
+
+/* [!code focus start] */
+/* --- 核心修复：为 MarkdownRenderer 传入的特定类名设置样式 --- */
+.userMessageContent,
+.userMessageContent p,
+.userMessageContent code {
+    color: white !important; /* 使用 !important 确保覆盖 MarkdownRenderer 的默认样式 */
+}
+/* [!code focus end] */
+
+
 
 /* 闪烁光标，用于模拟打字效果 */
 .blinkingCursor {
