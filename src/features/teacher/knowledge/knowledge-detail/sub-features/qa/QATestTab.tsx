@@ -54,7 +54,8 @@ const QATestTab: React.FC<QATestTabProps> = ({ kbId }) => {
                 <QAParameters
                     params={params}
                     availableModels={availableModels}
-                    onParamChange={actions.handleParamChange}
+                    onRetrievalParamChange={actions.handleRetrievalParamChange}
+                    onGenerationParamChange={actions.handleGenerationParamChange}
                     onResetParams={actions.handleResetParams}
                 />
             </aside>

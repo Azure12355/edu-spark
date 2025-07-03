@@ -1,0 +1,138 @@
+/* [!file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/ParametersPanel/ModelSelector/ModelSelectionModal.module.css] */
+
+/* --- 基础模态框样式 (复用并微调) --- */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(9, 30, 66, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal {
+    background-color: var(--teacher-bg-card);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+.modalHeader h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+.closeButton {
+    background: none; border: none; font-size: 18px;
+    color: var(--teacher-text-tertiary); cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+.closeButton:hover {
+    background-color: var(--teacher-bg-hover);
+    color: var(--teacher-text-primary);
+}
+
+.modalBody {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #f9fafb;
+}
+
+/* --- 模型选择卡片样式 --- */
+.modelCard {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modelCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    border-color: #a5b4fc;
+}
+
+.modelCard.selected {
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light-bg);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modelName {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.modelName i {
+    color: var(--teacher-primary);
+}
+
+.modelTag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background-color: #eef2ff;
+    color: #4338ca;
+}
+
+.modelDescription {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.modelProvider {
+    align-self: flex-start;
+    font-size: 12px;
+    color: var(--teacher-text-tertiary);
+    background-color: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.checkIcon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 20px;
+    color: var(--teacher-primary);
+}
