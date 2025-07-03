@@ -51,7 +51,7 @@ const QAParameters: React.FC<QAParametersProps> = ({ params, availableModels, on
                 <header className={styles.header}>
                     <i className="fas fa-sliders-h"></i><h3>参数配置</h3>
                 </header>
-                <p className={styles.description}>调整检索与生成参数，以优化AI在特定知识库上的问答表现。</p>
+                <p className={styles.description}>调整检索与生成参数来优化AI在问答表现。</p>
 
                 <div className={styles.formContainer}>
                     <ParameterCard

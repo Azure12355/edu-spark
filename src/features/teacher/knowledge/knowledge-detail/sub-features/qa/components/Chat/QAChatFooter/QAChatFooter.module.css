@@ -2,7 +2,7 @@
 
 .chatFooter {
     flex-shrink: 0;
-    padding: 16px 24px;
+    padding: 5px 10px;
     border-top: 1px solid var(--teacher-border);
     background-color: #f9fafb;
 }
@@ -11,6 +11,6 @@
     font-size: 12px;
     color: var(--teacher-text-tertiary);
     text-align: center;
-    margin-top: 12px;
+    margin-top: 5px;
     margin-bottom: 0;
 }
