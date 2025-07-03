@@ -35,7 +35,7 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sessionUuid, setSessionUuid] = useState<string | null>(null);
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState('上海哪个酒店性价比最高?');
 
     // [!code focus start]
     // --- 核心修复：使用 useRef 来存储最新的 params 和 sessionUuid ---

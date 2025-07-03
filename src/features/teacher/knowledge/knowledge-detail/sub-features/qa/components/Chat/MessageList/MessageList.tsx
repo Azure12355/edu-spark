@@ -34,12 +34,6 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
 
     const showWelcome = messages.length === 0;
 
-    // 动画变体，用于消息项的入场效果
-    const itemVariants = {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -10 },
-    };
 
     return (
         <div ref={scrollContainerRef} className={styles.scrollContainer}>
@@ -49,17 +43,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                 <div className={styles.messageListWrapper}>
                     <AnimatePresence>
                         {messages.map((msg, index) => (
-                            <motion.div
-                                key={`${msg.role}-${index}`} // 使用更稳定的 key
-                                variants={itemVariants}
-                                initial="initial"
-                                animate="animate"
-                                exit="exit"
-                                layout // 启用布局动画
-                                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                            >
-                                <MessageItem message={msg} />
-                            </motion.div>
+                            <MessageItem message={msg} />
                         ))}
                     </AnimatePresence>
                 </div>
