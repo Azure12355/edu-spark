@@ -142,3 +142,28 @@
     margin: 0;
     padding: 0;
 }
+
+/* in src/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/MessageItem/MessageItem.module.css */
+/* ... */
+.messageItem.assistant .messageBubble {
+    background-color: #f3f4f6;
+    color: var(--teacher-text-primary);
+    border: 1px solid #e5e7eb;
+}
+
+/* [!code focus start] */
+/* 新增错误气泡的样式 */
+.messageItem.assistant .messageBubble.error {
+    background-color: #fef2f2; /* 浅红色 */
+    border-color: #fecaca; /* 更深的红色边框 */
+    color: #b91c1c; /* 深红色文字 */
+}
+
+/* 错误气泡内的代码块样式也应调整 */
+.messageItem.assistant .messageBubble.error code {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
+}
+/* [!code focus end] */
+
+/* ... */

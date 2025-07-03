@@ -6,6 +6,13 @@ import { UserVO } from '@/shared/services/userService'; // 从我们之前创建
 interface UserState {
     loginUser: UserVO | null;
     isLoggedIn: boolean;
+
+    isAuthModalOpen: boolean; // 新增：控制全局登录弹窗的开关
+    onLoginSuccessCallback: (() => void) | null; // 新增：登录成功后的回调函数
+
+    openAuthModal: (onSuccess?: () => void) => void; // 新增：打开弹窗的 action
+    closeAuthModal: () => void; // 新增：关闭弹窗的 action
+
     // Actions
     setUser: (user: UserVO | null) => void;
     clearUser: () => void;
@@ -15,10 +22,24 @@ interface UserState {
 export const useUserStore = create<UserState>()(
     // 3. 使用 persist 中间件进行数据持久化
     persist(
-        (set) => ({
+        (set, get) => ({
             // 初始状态
             loginUser: null,
             isLoggedIn: false,
+
+            isAuthModalOpen: false,
+            onLoginSuccessCallback: null,
+
+            openAuthModal: (onSuccess) => {
+                set({
+                    isAuthModalOpen: true,
+                    // 如果传入了成功回调，就存储它
+                    onLoginSuccessCallback: onSuccess || null
+                });
+            },
+            closeAuthModal: () => {
+                set({ isAuthModalOpen: false, onLoginSuccessCallback: null });
+            },
 
             // 操作：设置用户信息
             setUser: (user) => {
@@ -26,6 +47,13 @@ export const useUserStore = create<UserState>()(
                     loginUser: user,
                     isLoggedIn: !!user, // 如果 user 不为 null, isLoggedIn 为 true
                 });
+
+                const callback = get().onLoginSuccessCallback;
+                if (callback) {
+                    callback();
+                }
+                // 执行完后清除
+                set({ onLoginSuccessCallback: null });
             },
 
             // 操作：清除用户信息（用于注销）
@@ -42,3 +70,5 @@ export const useUserStore = create<UserState>()(
         }
     )
 );
+
+export const useAuthModal = () => useUserStore((state) => state.openAuthModal);

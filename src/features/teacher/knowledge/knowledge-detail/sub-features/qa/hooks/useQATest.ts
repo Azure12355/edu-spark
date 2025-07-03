@@ -11,6 +11,10 @@ import { KNOWLEDGE_QA_PROMPT_TEMPLATE } from '@/shared/lib/prompts';
 import { Message } from '../components/Chat/MessageList/MessageItem/MessageItem';
 import type { AdvancedQARequest, QACompleteResponse } from '../types';
 import { streamAnswer } from '../service/qaService';
+import {ApiError} from "@/shared/lib/errors/apiError";
+
+import { useAuthModal } from '@/shared/store/userStore'; // 1. 导入新的 Hook
+
 
 export type QATestParams = Omit<AdvancedQARequest, 'query' | 'knowledgeBaseIds' | 'sessionUuid'>;
 const DEFAULT_PARAMS: QATestParams = {
@@ -31,9 +35,11 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
     const showToast = useToast();
     const abortStreamRef = useRef<(() => void) | null>(null);
 
+    const openAuthModal = useAuthModal(); // 3. 获取打开弹窗的函数
+
     const [params, setParams] = useImmer<QATestParams>(DEFAULT_PARAMS);
     const [messages, setMessages] = useImmer<Message[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading]= useState(false);
     const [sessionUuid, setSessionUuid] = useState<string | null>(null);
     const [query, setQuery] = useState('上海哪个酒店性价比最高?');
 
@@ -146,10 +152,35 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
                 });
                 if (!sessionUuid) setSessionUuid(data.sessionUuid);
             },
+            // [!code focus start]
+            // --- 核心修复：增强 onError 的处理逻辑 ---
             onError: (error: Error) => {
-                showToast({ message: `请求失败: ${error.message}`, type: 'error' });
-                setMessages(draft => draft.filter(m => m.id !== assistantMessageId));
+
+                if (error instanceof ApiError && error.code === 40100) {
+                    // 如果是未登录错误
+                    showToast({ message: '请先登录再开始对话', type: 'warning' });
+                    // 打开登录弹窗，并传递一个“登录成功后重新发送消息”的回调
+                    openAuthModal(() => {
+                        showToast({ message: '登录成功！正在重新为您发送消息...', type: 'success' });
+                        // 重新调用 handleSendMessage
+                        handleSendMessage(queryText);
+                    });
+                } else {
+                    // 其他所有错误，按原逻辑处理
+                    showToast({ message: `请求出错: ${error.message}`, type: 'error' });
+                }
+
+                // 无论哪种错误，都更新UI
+                setMessages(draft => {
+                    const assistantMsg = draft.find(m => m.id === assistantMessageId);
+                    if (assistantMsg) {
+                        assistantMsg.content = `抱歉，处理您的请求时遇到了问题。`;
+                        assistantMsg.isThinking = false;
+                        assistantMsg.isError = true;
+                    }
+                });
             },
+            // [!code focus end]
             onEnd: () => {
                 setIsLoading(false);
                 abortStreamRef.current = null;
@@ -160,7 +191,7 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
 
         // [!code focus start]
         // 5. 现在 handleSendMessage 的依赖项可以简化，因为它不再需要直接依赖 params 和 sessionUuid
-    }, [isLoading, kbId, setMessages, showToast, setQuery, sessionUuid]); // 保留 sessionUuid 是因为 onComplete 中有 setSessionUuid，以防万一
+    }, [isLoading, kbId, setMessages, showToast, setQuery, sessionUuid, openAuthModal]); // 保留 sessionUuid 是因为 onComplete 中有 setSessionUuid，以防万一
     // [!code focus end]
 
 

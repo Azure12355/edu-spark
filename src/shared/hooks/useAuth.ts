@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import { useUserStore } from '@/shared/store/userStore';
 import { login, register, logout, UserLoginRequest, UserRegisterRequest } from '@/shared/services/userService';
 import { useToast } from './useToast';
@@ -11,6 +11,8 @@ export const useAuth = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const showToast = useToast();
+
+    const pathname = usePathname(); // 2. 获取当前路由路径
 
     // 从 Zustand Store 中获取设置和清除用户的方法
     const { setUser, clearUser } = useUserStore();
@@ -25,10 +27,12 @@ export const useAuth = () => {
             setUser(loggedInUser); // 登录成功后，更新全局状态
             showToast({ message: `欢迎回来, ${loggedInUser.nickname}!`, type: 'success' });
             // 根据角色跳转到不同的仪表盘
-            if (loggedInUser.role === 'TEACHER') {
-                router.push('/teacher/studio');
-            } else {
-                router.push('/student/plaza'); // 假设学生首页是 plaza
+            if (pathname === '/') {
+                if (loggedInUser.role === 'TEACHER') {
+                    router.push('/teacher/studio');
+                } else {
+                    router.push('/student/plaza');
+                }
             }
             return true; // 表示登录成功
         } catch (error: any) {
