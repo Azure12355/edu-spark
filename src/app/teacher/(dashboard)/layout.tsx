@@ -10,17 +10,21 @@ export default function TeacherDashboardLayout({
                                                }: {
     children: React.ReactNode;
 }) {
-    const pathname = usePathname();
+    const pathname = usePathname() || "";
+
+    const isKnowledgeDetailPage = /^\/teacher\/knowledge\/\d+/.test(pathname);
+
     const isImmersivePage =
         pathname.startsWith('/teacher/assistant') ||
         pathname.startsWith('/teacher/courses/') ||
         pathname.includes('/ai-generate') ||
-        pathname.includes('/teacher/knowledge/')
+        pathname.includes('/teacher/knowledge/') ||
+        isKnowledgeDetailPage
     ;
 
     return (
         <div className="teacher-layout-wrapper">
-            <TeacherHeader />
+            {!isKnowledgeDetailPage && <TeacherHeader />}
             <main
                 // 当是沉浸式页面时，使用 .teacher-main-full (无内边距，全高)
                 // 否则使用 .teacher-main-container (有内边距，可滚动)

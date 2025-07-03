@@ -1,0 +1,53 @@
+/*
+ * src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/ParameterCard.module.css
+ * 【最终修复方案 v3】: 一套全新的、只负责外观、不干涉布局的卡片样式。
+ */
+
+.card {
+    /* 只定义外观，不定义尺寸或布局模式 */
+    background-color: transparent; /* 背景交由父级或自身 header/body 控制 */
+    border: none; /* 移除外层边框，让 header/body 自己处理 */
+    width: 100%;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 0 16px 0; /* 调整内边距，只保留底部间距 */
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+}
+
+.cardTitle {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--teacher-text-primary);
+}
+
+.cardTitle .bar {
+    width: 4px;
+    height: 16px;
+    background-color: var(--teacher-primary);
+    border-radius: 2px;
+}
+
+.cardHeader .chevronIcon {
+    transition: transform 0.2s;
+    color: var(--teacher-text-secondary);
+}
+
+.cardBody {
+    /* 核心修改：移除所有可能影响布局的样式，只保留内边距和边框 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 14px; /* 左侧缩进，与标题对齐 */
+    border-left: 1px solid #f0f2f5;
+}

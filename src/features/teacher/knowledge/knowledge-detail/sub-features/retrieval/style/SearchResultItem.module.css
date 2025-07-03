@@ -1,0 +1,164 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/retrieval/SearchResultItem/SearchResultItem.module.css */
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 16px;
+}
+
+.sourceInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.sourceInfo i {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.sourceName {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scoreInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f0fdf4; /* Light green background */
+    color: #15803d; /* Dark green text */
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
+}
+
+.scoreIcon {
+    font-size: 14px;
+}
+
+.scoreValue {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--teacher-text-secondary);
+    margin-bottom: 16px;
+}
+
+.content p {
+    margin: 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.metaInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.metaItem i {
+    font-size: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.actionButton {
+    background-color: transparent;
+    border: 1px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+    background-color: #f3f4f6;
+    color: var(--teacher-primary);
+    border-color: #d1d5db;
+}
+
+.actionButton i {
+    font-size: 12px;
+}
+
+.extraInfo {
+    overflow: hidden;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #f3f4f6;
+    padding: 16px;
+}
+
+.extraInfo h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--teacher-text-primary);
+}
+
+.metadataPre {
+    background-color: var(--teacher-white);
+    padding: 12px;
+    border-radius: 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #4b5563;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 200px;
+    overflow-y: auto;
+}

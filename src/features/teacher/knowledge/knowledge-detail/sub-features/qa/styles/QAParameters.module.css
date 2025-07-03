@@ -1,0 +1,91 @@
+/*
+ * src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/QAParameters.module.css
+ * 【最终修复方案 v3】: 清理掉所有卡片样式，只负责面板布局和滚动。
+ */
+.panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.header {
+    flex-shrink: 0;
+    padding: 24px 24px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header i { font-size: 20px; color: var(--teacher-primary); }
+.header h3 { font-size: 18px; font-weight: 600; margin: 0; }
+
+.description {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 24px 16px;
+    border-bottom: 1px solid var(--teacher-border);
+}
+
+.formContainer {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 卡片之间的垂直间距 */
+
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+.formContainer::-webkit-scrollbar { width: 6px; }
+.formContainer::-webkit-scrollbar-track { background: transparent; }
+.formContainer::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
+
+/* 表单元素样式 (保持不变，因为它们是卡片的内容，而不是卡片本身) */
+.paramItem { display: flex; flex-direction: column; gap: 10px; }
+.paramLabel { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary); }
+.paramLabel i { cursor: help; color: #9ca3af; }
+.paramControls { display: flex; align-items: center; gap: 16px; }
+.slider { flex-grow: 1; -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; outline: none; }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--teacher-white); border: 3px solid var(--teacher-primary); border-radius: 50%; cursor: pointer; }
+.paramValueInput { width: 65px; padding: 8px; text-align: center; border: 1px solid var(--teacher-border); border-radius: 6px; font-size: 14px; }
+
+.modelSelector { display: flex; align-items: center; justify-content: space-between; background-color: #f9fafb; border: 1px solid #f3f4f6; padding: 12px 16px; border-radius: 8px; }
+.modelInfo { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.modelInfo i { color: #8A2BE2; }
+.modelSwapBtn { background: none; border: none; font-size: 14px; cursor: pointer; color: var(--teacher-text-tertiary); }
+
+.promptHeader { display: flex; justify-content: space-between; align-items: center; }
+.promptTemplateLink { color: var(--teacher-link-color); font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.promptEditor { width: 100%; background-color: #f9fafb; border: 1px solid #f3f4f6; border-radius: 8px; padding: 12px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; line-height: 1.6; color: #4b5563; resize: vertical; min-height: 120px;}
+
+
+.bottomActions {
+    flex-shrink: 0;
+    padding: 16px 24px;
+    border-top: 1px solid var(--teacher-border);
+    background-color: #f9fafb;
+}
+.actionButton {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    color: var(--teacher-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+.actionButton:hover { background-color: var(--teacher-bg-hover); }

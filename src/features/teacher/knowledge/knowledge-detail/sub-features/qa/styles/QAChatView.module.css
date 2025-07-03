@@ -1,0 +1,23 @@
+/*
+ * src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/QAChatView.module.css
+ * Styles for the QAChatView container.
+ */
+
+.chatView {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+ * A simple override class to remove the default border and shadow
+ * from the universal ChatPanel, making it fit seamlessly into the QA tab's layout.
+ */
+.chatPanelOverride {
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 100% !important;
+    background-color: transparent !important;
+}

@@ -1,0 +1,31 @@
+/*
+ * src/features/teacher/knowledge/knowledge-detail/sub-features/qa/QATestTab.module.css
+ * 【根治方案】: 使用 CSS Grid 重构布局，以提供精确的高度约束。
+ */
+.tabContainer {
+    display: grid; /* 1. 改为 Grid 布局 */
+    /* 2. 定义两列：左侧固定宽度，右侧占据剩余空间 */
+    grid-template-columns: 380px 1fr;
+    /* 3. 定义一行，占据所有可用高度 */
+    grid-template-rows: minmax(0, 1fr);
+    gap: 24px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* 容器自身不滚动 */
+    padding: 12px; /* 将内边距从 KnowledgeDetailLayout 移到这里 */
+}
+
+/* 4. 左侧面板现在是一个 Grid Item，不再需要 flex 或 overflow 属性 */
+.leftPanel {
+    /* 5. 【关键】设置 min-height: 0，这是 Grid/Flex 布局中允许子元素滚动的经典 hack */
+    min-height: 0;
+    /* QAParameters 组件将在这里被渲染，并继承其父容器的高度 */
+}
+
+/* 6. 右侧面板也是一个 Grid Item，其内部的 QAChatView 将撑满这个空间 */
+.rightPanel {
+    min-height: 0;
+    min-width: 0;
+    display: flex; /* 让 QAChatView 能撑满 */
+    flex-direction: column;
+}

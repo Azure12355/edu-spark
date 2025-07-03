@@ -12,6 +12,8 @@ import DocumentManagementTab from "@/features/teacher/knowledge/knowledge-detail
 
 import styles from './KnowledgeDetailView.module.css';
 import { useDocumentManagement } from '../../sub-features/document-management/services/useDocumentManagement';
+import RetrievalTestTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/retrieval/RetrievalTestTab";
+import QATestTab from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/QATestTab";
 
 export const TABS_CONFIG = [
     { id: 'BasicInfo', label: '基本信息' },
@@ -49,6 +51,11 @@ const KnowledgeDetailView: React.FC<KnowledgeDetailViewProps> = ({ kb, activeTab
                         documents={documentManager.documents}
                     />
                 );
+            case '知识检索':
+                return <RetrievalTestTab kbId={kb.id} />;
+
+            case '知识问答':
+                return <QATestTab kbId={kb.id}  />;
 
             default:
                 return (

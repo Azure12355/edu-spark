@@ -1,0 +1,78 @@
+/*
+ * src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/SliderParameter.module.css
+ * Styles for the reusable slider + number input control.
+ */
+.paramItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.paramLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.paramLabel i {
+    color: #9ca3af;
+    cursor: help;
+}
+
+.paramControls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.slider {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--teacher-white);
+    border: 3px solid var(--teacher-primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* For Firefox compatibility */
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--teacher-white);
+    border: 3px solid var(--teacher-primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.paramValueInput {
+    width: 65px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid var(--teacher-border);
+    border-radius: 6px;
+    font-size: 14px;
+    /* Hide the number input arrows */
+    -moz-appearance: textfield;
+}
+
+.paramValueInput::-webkit-outer-spin-button,
+.paramValueInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

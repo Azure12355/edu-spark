@@ -1,35 +1,51 @@
-/* src/components/teacher/knowledge/detail/layout/KnowledgeDetailLayout.module.css */
+/* src/features/teacher/knowledge/knowledge-detail/components/layout/KnowledgeDetailLayout.module.css */
 .layoutContainer {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
-    overflow: hidden; /* 确保容器自身不产生滚动条 */
-    background-color: #f9fafb; /* 为整个布局提供一个统一的浅灰色背景 */
+    overflow: hidden;
+    background-color: #f9fafb;
 }
 
 .headerWrapper, .tabsWrapper {
-    flex-shrink: 0; /* 确保头部和Tabs区域高度固定，不被压缩 */
+    flex-shrink: 0;
 }
 
 .mainContent {
-    flex-grow: 1; /* 占据所有剩余的垂直空间 */
-    /* 关键：让内容区本身可以滚动，以防其内容过高 */
+    flex-grow: 1;
+    /* [!code --] */
     overflow-y: auto;
-    padding: 12px ;
-    /* 为滚动条预留空间，防止布局跳动 */
+    /* [!code --] */
+    padding: 12px;
+    /* [!code --] */
     scrollbar-gutter: stable;
+    /* [!code ++] */
+    /* 【核心修复】: 移除滚动和内边距，将其转变为一个纯粹的弹性容器 */
+    min-height: 0; /* 允许 flex 子项正确计算高度 */
+    display: flex; /* 让子元素可以撑满 */
+    flex-direction: column;
 }
 
-/* 美化滚动条 (可选) */
+/* [!code --] */
 .mainContent::-webkit-scrollbar {
+    /* [!code --] */
     width: 8px;
+    /* [!code --] */
 }
+/* [!code --] */
 .mainContent::-webkit-scrollbar-track {
+    /* [!code --] */
     background: transparent;
+    /* [!code --] */
 }
+/* [!code --] */
 .mainContent::-webkit-scrollbar-thumb {
+    /* [!code --] */
     background-color: #d1d5db;
+    /* [!code --] */
     border-radius: 4px;
+    /* [!code --] */
     border: 2px solid #f9fafb;
+    /* [!code --] */
 }

@@ -1,0 +1,32 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/retrieval/RetrievalTestTab.module.css */
+
+.tabContainer {
+    display: flex; /* 1. 将 grid 布局改为 flex 布局 */
+    gap: 24px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* 2. 确保容器自身不产生滚动条 */
+}
+
+.leftPanel {
+    width: 360px; /* 3. 左侧面板保持固定宽度 */
+    flex-shrink: 0; /* 4. 防止左侧面板在空间不足时被压缩 */
+    height: 100%; /* 5. 高度占满父容器 */
+    overflow-y: auto; /* 6. 如果左侧参数过多，让其自身可以滚动 */
+    padding-bottom: 24px; /* 增加一些底部内边距，防止内容贴底 */
+
+    /* 美化滚动条 (可选) */
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+.leftPanel::-webkit-scrollbar { width: 6px; }
+.leftPanel::-webkit-scrollbar-track { background: transparent; }
+.leftPanel::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
+
+.rightPanel {
+    flex-grow: 1; /* 7. 右侧面板占据所有剩余空间 */
+    min-width: 0; /* 防止内容撑破 */
+    height: 100%;
+    display: flex; /* 8. 右侧面板也设置为 flex 容器，以便其子元素能正确布局 */
+    flex-direction: column; /* 9. 子元素垂直排列 */
+}

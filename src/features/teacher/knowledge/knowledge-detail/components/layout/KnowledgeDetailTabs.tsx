@@ -6,7 +6,7 @@ import styles from './KnowledgeDetailTabs.module.css';
 // 1. 【类型安全】更新 Props 接口
 interface KnowledgDetailTabsProps {
     tabs: string[]; // 接收一个字符串数组作为标签页列表
-    activeTab: string;
+    activeTab: string | any;
     onTabChange: (tab: string) => void;
 }
 
