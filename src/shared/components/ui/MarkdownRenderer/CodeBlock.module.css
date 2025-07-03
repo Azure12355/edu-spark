@@ -1,0 +1,77 @@
+/* [!file src/shared/components/ui/MarkdownRenderer/CodeBlock.module.css] */
+.codeBlock {
+    margin: 1em 0;
+    background-color: #282c34;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    border: 1px solid #3a3f4b;
+    /* [!code focus start] */
+    /* --- 核心修复：在这里定义 white-space，确保它不会被外部样式覆盖 --- */
+    white-space: pre;
+    /* [!code focus end] */
+}
+
+.codeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #21252b;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #abb2bf;
+}
+
+.copyButton {
+    background: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #abb2bf;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+    background-color: #3a3f4b;
+    color: white;
+}
+
+.copyButton:active {
+    transform: scale(0.95);
+}
+
+.codeContent {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+
+    /* 美化滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: #4b5263 #282c34;
+}
+
+.codeContent::-webkit-scrollbar {
+    height: 8px;
+}
+.codeContent::-webkit-scrollbar-track {
+    background: #21252b;
+}
+.codeContent::-webkit-scrollbar-thumb {
+    background-color: #4b5263;
+    border-radius: 4px;
+}
+
+.codeContent code {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    /* [!code focus start] */
+    /* --- 核心修复：确保 <code> 标签也继承正确的 white-space 属性 --- */
+    white-space: inherit; /* 或者直接写 pre */
+    /* [!code focus end] */
+}

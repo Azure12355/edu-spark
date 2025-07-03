@@ -6,6 +6,7 @@ import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import styles from './MarkdownRenderer.module.css';
 import { useToast } from '@/shared/hooks/useToast';
+import CodeBlock from "@/shared/components/ui/MarkdownRenderer/CodeBlock";
 
 // 1. 类型定义和辅助组件 (从 MessageContent 迁移过来)
 type BlockType =
@@ -18,26 +19,6 @@ interface ContentBlock {
     content: string;
     language?: string;
 }
-
-const CodeBlock = ({ language, content }: { language?: string, content: string }) => {
-    const showToast = useToast();
-    const handleCopy = () => {
-        navigator.clipboard.writeText(content).then(() => {
-            showToast({ message: '代码已复制', type: 'success' });
-        });
-    };
-    return (
-        <div className={styles.codeBlock}>
-            <div className={styles.codeHeader}>
-                <span>{language || 'code'}</span>
-                <button onClick={handleCopy} className={styles.copyButton}>
-                    <i className="far fa-copy"></i> 复制
-                </button>
-            </div>
-            <pre className={styles.codeContent}><code>{content}</code></pre>
-        </div>
-    );
-};
 
 const KatexRenderer = ({ content, isBlock }: { content: string, isBlock: boolean }) => {
     try {
@@ -185,7 +166,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         <div className={`${styles.rendererWrapper} ${className || ''}`}>
             {blocks.map((block, index) => {
                 switch (block.type) {
-                    case 'code': return <CodeBlock key={index} language={block.language} content={block.content} />;
+                    case 'code':
+                        return <CodeBlock key={index} language={block.language} content={block.content} />;
                     case 'latex': return <KatexRenderer key={index} content={block.content} isBlock={true} />;
                     case 'heading1': return <h1 key={index} className={styles.heading1}>{renderInlineContent(block.content)}</h1>;
                     case 'heading2': return <h2 key={index} className={styles.heading2}>{renderInlineContent(block.content)}</h2>;

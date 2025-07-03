@@ -3,24 +3,30 @@
 .rendererWrapper {
     line-height: 1.7;
     font-size: 15px;
-    white-space: pre-wrap;
-    word-break: break-word;
-    color: var(--teacher-text-primary); /* 默认文本颜色 */
-}
-.rendererWrapper.userMessage {
-    color: white; /* 用户消息气泡内的特殊颜色 */
-}
-.rendererWrapper.userMessage .link {
-    color: #93c5fd; /* 用户消息气泡内的链接颜色 */
+    /* [!code focus start] */
+    /* --- 核心修复：移除可能导致问题的 white-space 属性 --- */
+    /* white-space: pre-wrap; */ /* [!code --] */
+    word-break: break-word; /* 保留这个，对普通段落有用 */
+    /* [!code focus end] */
+    color: var(--teacher-text-primary);
 }
 
+.userMessageContent,
+.userMessageContent p,
+.userMessageContent code {
+    color: white !important;
+}
 
 .paragraph {
     margin: 0;
-    min-height: 1em; /* 调整为空行的高度 */
+    min-height: 1em;
+    /* [!code focus start] */
+    /* --- 新增：为普通段落设置自己的空白处理方式 --- */
+    white-space: pre-wrap;
+    /* [!code focus end] */
 }
 .paragraph:not(:last-child) {
-    margin-bottom: 1em; /* 段落间距 */
+    margin-bottom: 1em;
 }
 
 
@@ -119,23 +125,6 @@
     background-color: #f9fafb;
 }
 
-.codeBlock {
-    margin: 1em 0; background-color: #2d2d2d; /* 深色代码块背景 */
-    border-radius: 8px; overflow: hidden; font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
-}
-.codeHeader {
-    display: flex; justify-content: space-between; align-items: center;
-    background-color: #3a3a3a; padding: 8px 12px; font-size: 13px; color: #d1d5db;
-}
-.copyButton {
-    background: none; border: none; cursor: pointer; color: #d1d5db;
-    display: flex; align-items: center; gap: 4px; font-size: 12px;
-}
-.copyButton:hover { color: white; }
-.codeContent {
-    padding: 16px; overflow-x: auto; font-size: 14px; line-height: 1.6;
-    color: #f8f8f2; /* 亮色代码文本 */
-}
 
 .latexBlock { display: block; padding: 1em 0; overflow-x: auto; text-align: center; }
 .latexInline { /* 样式可自定义 */ }
