@@ -100,7 +100,7 @@ const Header: React.FC = () => {
                 animate="visible"
             >
                 <div className={styles.veHeaderContainer}>
-                    <Link href="/public" className={styles.veLogo}>
+                    <Link href="/" className={styles.veLogo}>
                         {/* 假设 Logo 位于 public/images/logo.svg */}
                         <Image
                             src="/robot.gif"

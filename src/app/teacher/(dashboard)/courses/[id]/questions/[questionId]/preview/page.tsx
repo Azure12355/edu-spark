@@ -1,3 +1,3 @@
-import QuestionPreviewPage from "@/pages/teacher/course/QuestionPreviewPage";
+import QuestionPreviewPage from "@/features/teacher/course/course-management/sub-features/question-preview/QuestionPreviewPage";
 
 export default QuestionPreviewPage;

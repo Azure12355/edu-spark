@@ -1,3 +1,3 @@
-import AiQuestionGeneratorPage from "@/pages/teacher/course/AiQuestionGeneratorPage";
+import AiQuestionGeneratorPage from "@/features/teacher/course/course-management/sub-features/ai-question-generator/AiQuestionGeneratorPage";
 
 export default AiQuestionGeneratorPage;

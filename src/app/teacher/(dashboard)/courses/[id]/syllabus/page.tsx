@@ -1,3 +1,3 @@
-import CourseSyllabusPage from "@/pages/teacher/course/CourseSyllabusPage";
+import CourseSyllabusPage from "@/features/teacher/course/course-management/sub-features/syllabus/CourseSyllabusPage";
 
 export default CourseSyllabusPage;

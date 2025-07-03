@@ -49,7 +49,7 @@ const TeacherHeader = () => {
         <>
             <header className={styles.header}>
                 <div className={styles.leftSection}>
-                    <Link href="/public" className={styles.logo}>
+                    <Link href="/" className={styles.logo}>
                         <Image src="/robot.gif" alt="EduSpark Logo" width={44} height={44}/>
                         <h1>EduSpark · 教师端</h1>
                     </Link>

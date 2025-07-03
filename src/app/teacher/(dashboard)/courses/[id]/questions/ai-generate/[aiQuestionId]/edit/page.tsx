@@ -1,3 +1,3 @@
-import QuestionEditPage from "@/pages/teacher/course/QuestionEditPage";
+import QuestionEditPage from "@/features/teacher/course/course-management/sub-features/question-edit/QuestionEditPage";
 
 export default QuestionEditPage;

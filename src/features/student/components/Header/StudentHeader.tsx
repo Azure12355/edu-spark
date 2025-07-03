@@ -90,7 +90,7 @@ const StudentHeader = () => {
         <header className={styles.header}>
             <div className={styles.headerContent}>
                 <div className={styles.logoSection}>
-                    <Link href="/public" className={styles.logo}>
+                    <Link href="/" className={styles.logo}>
                         <Image src="/robot.gif" alt="Logo" width={56} height={56} style={{borderRadius: '50%'}} />
                         <h1>EduSpark</h1>
                     </Link>

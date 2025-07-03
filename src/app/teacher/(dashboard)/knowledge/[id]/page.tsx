@@ -1,3 +1,3 @@
-import KnowledgeDetailPage from "@/pages/teacher/knowledge/KnowledgeDetailPage";
+import KnowledgeDetailPage from "@/features/teacher/knowledge/knowledge-detail/KnowledgeDetailPage";
 
 export default KnowledgeDetailPage;

@@ -62,7 +62,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                     </div>
                 </div>
                 {/* 2. 将 button 替换为 Link 包裹的 a 标签 */}
-                <Link href={`/teacher/courses/${course.id}/classes`} className={styles.actionButton}>
+                <Link href={`/teacher/courses/${course.id}`} className={styles.actionButton}>
                     进入管理
                 </Link>
             </div>

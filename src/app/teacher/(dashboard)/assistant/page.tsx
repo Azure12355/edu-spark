@@ -1,3 +1,3 @@
-import AssistantPage from "@/pages/teacher/assistant/AssistantPage";
+import AssistantPage from "@/features/teacher/assistant/AssistantPage";
 
 export default AssistantPage;
