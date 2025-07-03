@@ -1,8 +1,4 @@
-/**
- * @file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/service/qaService.ts
- * @description 封装调用后端知识问答（QA）API的服务函数。
- */
-
+// [!file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/service/qaService.ts]
 import apiClient from '@/shared/api/apiClient';
 import type { AdvancedQARequest, QACompleteResponse, StreamProcessor } from '../types';
 
@@ -14,77 +10,77 @@ import type { AdvancedQARequest, QACompleteResponse, StreamProcessor } from '../
  * @returns {() => void} - 返回一个用于中止请求的函数。
  */
 export const streamAnswer = (request: AdvancedQARequest, processor: StreamProcessor): (() => void) => {
-    // 使用 AbortController 来实现请求中止功能
     const controller = new AbortController();
 
     const processStream = async () => {
         try {
             const response = await fetch(`${apiClient.defaults.baseURL}/qa/answer/advanced`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 如果需要认证，可以在这里添加 token
-                    // 'Authorization': `Bearer ${your_token}`,
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(request),
-                signal: controller.signal, // 将 AbortSignal 关联到请求
+                signal: controller.signal,
                 credentials: 'include',
             });
 
             if (!response.ok || !response.body) {
-                // 如果后端返回错误（如4xx, 5xx），尝试解析错误信息
-                let errorBody = '未知服务器错误';
+                let errorBody = '服务器响应异常';
                 try {
                     const errorJson = await response.json();
                     errorBody = errorJson.message || JSON.stringify(errorJson);
                 } catch (e) {
-                    // 如果响应体不是JSON，使用状态文本
                     errorBody = response.statusText;
                 }
-                throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                throw new Error(`API 请求失败，状态码 ${response.status}: ${errorBody}`);
             }
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder('utf-8');
+            let buffer = ''; // Buffer to handle incomplete SSE messages
 
             while (true) {
                 const { done, value } = await reader.read();
-                if (done) break;
+                if (done) {
+                    if (buffer.length > 0) console.warn("Stream ended with incomplete data in buffer:", buffer);
+                    break;
+                }
 
-                const chunk = decoder.decode(value);
-                const lines = chunk.split('\n\n'); // SSE 消息以双换行符分隔
+                // Append new data to buffer
+                buffer += decoder.decode(value, { stream: true });
 
-                for (const line of lines) {
-                    if (line.startsWith('event: done')) {
-                        // 处理结束事件
-                        const dataLine = line.split('\n')[1];
-                        if (dataLine && dataLine.startsWith('data: ')) {
-                            const jsonData = dataLine.substring(6);
-                            const completeData: QACompleteResponse = JSON.parse(jsonData);
-                            processor.onComplete(completeData);
+                // Process all complete messages in the buffer
+                let eolIndex;
+                while ((eolIndex = buffer.indexOf('\n\n')) >= 0) {
+                    const message = buffer.slice(0, eolIndex);
+                    buffer = buffer.slice(eolIndex + 2); // Move buffer past the message delimiter
+
+                    if (message.startsWith('event:done')) {
+                        const dataLine = message.split('\n')[1];
+                        if (dataLine?.startsWith('data:')) {
+                            const jsonData = dataLine.substring(5);
+                            try {
+                                const completeData: QACompleteResponse = JSON.parse(jsonData);
+                                processor.onComplete(completeData);
+                            } catch (e) {
+                                console.error("Failed to parse 'done' event data:", e);
+                            }
                         }
-                        break; // 结束事件后不再处理
-                    } else if (line.startsWith('data: ')) {
-                        // 处理内容数据块
-                        const data = line.substring(6);
+                    } else if (message.startsWith('data:')) {
+                        const data = message.substring(5);
+                        console.log('%c[qaService] Received data chunk:', 'color: #10B981; font-weight: bold;', data);
                         processor.onData(data);
                     }
                 }
             }
         } catch (error) {
-            if ((error as Error).name === 'AbortError') {
-                console.log('QA stream request aborted by user.');
-            } else {
+            if ((error as Error).name !== 'AbortError') {
                 console.error('QA stream processing error:', error);
                 processor.onError(error as Error);
             }
         } finally {
-            processor.onEnd(); // 无论成功、失败还是中止，都调用 onEnd
+            processor.onEnd();
         }
     };
 
     processStream();
-
-    // 返回一个中止函数，供外部调用
     return () => controller.abort();
 };

@@ -1,3 +1,4 @@
+// [!file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/hooks/useQATest.ts]
 "use client";
 
 import { useState, useCallback, useRef } from 'react';
@@ -5,15 +6,16 @@ import { useImmer } from 'use-immer';
 import { useToast } from '@/shared/hooks/useToast';
 import { availableModels } from '@/shared/lib/data/availableModels';
 import { KNOWLEDGE_QA_PROMPT_TEMPLATE } from '@/shared/lib/prompts';
-import { BubbleMessage } from '@/widgets/chat/UniversalChatWidget/MessageBubble/MessageBubble';
-import type { AdvancedQARequest, QACompleteResponse } from '../types';
-import { streamAnswer } from '../service/qaService';
+// [!code focus start]
+import { Message } from '../components/Chat/MessageList/MessageItem/MessageItem'; // 导入 Message 类型
+import type { AdvancedQARequest, QACompleteResponse } from '../types'; // 导入与后端对应的类型
+import { streamAnswer } from '../service/qaService'; // 导入流式请求服务
+// [!code focus end]
 
-// Types and defaults remain the same
-export type QATestParams = Omit<AdvancedQARequest, 'knowledgeBaseIds' | 'sessionUuid'>;
+// 定义问答测试的参数类型，与后端 DTO 对应
+export type QATestParams = Omit<AdvancedQARequest, 'query' | 'knowledgeBaseIds' | 'sessionUuid'>;
 const DEFAULT_PARAMS: QATestParams = {
-    query: '',
-    retrieval: { topK: 5, },
+    retrieval: { topK: 5 },
     generation: {
         modelId: 'qwen-plus',
         promptTemplate: KNOWLEDGE_QA_PROMPT_TEMPLATE,
@@ -30,24 +32,21 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
     const showToast = useToast();
     const abortStreamRef = useRef<(() => void) | null>(null);
 
+    // --- 状态管理 ---
     const [params, setParams] = useImmer<QATestParams>(DEFAULT_PARAMS);
-    const [messages, setMessages] = useImmer<BubbleMessage[]>([]);
+    const [messages, setMessages] = useImmer<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sessionUuid, setSessionUuid] = useState<string | null>(null);
+    const [query, setQuery] = useState(''); // 将输入框内容状态提升到此 Hook
 
+    // --- 回调函数 ---
     const handleParamChange = useCallback((path: string, value: any) => {
         setParams(draft => {
             const keys = path.split('.');
             let current: any = draft;
-            for (let i = 0; i < keys.length - 1; i++) {
-                current = current[keys[i]];
-            }
+            for (let i = 0; i < keys.length - 1; i++) current = current[keys[i]];
             current[keys.length - 1] = value;
         });
-    }, [setParams]);
-
-    const handleQueryChange = useCallback((newQuery: string) => {
-        setParams(draft => { draft.query = newQuery; });
     }, [setParams]);
 
     const handleResetParams = useCallback(() => {
@@ -57,35 +56,36 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
 
     const handleStop = useCallback(() => {
         abortStreamRef.current?.();
-        // The isLoading state will be set to false in the onEnd callback
     }, []);
 
     const handleClear = useCallback(() => {
         handleStop();
         setMessages([]);
         setSessionUuid(null);
-    }, [handleStop, setMessages]);
+        showToast({ message: '对话已清空', type: 'info' });
+    }, [handleStop, setMessages, showToast]);
 
+    // [!code focus start]
+    // --- 核心修复：发送消息的处理逻辑 ---
     const handleSendMessage = useCallback(async (queryText: string) => {
         if (isLoading || !queryText.trim()) return;
 
         setIsLoading(true);
-        const userMessageId = `user-${Date.now()}`;
+        setQuery(''); // 发送后清空输入框状态
+
+        // 修复：为用户和AI消息都创建唯一的ID
+        const userMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: queryText };
         const assistantMessageId = `assistant-${Date.now()}`;
+        const assistantPlaceholder: Message = {
+            id: assistantMessageId,
+            role: 'assistant',
+            content: '',
+            isThinking: true,
+        };
 
         setMessages(draft => {
-            draft.push({ id: userMessageId, role: 'user', content: queryText, isComplete: true });
-            // [!code focus start]
-            // 【核心修复 1】: 创建一个结构完整的、表示“思考中”的 assistant 消息
-            draft.push({
-                id: assistantMessageId,
-                role: 'assistant',
-                content: '',
-                isThinking: true, // 初始为思考状态
-                isComplete: false, // 初始为未完成状态
-                references: [], // 初始引用为空
-            });
-            // [!code focus end]
+            draft.push(userMessage);
+            draft.push(assistantPlaceholder);
         });
 
         const request: AdvancedQARequest = {
@@ -97,40 +97,39 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
 
         const processor = {
             onData: (chunk: string) => {
-                // [!code focus start]
-                // 【核心修复 2】: 使用函数式更新来安全地追加内容
                 setMessages(draft => {
+                    // [!code ++]
+                    console.log('%c[useQATest] Updating state. Chunk:', 'color: #3B82F6;', chunk);
                     const assistantMsg = draft.find(m => m.id === assistantMessageId);
                     if (assistantMsg) {
+                        // [!code ++]
+                        console.log(`%c  -> Before: "${assistantMsg.content}"`, 'color: #64748B;');
                         assistantMsg.content += chunk;
+                        // [!code ++]
+                        console.log(`%c  -> After: "${assistantMsg.content}"`, 'color: #16A34A;');
                     }
                 });
-                // [!code focus end]
             },
             onComplete: (data: QACompleteResponse) => {
-                // [!code focus start]
-                // 【核心修复 3】: 在完成时更新消息的最终状态
                 setMessages(draft => {
+                    // 修复：通过ID精确查找要更新的消息
                     const assistantMsg = draft.find(m => m.id === assistantMessageId);
                     if (assistantMsg) {
                         assistantMsg.isThinking = false;
-                        assistantMsg.isComplete = true;
-                        assistantMsg.references = data.references;
-                        // 如果后端返回的 fullAnswer 与流式内容不一致，可以在这里覆盖
-                        // assistantMsg.content = data.fullAnswer;
+                        assistantMsg.references = data.references.map(ref => ({
+                            id: ref.id,
+                            docName: ref.documentName,
+                            score: ref.distance || 0,
+                            content: ref.content,
+                        }));
                     }
                 });
-                // [!code focus end]
-                if (!sessionUuid) {
-                    setSessionUuid(data.sessionUuid);
-                }
+                if (!sessionUuid) setSessionUuid(data.sessionUuid);
             },
             onError: (error: Error) => {
                 showToast({ message: `请求失败: ${error.message}`, type: 'error' });
-                // [!code focus start]
-                // 【核心修复 4】: 移除失败的消息占位符
+                // 修复：通过ID精确移除失败的消息占位符
                 setMessages(draft => draft.filter(m => m.id !== assistantMessageId));
-                // [!code focus end]
             },
             onEnd: () => {
                 setIsLoading(false);
@@ -140,16 +139,17 @@ export const useQATest = ({ kbId }: UseQATestProps) => {
 
         abortStreamRef.current = streamAnswer(request, processor);
 
-    }, [isLoading, params, kbId, sessionUuid, setMessages, showToast]);
+    }, [isLoading, params, kbId, sessionUuid, setMessages, showToast, setQuery]);
+    // [!code focus end]
 
     return {
         params,
         messages,
         isLoading,
-        query: params.query,
+        query,
         availableModels,
         actions: {
-            setQuery: handleQueryChange,
+            setQuery,
             handleParamChange,
             handleResetParams,
             handleSendMessage,
