@@ -1,6 +1,4 @@
-/* src/components/teacher/knowledge/detail/tabs/chunks/ChunkPreviewModal.module.css */
 
-/* ... (backdrop, modal, modalHeader, modalFooter 等样式保持不变) ... */
 .backdrop {
     position: fixed;
     inset: 0;
@@ -22,6 +20,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, 0.1);
+overflow: hidden;
 }
 .modalHeader {
     display: flex;
@@ -70,24 +69,22 @@
     flex-grow: 1;
     overflow-y: auto;
     padding: 24px;
-    background-color: #fdfdfe; /* 给内容区一个非常浅的背景色以区分 */
+background-color: transparent;
+background-color: var(--teacher-bg-card);
 }
 /* 美化滚动条 */
 .modalBody::-webkit-scrollbar { width: 6px; }
 .modalBody::-webkit-scrollbar-track { background: transparent; }
 .modalBody::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; }
 
-/*
-   【核心修改】: 为 <pre> 标签定义样式
-*/
 .textContent {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 14px;
     line-height: 1.7;
-    color: #334155; /* 深灰色，比纯黑更柔和 */
-    white-space: pre-wrap;   /* 关键：保留空白符和换行，并允许自动换行 */
-    word-break: break-all;   /* 关键：对于过长的无空格字符串（如URL），强制换行 */
-    margin: 0; /* 重置 pre 标签的默认 margin */
+    color: #334155;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
 }
 
 .modalFooter {

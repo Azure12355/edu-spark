@@ -1,15 +1,20 @@
-/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/ReferenceCard.module.css */
+/* [!file src/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/References/ReferenceCard.module.css] */
 
 .referenceCard {
-    background-color: var(--teacher-white);
+    /* --- 核心修改：添加按钮重置样式 --- */
     border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    background-color: var(--teacher-white);
     padding: 12px;
+    text-align: left; /* 确保内容左对齐 */
+    font-family: inherit; /* 继承字体 */
+    /* --- 结束修改 --- */
+
+    border-radius: 8px;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    display: flex; /* 使用 Flex 布局 */
-    flex-direction: column; /* 垂直排列 */
-    gap: 8px; /* 内部元素间距 */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .referenceCard:hover {
@@ -23,15 +28,15 @@
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    flex-shrink: 0; /* 头部不压缩 */
+    flex-shrink: 0;
 }
 
 .refHeader i {
-    color: #6b7280; /* 灰色图标 */
+    color: #6b7280;
 }
 
 .refDocName {
-    flex-grow: 1; /* 占据剩余空间 */
+    flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -40,13 +45,13 @@
 }
 
 .refScore {
-    background-color: #dcfce7; /* 浅绿色背景 */
-    color: #15803d; /* 深绿色文字 */
+    background-color: #dcfce7;
+    color: #15803d;
     font-size: 12px;
     font-weight: 700;
     padding: 2px 6px;
     border-radius: 4px;
-    flex-shrink: 0; /* 分数不压缩 */
+    flex-shrink: 0;
 }
 
 .refContent {
@@ -54,10 +59,9 @@
     color: #4b5563;
     line-height: 1.6;
     margin: 0;
-    /* 限制内容显示两行，并以省略号结尾 */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    flex-grow: 1; /* 内容区占据剩余空间 */
+    flex-grow: 1;
 }

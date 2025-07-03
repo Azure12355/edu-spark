@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
 import styles from '../styles/ChunkPreviewModal.module.css';
@@ -23,6 +23,23 @@ const modalVariants = {
 };
 
 const ChunkPreviewModal: React.FC<ChunkPreviewModalProps> = ({ isOpen, onClose, chunk }) => {
+
+    // [!code focus start]
+    // 2. 使用 useMemo 对文本进行预处理，仅在 chunk.content 变化时执行
+    const cleanedContent = useMemo(() => {
+        if (!chunk?.content) return '';
+
+        // 步骤 a: 移除首尾多余的空白字符
+        let processedText = chunk.content.trim();
+
+        // 步骤 b: 将多个连续的换行符合并为一个或两个（保留段落感）
+        // 这里我们将3个及以上的换行符合并为2个，模拟段落间隔
+        processedText = processedText.replace(/\n{3,}/g, '\n\n');
+
+        return processedText;
+    }, [chunk?.content]);
+    // [!code focus end]
+
     if (!chunk) return null;
 
     return (
@@ -52,12 +69,9 @@ const ChunkPreviewModal: React.FC<ChunkPreviewModalProps> = ({ isOpen, onClose, 
                             </button>
                         </header>
                         <div className={styles.modalBody}>
-                            {/*
-                                【核心修改】: 使用 <pre> 标签包裹内容
-                                 对应的样式在 CSS 文件中设置
-                            */}
                             <pre className={styles.textContent}>
-                                {chunk.content}
+                                {/* 3. 在此处渲染处理后的干净文本 */}
+                                {cleanedContent}
                             </pre>
                         </div>
                         <footer className={styles.modalFooter}>
