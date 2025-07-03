@@ -35,41 +35,50 @@ export const streamAnswer = (request: AdvancedQARequest, processor: StreamProces
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder('utf-8');
-            let buffer = ''; // Buffer to handle incomplete SSE messages
+            let buffer = '';
 
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) {
-                    if (buffer.length > 0) console.warn("Stream ended with incomplete data in buffer:", buffer);
                     break;
                 }
 
-                // Append new data to buffer
                 buffer += decoder.decode(value, { stream: true });
 
-                // Process all complete messages in the buffer
+                // [!code focus start]
+                // --- 核心修复：更健壮的SSE消息解析循环 ---
                 let eolIndex;
                 while ((eolIndex = buffer.indexOf('\n\n')) >= 0) {
-                    const message = buffer.slice(0, eolIndex);
-                    buffer = buffer.slice(eolIndex + 2); // Move buffer past the message delimiter
+                    const messageBlock = buffer.slice(0, eolIndex);
+                    buffer = buffer.slice(eolIndex + 2); // 移除已处理的消息块
 
-                    if (message.startsWith('event:done')) {
-                        const dataLine = message.split('\n')[1];
-                        if (dataLine?.startsWith('data:')) {
-                            const jsonData = dataLine.substring(5);
+                    if (messageBlock.startsWith('event:done')) {
+                        const dataLine = messageBlock.split('\n').find(line => line.startsWith('data:'));
+                        if (dataLine) {
+                            const jsonData = dataLine.substring(5).trim();
                             try {
                                 const completeData: QACompleteResponse = JSON.parse(jsonData);
                                 processor.onComplete(completeData);
                             } catch (e) {
-                                console.error("Failed to parse 'done' event data:", e);
+                                console.error("解析 'done' 事件数据失败:", e, "原始数据:", jsonData);
                             }
                         }
-                    } else if (message.startsWith('data:')) {
-                        const data = message.substring(5);
-                        console.log('%c[qaService] Received data chunk:', 'color: #10B981; font-weight: bold;', data);
-                        processor.onData(data);
+                    } else if (messageBlock.startsWith('data:')) {
+                        // 提取所有 data: 行并拼接
+                        const content = messageBlock
+                            .split('\n')
+                            .filter(line => line.startsWith('data:'))
+                            .map(line => line.substring(5).trim())
+                            .join('\n');
+
+                        // 后端返回的是纯文本，所以直接使用
+                        if (content) {
+                            processor.onData(content);
+                        }
                     }
                 }
+                // --- 核心修复结束 ---
+                // [!code focus end]
             }
         } catch (error) {
             if ((error as Error).name !== 'AbortError') {
