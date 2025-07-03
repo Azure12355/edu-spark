@@ -1,0 +1,63 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/ReferenceCard.module.css */
+
+.referenceCard {
+    background-color: var(--teacher-white);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    display: flex; /* 使用 Flex 布局 */
+    flex-direction: column; /* 垂直排列 */
+    gap: 8px; /* 内部元素间距 */
+}
+
+.referenceCard:hover {
+    border-color: var(--teacher-primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+.refHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    flex-shrink: 0; /* 头部不压缩 */
+}
+
+.refHeader i {
+    color: #6b7280; /* 灰色图标 */
+}
+
+.refDocName {
+    flex-grow: 1; /* 占据剩余空间 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+}
+
+.refScore {
+    background-color: #dcfce7; /* 浅绿色背景 */
+    color: #15803d; /* 深绿色文字 */
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0; /* 分数不压缩 */
+}
+
+.refContent {
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0;
+    /* 限制内容显示两行，并以省略号结尾 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1; /* 内容区占据剩余空间 */
+}

@@ -1,0 +1,14 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/QAChatView.module.css */
+
+.chatViewContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* 之前用于覆盖通用组件的 .chatPanelOverride 样式可以被安全移除了 */

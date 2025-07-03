@@ -11,7 +11,7 @@ import QAParameters from './components/QAParameters';
 import QAChatView from './components/QAChatView';
 
 // --- 样式 ---
-import styles from './styles/QATestTab.module.css';
+import styles from './QATestTab.module.css';
 
 /**
  * @interface QATestTabProps

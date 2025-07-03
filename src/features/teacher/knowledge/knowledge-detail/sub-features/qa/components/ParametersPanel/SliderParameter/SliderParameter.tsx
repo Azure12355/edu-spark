@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
-import styles from '../../styles/SliderParameter.module.css';
+import styles from './SliderParameter.module.css';
 
 /**
  * @interface SliderParameterProps

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import styles from '../../styles/ModelSelector.module.css';
+import styles from './ModelSelector.module.css';
 
 // In a real app, this would be imported from a shared location.
 interface AvailableModel {

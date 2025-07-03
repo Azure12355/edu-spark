@@ -1,0 +1,50 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/QAChatHeader.module.css */
+
+.chatHeader {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--teacher-border);
+    background-color: #f9fafb;
+}
+
+.headerInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.headerInfo i {
+    font-size: 20px;
+    color: var(--teacher-primary);
+}
+
+.headerInfo h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--teacher-text-primary);
+}
+
+.headerActions .actionButton {
+    background: none;
+    border: 1px solid var(--teacher-border);
+    color: var(--teacher-text-secondary);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+.headerActions .actionButton:hover {
+    color: var(--teacher-text-primary);
+    border-color: #d1d5db;
+    background-color: var(--teacher-bg-hover);
+}

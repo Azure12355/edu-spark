@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from '../../styles/ParameterCard.module.css';
+import styles from './ParameterCard.module.css';
 
 /**
  * @interface ParameterCardProps

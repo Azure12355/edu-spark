@@ -1,0 +1,16 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/QAChatFooter.module.css */
+
+.chatFooter {
+    flex-shrink: 0;
+    padding: 16px 24px;
+    border-top: 1px solid var(--teacher-border);
+    background-color: #f9fafb;
+}
+
+.footerDisclaimer {
+    font-size: 12px;
+    color: var(--teacher-text-tertiary);
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 0;
+}

@@ -1,0 +1,26 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/WelcomeMessage.module.css */
+
+.welcomeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%; /* 占满父容器（MessageList）的高度 */
+    color: var(--teacher-text-secondary);
+    padding-bottom: 5vh; /* 稍微向上偏移，视觉效果更佳 */
+}
+
+.welcomeTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 20px 0 12px;
+}
+
+.welcomeSubtitle {
+    font-size: 14px;
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.6;
+}

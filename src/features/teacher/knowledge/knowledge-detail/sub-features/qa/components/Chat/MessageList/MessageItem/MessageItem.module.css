@@ -1,0 +1,110 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/MessageItem.module.css */
+
+.messageItem {
+    display: flex;
+    gap: 16px;
+    max-width: 85%;
+    /* 使用 align-items: flex-start 确保头像和内容顶部对齐 */
+    align-items: flex-start;
+}
+
+.messageItem.user {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    /* 为头像添加细微的边框和阴影，提升质感 */
+    border: 2px solid var(--teacher-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.messageItem.user .avatar {
+    background-color: #f0fdf4; /* 浅绿色 */
+    color: #16a34a; /* 深绿色 */
+}
+
+.messageItem.assistant .avatar {
+    background-color: #eef2ff; /* 浅紫色 */
+    color: var(--teacher-primary);
+}
+
+.messageContent {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.messageBubble {
+    padding: 12px 20px;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+.messageItem.user .messageBubble {
+    background: linear-gradient(135deg, var(--teacher-primary) 0%, #4f46e5 100%);
+    color: white;
+}
+
+.messageItem.assistant .messageBubble {
+    background-color: #f3f4f6; /* 更柔和的灰色 */
+    color: var(--teacher-text-primary);
+    border: 1px solid #e5e7eb;
+}
+
+/* 闪烁光标，用于模拟打字效果 */
+.blinkingCursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.2em;
+    background-color: var(--teacher-text-primary);
+    border-radius: 1px;
+    animation: blink 1s step-end infinite;
+    vertical-align: bottom;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    from, to { background-color: transparent; }
+    50% { background-color: var(--teacher-text-primary); }
+}
+
+/* 思考过程面板 */
+.thinkingPanel {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: rgba(243, 244, 246, 0.5);
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.thinkingTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teacher-text-secondary);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.thinkingTitle i {
+    color: #9ca3af;
+}
+
+.thinkingContent {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 12px;
+    color: #4b5563;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+}

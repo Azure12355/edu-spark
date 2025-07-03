@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react';
 import type { RetrievalParams, GenerationParams } from '../types';
-import styles from '../styles/QAParameters.module.css';
+import styles from './QAParameters.module.css';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 import ParameterCard
-    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/parameters-part/ParameterCard";
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/ParametersPanel/ParameterCard/ParameterCard";
 import SliderParameter
-    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/parameters-part/SliderParameter";
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/ParametersPanel/SliderParameter/SliderParameter";
 import ModelSelector
-    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/parameters-part/ModelSelector";
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/ParametersPanel/ModelSelector/ModelSelector";
 import PromptEditor
-    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/parameters-part/PromptEditor";
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/ParametersPanel/PromptEditor/PromptEditor";
 
 // Props 和类型定义保持不变
 interface AvailableModel { id: string; name: string; }

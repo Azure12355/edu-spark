@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
-import styles from '../../styles/PromptEditor.module.css';
+import styles from './PromptEditor.module.css';
 
 interface PromptEditorProps {
     value: string;

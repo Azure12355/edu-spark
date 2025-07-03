@@ -1,0 +1,28 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/ReferencesContainer.module.css */
+
+.referencesContainer {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed #e5e7eb; /* 使用虚线与消息正文分隔 */
+}
+
+.referencesTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teacher-text-secondary);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.referencesTitle i {
+    color: #9ca3af;
+}
+
+.referencesGrid {
+    display: grid;
+    /* 响应式网格布局，每列最小宽度280px，最大1fr，自动填充 */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}

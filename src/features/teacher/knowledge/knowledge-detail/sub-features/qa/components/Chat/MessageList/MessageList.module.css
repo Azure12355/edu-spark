@@ -1,0 +1,30 @@
+/* src/features/teacher/knowledge/knowledge-detail/sub-features/qa/styles/MessageList.module.css */
+
+.scrollContainer {
+    flex-grow: 1; /* 占据父容器所有可用空间 */
+    overflow-y: auto; /* 内容溢出时出现滚动条 */
+    padding: 24px;
+    scrollbar-gutter: stable; /* 预留滚动条空间，防止布局跳动 */
+    display: flex; /* 让 WelcomeMessage 可以居中 */
+    flex-direction: column; /* 确保子元素垂直排列 */
+}
+
+/* 美化滚动条 */
+.scrollContainer::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollContainer::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.messageListWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    /* 让消息列表从底部开始向上增长，而不是从顶部向下 */
+    margin-top: auto;
+}
