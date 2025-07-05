@@ -1,0 +1,68 @@
+/* 编辑器卡片容器 */
+.editorCard {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 关键：让卡片填满父容器高度 */
+    min-height: 0; /* 关键：在 flex 布局中，允许子元素收缩 */
+}
+
+/* 标题 */
+.editorTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    flex-shrink: 0;
+    color: var(--teacher-text-primary);
+}
+
+/* 编辑器包裹器，用于控制边框和滚动 */
+.editorWrapper {
+    flex-grow: 1; /* 关键：让编辑器区域填满剩余空间 */
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+    overflow: hidden; /* 隐藏内部滚动条，让 bytemd 自己处理 */
+    display: flex; /* 让 bytemd 编辑器填满此容器 */
+}
+
+/* --- Bytemd 样式覆盖 --- */
+
+/* 使 Bytemd 编辑器填满其父容器 */
+.editorWrapper :global(.bytemd) {
+    height: 100%;
+    border: none;
+}
+
+/* 工具栏样式 */
+.editorWrapper :global(.bytemd-toolbar) {
+    background-color: #f9fafb;
+    border-bottom: 1px solid var(--teacher-border-color);
+    padding: 8px 12px;
+}
+
+/* 工具栏激活标签的下划线颜色 */
+.editorWrapper :global(.bytemd-toolbar-tab-active) {
+    border-bottom-color: var(--teacher-primary);
+}
+
+/* 状态栏样式 */
+.editorWrapper :global(.bytemd-status) {
+    border-top: 1px solid var(--teacher-border-color);
+    background-color: #f9fafb;
+    font-size: 13px;
+    color: var(--teacher-text-secondary);
+}
+
+/* 编辑器和预览区域的背景色 */
+.editorWrapper :global(.CodeMirror),
+.editorWrapper :global(.bytemd-preview) {
+    background-color: var(--teacher-white);
+}
+
+/* 预览区域的内边距 */
+.editorWrapper :global(.markdown-body) {
+    padding: 16px 24px;
+}

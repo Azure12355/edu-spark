@@ -1,0 +1,77 @@
+.metadataCard {
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 24px;
+}
+
+.configGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.segmentedControl {
+    display: flex;
+    background-color: var(--teacher-bg-hover);
+    padding: 4px;
+    border-radius: 8px;
+}
+.segmentedControl button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s ease;
+}
+.segmentedControl button.active {
+    background-color: var(--teacher-white);
+    color: var(--teacher-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tagInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--teacher-bg-hover);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 16px;
+    transition: all 0.2s ease;
+}
+.tagInputWrapper:focus-within {
+    background-color: var(--teacher-white);
+    border-color: var(--teacher-primary);
+    box-shadow: 0 0 0 3px var(--teacher-primary-light);
+}
+.tagInputWrapper i {
+    color: var(--teacher-text-tertiary);
+}
+.tagInputWrapper input {
+    flex-grow: 1;
+    height: 42px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+}
