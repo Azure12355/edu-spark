@@ -1,51 +1,66 @@
-// src/components/teacher/course-management/introduction/LearningTimeline/LearningTimeline.tsx
 "use client";
-import React, { useRef } from 'react'; // 导入 useRef
+
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import styles from './LearningTimeline.module.css';
+// [!code focus start]
+// 1. 从我们定义的领域类型中导入 TimelineItem
+import { TimelineItem as TimelineItemData } from '../../types';
+// [!code focus end]
 
-export interface TimelineItemData {
-    time: string;
-    title: string;
-    description: string;
-    icon: string;
-}
-
+// 2. 更新组件的 Props 接口
 interface LearningTimelineProps {
-    items: TimelineItemData[];
+    // items 是一个可选的 TimelineItemData 数组
+    items?: TimelineItemData[];
 }
+
+// 3. 新增一个优雅的空状态组件
+const EmptyState = () => (
+    <div className={styles.emptyState}>
+        <div className={styles.emptyIcon}>
+            <i className="fas fa-route"></i>
+        </div>
+        <p>暂未规划学习路线图</p>
+        <span>请在课程设置中添加时间线节点</span>
+    </div>
+);
 
 const LearningTimeline: React.FC<LearningTimelineProps> = ({ items }) => {
-    // 创建一个 ref 引用，用于 Framer Motion 的 viewport
     const timelineRef = useRef(null);
+
+    // 4. 检查数据是否存在且不为空
+    const hasItems = items && items.length > 0;
 
     return (
         <div className={styles.card}>
             <h2 className={styles.sectionTitle}>学习路线图</h2>
 
-            {/* 核心修改：将 ref 传递给滚动容器 */}
-            <div className={styles.timelineContainer} ref={timelineRef}>
-                {items.map((item, index) => (
-                    <motion.div
-                        key={index}
-                        className={styles.timelineItem}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        // 让动画相对于滚动容器触发，而不是整个页面
-                        viewport={{ root: timelineRef, once: true, amount: 0.3 }}
-                        transition={{ duration: 0.5, delay: index * 0.05 }}
-                    >
-                        <div className={styles.timelineIcon}>
-                            <i className={item.icon}></i>
-                        </div>
-                        <div className={styles.timelineContent}>
-                            <span className={styles.time}>{item.time}</span>
-                            <h4 className={styles.title}>{item.title}</h4>
-                            <p className={styles.description}>{item.description}</p>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
+            {/* 5. 根据数据是否存在进行条件渲染 */}
+            {hasItems ? (
+                <div className={styles.timelineContainer} ref={timelineRef}>
+                    {items.map((item, index) => (
+                        <motion.div
+                            key={index} // 在动态列表中，使用 index 作为 key 是可接受的，如果 item 有 id 则更好
+                            className={styles.timelineItem}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ root: timelineRef, once: true, amount: 0.3 }}
+                            transition={{ duration: 0.5, delay: index * 0.05 }}
+                        >
+                            <div className={styles.timelineIcon}>
+                                <i className={item.icon || 'fas fa-flag'}></i>
+                            </div>
+                            <div className={styles.timelineContent}>
+                                <span className={styles.time}>{item.week}</span>
+                                <h4 className={styles.title}>{item.title}</h4>
+                                <p className={styles.description}>{item.description}</p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+            ) : (
+                <EmptyState />
+            )}
         </div>
     );
 };

@@ -1,28 +1,25 @@
-// src/components/teacher/course-management/introduction/ResourceCarousel/ResourceCarousel.tsx
 "use client";
-import React, { useState } from 'react';
+
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ResourceCarousel.module.css';
+// [!code focus start]
+// 1. 从我们定义的领域类型中导入 BookItem
+import { BookItem } from '../../types';
+// [!code focus end]
 
-// 1. 扩展数据结构，为每本书添加主题色
-export interface BookResource {
-    title: string;
-    author: string;
-    coverUrl: string;
-    themeColor: string; // e.g., 'rgba(79, 70, 229, 0.2)'
-}
-
+// 2. 更新组件的 Props 接口
 interface ResourceCarouselProps {
-    books: BookResource[];
+    books?: BookItem[];
 }
 
-// 2. 定义动画变体
+// 动画变体 (保持不变)
 const variants = {
     enter: (direction: number) => ({
-        x: direction > 0 ? 30 : -30,
+        x: direction > 0 ? 50 : -50,
         opacity: 0,
-        scale: 0.95
+        scale: 0.9
     }),
     center: {
         zIndex: 1,
@@ -32,27 +29,54 @@ const variants = {
     },
     exit: (direction: number) => ({
         zIndex: 0,
-        x: direction < 0 ? 30 : -30,
+        x: direction < 0 ? 50 : -50,
         opacity: 0,
-        scale: 0.95
+        scale: 0.9
     })
 };
 
+// 3. 新增一个优雅的空状态组件
+const EmptyState = () => (
+    <div className={styles.emptyState}>
+        <div className={styles.emptyIcon}>
+            <i className="fas fa-book-dead"></i>
+        </div>
+        <p>暂无推荐书籍</p>
+    </div>
+);
+
+
 const ResourceCarousel: React.FC<ResourceCarouselProps> = ({ books }) => {
+    // 4. 检查数据是否存在且不为空
+    const hasBooks = books && books.length > 0;
+
     const [[page, direction], setPage] = useState([0, 0]);
+
+    // 5. 【核心修复】: 仅在有书籍数据时才进行计算
+    const bookIndex = hasBooks ? ((page % books.length) + books.length) % books.length : 0;
+
+    // 6. 使用 useMemo 缓存当前的书籍和背景辉光色，避免不必要的重计算
+    const currentBook = useMemo(() => hasBooks ? books[bookIndex] : null, [hasBooks, books, bookIndex]);
+    const glowColor = useMemo(() => currentBook?.themeColor || 'rgba(100, 116, 139, 0.2)', [currentBook]);
 
     const paginate = (newDirection: number) => {
         setPage([page + newDirection, newDirection]);
     };
 
-    // 3. 计算正确的书籍索引，处理循环
-    const bookIndex = ((page % books.length) + books.length) % books.length;
+    // 如果没有书籍数据，直接渲染空状态
+    if (!hasBooks) {
+        return (
+            <div className={styles.carouselContainer}>
+                <h2 className={styles.sectionTitle}>推荐书籍</h2>
+                <EmptyState />
+            </div>
+        );
+    }
 
     return (
         <div
             className={styles.carouselContainer}
-            // 4. 动态设置背景渐变色
-            style={{ '--bg-glow-color': books[bookIndex].themeColor } as React.CSSProperties}
+            style={{ '--bg-glow-color': glowColor } as React.CSSProperties}
         >
             <h2 className={styles.sectionTitle}>推荐书籍</h2>
 
@@ -72,23 +96,26 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({ books }) => {
                         }}
                     >
                         <div className={styles.bookCover}>
-                            <Image src={books[bookIndex].coverUrl} alt={books[bookIndex].title} layout="fill" objectFit="cover" priority/>
+                            <Image src={currentBook!.coverUrl} alt={currentBook!.title} layout="fill" objectFit="cover" priority/>
                         </div>
                     </motion.div>
                 </AnimatePresence>
-
-                {/* 5. 装饰性的背景书籍封面 */}
-                <div className={`${styles.backgroundCover} ${styles.bgCoverLeft}`}>
-                    <Image src={books[((bookIndex - 1 + books.length) % books.length)].coverUrl} alt="" layout="fill" objectFit="cover" />
-                </div>
-                <div className={`${styles.backgroundCover} ${styles.bgCoverRight}`}>
-                    <Image src={books[(bookIndex + 1) % books.length].coverUrl} alt="" layout="fill" objectFit="cover" />
-                </div>
             </div>
 
             <div className={styles.bookInfo}>
-                <h5 className={styles.bookTitle}>{books[bookIndex].title}</h5>
-                <p className={styles.bookAuthor}>{books[bookIndex].author}</p>
+                <AnimatePresence mode="wait">
+                    <motion.h5
+                        key={currentBook!.title}
+                        className={styles.bookTitle}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {currentBook!.title}
+                    </motion.h5>
+                </AnimatePresence>
+                <p className={styles.bookAuthor}>{currentBook!.author}</p>
             </div>
 
             <div className={styles.controls}>

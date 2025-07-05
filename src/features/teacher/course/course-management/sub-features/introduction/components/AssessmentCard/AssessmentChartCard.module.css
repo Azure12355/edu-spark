@@ -1,4 +1,3 @@
-/* src/components/teacher/course-management/introduction/AssessmentChartCard/AssessmentChartCard.module.css */
 .card {
     background-color: var(--teacher-bg-card);
     border-radius: 16px;
@@ -13,11 +12,11 @@
 .sectionTitle {
     font-size: 20px;
     font-weight: 600;
-    margin: 0 0 16px 0; /* 减小标题与图表的间距 */
+    margin: 0 0 16px 0;
     color: var(--teacher-text-primary);
     position: relative;
     padding-left: 14px;
-    flex-shrink: 0; /* 确保标题高度固定 */
+    flex-shrink: 0;
 }
 
 .sectionTitle::before {
@@ -33,7 +32,43 @@
 }
 
 .chartContainer {
-    flex-grow: 1; /* 让图表容器填满所有剩余空间 */
+    flex-grow: 1;
     width: 100%;
-    min-height: 250px; /* 保证图表在小容器中也有最小高度 */
+    min-height: 250px;
 }
+
+/* [!code start] */
+/* 新增的空状态样式 */
+.emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--teacher-text-tertiary);
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 20px;
+    background-color: #f9fafb;
+}
+
+.emptyIcon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.emptyState p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    margin: 0 0 4px;
+}
+
+.emptyState span {
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+/* [!code end] */

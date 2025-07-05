@@ -1,83 +1,67 @@
-/* src/app/teacher/(dashboard)/courses/[id]/introduction/CourseIntroduction.module.css */
+/* 确保这些样式都在您的文件中 */
+
 .pageContainer {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    padding: 24px;
+    padding: 16px;
 }
 
-.card {
-    background-color: var(--teacher-bg-card);
-    border-radius: 16px;
-    border: 1px solid var(--teacher-border-color);
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    transition: all 0.3s ease;
-}
-
-/* --- 核心优化：最终的网格布局 --- */
 .mainGrid {
     display: grid;
     gap: 24px;
-    /* 1. 调整列宽比例，定义一个三列布局 */
     grid-template-columns: 1fr 0.8fr 0.8fr;
-    grid-auto-rows: min-content; /* 让行高由内容决定 */
-
-    /* 2. 最核心的布局定义，注意 'tools' 横跨了两列 */
+    grid-auto-rows: auto;
     grid-template-areas:
         "objectives resources timeline"
         "methods    methods  timeline"
         "assessment tools     tools";
 }
 
-/* 3. 为每个区域的包裹容器分配 grid-area */
-.objectivesCardWrapper {
-    grid-area: objectives;
-}
-.timelineCardWrapper {
-    grid-area: timeline;
-    /* 让时间线卡片填满其分配的区域 */
-    &  { height: 100%; }
-}
-.methodsCardWrapper {
-    grid-area: methods;
-}
-.resourcesCardWrapper {
-    grid-area: resources;
-    /* 让资源卡片填满其分配的区域 */
-    & > div { height: 100%; }
-}
-.assessmentCardWrapper {
-    grid-area: assessment;
-}
+.objectivesCardWrapper,
+.timelineCardWrapper,
+.methodsCardWrapper,
+.resourcesCardWrapper,
+.assessmentCardWrapper,
 .toolsCardWrapper {
-    grid-area: tools;
-    /* 让工具卡片填满其分配的区域 */
-    & > div { height: 100%; }
+    /* 如果这些 wrapper 内部还有其他元素，需要让它们也成为flex容器 */
+    display: flex;
 }
 
-/* 确保所有卡片组件的根元素都能撑满其包裹容器 */
+.objectivesCardWrapper { grid-area: objectives; }
+.timelineCardWrapper { grid-area: timeline; }
+.methodsCardWrapper { grid-area: methods; }
+.resourcesCardWrapper { grid-area: resources; }
+.assessmentCardWrapper { grid-area: assessment; }
+.toolsCardWrapper { grid-area: tools; }
+
 .objectivesCardWrapper > div,
 
-.methodsCardWrapper > div,
 .resourcesCardWrapper > div,
 .assessmentCardWrapper > div,
 .toolsCardWrapper > div {
-    height: 100%;
+    height: 600px;
+    width: 100%;
+}
+
+.objectivesCardWrapper  {
+    display: flex; /* 1. 让包裹器自身成为 Flex 容器 */
+    flex-direction: column; /* 2. 子元素垂直排列 */
+}
+
+.methodsCardWrapper > div {
+    height: 400px;
     width: 100%;
 }
 
 .timelineCardWrapper > div {
-    height: 850px;
+    height: 1024px; /* 让时间线卡片自适应高度 */
+    min-height: 600px; /* 给一个最小高度以保证美观 */
 }
 
-
-/* --- 响应式布局调整 --- */
 @media (max-width: 1200px) {
     .mainGrid {
-        /* 在中等屏幕上变为两列 */
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
         grid-template-areas:
           "timeline   timeline"
           "objectives objectives"
@@ -87,7 +71,6 @@
 }
 
 @media (max-width: 900px) {
-    /* 在小屏幕上变为单列布局 */
     .mainGrid {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -98,7 +81,60 @@
           "assessment"
           "tools";
     }
-    .timelineCardWrapper > div {
-        height: auto;
-    }
+    .timelineCardWrapper > div { min-height: auto; }
 }
+
+.loadingContainer, .errorContainer {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid var(--teacher-primary-light);
+    border-top-color: var(--teacher-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loadingContainer p {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.errorContainer h3 {
+    font-size: 22px;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.errorContainer p {
+    font-size: 16px;
+    color: var(--teacher-text-secondary);
+}
+
+.errorContainer button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background-color: var(--teacher-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.errorContainer button:hover { opacity: 0.9; }

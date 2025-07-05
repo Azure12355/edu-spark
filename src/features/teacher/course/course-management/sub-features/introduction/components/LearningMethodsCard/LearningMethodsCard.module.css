@@ -1,11 +1,10 @@
-/* src/components/teacher/course-management/introduction/LearningMethodsCard/LearningMethodsCard.module.css */
 .card {
     background-color: var(--teacher-bg-card);
     border-radius: 16px;
     border: 1px solid var(--teacher-border-color);
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    height: 100%; /* 确保卡片填满网格区域 */
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -13,7 +12,7 @@
 .sectionTitle {
     font-size: 20px;
     font-weight: 600;
-    margin: 0 0 16px 0; /* 减小标题与下方内容的间距 */
+    margin: 0 0 16px 0;
     color: var(--teacher-text-primary);
     position: relative;
     padding-left: 14px;
@@ -32,10 +31,11 @@
 }
 
 .methodsIntro {
-    font-size: 15px; /* 稍微增大字号 */
+    font-size: 15px;
     color: var(--teacher-text-secondary);
     line-height: 1.7;
-    margin: 0 0 24px 0; /* 增大与下方列表的间距 */
+    margin: 0 0 24px 0;
+    flex-shrink: 0; /* 确保引言部分高度固定 */
 }
 
 .methodsList {
@@ -44,12 +44,15 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 18px; /* 增大列表项间距 */
+    gap: 18px;
+    /* [!code ++] 让列表占据剩余空间并可滚动 */
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 .methodItem {
     display: flex;
-    align-items: center; /* 垂直居中对齐 */
+    align-items: center;
     gap: 16px;
     font-size: 15px;
     color: var(--teacher-text-primary);
@@ -60,8 +63,8 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: var(--teacher-text-primary); /* 深色背景 */
-    color: white; /* 白色对勾 */
+    background-color: var(--teacher-text-primary);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,3 +77,34 @@
 .methodItem:hover .checkIcon {
     transform: scale(1.1);
 }
+
+/* [!code start] */
+/* 新增：空状态样式 */
+.emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #f9fafb;
+    margin-top: 16px;
+}
+
+.emptyIcon {
+    font-size: 32px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.6;
+    margin-bottom: 12px;
+}
+
+.emptyState p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    margin: 0;
+}
+/* [!code end] */

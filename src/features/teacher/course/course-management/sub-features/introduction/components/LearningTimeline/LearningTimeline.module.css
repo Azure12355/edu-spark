@@ -1,11 +1,9 @@
-/* src/components/teacher/course-management/introduction/LearningTimeline/LearningTimeline.module.css */
 .card {
     background-color: var(--teacher-bg-card);
     border-radius: 16px;
     border: 1px solid var(--teacher-border-color);
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    /* 核心修改 1: 让卡片成为 flex 容器，并撑满其在网格布局中的分配高度 */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -18,7 +16,7 @@
     color: var(--teacher-text-primary);
     position: relative;
     padding-left: 14px;
-    flex-shrink: 0; /* 固定标题高度，不参与 flex-grow */
+    flex-shrink: 0;
 }
 
 .sectionTitle::before {
@@ -33,29 +31,17 @@
     border-radius: 2px;
 }
 
-/* 核心修改 2: 重构时间线容器的样式 */
 .timelineContainer {
-    flex-grow: 1; /* 让此容器占据卡片内所有剩余的垂直空间 */
-    overflow-y: auto; /* 当内容溢出时，显示垂直滚动条 */
-    min-height: 0; /* 关键修复！防止 flex 子项的内容撑开父容器 */
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
     position: relative;
-    padding: 20px 10px 20px 20px; /* 调整内边距，给滚动条和左侧图标留出空间 */
-
-    /* 美化滚动条 (适用于 WebKit 内核浏览器, 如 Chrome, Safari) */
-    &::-webkit-scrollbar {
-        width: 6px;
-    }
-    &::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: #e5e7eb;
-        border-radius: 3px;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background-color: #d1d5db;
-    }
+    padding: 20px 10px 20px 20px;
 }
+.timelineContainer::-webkit-scrollbar { width: 6px; }
+.timelineContainer::-webkit-scrollbar-track { background: transparent; }
+.timelineContainer::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 3px; }
+.timelineContainer::-webkit-scrollbar-thumb:hover { background-color: #d1d5db; }
 
 /* 垂直中心线 */
 .timelineContainer::before {
@@ -74,20 +60,17 @@
     position: relative;
     margin-bottom: 30px;
 }
-
-.timelineItem:last-child {
-    margin-bottom: 0;
-}
+.timelineItem:last-child { margin-bottom: 0; }
 
 .timelineIcon {
     position: absolute;
-    left: 20px; /* 与左侧 padding 保持一致 */
+    left: 20px;
     top: 0;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     background-color: var(--teacher-primary-light);
-    border: 3px solid var(--teacher-bg-card);
+    border: 3px solid var(--teacher-white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,10 +79,7 @@
     z-index: 1;
 }
 
-.timelineContent {
-    padding-left: 85px; /* (20 padding + 50 icon + 15 gap) */
-    width: 100%;
-}
+.timelineContent { padding-left: 85px; width: 100%; }
 
 .time {
     display: inline-block;
@@ -112,15 +92,40 @@
     margin-bottom: 12px;
 }
 
-.title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
+.title { font-size: 18px; font-weight: 600; margin: 0 0 8px 0; }
+.description { font-size: 14px; color: var(--teacher-text-secondary); line-height: 1.7; margin: 0; }
+
+/* [!code start] */
+/* 新增：空状态样式 */
+.emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #f9fafb;
 }
 
-.description {
-    font-size: 14px;
-    color: var(--teacher-text-secondary);
-    line-height: 1.7;
-    margin: 0;
+.emptyIcon {
+    font-size: 40px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.6;
+    margin-bottom: 16px;
 }
+
+.emptyState p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    margin: 0 0 4px;
+}
+
+.emptyState span {
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+/* [!code end] */

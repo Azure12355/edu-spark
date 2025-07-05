@@ -1,4 +1,3 @@
-/* src/components/teacher/course-management/introduction/ToolsAndResourcesCard/ToolsAndResourcesCard.module.css */
 .card {
     background-color: var(--teacher-bg-card);
     border-radius: 16px;
@@ -8,7 +7,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 让两个部分上下分布 */
+    justify-content: space-between;
 }
 
 .sectionTitle {
@@ -51,24 +50,14 @@
     transition: all 0.2s ease-in-out;
     cursor: default;
 }
-
 .toolItem:hover {
     transform: scale(1.05);
     border-color: var(--teacher-primary);
     background-color: var(--teacher-primary-light);
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
-
-.toolItem i {
-    font-size: 28px;
-    line-height: 1;
-}
-
-.toolItem span {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--teacher-text-primary);
-}
+.toolItem i { font-size: 28px; line-height: 1; }
+.toolItem span { font-size: 14px; font-weight: 500; color: var(--teacher-text-primary); }
 
 .resourcesSection {
     margin-top: 24px;
@@ -90,15 +79,23 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
 }
-
 .onlineResourceItem:hover {
     color: #1e5fe8;
-    text-decoration: underline;
+    transform: translateX(3px);
 }
+.onlineResourceItem i { font-size: 13px; opacity: 0.8; }
 
-.onlineResourceItem i {
-    font-size: 13px;
-    opacity: 0.8;
+/* [!code start] */
+/* 新增：通用的空状态文本样式 */
+.emptyText {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    text-align: center;
+    padding: 20px 0;
+    margin: 0;
+    background-color: #f9fafb;
+    border-radius: 8px;
 }
+/* [!code end] */

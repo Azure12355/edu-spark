@@ -1,18 +1,15 @@
-/* src/components/teacher/course-management/introduction/ResourceCarousel/ResourceCarousel.module.css */
-
 .carouselContainer {
     position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0; /* 移除内边距，因为卡片内部自己管理 */
+    padding: 0;
     background-color: var(--teacher-bg-card);
-    overflow: hidden; /* 隐藏溢出的辉光 */
-    border-radius: 16px; /* 与其他卡片统一 */
+    overflow: hidden;
+    border-radius: 16px;
 }
 
-/* 动态背景辉光效果 */
 .carouselContainer::before {
     content: '';
     position: absolute;
@@ -38,18 +35,19 @@
 
 .carouselWrapper {
     position: relative;
-    height: 250px; /* 调整展示区域高度 */
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 16px 0;
     z-index: 1;
+    flex-grow: 1; /* 让轮播区域在空状态时能被撑开 */
 }
 
 .slide {
     position: absolute;
-    width: 150px; /* 定义书籍宽度 */
-    height: 220px; /* 定义书籍高度 */
+    width: 150px;
+    height: 220px;
 }
 
 .bookCover {
@@ -63,30 +61,11 @@
     border: 2px solid white;
 }
 
-/* 左右两侧的背景书籍封面 */
-.backgroundCover {
-    position: absolute;
-    width: 130px;
-    height: 190px;
-    border-radius: 8px;
-    overflow: hidden;
-    filter: blur(4px) grayscale(0.5);
-    opacity: 0.3;
-    transition: all 0.3s ease;
-}
-.bgCoverLeft {
-    left: 15%;
-    transform: perspective(1000px) rotateY(25deg);
-}
-.bgCoverRight {
-    right: 15%;
-    transform: perspective(1000px) rotateY(-25deg);
-}
-
 .bookInfo {
     text-align: center;
     padding: 0 24px;
     z-index: 2;
+    min-height: 48px; /* 为标题和作者预留固定高度，防止抖动 */
 }
 
 .bookTitle {
@@ -102,7 +81,6 @@
     margin: 0;
 }
 
-/* 将控制器整合进卡片底部 */
 .controls {
     display: flex;
     justify-content: space-between;
@@ -128,7 +106,6 @@
     align-items: center;
     justify-content: center;
 }
-
 .navButton:hover {
     background-color: var(--teacher-primary);
     color: white;
@@ -137,27 +114,37 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.dotsContainer {
+.dotsContainer { display: flex; gap: 10px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background-color: #d1d5db; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+.dot:hover { background-color: #a5b4fc; }
+.dot.active { background-color: var(--teacher-bg-card); border-color: var(--teacher-primary); transform: scale(1.2); }
+
+/* [!code start] */
+/* 新增：空状态样式 */
+.emptyState {
+    width: 100%;
+    height: 100%;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--teacher-text-tertiary);
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 2;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #d1d5db;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+.emptyIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.3;
 }
 
-.dot:hover {
-    background-color: #a5b4fc;
+.emptyState p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    margin: 0;
 }
-
-.dot.active {
-    background-color: var(--teacher-bg-card);
-    border-color: var(--teacher-primary);
-    transform: scale(1.2);
-}
+/* [!code end] */

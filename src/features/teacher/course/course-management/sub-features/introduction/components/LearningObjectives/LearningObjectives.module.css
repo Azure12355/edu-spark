@@ -1,11 +1,12 @@
-/* src/components/teacher/course-management/introduction/LearningObjectives/LearningObjectives.module.css */
 .card {
-    /* 与页面中其他卡片样式保持一致 */
     background-color: var(--teacher-bg-card);
     border-radius: 16px;
     border: 1px solid var(--teacher-border-color);
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .sectionTitle {
@@ -15,6 +16,7 @@
     color: var(--teacher-text-primary);
     position: relative;
     padding-left: 14px;
+    flex-shrink: 0; /* 固定标题高度，不参与 flex-grow */
 }
 
 .sectionTitle::before {
@@ -29,11 +31,33 @@
     border-radius: 2px;
 }
 
+/* [!code focus start] */
+/* --- 核心修复 --- */
 .objectivesList {
     display: flex;
     flex-direction: column;
-    gap: 24px; /* 增大项目间距 */
+    gap: 16px; /* 减小一点间距，容纳更多内容 */
+    flex-grow: 1; /* 让列表占据所有剩余的垂直空间 */
+    overflow-y: auto; /* 当内容溢出时，让这个列表自己滚动 */
+    min-height: 0; /* 关键！在 flex 容器中，这是让 overflow 生效的必要条件 */
+
+    /* 美化滚动条 */
+    padding-right: 12px;
+    margin-right: -12px;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
 }
+.objectivesList::-webkit-scrollbar {
+    width: 6px;
+}
+.objectivesList::-webkit-scrollbar-track {
+    background: transparent;
+}
+.objectivesList::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
+}
+/* [!code focus end] */
 
 .objectiveItem {
     display: flex;
@@ -41,21 +65,19 @@
     gap: 20px;
     padding: 16px;
     border-radius: 12px;
-    border: 1px solid transparent; /* 预留边框位置 */
+    border: 1px solid transparent;
     position: relative;
     overflow: hidden;
     cursor: default;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
 }
 
-/* 悬浮时的背景和轻微上浮效果 */
 .objectiveItem:hover {
     background-color: #f9fafc;
     transform: translateY(-3px);
     border-color: var(--teacher-border-color);
 }
 
-/* 鼠标悬浮时的辉光效果 */
 .objectiveItem::before {
     content: '';
     position: absolute;
@@ -107,5 +129,33 @@
     font-size: 14px;
     color: var(--teacher-text-secondary);
     line-height: 1.7;
+    margin: 0;
+}
+
+/* 空状态样式 (保持不变) */
+.emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #f9fafb;
+}
+
+.emptyIcon {
+    font-size: 32px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.6;
+    margin-bottom: 12px;
+}
+
+.emptyState p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
     margin: 0;
 }
