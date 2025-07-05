@@ -1,0 +1,116 @@
+/* 主容器：与之前的 skeleton 样式兼容 */
+.navigatorContainer {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 头部样式 */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+.headerIcon { font-size: 20px; color: var(--teacher-primary); }
+.headerTitle { font-size: 18px; font-weight: 600; margin: 0; }
+
+/* 树形视图容器 */
+.treeView {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 12px;
+}
+.treeView::-webkit-scrollbar { width: 5px; }
+.treeView::-webkit-scrollbar-track { background: transparent; }
+.treeView::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+/* 章节节点样式 */
+.chapterNode { margin-bottom: 12px; }
+.chapterTitle {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px; border-radius: 8px;
+    font-weight: 600; font-size: 15px; color: var(--teacher-text-primary);
+    cursor: pointer; transition: background-color 0.2s;
+}
+.chapterTitle:hover { background-color: var(--teacher-bg-hover); }
+.chapterIcon { color: #6b7280; width: 18px; text-align: center; }
+.chevron { margin-left: auto; font-size: 13px; color: #9ca3af; transition: transform 0.2s; }
+.expanded { transform: rotate(90deg); }
+
+/* 节、点列表样式 */
+.sectionList, .pointList { list-style: none; padding-left: 18px; margin-top: 8px; }
+.sectionList {
+    position: relative;
+    border-left: 2px solid #e5e7eb;
+}
+.sectionTitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    padding: 8px 0;
+    position: relative;
+}
+/* 连接线 */
+.sectionTitle::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 50%;
+    width: 25px;
+    height: 2px;
+    background-color: #e5e7eb;
+}
+
+
+/* 知识点条目样式 - 核心交互区 */
+.pointList { padding-left: 20px; }
+.pointItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+.pointItem:hover {
+    background-color: var(--teacher-primary-light);
+    border-color: #a5b4fc;
+}
+.pointItem.active {
+    background-color: var(--teacher-primary);
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+.pointItem.active .pointText {
+    color: white;
+}
+.pointText {
+    font-size: 14px;
+    color: var(--teacher-text-primary);
+    transition: color 0.2s;
+}
+.questionCount {
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    padding: 2px 8px;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.pointItem.active .questionCount {
+    background-color: white;
+    color: var(--teacher-primary);
+}
