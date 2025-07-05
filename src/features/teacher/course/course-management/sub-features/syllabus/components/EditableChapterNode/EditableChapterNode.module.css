@@ -1,22 +1,95 @@
-/* src/components/teacher/course-management/syllabus/EditableChapterNode/EditableChapterNode.module.css */
 .chapterContainer {
     background-color: var(--teacher-bg-card);
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid var(--teacher-border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
+
 .chapterHeader {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 20px;
-    font-weight: 600;
+    align-items: flex-start; /* 顶部对齐，以适应多行描述 */
+    gap: 16px;
+    padding: 20px;
+    border-bottom: 1px solid var(--teacher-border-color);
 }
-.chapterTitle { font-size: 18px; }
-.dragHandle { cursor: grab; color: #d1d5db; }
-.dragHandle:hover { color: #9ca3af; }
-.itemActions { margin-left: auto; display: flex; gap: 8px; }
-.itemActions button { background: none; border: none; font-size: 14px; color: var(--teacher-text-tertiary); cursor: pointer; transition: color 0.2s; }
-.deleteButton:hover { color: #ef4444; }
-.itemActions button:hover { color: var(--teacher-primary); }
 
-.sectionList { list-style: none; padding: 0 0 16px; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.dragHandle {
+    cursor: grab;
+    color: #9ca3af;
+    padding: 12px 8px; /* 增大垂直点击区域 */
+    margin-top: 4px; /* 微调对齐 */
+    border-radius: 8px;
+    transition: color 0.2s;
+}
+.dragHandle:active {
+    cursor: grabbing;
+}
+
+.titleWrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* 标题和描述之间的间距 */
+}
+
+.chapterTitleInput {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--teacher-text-primary);
+}
+
+.chapterDescriptionInput {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+}
+
+.itemActions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    padding-top: 4px; /* 微调对齐 */
+}
+.itemActions button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s;
+}
+.deleteButton:hover {
+    color: #ef4444;
+    background-color: #fee2e2;
+}
+.itemActions button:hover {
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+}
+
+.sectionListWrapper {
+    padding: 16px;
+    background-color: #f9fafc; /* 为小节列表区域提供一个浅色背景，以示区分 */
+}
+
+.sectionList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reorderItem {
+    border-radius: 8px;
+    /* 拖拽时的阴影效果 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0);
+    transition: box-shadow 0.2s;
+}
+.reorderItem:has(:active) {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 10;
+}

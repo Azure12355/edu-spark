@@ -1,32 +1,40 @@
-// src/components/teacher/course-management/syllabus/SyllabusTree/SyllabusTree.tsx
 "use client";
+
 import React from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SyllabusChapter, SyllabusSection, KnowledgePoint, KnowledgePointType } from '@/shared/lib/data/syllabusData';
+// [!code focus start]
+// 1. 导入我们新的领域类型
+import { ChapterVO, SectionVO, KnowledgePoint } from '../../types';
+// [!code focus end]
 import styles from './SyllabusTree.module.css';
-import {useParams} from "next/navigation";
-import Link from "next/link";
 
 // --- Props 定义 ---
 interface SyllabusTreeProps {
-    chapters: SyllabusChapter[];
-    expandedItems: Set<string>;
-    toggleItem: (id: string) => void;
+    // 2. 更新 Props，使用 ChapterVO[]
+    chapters: ChapterVO[];
+    expandedItems: Set<string | number>; // ID 可能是数字
+    toggleItem: (id: string | number) => void;
 }
 
-// --- 子组件定义 ---
+// --- 子组件定义 (将接收真实数据) ---
 
 const PointNode: React.FC<{ point: KnowledgePoint }> = ({ point }) => {
-    const typeStyleMap: Record<KnowledgePointType, string> = {
+    // 3. 动态生成指向知识点详情页的链接
+    const params = useParams();
+    const courseId = params.id;
+    const typeStyleMap: Record<string, string> = {
         '核心': styles.typeCore,
         '重点': styles.typeImportant,
         '选学': styles.typeOptional,
     };
-    const params = useParams();
-    const courseId = params.id;
+
     return (
         <Link href={`/teacher/courses/${courseId}/syllabus/${point.id}`} className={styles.pointNode}>
-            <span className={`${styles.pointType} ${typeStyleMap[point.type]}`}>{point.type}</span>
+            <span className={`${styles.pointType} ${typeStyleMap[point.type] || styles.typeOptional}`}>
+                {point.type}
+            </span>
             <span className={styles.pointTitle}>{point.title}</span>
             <div className={styles.pointActions}>
                 <button title="查看详情"><i className="far fa-eye"></i></button>
@@ -34,11 +42,10 @@ const PointNode: React.FC<{ point: KnowledgePoint }> = ({ point }) => {
                 <button title="相关资源"><i className="fas fa-link"></i></button>
             </div>
         </Link>
-
     );
 };
 
-const SectionNode: React.FC<{ section: SyllabusSection; isExpanded: boolean; onToggle: () => void; }> = ({ section, isExpanded, onToggle }) => (
+const SectionNode: React.FC<{ section: SectionVO; isExpanded: boolean; onToggle: () => void; }> = ({ section, isExpanded, onToggle }) => (
     <div className={styles.sectionNode}>
         <div className={styles.sectionHeader} onClick={onToggle}>
             <i className={`fas fa-chevron-right ${styles.chevron} ${isExpanded ? styles.expanded : ''}`}></i>
@@ -59,7 +66,7 @@ const SectionNode: React.FC<{ section: SyllabusSection; isExpanded: boolean; onT
     </div>
 );
 
-const ChapterNode: React.FC<{ chapter: SyllabusChapter; isExpanded: boolean; onToggle: () => void; expandedItems: Set<string>; toggleItem: (id: string) => void; }> = ({ chapter, isExpanded, onToggle, expandedItems, toggleItem }) => (
+const ChapterNode: React.FC<{ chapter: ChapterVO; isExpanded: boolean; onToggle: () => void; expandedItems: Set<string | number>; toggleItem: (id: string | number) => void; }> = ({ chapter, isExpanded, onToggle, expandedItems, toggleItem }) => (
     <motion.div
         className={styles.chapterNode}
         initial={{ opacity: 0, y: 20 }}
@@ -67,7 +74,10 @@ const ChapterNode: React.FC<{ chapter: SyllabusChapter; isExpanded: boolean; onT
         transition={{ duration: 0.3 }}
     >
         <div className={styles.chapterHeader} onClick={onToggle}>
-            <div className={styles.chapterIcon}><i className={chapter.icon}></i></div>
+            <div className={styles.chapterIcon}>
+                {/* 暂时使用默认图标，未来可从 chapter.icon 获取 */}
+                <i className={"fas fa-book-open"}></i>
+            </div>
             <div className={styles.chapterInfo}>
                 <h3 className={styles.chapterTitle}>{chapter.title}</h3>
                 <p className={styles.chapterDesc}>{chapter.description}</p>
@@ -97,8 +107,26 @@ const ChapterNode: React.FC<{ chapter: SyllabusChapter; isExpanded: boolean; onT
     </motion.div>
 );
 
+// [!code focus start]
+// 4. 新增优雅的空状态组件
+const EmptyState = () => (
+    <div className={styles.emptyState}>
+        <div className={styles.emptyIcon}>
+            <i className="fas fa-sitemap"></i>
+        </div>
+        <h2>课程大纲为空</h2>
+        <p>这门课程还没有任何内容，请先在“大纲管理”中添加章节。</p>
+    </div>
+);
+// [!code focus end]
+
 // --- 主组件 ---
 const SyllabusTree: React.FC<SyllabusTreeProps> = ({ chapters, expandedItems, toggleItem }) => {
+    // 5. 处理数据为空的情况
+    if (!chapters || chapters.length === 0) {
+        return <EmptyState />;
+    }
+
     return (
         <div className={styles.treeContainer}>
             {chapters.map(chapter => (

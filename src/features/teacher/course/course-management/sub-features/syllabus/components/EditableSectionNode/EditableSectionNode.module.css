@@ -1,24 +1,87 @@
-/* src/components/teacher/course-management/syllabus/EditableSectionNode/EditableSectionNode.module.css */
 .sectionContainer {
+    /* 容器样式保持不变 */
     margin-left: 40px;
     border-left: 2px solid var(--teacher-primary-light);
     padding-left: 20px;
 }
+
 .sectionHeader {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
+    padding: 12px;
     background-color: #f9fafb;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 500;
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
 }
-.dragHandle { cursor: grab; color: #d1d5db; }
-.dragHandle:hover { color: #9ca3af; }
-.itemActions { margin-left: auto; display: flex; gap: 8px; }
-.itemActions button { background: none; border: none; font-size: 14px; color: var(--teacher-text-tertiary); cursor: pointer; transition: color 0.2s; }
-.deleteButton:hover { color: #ef4444; }
-.itemActions button:hover { color: var(--teacher-primary); }
 
-.pointList { list-style: none; padding: 0; margin: 0; }
+.dragHandle {
+    cursor: grab;
+    color: #d1d5db;
+    padding: 8px;
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s;
+}
+.dragHandle:hover {
+    color: #9ca3af;
+    background-color: #f3f4f6;
+}
+.dragHandle:active {
+    cursor: grabbing;
+}
+
+.sectionTitleInput {
+    font-size: 16px;
+    font-weight: 600; /* 加粗以突出 */
+    color: var(--teacher-text-primary);
+    /* 确保 EditableInput 组件能正确应用 className */
+}
+
+.itemActions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+.itemActions button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s;
+}
+.deleteButton:hover {
+    color: #ef4444;
+    background-color: #fee2e2;
+}
+.itemActions button:hover {
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+}
+
+.pointListWrapper {
+    padding: 12px 0 12px 20px; /* 为知识点列表添加一些内边距 */
+}
+
+.pointList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reorderItem {
+    border-radius: 8px;
+    /* 拖拽时的阴影效果 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0);
+    transition: box-shadow 0.2s;
+}
+.reorderItem:has(:active) {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: var(--teacher-bg-card);
+}

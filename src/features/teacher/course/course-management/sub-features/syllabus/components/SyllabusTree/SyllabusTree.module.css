@@ -140,3 +140,43 @@
     color: inherit; /* 继承父级颜色 */
 }
 /* ... (其余样式不变) ... */
+
+/* ... (保留所有已有样式) ... */
+
+/* [!code start] */
+/* 新增：空状态样式 */
+.emptyState {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--teacher-bg-card);
+    border: 2px dashed var(--teacher-border-color);
+    border-radius: 16px;
+    padding: 40px;
+}
+
+.emptyIcon {
+    font-size: 56px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.4;
+    margin-bottom: 24px;
+}
+
+.emptyState h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 0 0 8px;
+}
+
+.emptyState p {
+    font-size: 15px;
+    color: var(--teacher-text-secondary);
+    max-width: 350px;
+    line-height: 1.6;
+}
+/* [!code end] */

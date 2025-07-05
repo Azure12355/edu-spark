@@ -1,51 +1,81 @@
-// src/components/teacher/course-management/syllabus/EditablePointNode/EditablePointNode.tsx
 "use client";
+
 import React from 'react';
 import styles from './EditablePointNode.module.css';
-import { KnowledgePoint, KnowledgePointType } from '@/shared/lib/data/syllabusData';
+// [!code focus start]
+// 1. 导入我们新的领域类型
+import { KnowledgePoint } from '../../types';
+// [!code focus end]
 import EditableInput from '../common/EditableInput/EditableInput';
+import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 
+// 定义组件的 Props 接口
 interface EditablePointNodeProps {
     point: KnowledgePoint;
     onUpdate: (field: keyof KnowledgePoint, value: any) => void;
     onDelete: () => void;
 }
 
-const PointTypeSelector: React.FC<{ currentType: KnowledgePointType; onSelect: (newType: KnowledgePointType) => void; }> = ({ currentType, onSelect }) => {
-    const types: KnowledgePointType[] = ['核心', '重点', '选学'];
-    const typeStyleMap: Record<KnowledgePointType, string> = { '核心': styles.typeCore, '重点': styles.typeImportant, '选学': styles.typeOptional };
+// 2. 将类型选择器抽离为独立的子组件，代码更清晰
+const PointTypeSelector: React.FC<{
+    currentType: KnowledgePoint['type'];
+    onSelect: (newType: KnowledgePoint['type']) => void;
+}> = ({ currentType, onSelect }) => {
+    const types: KnowledgePoint['type'][] = ['核心', '重点', '选学'];
+    const typeStyleMap: Record<KnowledgePoint['type'], string> = {
+        '核心': styles.typeCore,
+        '重点': styles.typeImportant,
+        '选学': styles.typeOptional
+    };
+
     return (
         <div className={styles.typeSelector}>
             {types.map(type => (
-                <button
-                    key={type}
-                    className={`${styles.typeTag} ${typeStyleMap[type]} ${currentType === type ? styles.activeType : ''}`}
-                    onClick={() => onSelect(type)}
-                >
-                    {type}
-                </button>
+                <Tooltip key={type} content={`设为"${type}"`} position="top">
+                    <button
+                        className={`${styles.typeTag} ${typeStyleMap[type]} ${currentType === type ? styles.activeType : ''}`}
+                        onClick={() => onSelect(type)}
+                    >
+                        {type}
+                    </button>
+                </Tooltip>
             ))}
         </div>
     );
 };
 
+
 const EditablePointNode: React.FC<EditablePointNodeProps> = ({ point, onUpdate, onDelete }) => {
     return (
         <div className={styles.pointItem}>
-            <i className={`fas fa-grip-vertical ${styles.dragHandle}`}></i>
+            {/* 拖拽手柄 */}
+            <div className={styles.dragHandle} title="拖拽排序">
+                <i className="fas fa-grip-vertical"></i>
+            </div>
+
+            {/* 类型选择器 */}
             <PointTypeSelector
                 currentType={point.type}
                 onSelect={(newType) => onUpdate('type', newType)}
             />
-            <EditableInput
-                value={point.title}
-                onSave={(v) => onUpdate('title', v)}
-                className={styles.pointTitleInput}
-            />
+
+            {/* 可编辑的标题输入框 */}
+            <div className={styles.titleWrapper}>
+                <EditableInput
+                    value={point.title}
+                    onSave={(newTitle) => onUpdate('title', newTitle)}
+                    className={styles.pointTitleInput}
+                    placeholder="输入知识点标题"
+                />
+            </div>
+
+            {/* 操作按钮组 */}
             <div className={styles.itemActions}>
-                <button onClick={onDelete} className={styles.deleteButton} title="删除知识点">
-                    <i className="fas fa-trash-alt"></i>
-                </button>
+                <Tooltip content="删除此知识点" position="top">
+                    <button onClick={onDelete} className={styles.deleteButton}>
+                        <i className="fas fa-trash-alt"></i>
+                    </button>
+                </Tooltip>
             </div>
         </div>
     );

@@ -1,78 +1,43 @@
-// src/app/teacher/(dashboard)/courses/[id]/syllabus/edit/KnowledgeDetailPage.tsx
 "use client";
-import React, { useState, useEffect } from 'react';
-import { Reorder } from 'framer-motion';
+
+import React from 'react';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
-import { SyllabusChapter } from '@/shared/lib/data/syllabusData';
+import { Reorder } from 'framer-motion';
 import styles from './CourseSyllabusEdit.module.css';
-import { useToast } from '@/shared/hooks/useToast';
-import { useSyllabusStore } from '@/features/teacher/course/course-management/sub-features/syllabus/store/syllabusStore';
 
-// 1. 导入所有新创建的组件
-import EditableChapterNode from '@/features/teacher/course/course-management/sub-features/syllabus/components/EditableChapterNode/EditableChapterNode';
+// 1. 导入新的 Hook 和组件
+import { useSyllabusEdit } from './hooks/useSyllabusEdit';
+import EditableChapterNode from './components/EditableChapterNode/EditableChapterNode';
+
+// 页面加载和保存状态的组件
+const LoadingState = () => <div className={styles.stateOverlay}><span>正在加载大纲...</span></div>;
+const SavingState = () => <div className={styles.stateOverlay}><span><i className="fas fa-spinner fa-spin"></i> 正在保存...</span></div>;
+
 
 export default function CourseSyllabusEditPage() {
     const params = useParams();
-    const router = useRouter();
-    const courseId = params.id;
-    const showToast = useToast();
+    const courseId = params.id as string;
 
-    const { syllabus: globalSyllabus, setSyllabus: setGlobalSyllabus } = useSyllabusStore();
-    const [localSyllabus, setLocalSyllabus] = useState<SyllabusChapter[]>([]);
+    // 2. 调用 Hook，获取所有状态和逻辑处理函数
+    const {
+        localSyllabus,
+        isLoading,
+        isSaving,
+        handleSyllabusReorder,
+        handleNodeUpdate,
+        handleNodeAdd,
+        handleNodeDelete,
+        handleSave,
+    } = useSyllabusEdit();
 
-    useEffect(() => {
-        setLocalSyllabus(JSON.parse(JSON.stringify(globalSyllabus)));
-    }, [globalSyllabus]);
-
-    // --- 核心逻辑区 ---
-    const updateLocalSyllabus = (updater: (draft: SyllabusChapter[]) => void) => {
-        setLocalSyllabus(current => {
-            const draft = JSON.parse(JSON.stringify(current));
-            updater(draft);
-            return draft;
-        });
-    };
-
-    // 简化版的深层路径更新函数
-    const handleUpdate = (path: (number|string)[], value: any) => {
-        updateLocalSyllabus(draft => {
-            let current: any = draft;
-            // @ts-ignore
-            const pathSegments = path.flatMap((p: any) => typeof p === 'string' ? p.split('.') : [p]);
-            for (let i = 0; i < pathSegments.length - 1; i++) {
-                current = current[pathSegments[i]];
-            }
-            current[pathSegments[pathSegments.length - 1]] = value;
-        });
-    };
-
-    const handleAdd = (path: number[], type: 'chapter' | 'section' | 'point') => {
-        const newItemId = `${type}-${Date.now()}`;
-        updateLocalSyllabus(draft => {
-            if (type === 'chapter') {
-                draft.push({ id: newItemId, title: '新章节', description: '请填写描述', icon: 'fas fa-book', sections: [] });
-            } else if (type === 'section') {
-                draft[path[0]].sections.push({ id: newItemId, title: '新小节', points: [] });
-            } else if (type === 'point') {
-                draft[path[0]].sections[path[1]].points.push({ id: newItemId, title: '新知识点', type: '重点' });
-            }
-        });
-        showToast({ message: "添加成功", type: 'info' });
-    };
-
-    const handleSaveSyllabus = () => {
-        setGlobalSyllabus(localSyllabus);
-        showToast({ message: "大纲已成功保存！", type: 'success' });
-        router.push(`/teacher/courses/${courseId}/syllabus`);
-    };
-
-    if (!localSyllabus.length && globalSyllabus.length > 0) {
-        return <div>正在加载大纲数据...</div>;
+    if (isLoading) {
+        return <LoadingState />;
     }
 
     return (
         <div className={styles.pageContainer}>
+            {isSaving && <SavingState />}
             <header className={styles.pageHeader}>
                 <div className={styles.headerLeft}>
                     <Link href={`/teacher/courses/${courseId}/syllabus`} className={styles.backButton}>
@@ -82,7 +47,9 @@ export default function CourseSyllabusEditPage() {
                 </div>
                 <div className={styles.headerActions}>
                     <Link href={`/teacher/courses/${courseId}/syllabus`} className={`${styles.actionButton} ${styles.cancelButton}`}>取消</Link>
-                    <button onClick={handleSaveSyllabus} className={`${styles.actionButton} ${styles.saveButton}`}>保存并返回</button>
+                    <button onClick={handleSave} className={`${styles.actionButton} ${styles.saveButton}`} disabled={isSaving}>
+                        {isSaving ? '保存中...' : '保存并返回'}
+                    </button>
                 </div>
             </header>
 
@@ -92,21 +59,29 @@ export default function CourseSyllabusEditPage() {
                     双击文本可直接编辑，拖动<i className="fas fa-grip-vertical"></i>图标可调整顺序。
                 </p>
 
-                <Reorder.Group axis="y" values={localSyllabus} onReorder={setLocalSyllabus} className={styles.reorderGroup}>
+                {/* 3. 使用 Reorder.Group 包裹章节列表 */}
+                <Reorder.Group axis="y" values={localSyllabus} onReorder={handleSyllabusReorder} className={styles.reorderGroup}>
                     {localSyllabus.map((chapter, chapIndex) => (
-                        <Reorder.Item key={chapter.id} value={chapter}>
+                        <Reorder.Item key={chapter.id} value={chapter} className={styles.reorderItem}>
                             <EditableChapterNode
                                 chapter={chapter}
-                                onUpdate={(field, value) => handleUpdate([chapIndex, field], value)}
-                                onDelete={() => setLocalSyllabus(localSyllabus.filter(c => c.id !== chapter.id))}
-                                onAddSection={() => handleAdd([chapIndex], 'section')}
-                                onAddPoint={(secIndex) => handleAdd([chapIndex, secIndex], 'point')}
+                                // 4. 将 Hook 提供的处理函数传递给子组件
+                                onUpdate={(field, value) => handleNodeUpdate([chapIndex, field], value)}
+                                onDelete={() => handleNodeDelete('chapter', [chapIndex])}
+                                onAddSection={() => handleNodeAdd('section', [chapIndex])}
+
+                                onSectionUpdate={(secIndex, field, value) => handleNodeUpdate([chapIndex, 'sections', secIndex, field], value)}
+                                onSectionDelete={(secIndex) => handleNodeDelete('section', [chapIndex, secIndex])}
+
+                                onAddPoint={(secIndex) => handleNodeAdd('point', [chapIndex, secIndex])}
+                                onPointUpdate={(secIndex, ptIndex, field, value) => handleNodeUpdate([chapIndex, 'sections', secIndex, 'points', ptIndex, field], value)}
+                                onPointDelete={(secIndex, ptIndex) => handleNodeDelete('point', [chapIndex, secIndex, ptIndex])}
                             />
                         </Reorder.Item>
                     ))}
                 </Reorder.Group>
 
-                <button className={styles.addChapterButton} onClick={() => handleAdd([], 'chapter')}>
+                <button className={styles.addChapterButton} onClick={() => handleNodeAdd('chapter')}>
                     <i className="fas fa-plus"></i> 添加新章节
                 </button>
             </div>

@@ -1,46 +1,97 @@
-/* src/components/teacher/course-management/syllabus/EditablePointNode/EditablePointNode.module.css */
 .pointItem {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 16px;
-    border-top: 1px solid #f3f4f6;
+    padding: 10px;
+    border: 1px solid transparent; /* 默认透明边框，为悬浮和选中留出空间 */
+    border-radius: 8px;
+    background-color: var(--teacher-white);
+    transition: all 0.2s ease;
 }
 
-.dragHandle { cursor: grab; color: #d1d5db; }
-.dragHandle:hover { color: #9ca3af; }
+.pointItem:hover {
+    border-color: var(--teacher-border-color);
+    background-color: #fdfdfd;
+}
 
-.pointTitleInput { flex-grow: 1; }
+.dragHandle {
+    cursor: grab;
+    color: #d1d5db;
+    padding: 8px;
+    border-radius: 50%;
+}
+.pointItem:hover .dragHandle {
+    color: #9ca3af;
+}
+.dragHandle:active {
+    cursor: grabbing;
+}
+
+.titleWrapper {
+    flex-grow: 1; /* 让标题输入框占据剩余空间 */
+    min-width: 0; /* 防止 flex 布局中内容溢出 */
+}
+
+.pointTitleInput {
+    font-size: 15px;
+    font-weight: 500;
+}
 
 .itemActions {
-    margin-left: auto;
     display: flex;
+    /* 默认隐藏，悬浮时显示，交互更干净 */
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.pointItem:hover .itemActions {
+    opacity: 1;
 }
 
 .itemActions button {
-    background: none; border: none; font-size: 14px;
-    color: var(--teacher-text-tertiary); cursor: pointer;
-    transition: color 0.2s;
-    padding: 4px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s;
 }
-.deleteButton:hover { color: #ef4444; }
+.deleteButton:hover {
+    color: #ef4444;
+    background-color: #fee2e2;
+}
 
 /* 标签选择器样式 */
-.typeSelector { display: flex; align-items: center; gap: 8px; }
+.typeSelector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f3f4f6;
+    padding: 4px;
+    border-radius: 18px; /* 胶囊形状 */
+}
+
 .typeTag {
     font-size: 12px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 16px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 14px;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    background: none; /* 默认无背景 */
 }
-.typeCore { background-color: #fef2f2; color: #b91c1c; }
-.typeImportant { background-color: #fffbeb; color: #b45309; }
-.typeOptional { background-color: #eff6ff; color: #1d4ed8; }
+.typeCore { color: #b91c1c; }
+.typeImportant { color: #b45309; }
+.typeOptional { color: #1d4ed8; }
 
 .typeTag.activeType {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+    color: white; /* 激活时文字为白色 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+/* 激活时的背景色 */
+.typeTag.activeType.typeCore { background-color: #ef4444; }
+.typeTag.activeType.typeImportant { background-color: #f59e0b; }
+.typeTag.activeType.typeOptional { background-color: #3b82f6; }
