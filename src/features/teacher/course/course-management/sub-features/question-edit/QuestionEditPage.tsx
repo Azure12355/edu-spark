@@ -1,91 +1,114 @@
+// [!file src/features/teacher/course/course-management/sub-features/question-edit/QuestionEditPage.tsx]
 "use client";
-import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useQuestionBankStore } from '@/features/teacher/course/course-management/sub-features/question-bank/store/questionBankStore';
-import { Question } from '@/shared/lib/data/questionBankData';
+
+import React from 'react';
+import { useParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 import styles from './QuestionEditPage.module.css';
-import QuestionEditHeader from '@/features/teacher/course/course-management/sub-features/question-edit/components/QuestionEditHeader';
-import QuestionConfigPanel from '@/features/teacher/course/course-management/sub-features/question-edit/components/QuestionConfigPanel';
-import QuestionEditorPanel from '@/features/teacher/course/course-management/sub-features/question-edit/components/QuestionEditorPanel';
-import KnowledgePointModal from '@/features/teacher/course/course-management/sub-features/question-edit/components/KnowledgePointModal';
-import { useToast } from '@/shared/hooks/useToast';
-import {KnowledgePoint} from "@/shared/lib/data/syllabusData";
-import {useSyllabusStore} from "@/features/teacher/course/course-management/sub-features/syllabus/store/syllabusStore";
+
+// 1. 导入核心 Hook 和所有需要的子组件，这次确保 QuestionConfigPanel 被包含在内
+import { useQuestionEdit } from './hooks/useQuestionEdit';
+import QuestionEditHeader from './components/QuestionEditHeader/QuestionEditHeader';
+import QuestionConfigPanel from './components/QuestionConfigPanel/QuestionConfigPanel'; // 【修正】恢复配置面板
+import StemEditor from './components/StemEditor/StemEditor';
+import AnswerEditor from './components/AnswerEditor/AnswerEditor';
+import AnalysesEditor from './components/AnalysesEditor/AnalysesEditor';
+import KnowledgePointModal from './components/KnowledgePointModal/KnowledgePointModal';
+
+// 状态 UI 组件
+const LoadingState: React.FC = () => (
+    <div className={styles.stateOverlay}>
+        <span><i className="fas fa-spinner fa-spin"></i> 正在加载题目数据...</span>
+    </div>
+);
+
+const SavingState: React.FC = () => (
+    <div className={styles.stateOverlay}>
+        <span><i className="fas fa-spinner fa-spin"></i> 正在保存更改...</span>
+    </div>
+);
+
 
 export default function QuestionEditPage() {
-    const params = useParams();
-    const router = useRouter();
-    const showToast = useToast();
-    const courseId = params.id as string;
-    const questionId = params.questionId as string;
-    const { syllabus } = useSyllabusStore(); // 获取完整的教学大纲
+    // 2. 调用 Hook 获取所有数据和逻辑
+    const {
+        question,
+        syllabusForModal,
+        mode,
+        isLoading,
+        isSaving,
+        isKnowledgePointModalOpen,
+        handleFieldChange,
+        handleSave,
+        openKnowledgePointModal,
+        closeKnowledgePointModal,
+    } = useQuestionEdit();
 
-    const { getQuestionById, updateQuestion } = useQuestionBankStore();
-
-    const [question, setQuestion] = useState<Question | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        const data = getQuestionById(questionId);
-        if (data) {
-            setQuestion(JSON.parse(JSON.stringify(data)));
-        } else {
-            // 如果没找到题目，可以跳转回列表页或显示错误
-            router.replace(`/teacher/courses/${courseId}/questions`);
-        }
-    }, [questionId, getQuestionById, courseId, router]);
-
-    const handleUpdate = (field: keyof Question, value: any) => {
-        setQuestion(prev => prev ? { ...prev, [field]: value } : null);
-    };
-
-    const handlePointsSave = (newPointIds: string[]) => {
-        // --- 核心修改：根据 ID 查找完整的知识点对象 ---
-        const newPoints: KnowledgePoint[] = [];
-        const pointMap = new Map<string, KnowledgePoint>();
-        syllabus.forEach(c => c.sections.forEach(s => s.points.forEach(p => pointMap.set(p.id, p))));
-
-        newPointIds.forEach(id => {
-            const point = pointMap.get(id);
-            if(point) newPoints.push(point);
-        });
-
-        handleUpdate('points', newPoints);
-    }
-
-    const handleSave = () => {
-        if (question) {
-            updateQuestion(question);
-            showToast({ message: '题目已成功保存！', type: 'success' });
-            router.back();
-        }
-    };
-
-    if (!question) {
-        return <div>加载题目数据中...</div>;
+    if (isLoading || !question) {
+        return <LoadingState />;
     }
 
     return (
         <div className={styles.pageContainer}>
-            <QuestionEditHeader courseId={courseId} onSave={handleSave} />
+            {isSaving && <SavingState />}
+
+            <QuestionEditHeader
+                mode={mode}
+                isSaving={isSaving}
+                onSave={handleSave}
+            />
+
+            {/* 3. 【核心修正】恢复经典的两栏式布局 */}
             <div className={styles.mainContent}>
-                <aside>
+                {/* 左侧配置面板 */}
+                <motion.aside
+                    className={styles.configPanelWrapper}
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                >
                     <QuestionConfigPanel
                         question={question}
-                        onUpdate={handleUpdate}
-                        onEditPoints={() => setIsModalOpen(true)}
+                        onUpdate={handleFieldChange}
+                        onEditPoints={openKnowledgePointModal} // 将打开模态框的动作传递给配置面板
                     />
-                </aside>
-                <main>
-                    <QuestionEditorPanel question={question} onUpdate={handleUpdate} />
-                </main>
+                </motion.aside>
+
+                {/* 右侧内容编辑器区域 */}
+                <motion.main
+                    className={styles.editorPanelWrapper}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                >
+                    <StemEditor
+                        value={question.stem}
+                        onChange={(v) => handleFieldChange('stem', v)}
+                    />
+                    <AnswerEditor
+                        question={question}
+                        onUpdate={handleFieldChange}
+                    />
+                    <AnalysesEditor
+                        values={question.analyses}
+                        onChange={(v) => handleFieldChange('analyses', v)}
+                    />
+                </motion.main>
             </div>
+
+            {/* 4. 知识点选择模态框 */}
             <KnowledgePointModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                // --- 核心修改：传递对象数组 ---
-                currentPoints={question.points}
-                onSave={handlePointsSave}
+                isOpen={isKnowledgePointModalOpen}
+                onClose={closeKnowledgePointModal}
+                // @ts-ignore
+                syllabusData={syllabusForModal}
+                currentPoints={question.knowledgePoints}
+                onSave={(newPointIds) => {
+                    // onSave 回调直接触发 handleFieldChange，传递 ID 列表
+                    // 这个逻辑在 useQuestionEdit Hook 中处理，将 ID 列表转换为对象列表
+                    // @ts-ignore
+                    handleFieldChange('knowledgePoints', newPointIds.map(id => ({ id })));
+                }}
             />
         </div>
     );

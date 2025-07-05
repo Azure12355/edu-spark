@@ -1,0 +1,109 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 组之间的间距 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.cardTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.configGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.segmentedControl {
+    display: flex;
+    background-color: var(--teacher-bg-hover);
+    padding: 4px;
+    border-radius: 8px;
+    flex-wrap: wrap; /* 允许换行 */
+    gap: 4px; /* 按钮之间的间隙 */
+}
+.segmentedControl button {
+    flex-grow: 1; /* 自动填充空间 */
+    min-width: 80px; /* 最小宽度 */
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s ease;
+}
+.segmentedControl button.active {
+    background-color: var(--teacher-white);
+    color: var(--teacher-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.pointList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 32px; /* 为空状态预留高度 */
+}
+
+.pointTag {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.noPointsText {
+    font-size: 14px;
+    color: var(--teacher-text-tertiary);
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.editPointsButton {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.editPointsButton:hover {
+    border-color: var(--teacher-primary);
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+}

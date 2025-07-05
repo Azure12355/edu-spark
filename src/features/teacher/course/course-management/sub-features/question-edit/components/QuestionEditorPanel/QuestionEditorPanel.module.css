@@ -1,0 +1,7 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 控制各个编辑器卡片之间的垂直间距 */
+    width: 100%;
+    min-height: 0;
+}

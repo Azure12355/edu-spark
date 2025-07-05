@@ -1,30 +1,74 @@
-/* src/app/teacher/(dashboard)/courses/[id]/questions/[questionId]/edit/QuestionEditPage.module.css */
+/* 页面主容器 */
 .pageContainer {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: var(--teacher-bg-body); /* 将背景色移到这里 */
+    width: 100%;
+    background-color: var(--teacher-bg-body);
+    position: relative;
 }
 
-/* 核心修改：将 grid 布局改为 flex 布局，并让其可滚动 */
+/* 【核心修正】主内容区现在是两栏布局 */
 .mainContent {
     flex-grow: 1;
-    min-height: 0; /* 允许子元素在 flex 布局中正确计算高度 */
-    display: flex; /* 改为 flex */
+    display: flex;
     gap: 24px;
     padding: 24px;
-    overflow-y: auto; /* 让整个主内容区可滚动 */
-    align-items: flex-start; /* 顶部对齐 */
+    overflow: hidden; /* 防止子元素滚动条溢出到父级 */
+    align-items: flex-start;
 }
 
-/* 为左右面板定义尺寸 */
-.mainContent > aside {
-    width: 360px;
+/* 左侧配置面板包裹器 */
+.configPanelWrapper {
+    width: 320px; /* 固定宽度 */
     flex-shrink: 0;
-    position: sticky; /* 让左侧配置栏在滚动时固定 */
-    top: 0;
+    height: 100%; /* 让其高度与右侧对齐 */
+    overflow-y: auto; /* 如果配置项过多，允许自身滚动 */
+    padding-bottom: 24px; /* 底部留白 */
 }
-.mainContent > main {
+.configPanelWrapper::-webkit-scrollbar { display: none; } /* 隐藏滚动条，但保留滚动功能 */
+.configPanelWrapper { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+/* 右侧编辑器面板包裹器 */
+.editorPanelWrapper {
     flex-grow: 1;
-    min-width: 0; /* 防止被内部内容撑开 */
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 各个编辑器之间的间距 */
+    overflow-y: auto; /* 让编辑器区域整体滚动 */
+    padding-right: 8px; /* 为滚动条留出空间 */
+}
+.editorPanelWrapper::-webkit-scrollbar { width: 6px; }
+.editorPanelWrapper::-webkit-scrollbar-track { background: transparent; }
+.editorPanelWrapper::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 3px; }
+
+
+/* 状态覆盖层样式保持不变 */
+.stateOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+}
+.stateOverlay span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--teacher-white);
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }

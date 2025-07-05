@@ -1,0 +1,99 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--teacher-white);
+    border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    z-index: 10;
+}
+
+.leftSection, .rightSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.backButton {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--teacher-text-secondary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.backButton:hover {
+    background-color: var(--teacher-bg-hover);
+    color: var(--teacher-primary);
+}
+
+.titleContainer {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--teacher-text-primary);
+}
+
+.actionButton {
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.actionButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.secondaryButton {
+    background-color: white;
+    color: var(--teacher-text-secondary);
+}
+.secondaryButton:hover:not(:disabled) {
+    border-color: var(--teacher-text-primary);
+    color: var(--teacher-text-primary);
+}
+
+.primaryButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    border-color: var(--teacher-primary);
+}
+.primaryButton:hover:not(:disabled) {
+    background-color: #1a5cff;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+/* 禁用状态 */
+.actionButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+.primaryButton:disabled {
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+    color: white;
+}

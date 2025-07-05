@@ -1,8 +1,0 @@
-/* src/components/teacher/course-management/question-edit/QuestionEditorPanel.module.css */
-.panel {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    min-height: 0;
-    width: 100%; /* 确保它撑满父容器 */
-}

@@ -1,0 +1,48 @@
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--teacher-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cardTitle i {
+    color: var(--teacher-primary);
+}
+
+.editorWrapper {
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 8px;
+    overflow: hidden; /* 确保 Bytemd 的圆角生效 */
+}
+
+/* 覆盖 Bytemd 内部样式，使其与我们的设计系统融合 */
+.editorWrapper :global(.bytemd) {
+    height: auto; /* 高度自适应内容 */
+    min-height: 200px; /* 设置一个最小高度 */
+    border: none; /* 移除 Bytemd 的外边框 */
+}
+
+.editorWrapper :global(.bytemd-toolbar) {
+    background-color: #f9fafb;
+    border-bottom: 1px solid var(--teacher-border-color);
+    padding: 8px 12px;
+}
+
+.editorWrapper :global(.bytemd-body) {
+    /* 让编辑器和预览区都有内边距 */
+    padding: 16px;
+}
