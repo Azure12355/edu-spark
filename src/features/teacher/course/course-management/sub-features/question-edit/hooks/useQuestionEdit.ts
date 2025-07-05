@@ -2,7 +2,7 @@
 /**
  * @file src/features/teacher/course/course-management/sub-features/question-edit/hooks/useQuestionEdit.ts
  * @description 题目创建/编辑页面的核心业务逻辑钩子。
- * @version 2.2 - 优化知识点关联状态同步逻辑
+ * @version 3.0 - 最终优化版
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -16,28 +16,28 @@ import {
     QuestionUpdateRequestDTO,
     QuestionTypeEnum,
     QuestionDifficultyEnum,
-    SyllabusVO, // 确保从 types 导入大纲类型
+    SyllabusVO,
+    QuestionKnowledgePointLinkVO,
 } from '../types';
 import { getQuestionForEdit, createQuestion, updateQuestion } from '../services/questionEditService';
-import { getSyllabusForModal } from '../services/syllabusServiceForModal'; // 使用本领域的 service
+import { getSyllabusForModal } from '../services/syllabusServiceForModal';
 import { useToast } from '@/shared/hooks/useToast';
 
-
-// 2. 更新 Hook 返回值类型，移除不再需要的 onEditPoints
+// 2. 定义 Hook 返回的接口，这是它与外界的“契约”
 interface UseQuestionEditReturn {
     question: EditableQuestion | null;
-    syllabusForModal: SyllabusVO | null; // 新增：为模态框提供数据
+    syllabusForModal: SyllabusVO | null;
     mode: 'create' | 'edit';
     isLoading: boolean;
     isSaving: boolean;
-    isKnowledgePointModalOpen: boolean; // 重命名，更清晰
+    isKnowledgePointModalOpen: boolean;
     handleFieldChange: <K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => void;
     handleSave: () => Promise<void>;
-    openKnowledgePointModal: () => void; // 重命名
-    closeKnowledgePointModal: () => void; // 重命名
+    openKnowledgePointModal: () => void;
+    closeKnowledgePointModal: () => void;
 }
 
-// 创建新题目的默认状态
+// 3. 创建新题目的默认模板
 const createDefaultQuestion = (): EditableQuestion => ({
     id: `new-${Date.now()}`,
     type: QuestionTypeEnum.SINGLE_CHOICE,
@@ -50,27 +50,30 @@ const createDefaultQuestion = (): EditableQuestion => ({
 });
 
 export const useQuestionEdit = (): UseQuestionEditReturn => {
-    // 3. 初始化 Hooks 和状态
+    // 4. 初始化所有需要的 Hooks 和状态
     const params = useParams();
     const router = useRouter();
     const showToast = useToast();
+
     const courseId = params.id as string;
     const questionId = params.questionId as string;
 
     const [question, setQuestion] = useImmer<EditableQuestion | null>(null);
-    const [syllabusForModal, setSyllabusForModal] = useState<SyllabusVO | null>(null); // 新增状态
+    const [syllabusForModal, setSyllabusForModal] = useState<SyllabusVO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [isKnowledgePointModalOpen, setIsKnowledgePointModalOpen] = useState(false);
 
-    const mode = useMemo(() => (questionId.startsWith('new-') ? 'create' : 'edit'), [questionId]);
+    const mode = useMemo(() => (
+        typeof questionId === 'string' && questionId.startsWith('new-') ? 'create' : 'edit'
+    ), [questionId]);
 
-    // 4. 数据初始化逻辑
+    // 5. 数据初始化逻辑
     useEffect(() => {
         const initialize = async () => {
             setIsLoading(true);
             try {
-                // 并行获取题目详情和大纲数据
+                // 并行获取题目详情和课程大纲
                 const [questionData, syllabusData] = await Promise.all([
                     mode === 'edit' ? getQuestionForEdit(questionId) : Promise.resolve(createDefaultQuestion()),
                     getSyllabusForModal(courseId)
@@ -90,22 +93,25 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
     }, [mode, questionId, courseId, setQuestion, showToast, router]);
 
 
-    // 5. 【核心优化】重构状态更新函数，使其能处理知识点ID列表
+    // 6. 统一的状态更新函数 (包含复杂的业务联动逻辑)
     const handleFieldChange = useCallback(<K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => {
         setQuestion(draft => {
             if (!draft) return;
 
-            // a. 特殊处理 knowledgePoints 的更新
+            // a. 特殊处理 knowledgePoints 的更新，这是由 Modal 回调触发的
             if (field === 'knowledgePoints') {
-                const newPointIds = new Set( (value as any[]).map(p => p.knowledgePointId || p.id) );
+                const newPointIds = new Set((value as {id: number}[]).map(p => p.id));
 
-                if (!syllabusForModal) return; // 如果大纲数据未加载，则不处理
+                if (!syllabusForModal) {
+                    console.warn("Syllabus data is not ready, cannot update knowledge points.");
+                    return;
+                }
 
-                // b. 从完整大纲中查找ID对应的知识点对象
-                const newPoints = [];
-                for (const chapter of syllabusForModal.chapters) {
-                    for (const section of chapter.sections) {
-                        for (const point of section.points) {
+                // 从完整大纲中查找ID对应的知识点对象
+                const newPoints: QuestionKnowledgePointLinkVO[] = [];
+                syllabusForModal.chapters.forEach(chapter => {
+                    chapter.sections.forEach(section => {
+                        section.points.forEach(point => {
                             if (newPointIds.has(point.id)) {
                                 newPoints.push({
                                     knowledgePointId: point.id,
@@ -113,58 +119,108 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
                                     knowledgePointType: point.type,
                                 });
                             }
-                        }
-                    }
-                }
+                        });
+                    });
+                });
                 draft.knowledgePoints = newPoints;
                 return; // 处理完毕，直接返回
             }
 
-            // c. 原有的联动逻辑
+            // b. 处理其他字段的通用更新
             (draft[field] as any) = value;
+
+            // c.【核心联动逻辑】当题型变化时，自动调整答案和选项的结构
             if (field === 'type') {
                 const newType = value as QuestionTypeEnum;
-                // ... (类型切换联动逻辑保持不变)
+                switch (newType) {
+                    case QuestionTypeEnum.SINGLE_CHOICE:
+                        draft.options = draft.options && draft.options.length >= 2 ? draft.options : ['选项A', '选项B'];
+                        draft.answers = draft.options.length > 0 ? [draft.options[0]] : [];
+                        break;
+                    case QuestionTypeEnum.MULTIPLE_CHOICE:
+                        draft.options = draft.options && draft.options.length >= 2 ? draft.options : ['选项A', '选项B'];
+                        draft.answers = [];
+                        break;
+                    case QuestionTypeEnum.TRUE_FALSE:
+                        draft.options = [];
+                        draft.answers = ['true'];
+                        break;
+                    default: // 填空、简答、编程题
+                        draft.options = [];
+                        draft.answers = [''];
+                        break;
+                }
             }
         });
     }, [setQuestion, syllabusForModal]);
 
-    // 6. 保存函数 (逻辑基本不变，但 DTO 转换更可靠)
+    // 7. 统一的保存函数
     const handleSave = async () => {
-        if (!question) return;
-        // ... (校验逻辑)
+        if (!question) {
+            showToast({ message: '题目数据异常，无法保存', type: 'warning' });
+            return;
+        }
+
+        // a. 前端最终校验
+        if (!question.stem.trim()) {
+            showToast({ message: '题干内容不能为空', type: 'error' });
+            return;
+        }
         if (question.knowledgePoints.length === 0) {
             showToast({ message: '请至少关联一个知识点', type: 'error' });
             return;
         }
+        if (question.answers.length === 0 || (question.answers.length === 1 && !question.answers[0])) {
+            showToast({ message: '答案不能为空', type: 'error' });
+            return;
+        }
+
 
         setIsSaving(true);
         try {
-            // 从 question.knowledgePoints 中提取 ID 列表
             const knowledgePointIds = question.knowledgePoints.map(p => p.knowledgePointId);
 
             if (mode === 'create') {
-                const addDto: QuestionAddRequestDTO = { /* ... */ knowledgePointIds };
-                await createQuestion(addDto);
-                // ...
+                const addDto: QuestionAddRequestDTO = {
+                    type: question.type,
+                    difficulty: question.difficulty,
+                    stem: question.stem,
+                    options: question.options.length > 0 ? question.options : undefined,
+                    answers: question.answers,
+                    analyses: question.analyses.filter(Boolean),
+                    knowledgePointIds: knowledgePointIds,
+                };
+                const newId = await createQuestion(addDto);
+                showToast({ message: '题目创建成功！', type: 'success' });
+                router.replace(`/teacher/courses/${courseId}/questions/${newId}/preview`);
             } else {
-                const updateDto: QuestionUpdateRequestDTO = { /* ... */ knowledgePointIds };
+                const updateDto: QuestionUpdateRequestDTO = {
+                    id: question.id as number,
+                    type: question.type,
+                    difficulty: question.difficulty,
+                    stem: question.stem,
+                    options: question.options.length > 0 ? question.options : undefined,
+                    answers: question.answers,
+                    analyses: question.analyses.filter(Boolean),
+                    knowledgePointIds: knowledgePointIds,
+                };
                 await updateQuestion(updateDto);
-                // ...
+                showToast({ message: '题目更新成功！', type: 'success' });
+                router.push(`/teacher/courses/${courseId}/questions/${question.id}/preview`);
             }
-            // ... (刷新和跳转逻辑)
-        } catch (error) {
-            // ...
+        } catch (error: any) {
+            // 错误已被 apiClient 拦截器处理，无需额外弹窗
+            console.error("Save question failed:", error);
         } finally {
             setIsSaving(false);
         }
     };
 
-    // 7. 模态框开关函数
+    // 8. 模态框开关函数
     const openKnowledgePointModal = useCallback(() => setIsKnowledgePointModalOpen(true), []);
     const closeKnowledgePointModal = useCallback(() => setIsKnowledgePointModalOpen(false), []);
 
-    // 8. 返回对外的接口
+    // 9. 返回对外的完整接口
     return {
         question,
         syllabusForModal,
