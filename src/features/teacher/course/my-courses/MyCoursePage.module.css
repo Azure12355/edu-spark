@@ -1,0 +1,70 @@
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* [!code ++] 新增：为 Header 和 Toolbar 添加 flex-shrink: 0 */
+.pageContainer > header,
+.pageContainer > div:nth-of-type(1) { /* 更精确地选择 Toolbar 的包裹 div */
+    flex-shrink: 0;
+}
+
+.courseGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    flex-grow: 1;
+    align-content: start;
+    /* [!code ++] 新增：让 courseGrid 内部可以滚动，以防其内容溢出 */
+    overflow-y: auto;
+    /* [!code ++] 美化滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+.courseGrid::-webkit-scrollbar { width: 6px; }
+.courseGrid::-webkit-scrollbar-track { background: transparent; }
+.courseGrid::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; }
+
+
+/* 骨架屏样式 */
+.skeletonCard {
+    height: 280px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite linear;
+    border-radius: 16px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 空状态样式 */
+.noResults {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    background-color: var(--teacher-white);
+    border-radius: 16px;
+    border: 2px dashed var(--teacher-border-color);
+}
+
+.noResults i {
+    font-size: 48px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.5;
+    margin-bottom: 24px;
+}
+
+.noResults p {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+}
+
+.paginationWrapper {
+    flex-shrink: 0;
+    padding-top: 16px;
+}

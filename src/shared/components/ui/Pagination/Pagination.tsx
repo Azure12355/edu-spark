@@ -6,7 +6,7 @@ import styles from './Pagination.module.css';
 interface PaginationProps {
     currentPage: number;
     totalPages: number;
-    onPageChange: (page: number) => void;
+    onPageChange: (page: number, pageSize?: number) => void;
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
@@ -31,41 +31,52 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             handleJump();
         }
     };
-
-    // 智能生成页码数组的逻辑
+    // [!code focus start]
+    /**
+     * 【核心重构】智能生成页码数组的逻辑
+     * @returns 返回一个包含数字和省略号的数组，例如: [1, '...', 4, 5, 6, '...', 10]
+     */
     const getPaginationNumbers = () => {
-        if (totalPages <= 7) { // 如果总页数不多，全部显示
+        const SIBLING_COUNT = 1; // 当前页码前后各显示1个页码
+        const TOTAL_PAGE_NUMBERS = SIBLING_COUNT * 2 + 5; // (前后sibling) + (当前页) + (第一页) + (最后一页) + (2个省略号)
+
+        // Case 1: 如果总页数小于等于7，则全部显示，不需要省略号
+        if (totalPages <= TOTAL_PAGE_NUMBERS) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
 
-        const pages = [];
-        const siblingCount = 1;
-        const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-        const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+        const leftSiblingIndex = Math.max(currentPage - SIBLING_COUNT, 1);
+        const rightSiblingIndex = Math.min(currentPage + SIBLING_COUNT, totalPages);
 
         const shouldShowLeftDots = leftSiblingIndex > 2;
-        const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+        const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
 
-        pages.push(1); // 首页
+        const firstPageIndex = 1;
+        const lastPageIndex = totalPages;
 
-        if (shouldShowLeftDots) {
-            pages.push('...');
+        // Case 2: 只显示右侧省略号
+        if (!shouldShowLeftDots && shouldShowRightDots) {
+            let leftItemCount = 3 + 2 * SIBLING_COUNT;
+            let leftRange = Array.from({ length: leftItemCount }, (_, i) => i + 1);
+            return [...leftRange, '...', totalPages];
         }
 
-        for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
-            if (i > 1 && i < totalPages) {
-                pages.push(i);
-            }
+        // Case 3: 只显示左侧省略号
+        if (shouldShowLeftDots && !shouldShowRightDots) {
+            let rightItemCount = 3 + 2 * SIBLING_COUNT;
+            let rightRange = Array.from({ length: rightItemCount }, (_, i) => totalPages - rightItemCount + 1 + i);
+            return [firstPageIndex, '...', ...rightRange];
         }
 
-        if (shouldShowRightDots) {
-            pages.push('...');
+        // Case 4: 两侧都显示省略号
+        if (shouldShowLeftDots && shouldShowRightDots) {
+            let middleRange = Array.from({ length: rightSiblingIndex - leftSiblingIndex + 1 }, (_, i) => leftSiblingIndex + i);
+            return [firstPageIndex, '...', ...middleRange, '...', lastPageIndex];
         }
 
-        pages.push(totalPages); // 末页
-
-        return [...new Set(pages)]; // 去重，防止边界情况
+        return []; // 默认情况，理论上不会触发
     };
+    // [!code focus end]
 
     if (totalPages <= 1) {
         return null;
@@ -75,8 +86,18 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 
     return (
         <div className={styles.paginationContainer}>
-            <button onClick={() => onPageChange(1)} disabled={currentPage === 1} className={styles.paginationButton}>首页</button>
-            <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className={styles.paginationButton}>
+            <button
+                onClick={() => onPageChange(1)}
+                disabled={currentPage === 1}
+                className={styles.paginationButton}
+            >
+                首页
+            </button>
+            <button
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`${styles.paginationButton} ${styles.arrowButton}`}
+            >
                 <i className="fas fa-chevron-left"></i>
             </button>
 
@@ -94,10 +115,20 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
                 )
             )}
 
-            <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className={styles.paginationButton}>
+            <button
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`${styles.paginationButton} ${styles.arrowButton}`}
+            >
                 <i className="fas fa-chevron-right"></i>
             </button>
-            <button onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} className={styles.paginationButton}>末页</button>
+            <button
+                onClick={() => onPageChange(totalPages)}
+                disabled={currentPage === totalPages}
+                className={styles.paginationButton}
+            >
+                末页
+            </button>
 
             <div className={styles.jumpToPageContainer}>
                 <span>共 {totalPages} 页，跳至</span>

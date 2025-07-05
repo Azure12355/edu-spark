@@ -1,20 +1,27 @@
-/* src/components/teacher/my-courses/MyCoursesHeader.module.css */
 .headerContainer {
     background: linear-gradient(135deg, #4D8DFF 0%, #2969FF 100%);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 32px 40px;
     position: relative;
     overflow: hidden;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    /* [!code --] align-items: flex-end; */
+    /* [!code ++] */ align-items: stretch; /* [核心修复] 改为 stretch (或直接移除，因为它是默认值)，让子元素等高 */
+    gap: 32px;
 }
 
-/* 背景网格点缀 */
+/* 背景的网格点缀，增加科技感 */
 .headerContainer::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
-    background-size: 20px 20px;
+    background-image:
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0),
+            linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px, 100px 100px, 100px 100px;
     opacity: 0.5;
     z-index: 0;
 }
@@ -22,48 +29,138 @@
 .leftSection {
     position: relative;
     z-index: 1;
+    /* [!code ++] [核心修复] 让 leftSection 内部也成为 flex 容器，并让内容从底部开始排列 */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .title {
     font-size: 28px;
     margin: 0 0 8px;
-    font-weight: bold;
+    font-weight: 700;
 }
 .subtitle {
-    font-size: 16px;
+    font-size: 15px;
     opacity: 0.8;
     max-width: 500px;
     margin: 0 0 24px;
+    line-height: 1.6;
 }
 
+/* 核心数据概览区域 */
 .statsRow {
     display: flex;
-    gap: 24px;
+    gap: 20px;
 }
 
 .statCard {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    padding: 20px;
+    backdrop-filter: blur(8px);
+    padding: 16px 20px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     min-width: 180px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+.statCard:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.statIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.iconBlue { background-color: #3b82f6; }
+.iconGreen { background-color: #10b981; }
+.iconPurple { background-color: #8b5cf6; }
+
+.statDetails {
+    display: flex;
+    flex-direction: column;
 }
 
 .statValue {
-    font-size: 36px;
+    font-size: 26px;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.statValue i {
-    font-size: 28px;
-    opacity: 0.8;
+    line-height: 1;
 }
 
 .statLabel {
-    font-size: 14px;
-    margin-top: 8px;
+    font-size: 13px;
+    margin-top: 4px;
     opacity: 0.8;
+}
+
+.sparkline {
+    width: 60px;
+    height: 30px;
+    margin-left: auto; /* 将图表推到右侧 */
+}
+
+/* 右侧操作按钮区域 */
+.rightSection {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end; /* [核心修复] 只让 rightSection 内部的元素底部对齐 */
+    gap: 12px;
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+.viewToggle {
+    display: flex;
+    background-color: rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.viewToggle button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.viewToggle button:hover {
+    color: white;
+}
+.viewToggle button.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.createButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-white);
+    color: var(--teacher-primary);
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.createButton:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }

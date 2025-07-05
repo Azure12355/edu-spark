@@ -1,121 +1,118 @@
-// src/app/teacher/(dashboard)/courses/KnowledgeDetailPage.tsx
 "use client";
 
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { teacherCourseData, TeacherCourse, CourseStatus } from '@/shared/lib/data/teacherCourseData';
-import styles from './MyCourse.module.css';
+import React from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {useMyCourses} from './hooks/useMyCourses';
+import styles from './MyCoursePage.module.css';
 
 // 导入所有需要的组件
-import MyCoursesHeader from '@/features/teacher/course/my-courses/components/MyCoursesHeader/MyCoursesHeader';
-import MyCoursesToolbar from '@/features/teacher/course/my-courses/components/MyCoursesToolbar/MyCoursesToolbar';
-import CourseCard from '@/features/teacher/course/my-courses/components/CourseCard/CourseCard';
+import MyCoursesHeader from './components/MyCoursesHeader/MyCoursesHeader';
+import MyCoursesToolbar from './components/MyCoursesToolbar/MyCoursesToolbar';
+import CourseCard from './components/CourseCard/CourseCard';
 import Pagination from '@/shared/components/ui/Pagination/Pagination';
 
-const ITEMS_PER_PAGE = 6;
-type FilterType = '全部课程' | '进行中' | '已结束' | '我的收藏';
+// 骨架屏组件
+const SkeletonGrid = () => (
+    <div className={styles.courseGrid}>
+        {Array.from({length: 8}).map((_, index) => (
+            <div key={index} className={styles.skeletonCard}/>
+        ))}
+    </div>
+);
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.05,
-        },
-    },
-};
+// 空状态组件
+const NoResults = () => (
+    <div className={styles.noResults}>
+        <i className="fas fa-ghost"></i>
+        <p>没有找到匹配的课程。</p>
+    </div>
+);
 
+/**
+ * 【最终版本】我的课程页面
+ *
+ * 职责:
+ * 1. 作为容器，装配 Header, Toolbar, Grid, Pagination 等子组件。
+ * 2. 调用 useMyCourses Hook，并将状态和方法分发给子组件。
+ * 3. 处理顶层的加载和错误状态。
+ */
 export default function MyCoursesPage() {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [activeFilter, setActiveFilter] = useState<FilterType>('全部课程');
-    const [searchTerm, setSearchTerm] = useState('');
+    const {
+        courses,
+        isLoading,
+        error,
+        pagination,
+        searchTerm,
+        selectedRowKeys,
+        filterStatus,
+        sorter,
+        handleSearch,
+        handlePageChange,
+        handleBatchDelete,
+        setSelectedRowKeys, // 我们需要这个来让 CourseCard 可勾选
+        handleFilterChange,
+        handleSorterChange,
+    } = useMyCourses();
 
-    const filteredCourses = useMemo(() => {
-        let courses = teacherCourseData;
+    if (error) {
+        return <div className="error-message">错误: {error}</div>;
+    }
 
-        // 1. 根据筛选器过滤
-        if (activeFilter === '进行中') {
-            courses = courses.filter(c => c.status === '进行中');
-        } else if (activeFilter === '已结束') {
-            courses = courses.filter(c => c.status === '已结束');
-        } else if (activeFilter === '我的收藏') {
-            courses = courses.filter(c => c.isFavorite);
-        }
-
-        // 2. 根据搜索词过滤
-        if (searchTerm.trim() !== '') {
-            const lowercasedTerm = searchTerm.toLowerCase();
-            courses = courses.filter(c =>
-                c.name.toLowerCase().includes(lowercasedTerm) ||
-                c.creator.toLowerCase().includes(lowercasedTerm)
-            );
-        }
-
-        return courses;
-    }, [activeFilter, searchTerm]);
-
-    const totalPages = Math.ceil(filteredCourses.length / ITEMS_PER_PAGE);
-
-    const currentCourses = useMemo(() => {
-        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-        const endIndex = startIndex + ITEMS_PER_PAGE;
-        return filteredCourses.slice(startIndex, endIndex);
-    }, [currentPage, filteredCourses]);
-
-    // 当筛选条件改变时，重置到第一页
-    React.useEffect(() => {
-        setCurrentPage(1);
-    }, [activeFilter, searchTerm]);
-
-
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-        // 此处可以添加滚动到页面顶部的逻辑
+    // CourseCard 勾选逻辑
+    const handleSelectChange = (courseId: number, isSelected: boolean) => {
+        setSelectedRowKeys(prev =>
+            isSelected ? [...prev, courseId] : prev.filter(key => key !== courseId)
+        );
     };
 
     return (
         <div className={styles.pageContainer}>
-            <MyCoursesHeader />
-            {/* 将状态和回调函数传递给工具栏 */}
+            <MyCoursesHeader/>
+
             <MyCoursesToolbar
-                activeFilter={activeFilter}
-                onFilterChange={setActiveFilter}
                 searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
+                onSearchChange={handleSearch}
+                filterStatus={filterStatus}
+                onFilterChange={handleFilterChange}
+                sorter={sorter}
+                //@ts-ignore
+                onSorterChange={handleSorterChange}
+                onBatchDelete={handleBatchDelete}
+                selectedCount={selectedRowKeys.length}
             />
 
-            <motion.div
-                key={activeFilter + searchTerm} // 当筛选条件改变时，让整个网格重新执行入场动画
-                className={styles.courseGrid}
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <AnimatePresence>
-                    {currentCourses.map(course => (
-                        <motion.div
-                            key={course.id}
-                            layout
-                            variants={containerVariants} // 使用 item 变体
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
-                        >
-                            <CourseCard course={course} />
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
-            </motion.div>
-
-            {filteredCourses.length > 0 ? (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
+            {isLoading && courses.length === 0 ? (
+                <SkeletonGrid/>
             ) : (
-                <div className={styles.noResults}>
-                    <p>没有找到匹配的课程。</p>
+                <AnimatePresence>
+                    {courses.length > 0 ? (
+                        <motion.div
+                            className={styles.courseGrid}
+                            initial={{opacity: 0}}
+                            animate={{opacity: 1, transition: {staggerChildren: 0.07}}}
+                        >
+                            {courses.map(course => (
+                                <CourseCard
+                                    key={course.id}
+                                    course={course}
+                                    isSelected={selectedRowKeys.includes(course.id)}
+                                    onSelectChange={handleSelectChange}
+                                />
+                            ))}
+                        </motion.div>
+                    ) : (
+                        <NoResults/>
+                    )}
+                </AnimatePresence>
+            )}
+
+            {pagination.total > pagination.pageSize && (
+                <div className={styles.paginationWrapper}>
+                    <Pagination
+                        currentPage={pagination.current}
+                        totalPages={Math.ceil(pagination.total / pagination.pageSize)}
+                        onPageChange={(page, pageSize) => handlePageChange(page, pageSize || pagination.pageSize)}
+                    />
                 </div>
             )}
         </div>

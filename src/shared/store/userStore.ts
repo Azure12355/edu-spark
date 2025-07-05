@@ -6,6 +6,7 @@ import { UserVO } from '@/shared/services/userService'; // 从我们之前创建
 interface UserState {
     loginUser: UserVO | null;
     isLoggedIn: boolean;
+    hasHydrated: boolean;
 
     isAuthModalOpen: boolean; // 新增：控制全局登录弹窗的开关
     onLoginSuccessCallback: (() => void) | null; // 新增：登录成功后的回调函数
@@ -16,6 +17,7 @@ interface UserState {
     // Actions
     setUser: (user: UserVO | null) => void;
     clearUser: () => void;
+    setHasHydrated: (state: boolean) => void;
 }
 
 // 2. 创建 Store
@@ -26,6 +28,8 @@ export const useUserStore = create<UserState>()(
             // 初始状态
             loginUser: null,
             isLoggedIn: false,
+            hasHydrated: false,
+
 
             isAuthModalOpen: false,
             onLoginSuccessCallback: null,
@@ -63,10 +67,22 @@ export const useUserStore = create<UserState>()(
                     isLoggedIn: false,
                 });
             },
+
+            setHasHydrated: (state) => {
+                set({
+                    hasHydrated: state
+                });
+            },
+
         }),
         {
             name: 'user-login-status', // 在 localStorage 中的键名
             storage: createJSONStorage(() => localStorage), // 指定使用 localStorage
+            onRehydrateStorage: () => (state) => {
+                if (state) {
+                    state.setHasHydrated(true);
+                }
+            }
         }
     )
 );
