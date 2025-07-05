@@ -1,14 +1,67 @@
-/* src/app/teacher/(dashboard)/courses/[id]/questions/[questionId]/preview/QuestionPreview.module.css */
+/* 页面主容器，负责背景和基本布局 */
 .pageContainer {
-    padding: 24px;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    min-height: 100%;
+    padding: 24px;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    background-color: var(--teacher-bg-body);
 }
 
-.loading, .notFound {
-    text-align: center;
-    padding: 80px 0;
+/* 内容包裹器，限制最大宽度 */
+.contentWrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- 通用状态样式 (加载中、错误) --- */
+.stateContainer {
+    width: 100%;
+    height: calc(100vh - 150px); /* 占据大部分视口高度 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--teacher-primary-light);
+    border-top-color: var(--teacher-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.stateContainer p {
     font-size: 18px;
+    font-weight: 500;
     color: var(--teacher-text-secondary);
 }
+
+.errorIcon {
+    font-size: 60px;
+    color: #ef4444;
+    opacity: 0.7;
+}
+.stateContainer h3 {
+    font-size: 24px;
+    color: var(--teacher-text-primary);
+    margin: 0;
+}
+.retryButton {
+    background-color: var(--teacher-primary);
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.retryButton:hover { opacity: 0.9; }

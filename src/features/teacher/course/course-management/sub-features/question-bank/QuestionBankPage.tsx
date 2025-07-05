@@ -45,17 +45,6 @@ export default function QuestionBankPage() {
         setSelectedRowKeys,
     } = useQuestionBank(initialPointId);
 
-    // 5. 根据选中的 ID 查找知识点标题，为 Header 提供数据
-    const selectedPointTitle = useMemo(() => {
-        if (!selectedPointId || !syllabus) return '未选择知识点';
-        for (const chapter of syllabus) {
-            for (const section of chapter.sections) {
-                const point = section.points.find((p: any) => p.id === selectedPointId);
-                if (point) return point.title;
-            }
-        }
-        return '未知知识点';
-    }, [selectedPointId, syllabus]);
 
     // 6. 优雅地处理错误状态
     if (error) {
@@ -87,7 +76,7 @@ export default function QuestionBankPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
             >
-                <QuestionBankHeader pointTitle={selectedPointTitle} />
+                <QuestionBankHeader pointTitle={"默认知识点"} />
 
                 <div className={styles.tableArea}>
                     <QuestionTableToolbar
