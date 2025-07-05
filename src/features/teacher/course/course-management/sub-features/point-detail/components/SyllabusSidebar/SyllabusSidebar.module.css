@@ -1,30 +1,27 @@
-/* src/components/teacher/course-management/point-detail/SyllabusSidebar/SyllabusSidebar.module.css */
-
-/* 1. 外层包裹容器 */
+/* 1. 外层容器 */
 .sidebarWrapper {
     position: relative;
     height: 100%;
     flex-shrink: 0;
+    display: flex;
 }
 
-/* 2. 可折叠的侧边栏主体 */
+/* 2. 侧边栏主体 */
 .sidebar {
-    position: relative;
     height: 100%;
     background-color: var(--teacher-white);
     border-right: 1px solid var(--teacher-border-color);
-    /* width 由 framer-motion 控制 */
-    overflow: hidden; /* 隐藏动画过程中的溢出内容 */
+    overflow: hidden;
 }
 
-/* 3. 防止内容在折叠时换行的内部容器 */
 .sidebarInner {
-    width: 300px; /* 固定内部宽度 */
+    width: 300px;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
+/* 3. 头部 */
 .sidebarHeader {
     padding: 16px;
     border-bottom: 1px solid var(--teacher-border-color);
@@ -32,50 +29,44 @@
 }
 .searchBar { display: flex; align-items: center; gap: 8px; background-color: #f3f4f6; padding: 8px 12px; border-radius: 8px; }
 .searchBar input { background: transparent; border: none; outline: none; width: 100%; }
+.searchSkeleton { width: 100%; height: 38px; border-radius: 8px; background-color: #f3f4f6; }
 
+
+/* 4. 内容区 */
 .sidebarContent {
     flex-grow: 1;
     overflow-y: auto;
     padding: 8px;
 }
+.sidebarContent::-webkit-scrollbar { width: 5px; }
+.sidebarContent::-webkit-scrollbar-track { background: transparent; }
+.sidebarContent::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
 
-/* 4. 底部返回按钮 */
+/* 5. 底部 */
 .sidebarFooter {
     padding: 16px;
     border-top: 1px solid var(--teacher-border-color);
     flex-shrink: 0;
 }
 .backButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    background: none;
-    border: 1px solid var(--teacher-border-color);
-    font-size: 14px;
-    color: var(--teacher-text-secondary);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 10px; border-radius: 8px;
+    background: none; border: 1px solid var(--teacher-border-color);
+    font-size: 14px; font-weight: 500; color: var(--teacher-text-secondary);
+    cursor: pointer; text-decoration: none; transition: all .2s;
 }
-.backButton:hover {
-    background-color: var(--teacher-bg-hover);
-    border-color: #ccc;
-}
+.backButton:hover { background-color: var(--teacher-bg-hover); border-color: #ccc; }
 
-/* 5. 折叠/展开按钮（通用样式） */
+/* 6. 切换按钮 */
 .toggleButton {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    left: 100%;
+    transform: translateY(-50%) translateX(-50%);
     width: 30px;
-    height: 60px; /* 增大点击区域 */
-    border-radius: 8px 8px 8px 8px;
+    height: 60px;
+    border-radius: 8px;
     background-color: var(--teacher-white);
-    margin-right: 5px;
     border: 1px solid var(--teacher-border-color);
     cursor: pointer;
     z-index: 10;
@@ -84,61 +75,37 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-}
-.toggleButton:hover {
-    color: var(--teacher-primary);
-}
-
-/* 位于侧边栏内部的折叠按钮 */
-.sidebar .toggleButton {
-    right: 0px;
-}
-
-/* 悬浮在页面左侧的展开按钮 */
-.floatingToggleButton {
-    left: 0;
     box-shadow: 2px 0 5px rgba(0,0,0,0.05);
 }
+.toggleButton:hover { color: var(--teacher-primary); }
 
-
-/* --- 三级目录样式 (保持不变) --- */
-.chapter { margin-bottom: 8px; }
-.chapterTitle {
-    display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; font-weight: 600; font-size: 15px;
-    padding: 10px 8px;
-    border-radius: 6px;
+/* --- 导航树样式 --- */
+.chapterNode { list-style: none; margin-bottom: 8px; }
+.sectionNode { list-style: none; }
+.sectionList, .pointList { list-style: none; padding-left: 18px; position: relative; overflow: hidden; }
+.sectionList::before {
+    content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background-color: #e5e7eb;
 }
-.chapterTitle:hover { background-color: #f9fafb; }
 
-.chevron { transition: transform 0.2s; font-size: 12px; }
+.chapterTitle, .sectionTitle, .pointLink { display: flex; align-items: center; gap: 10px; padding: 10px 8px; border-radius: 6px; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+.chapterTitle:hover, .sectionTitle:hover { background-color: #f9fafb; }
+
+.chapterIcon { font-size: 16px; color: #6b7280; flex-shrink: 0; width: 20px; text-align: center;}
+.chapterText { font-weight: 600; font-size: 15px; color: var(--teacher-text-primary); }
+.chevron { font-size: 12px; margin-left: auto; transition: transform 0.2s; color: #9ca3af; }
 .expanded { transform: rotate(90deg); }
 
-.sectionList {
-    padding-left: 16px;
-    overflow: hidden;
-}
-.section { padding: 4px 0; }
-.sectionTitle {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--teacher-text-primary);
-    padding: 8px;
-    border-radius: 4px;
-}
+.sectionTitle { padding-left: 0; }
+.sectionText { flex-grow: 1; font-weight: 500; color: var(--teacher-text-secondary); }
 
-.pointList { display: flex; flex-direction: column; }
-.pointLink {
-    display: block; padding: 8px 8px 8px 16px; border-radius: 4px;
-    font-size: 14px; text-decoration: none; color: var(--teacher-text-secondary);
-    transition: all 0.2s;
-    position: relative;
-    border-left: 2px solid #e5e7eb;
-}
-.pointLink:hover { background-color: #f9fafb; color: var(--teacher-text-primary); }
-.pointLink.active {
-    background-color: var(--teacher-primary-light);
-    color: var(--teacher-primary);
-    font-weight: 500;
-    border-left-color: var(--teacher-primary);
-}
+.pointList { padding-left: 26px; }
+.pointLink { color: #4b5563; text-decoration: none; font-size: 14px; }
+.pointLink.active { background-color: var(--teacher-primary-light); color: var(--teacher-primary); font-weight: 600; }
+.hasActiveChild > .chapterTitle, .hasActiveChild > .sectionTitle { color: var(--teacher-primary); }
+.hasActiveChild > .chapterTitle .chapterIcon, .hasActiveChild > .sectionTitle .chevron { color: var(--teacher-primary); }
+
+/* 加载状态 */
+.loadingState, .chapterSkeleton { display: flex; flex-direction: column; gap: 10px; padding: 8px; }
+.lineSkeleton { height: 20px; background-color: #f3f4f6; border-radius: 4px; }
+.short { width: 70%; }

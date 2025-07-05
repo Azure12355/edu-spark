@@ -1,130 +1,154 @@
-// src/components/teacher/course-management/point-detail/SyllabusSidebar/SyllabusSidebar.tsx
+// [!file src/features/teacher/course/course-management/sub-features/point-detail/components/SyllabusSidebar/SyllabusSidebar.tsx]
 "use client";
-import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { syllabusData } from '@/shared/lib/data/syllabusData';
+import { SyllabusVO } from '../../types';
 import styles from './SyllabusSidebar.module.css';
+import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import ChapterNode from './ChapterNode';
 
-const SyllabusSidebar: React.FC = () => {
+interface SyllabusSidebarProps {
+    syllabus: SyllabusVO | null;
+    isLoading: boolean;
+    isCollapsed: boolean;
+    toggleCollapse: () => void;
+}
+
+const SidebarSkeleton: React.FC = () => (
+    <div className={styles.sidebarInner}>
+        <div className={styles.sidebarHeader}>
+            <div className={styles.searchSkeleton}></div>
+        </div>
+        <div className={styles.sidebarContent}>
+            {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className={styles.chapterSkeleton}>
+                    <div className={styles.lineSkeleton}></div>
+                    <div className={`${styles.lineSkeleton} ${styles.short}`}></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+
+const SyllabusSidebar: React.FC<SyllabusSidebarProps> = ({ syllabus, isLoading, isCollapsed, toggleCollapse }) => {
     const params = useParams();
-    const courseId = params.id;
-    const activePointId = params.pointId;
+    const courseId = params.id as string;
+    const activePointId = params.pointId as string;
+    const router = useRouter();
 
-    // 1. 状态：控制侧边栏是否折叠（现在叫 isVisible 更贴切）
-    const [isVisible, setIsVisible] = useState(true);
+    // 状态：用于控制哪些章节/分节是展开的
+    const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
 
-    const defaultExpanded = useMemo(() => {
-        const activeIds = new Set<string>();
-        for (const chapter of syllabusData) {
-            for (const section of chapter.sections) {
-                if (section.points.some(p => p.id === activePointId)) {
-                    activeIds.add(chapter.id);
-                    activeIds.add(section.id);
-                    break;
+    // 当大纲数据或当前知识点变化时，智能计算并设置默认展开项
+    useEffect(() => {
+        if (syllabus?.chapters) {
+            const newExpanded = new Set<string | number>();
+            let found = false;
+            for (const chapter of syllabus.chapters) {
+                for (const section of chapter.sections) {
+                    if (section.points.some(p => String(p.id) === activePointId)) {
+                        newExpanded.add(chapter.id);
+                        newExpanded.add(section.id);
+                        found = true;
+                        break;
+                    }
                 }
+                if (found) break;
             }
+            // 如果没找到当前激活的知识点，默认展开第一章
+            if (!found && syllabus.chapters.length > 0) {
+                newExpanded.add(syllabus.chapters[0].id);
+            }
+            setExpandedItems(newExpanded);
         }
-        return activeIds;
-    }, [activePointId]);
+    }, [syllabus, activePointId]);
 
-    const [expandedItems, setExpandedItems] = useState<Set<string>>(defaultExpanded);
-
-    const toggleItem = (id: string) => {
+    const handleToggleItem = (id: string | number) => {
         setExpandedItems(prev => {
             const newSet = new Set(prev);
-            if (newSet.has(id)) newSet.delete(id);
-            else newSet.add(id);
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
             return newSet;
         });
     };
 
+    // Framer Motion 动画变体
+    const sidebarVariants = {
+        open: { width: 300, transition: { type: 'spring', stiffness: 400, damping: 40 } },
+        collapsed: { width: 0, transition: { type: 'spring', stiffness: 400, damping: 40 } }
+    };
+
+    const contentVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.2, delay: 0.1 } },
+        exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
+    };
+
     return (
-        // 2. 使用一个外层容器来容纳侧边栏和悬浮按钮
         <div className={styles.sidebarWrapper}>
             <AnimatePresence>
-                {isVisible && (
+                {!isCollapsed && (
                     <motion.aside
                         className={styles.sidebar}
+                        variants={sidebarVariants}
+                        initial="collapsed"
+                        animate="open"
+                        exit="collapsed"
                     >
-                        <div className={styles.sidebarInner}>
-                            <div className={styles.sidebarHeader}>
+                        <motion.div className={styles.sidebarInner} variants={contentVariants} initial="hidden" animate="visible" exit="hidden">
+                            <header className={styles.sidebarHeader}>
                                 <div className={styles.searchBar}>
                                     <i className="fas fa-search"></i>
-                                    <input type="text" placeholder="搜索题目" />
+                                    <input type="text" placeholder="搜索知识点..." />
                                 </div>
-                            </div>
+                            </header>
 
                             <nav className={styles.sidebarContent}>
-                                {/* ... (导航树的 JSX 保持不变) ... */}
-                                {syllabusData.map(chapter => (
-                                    <div key={chapter.id} className={styles.chapter}>
-                                        <div className={styles.chapterTitle} onClick={() => toggleItem(chapter.id)}>
-                                            <span>{chapter.title}</span>
-                                            <i className={`fas fa-chevron-right ${styles.chevron} ${expandedItems.has(chapter.id) ? styles.expanded : ''}`}></i>
-                                        </div>
-                                        <AnimatePresence>
-                                            {expandedItems.has(chapter.id) && (
-                                                <motion.div
-                                                    initial="collapsed" animate="open" exit="collapsed"
-                                                    variants={{ open: { opacity: 1, height: 'auto' }, collapsed: { opacity: 0, height: 0 } }}
-                                                    className={styles.sectionList}
-                                                >
-                                                    {chapter.sections.map(section => (
-                                                        <div key={section.id} className={styles.section}>
-                                                            <div className={styles.sectionTitle} onClick={() => toggleItem(section.id)}>
-                                                                <span>{section.title}</span>
-                                                            </div>
-                                                            <div className={styles.pointList}>
-                                                                {section.points.map(point => (
-                                                                    <Link key={point.id} href={`/teacher/courses/${courseId}/syllabus/${point.id}`}
-                                                                          className={`${styles.pointLink} ${activePointId === point.id ? styles.active : ''}`}>
-                                                                        {point.title}
-                                                                    </Link>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                ))}
+                                {isLoading ? (
+                                    <SidebarSkeleton />
+                                ) : (
+                                    syllabus?.chapters.map(chapter => (
+                                        <ChapterNode
+                                            key={chapter.id}
+                                            chapter={chapter}
+                                            activePointId={activePointId}
+                                            expandedItems={expandedItems}
+                                            onToggleItem={handleToggleItem}
+                                        />
+                                    ))
+                                )}
                             </nav>
 
-                            {/* 3. 新增底部返回按钮 */}
-                            <div className={styles.sidebarFooter}>
-                                <Link href={`/teacher/courses/${courseId}/syllabus`} className={styles.backButton}>
-                                    <i className="fas fa-arrow-left"></i> 返回大纲总览
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* 4. 将折叠按钮放在侧边栏内部，以便一起消失 */}
-                        <button className={styles.toggleButton} onClick={() => setIsVisible(false)} title="收起大纲">
-                            <i className="fas fa-angle-double-left"></i>
-                        </button>
+                            <footer className={styles.sidebarFooter}>
+                                <Tooltip content="返回课程大纲" position="top">
+                                    <button onClick={() => router.push(`/teacher/courses/${courseId}/syllabus`)} className={styles.backButton}>
+                                        <i className="fas fa-arrow-left"></i>
+                                        <span>返回大纲总览</span>
+                                    </button>
+                                </Tooltip>
+                            </footer>
+                        </motion.div>
                     </motion.aside>
                 )}
             </AnimatePresence>
 
-            {/* 5. 新增的悬浮展开按钮，仅在侧边栏不可见时显示 */}
-            <AnimatePresence>
-                {!isVisible && (
-                    <motion.button
-                        className={`${styles.toggleButton} ${styles.floatingToggleButton}`}
-                        onClick={() => setIsVisible(true)}
-                        title="展开大纲"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <i className="fas fa-angle-double-right"></i>
-                    </motion.button>
-                )}
-            </AnimatePresence>
+            <button
+                className={styles.toggleButton}
+                onClick={toggleCollapse}
+                title={isCollapsed ? '展开目录' : '收起目录'}
+            >
+                <motion.i
+                    className="fas fa-chevron-left"
+                    animate={{ rotate: isCollapsed ? 0 : 180 }}
+                    transition={{ duration: 0.3 }}
+                />
+            </button>
         </div>
     );
 };

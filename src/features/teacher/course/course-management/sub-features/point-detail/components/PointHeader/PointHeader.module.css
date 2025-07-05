@@ -1,107 +1,141 @@
-/* src/components/teacher/course-management/point-detail/PointHeader/PointHeader.module.css */
 .headerCard {
     background-color: var(--teacher-white);
     border-radius: 12px;
     border: 1px solid var(--teacher-border-color);
-    padding: 24px;
+    padding: 24px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0; /* 确保 header 高度固定 */
 }
+
 .mainInfo {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+
 .title {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--teacher-text-primary);
     margin: 0;
 }
+
 .meta {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
+
 .tag {
-    background-color: #f3f4f6;
-    color: var(--teacher-text-secondary);
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 16px;
     font-size: 13px;
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
 }
+
+.type {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+}
+
 .difficulty {
-    background-color: #dcfce7;
+    background-color: #f0fdf4;
     color: #166534;
 }
+
+.genericTag {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
 .actions {
     display: flex;
     align-items: center;
-    gap: 16px;
-    color: var(--teacher-text-secondary);
-    font-size: 14px;
+    gap: 12px;
 }
-.actionButton {
-    background: none;
-    border: 1px solid var(--teacher-border-color);
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-}
-.actionButton:hover {
-    background-color: #f9fafb;
-    color: var(--teacher-text-primary);
-}
+
 .stats {
     display: flex;
     gap: 16px;
-    padding-left: 16px;
+    padding: 0 16px;
+    margin: 0 8px;
     border-left: 1px solid var(--teacher-border-color);
+    border-right: 1px solid var(--teacher-border-color);
+    color: var(--teacher-text-secondary);
+    font-size: 14px;
 }
 .stats span {
     display: flex;
     align-items: center;
     gap: 6px;
 }
+
+.actionButton {
+    background-color: white;
+    border: 1px solid var(--teacher-border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
+    transition: all 0.2s;
+}
+.actionButton:hover {
+    background-color: var(--teacher-bg-hover);
+    color: var(--teacher-text-primary);
+    border-color: #d1d5db;
+}
+
 .editButton {
     background-color: var(--teacher-primary);
     color: white;
     border-color: var(--teacher-primary);
-    font-weight: 500;
+    text-decoration: none; /* For Link component */
 }
 .editButton:hover {
-    background-color: #1e5fe8;
+    background-color: #1a5cff;
     color: white;
+    border-color: #1a5cff;
+    box-shadow: 0 2px 8px rgba(47, 123, 255, 0.2);
 }
 
-/* --- 新增：骨架屏样式 --- */
-.skeleton {
-    min-height: 105px; /* 与真实卡片高度差不多 */
-}
-
+/* --- 骨架屏样式 --- */
 @keyframes skeleton-loading {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
 
+.skeleton {
+    min-height: 97px; /* 与真实卡片高度一致，防止闪烁 */
+}
+
 .skeletonLine {
-    height: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    border-radius: 6px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
     background-size: 200% 100%;
-    animation: skeleton-loading 1.5s infinite;
+    animation: skeleton-loading 1.5s infinite linear;
 }
 
 .skeletonTitle {
     width: 60%;
     height: 28px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .skeletonTags {
     width: 40%;
+    height: 24px;
+}
+
+.skeletonButton {
+    width: 100px;
+    height: 38px;
 }

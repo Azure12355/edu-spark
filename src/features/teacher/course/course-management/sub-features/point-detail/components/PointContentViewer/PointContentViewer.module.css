@@ -1,26 +1,95 @@
-/* src/components/teacher/course-management/point-detail/PointContentViewer/PointContentViewer.module.css */
-.viewerContainer {
-    /* 使用 :global 来覆盖 bytemd 的内部样式 */
-    /* 核心：确保 markdown-body 有一个基准字体大小和行高 */
-    --font-size: 16px;
-}
+/**
+ * Bytemd 样式覆盖和增强
+ */
+
 .viewerContainer :global(.bytemd-preview) {
+    /* 让预览区域占据其父容器的全部空间 */
     height: 100%;
 }
+
 .viewerContainer :global(.markdown-body) {
-    font-size: var(--font-size);
+    /* 基础排版 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    font-size: 16px;
     line-height: 1.8;
     color: var(--teacher-text-primary);
+    background-color: transparent !important; /* 强制背景透明，由我们的父容器控制 */
+    padding: 0; /* 移除 Bytemd 的内边距，由我们的父容器控制 */
 }
 
 /* 标题样式 */
 .viewerContainer :global(.markdown-body h1),
 .viewerContainer :global(.markdown-body h2) {
     border-bottom: 1px solid var(--teacher-border-color);
-    padding-bottom: 0.5em;
-    margin-top: 1.8em;
+    padding-bottom: 0.4em;
+    margin-top: 2em;
     margin-bottom: 1em;
 }
-.viewerContainer :global(.markdown-body h1) { font-size: 2em; }
-.viewerContainer :global(.markdown-body h2) { font-size: 1.6em; }
-.viewerContainer :global(.markdown-body h3) { font-size: 1.4em; margin-top: 1.6em; margin-bottom: 0.8em;}
+.viewerContainer :global(.markdown-body h1) { font-size: 1.8em; }
+.viewerContainer :global(.markdown-body h2) { font-size: 1.5em; }
+.viewerContainer :global(.markdown-body h3) { font-size: 1.25em; margin-top: 1.6em; }
+
+/* 代码块样式 */
+.viewerContainer :global(.markdown-body pre > code) {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 14px;
+    padding: 16px;
+    border-radius: 8px;
+}
+.viewerContainer :global(.markdown-body pre .hljs-meta) {
+    font-style: italic;
+}
+
+/* 引用块样式 */
+.viewerContainer :global(.markdown-body blockquote) {
+    margin: 1.5em 0;
+    padding: 12px 20px;
+    background-color: #f7f9fc;
+    border-left: 4px solid var(--teacher-primary);
+    color: var(--teacher-text-secondary);
+}
+.viewerContainer :global(.markdown-body blockquote p) {
+    margin-bottom: 0.5em;
+}
+.viewerContainer :global(.markdown-body blockquote p:last-child) {
+    margin-bottom: 0;
+}
+
+/* 列表样式 */
+.viewerContainer :global(.markdown-body ul),
+.viewerContainer :global(.markdown-body ol) {
+    padding-left: 2em;
+}
+
+/* 链接样式 */
+.viewerContainer :global(.markdown-body a) {
+    color: var(--teacher-link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.viewerContainer :global(.markdown-body a:hover) {
+    text-decoration: underline;
+}
+
+/* 表格样式 */
+.viewerContainer :global(.markdown-body table) {
+    font-size: 14px;
+    border-collapse: collapse;
+    display: block; /* 允许横向滚动 */
+    overflow-x: auto;
+    margin: 1.5em 0;
+}
+.viewerContainer :global(.markdown-body th) {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+.viewerContainer :global(.markdown-body td),
+.viewerContainer :global(.markdown-body th) {
+    border: 1px solid var(--teacher-border-color);
+    padding: 10px 14px;
+}
+
+/* KaTeX 数学公式样式调整 (如果需要) */
+.viewerContainer :global(.katex-display) {
+    margin: 1.5em 0;
+}
