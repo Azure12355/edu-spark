@@ -7,6 +7,10 @@ import styles from './QuestionConfigPanel.module.css';
 import Tooltip from "@/shared/components/ui/Tooltip/Tooltip";
 import {QuestionDifficultyEnum, QuestionTypeEnum} from "@/features/teacher/course/course-management/sub-features/question-bank/types";
 import {EditableQuestion} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
+import {
+    QuestionDifficultyMap,
+    QuestionTypeTextMap
+} from "@/features/teacher/course/course-management/sub-features/question-bank/types/enums";
 
 // 1. 定义 Props 接口
 interface QuestionConfigPanelProps {
@@ -15,6 +19,8 @@ interface QuestionConfigPanelProps {
     onUpdate: <K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => void;
     onEditPoints: () => void; // 打开知识点选择模态框的回调
 }
+
+
 
 // 2. 抽离出可复用的配置组子组件
 const ConfigGroup: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -43,7 +49,7 @@ const QuestionConfigPanel: React.FC<QuestionConfigPanelProps> = ({ question, onU
                                 onClick={() => onUpdate('type', type)}
                                 className={question.type === type ? styles.active : ''}
                             >
-                                {type}
+                                {QuestionTypeTextMap[type]}
                             </button>
                         ))}
                     </div>
@@ -57,7 +63,7 @@ const QuestionConfigPanel: React.FC<QuestionConfigPanelProps> = ({ question, onU
                                 onClick={() => onUpdate('difficulty', d)}
                                 className={question.difficulty === d ? styles.active : ''}
                             >
-                                {d}
+                                {QuestionDifficultyMap[d].text}
                             </button>
                         ))}
                     </div>

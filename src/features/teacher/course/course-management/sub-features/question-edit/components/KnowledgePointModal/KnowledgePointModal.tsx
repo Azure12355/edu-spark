@@ -8,17 +8,21 @@ import styles from './KnowledgePointModal.module.css';
 import {
     useSyllabusForModal
 } from "@/features/teacher/course/course-management/sub-features/question-edit/hooks/useSyllabusForModal";
-import {KnowledgePointForSyllabus} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
+import {
+    KnowledgePointForSyllabus,
+    SyllabusVO
+} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
 
 // 1. 导入新的 Hook 和类型
 
 interface KnowledgePointModalProps {
     isOpen: boolean;
     onClose: () => void;
-    // 外部传入的已选中的知识点，只依赖于ID
-    currentPoints: Pick<KnowledgePointForSyllabus, 'id'>[];
-    // 回调返回的是ID数组，与 useQuestionEdit Hook 的期望一致
+    // currentPoints 期望的类型是 { id: number } 数组
+    currentPoints: { id: number }[];
+    // 【核心修复】onSave 回调的类型改为接收 number[]
     onSave: (newPointIds: number[]) => void;
+    syllabusData: SyllabusVO | null; // 假设大纲数据也传入
 }
 
 // 2. 将 UI 状态组件化，使主组件更清晰
@@ -110,7 +114,7 @@ const KnowledgePointModal: React.FC<KnowledgePointModalProps> = ({ isOpen, onClo
     };
 
     const handleSave = () => {
-        onSave(Array.from(selectedIds));
+        onSave(Array.from(selectedIds)); // 直接返回 ID 数组
         onClose();
     };
 

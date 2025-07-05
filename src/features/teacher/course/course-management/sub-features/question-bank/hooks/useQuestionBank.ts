@@ -24,13 +24,13 @@ interface UseQuestionBankReturn {
     };
     isLoading: boolean;
     error: string | null;
-    selectedPointId: string | null;
+    selectedPointId: string | null | number;
     searchTerm: string;
     filterType: '全部' | QuestionTypeEnum;
     selectedRowKeys: React.Key[];
 
     // Actions
-    handlePointSelect: (pointId: string) => void;
+    handlePointSelect: (pointId: string | number) => void;
     handleSearch: (term: string) => void;
     handleFilterChange: (type: '全部' | QuestionTypeEnum) => void;
     handlePageChange: (page: number, pageSize?: number) => void;
@@ -44,7 +44,7 @@ interface UseQuestionBankReturn {
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 10;
 
-export const useQuestionBank = (initialPointId: string | null): UseQuestionBankReturn => {
+export const useQuestionBank = (initialPointId: number | string | null): UseQuestionBankReturn => {
     // 3. 状态管理
     const [questions, setQuestions] = useImmer<QuestionVO[]>([]);
     const [pagination, setPagination] = useState({
@@ -56,7 +56,7 @@ export const useQuestionBank = (initialPointId: string | null): UseQuestionBankR
     const [error, setError] = useState<string | null>(null);
 
     // -- 交互状态 --
-    const [selectedPointId, setSelectedPointId] = useState<string | null>(initialPointId);
+    const [selectedPointId, setSelectedPointId] = useState<string | null | number>(initialPointId);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<'全部' | QuestionTypeEnum>('全部');
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -112,7 +112,7 @@ export const useQuestionBank = (initialPointId: string | null): UseQuestionBankR
 
 
     // 7. 定义所有交互回调函数
-    const handlePointSelect = (pointId: string) => {
+    const handlePointSelect = (pointId: string | number) => {
         setSelectedPointId(pointId);
         setPagination({ ...pagination, current: 1 }); // 切换知识点时重置分页
         setSelectedRowKeys([]); // 清空勾选

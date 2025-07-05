@@ -1,8 +1,7 @@
 /* 主容器：与之前的 skeleton 样式兼容 */
 .navigatorContainer {
     background-color: var(--teacher-white);
-    border: 1px solid var(--teacher-border-color);
-    border-radius: 12px;
+    border-right: 1px solid var(--teacher-border-color);
     height: 100%;
     display: flex;
     flex-direction: column;

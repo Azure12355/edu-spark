@@ -1,7 +1,7 @@
 // [!file src/features/teacher/course/course-management/sub-features/question-bank/QuestionBankPage.tsx]
 "use client";
 
-import React, { useMemo } from 'react';
+import React, {useEffect, useMemo} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './QuestionBank.module.css';
 
@@ -20,13 +20,7 @@ export default function QuestionBankPage() {
     // 2. 从全局 Store 获取初始化所需的数据
     const { syllabus, isLoading: isSyllabusLoading } = useSyllabusNavigator();
 
-    // 3. 动态推断初始选中的知识点ID
-    const initialPointId = useMemo(() => {
-        if (!syllabus || syllabus.length === 0) return null;
-        return syllabus[0]?.sections?.[0]?.points?.[0]?.id || null;
-    }, [syllabus]);
 
-    // 4. 【核心】一行代码获取所有业务逻辑和状态
     const {
         questions,
         pagination,
@@ -43,7 +37,19 @@ export default function QuestionBankPage() {
         handleDeleteQuestion,
         handleBatchDelete,
         setSelectedRowKeys,
-    } = useQuestionBank(initialPointId);
+    } = useQuestionBank(null);
+
+    useEffect(() => {
+        if (!isSyllabusLoading && syllabus && syllabus.chapters.length > 0) {
+            // 确保只有当 selectedPointId 还是 null 并且有可用的知识点时才设置
+            if (selectedPointId === null) {
+                const firstPointId = syllabus.chapters[0]?.sections?.[0]?.points?.[0]?.id;
+                if (firstPointId) {
+                    handlePointSelect(firstPointId); // 调用 Hook 提供的回调更新 selectedPointId
+                }
+            }
+        }
+    }, [isSyllabusLoading, syllabus, selectedPointId, handlePointSelect]); // 依赖项
 
 
     // 6. 优雅地处理错误状态

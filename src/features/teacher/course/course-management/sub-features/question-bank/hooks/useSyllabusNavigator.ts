@@ -12,7 +12,7 @@ import { getSyllabusByCourseId } from '../services/syllabusService';
 import {SyllabusVO} from "@/features/teacher/course/course-management/sub-features/syllabus/types";
 
 interface UseSyllabusNavigatorReturn {
-    syllabus: SyllabusVO | null | any;
+    syllabus: SyllabusVO | null ;
     isLoading: boolean;
     error: string | null;
     expandedItems: Set<string | number>;

@@ -1,7 +1,7 @@
 // [!file src/features/teacher/course/course-management/sub-features/question-edit/QuestionEditPage.tsx]
 "use client";
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import styles from './QuestionEditPage.module.css';
@@ -44,9 +44,21 @@ export default function QuestionEditPage() {
         closeKnowledgePointModal,
     } = useQuestionEdit();
 
+    // 2. 【核心修复】将 useMemo 调用移到组件的顶层
+    const currentPointsForModal = useMemo(() => {
+        // 如果 question 不存在，返回一个空数组，确保 useMemo 总是返回一个确定的类型
+        if (!question) {
+            return [];
+        }
+        return question.knowledgePoints.map(p => ({ id: p.knowledgePointId }));
+    }, [question]); // 依赖项改为 question，当整个 question 对象变化时重新计算
+
+
     if (isLoading || !question) {
         return <LoadingState />;
     }
+
+
 
     return (
         <div className={styles.pageContainer}>
@@ -100,14 +112,11 @@ export default function QuestionEditPage() {
             <KnowledgePointModal
                 isOpen={isKnowledgePointModalOpen}
                 onClose={closeKnowledgePointModal}
-                // @ts-ignore
                 syllabusData={syllabusForModal}
-                currentPoints={question.knowledgePoints}
+                currentPoints={currentPointsForModal} // 使用计算好的 prop
                 onSave={(newPointIds) => {
-                    // onSave 回调直接触发 handleFieldChange，传递 ID 列表
-                    // 这个逻辑在 useQuestionEdit Hook 中处理，将 ID 列表转换为对象列表
-                    // @ts-ignore
-                    handleFieldChange('knowledgePoints', newPointIds.map(id => ({ id })));
+                    // 这里的逻辑也需要适配 useQuestionEdit 的 handleFieldChange
+                    handleFieldChange('knowledgePoints', newPointIds.map(id => ({ id })) as any);
                 }}
             />
         </div>

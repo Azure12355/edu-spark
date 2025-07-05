@@ -10,7 +10,7 @@ import { useSyllabusNavigator } from '../../hooks/useSyllabusNavigator';
 import { useQuestionBankStore } from '../../store/questionBankStore';
 
 interface SyllabusNavigatorProps {
-    selectedPointId: string | null;
+    selectedPointId: string | null | number;
     onSelectPoint: (pointId: string) => void;
 }
 
