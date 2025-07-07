@@ -4,10 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ResourceCarousel.module.css';
-// [!code focus start]
-// 1. 从我们定义的领域类型中导入 BookItem
-import { BookItem } from '../../types';
-// [!code focus end]
+import { BookItem } from '@/shared/types';
 
 // 2. 更新组件的 Props 接口
 interface ResourceCarouselProps {

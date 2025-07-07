@@ -1,92 +1,74 @@
-import apiClient from '../api/apiClient'; // 引入我们配置好的 Axios 实例
+// src/shared/services/userService.ts
 
-// ===================================================================
-//  类型定义 (与后端 DTO 和 VO 对齐)
-// ===================================================================
-
-/**
- * 用户视图对象 (VO) - 用于安全地展示用户信息
- * 与后端的 UserVO.java 对应
- */
-export interface UserVO {
-    id: number;
-    username: string;
-    email?: string;
-    phoneNumber?: string;
-    nickname: string;
-    avatarUrl?: string;
-    bio?: string;
-    role: 'STUDENT' | 'TEACHER' | 'ADMIN';
-    status: 'ACTIVE' | 'INACTIVE' | 'BANNED';
-    metadata?: any;
-    lastLoginAt?: string; // ISO Date String
-    createdAt: string; // ISO Date String
-}
+import apiClient from '../api/apiClient';
+import {
+    UserVO,
+    UserLoginRequestDTO,
+    UserRegisterRequestDTO,
+    UserUpdateRequestDTO,
+    UserQueryRequestDTO,
+} from '../types';
+import { Page } from '@/shared/types'; // 引入通用的分页响应类型
 
 /**
- * 用户登录请求体 (DTO)
- * 与后端的 UserLoginRequest.java 对应
+ * @description 用户登录。
+ * @param {UserLoginRequestDTO} loginRequest - 登录请求体。
+ * @returns {Promise<UserVO>} 返回脱敏后的用户信息 (UserVO)。
  */
-export interface UserLoginRequest {
-    account: string; // 可以是 username, email, or phone
-    password?: string;
-}
-
-/**
- * 用户注册请求体 (DTO)
- * 与后端的 UserRegisterRequest.java 对应
- */
-export interface UserRegisterRequest {
-    username: string;
-    password?: string;
-    checkPassword?: string;
-}
-
-// ===================================================================
-//  API 调用函数
-// ===================================================================
-
-/**
- * 用户登录
- * @param loginRequest - 包含账户和密码的登录信息
- * @returns 返回脱敏后的用户信息 (UserVO)
- */
-export const login = async (loginRequest: UserLoginRequest): Promise<UserVO | any> => {
-    return apiClient.post<UserVO>('/user/login', loginRequest);
+export const login = (loginRequest: UserLoginRequestDTO): Promise<UserVO> => {
+    return apiClient.post('/user/login', loginRequest);
 };
 
 /**
- * 用户注册
- * @param registerRequest - 包含用户名、密码和确认密码的注册信息
- * @returns 返回新用户的 ID
+ * @description 用户注册。
+ * @param {UserRegisterRequestDTO} registerRequest - 注册请求体。
+ * @returns {Promise<number>} 返回新用户的 ID。
  */
-export const register = async (registerRequest: UserRegisterRequest): Promise<number | any> => {
-    return apiClient.post<number>('/user/register', registerRequest);
+export const register = (registerRequest: UserRegisterRequestDTO): Promise<number> => {
+    return apiClient.post('/user/register', registerRequest);
 };
 
 /**
- * 获取当前登录的用户信息
- * @returns 返回当前登录用户的脱敏信息 (UserVO)
+ * @description 获取当前登录的用户信息。
+ * @returns {Promise<UserVO>} 返回当前登录用户的脱敏信息 (UserVO)。
  */
-export const getLoginUser = async (): Promise<UserVO | any> => {
-    return apiClient.get<UserVO>('/user/get/login');
+export const getLoginUser = (): Promise<UserVO> => {
+    return apiClient.get('/user/get/login');
 };
 
 /**
- * 用户注销
- * @returns 返回操作是否成功
+ * @description 用户注销。
+ * @returns {Promise<boolean>} 返回操作是否成功。
  */
-export const logout = async (): Promise<boolean | any> => {
-    return apiClient.post<boolean>('/user/logout');
+export const logout = (): Promise<boolean> => {
+    return apiClient.post('/user/logout');
 };
 
 /**
- * 更新用户信息
- * 注意：后端需要实现 UserUpdateRequest DTO
- *
- * @param updateData - 包含要更新字段的对象
- * @returns 返回操作是否成功
+ * @description 更新用户信息 (只能由本人或管理员操作)。
+ * @param {UserUpdateRequestDTO} updateRequest - 更新请求体。
+ * @returns {Promise<boolean>} 返回操作是否成功。
  */
-// export const updateUser = async (updateData: Partial<UserVO>): Promise<boolean> => {
-//     return apiClient.post<boolean>('/user/update', updateData);
-// };
+export const updateUser = (updateRequest: UserUpdateRequestDTO): Promise<boolean> => {
+    return apiClient.post('/user/update', updateRequest);
+};
+
+/**
+ * @description 分页获取用户列表 (仅管理员)。
+ * @param {UserQueryRequestDTO} queryRequest - 查询请求体，包含分页、筛选和排序信息。
+ * @returns {Promise<Page<UserVO>>} 返回用户视图对象的分页结果。
+ */
+export const listUsersByPage = (queryRequest: UserQueryRequestDTO): Promise<Page<UserVO>> => {
+    return apiClient.post('/user/list/page', queryRequest);
+};
+
+/**
+ * @description 删除用户 (仅管理员)。
+ * 这是一个通用的删除请求，可以被其他服务复用。
+ * @param {number} userId - 要删除的用户的ID。
+ * @returns {Promise<boolean>} 返回操作是否成功。
+ */
+export const deleteUser = (userId: number): Promise<boolean> => {
+    // 后端的 /user/delete 接口接收一个包含 id 的 JSON 对象
+    return apiClient.post('/user/delete', { id: userId });
+};

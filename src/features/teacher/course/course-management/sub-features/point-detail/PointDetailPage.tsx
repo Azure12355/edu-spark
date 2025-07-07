@@ -109,14 +109,6 @@ export default function PointDetailPage() {
                 {pointDetail?.content ? <ContentWithFooter pointDetail={pointDetail} /> : <NoContentState />}
             </main>
 
-            {/* 8. 装配右侧辅助侧边栏 */}
-            <AuxiliarySidebar
-                toc={tableOfContents}
-                hotQuestions={hotQuestions}
-                activeTocId={activeTocId}
-                onTocLinkClick={handleTocLinkClick}
-                isLoading={isLoading}
-            />
         </motion.div>
     );
 }

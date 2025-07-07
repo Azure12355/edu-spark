@@ -7,11 +7,10 @@ import styles from './SyllabusNavigator.module.css';
 
 // 1. 导入新的 Hook 和 Store
 import { useSyllabusNavigator } from '../../hooks/useSyllabusNavigator';
-import { useQuestionBankStore } from '../../store/questionBankStore';
 
 interface SyllabusNavigatorProps {
     selectedPointId: string | null | number;
-    onSelectPoint: (pointId: string) => void;
+    onSelectPoint: (pointId: number) => void;
 }
 
 // 骨架屏组件
@@ -30,7 +29,6 @@ const NavigatorSkeleton = () => (
 const SyllabusNavigator: React.FC<SyllabusNavigatorProps> = ({ selectedPointId, onSelectPoint }) => {
     // 3. 调用新的 Hook 获取大纲数据和状态
     const { syllabus, isLoading, error, expandedItems, handleToggleItem } = useSyllabusNavigator();
-    const { questionBank } = useQuestionBankStore();
 
     // 根据传入的 props 定制化渲染 PointNode
     const CustomPointNode = ({ point }: { point: any }) => (

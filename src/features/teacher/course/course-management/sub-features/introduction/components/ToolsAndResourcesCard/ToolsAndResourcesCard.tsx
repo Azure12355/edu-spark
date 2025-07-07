@@ -3,10 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './ToolsAndResourcesCard.module.css';
-// [!code focus start]
-// 1. 从我们定义的领域类型中导入 TechStackItem 和 OnlineResourceItem
-import { TechStackItem, OnlineResourceItem } from '../../types';
-// [!code focus end]
+import {OnlineResourceItem, TechStackItem} from "@/shared/types";
+
 
 // 2. 更新组件的 Props 接口
 interface ToolsAndResourcesCardProps {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { UserVO } from '@/shared/services/userService'; // 从我们之前创建的 service 中导入类型
+import {UserVO} from "@/shared/types";
 
 // 1. 定义 Store 的状态和操作的类型
 interface UserState {

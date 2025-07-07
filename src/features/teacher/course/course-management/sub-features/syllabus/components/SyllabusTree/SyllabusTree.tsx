@@ -4,11 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-// [!code focus start]
-// 1. 导入我们新的领域类型
-import { ChapterVO, SectionVO, KnowledgePoint } from '../../types';
-// [!code focus end]
 import styles from './SyllabusTree.module.css';
+import {ChapterVO, KnowledgePoint, SectionVO} from "@/shared/types";
 
 // --- Props 定义 ---
 interface SyllabusTreeProps {

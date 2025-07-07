@@ -1,11 +1,11 @@
 // [!file src/features/teacher/course/course-management/sub-features/question-edit/components/AnswerEditor/TrueFalseEditor.tsx]
 import React from 'react';
 import styles from './AnswerEditor.module.css';
-import { EditableQuestion } from '../../types';
+import {QuestionVO} from "@/shared/types";
 
 interface TrueFalseEditorProps {
-    question: EditableQuestion;
-    onUpdate: (field: keyof EditableQuestion, value: any) => void;
+    question: QuestionVO;
+    onUpdate: (field: keyof QuestionVO, value: any) => void;
 }
 
 export const TrueFalseEditor: React.FC<TrueFalseEditorProps> = ({ question, onUpdate }) => {

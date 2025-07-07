@@ -4,8 +4,8 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { getSyllabusByCourseId } from '../services/syllabusService';
-import { SyllabusVO, ChapterVO } from '../types';
+import {SyllabusVO} from "@/shared/types";
+import {getSyllabusByCourseId} from "@/shared/services";
 
 interface UseSyllabusReturn {
     syllabus: SyllabusVO | null;
@@ -20,7 +20,7 @@ interface UseSyllabusReturn {
 
 export const useSyllabus = (): UseSyllabusReturn => {
     const params = useParams();
-    const courseId = params.id as string;
+    const courseId = params.id as unknown as number;
 
     const [syllabus, setSyllabus] = useState<SyllabusVO | null>(null);
     const [isLoading, setIsLoading] = useState(true);

@@ -1,9 +1,9 @@
 // [!file src/features/teacher/course/course-management/sub-features/point-detail/components/SyllabusSidebar/ChapterNode.tsx]
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChapterVO } from '../../types';
 import SectionNode from './SectionNode';
 import styles from './SyllabusSidebar.module.css';
+import {ChapterVO} from "@/shared/types";
 
 interface ChapterNodeProps {
     chapter: ChapterVO;

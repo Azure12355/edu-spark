@@ -3,10 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './LearningObjectives.module.css';
-// [!code focus start]
-// 1. 从我们定义的领域类型中导入 LearningObjectiveItem
-import { LearningObjectiveItem } from '../../types';
-// [!code focus end]
+import {LearningObjectiveItem} from "@/shared/types";
 
 // 2. 更新组件的 Props 接口
 interface LearningObjectivesProps {

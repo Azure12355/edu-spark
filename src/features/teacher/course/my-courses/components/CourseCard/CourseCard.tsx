@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './CourseCard.module.css';
-import { CourseVO } from '../../types';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import {CourseVO} from "@/shared/types/vo/CourseVO";
 
 interface CourseCardProps {
     course: CourseVO;

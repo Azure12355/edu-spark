@@ -8,10 +8,7 @@ import styles from './KnowledgePointModal.module.css';
 import {
     useSyllabusForModal
 } from "@/features/teacher/course/course-management/sub-features/question-edit/hooks/useSyllabusForModal";
-import {
-    KnowledgePointForSyllabus,
-    SyllabusVO
-} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
+import {SyllabusVO} from "@/shared/types";
 
 // 1. 导入新的 Hook 和类型
 

@@ -6,9 +6,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { getCourseVOById, getCourseDetailById } from '../services/introductionService';
-import { CourseVO, CourseDetail, FullCourseInfo } from '../types';
-import { useToast } from '@/shared/hooks/useToast';
+import {CourseDetail, CourseVO} from "@/shared/types";
+import {useToast} from "@/shared/hooks/useToast";
+import {getCourseDetail, getCourseVOById} from "@/shared/services";
+
+type FullCourseInfo = CourseVO & {
+    details: CourseDetail | null;
+};
 
 // Hook 返回值的类型定义，作为其对外的“契约”
 interface UseCourseIntroductionReturn {
@@ -30,7 +34,7 @@ interface UseCourseIntroductionReturn {
 export const useCourseIntroduction = (): UseCourseIntroductionReturn => {
     // 1. 从路由中获取课程ID
     const params = useParams();
-    const courseId = params.id as string;
+    const courseId = params.id as unknown as number;
 
     // 2. 状态管理
     const [fullCourseInfo, setFullCourseInfo] = useState<FullCourseInfo | null>(null);
@@ -62,7 +66,7 @@ export const useCourseIntroduction = (): UseCourseIntroductionReturn => {
             // allSettled 保证即使其中一个请求失败，另一个成功的结果也能被获取。
             const [courseResult, detailResult] = await Promise.allSettled([
                 getCourseVOById(courseId),
-                getCourseDetailById(courseId)
+                getCourseDetail(courseId)
             ]);
 
             // **处理 CourseVO 的结果**

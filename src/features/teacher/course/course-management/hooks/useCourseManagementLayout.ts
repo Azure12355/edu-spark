@@ -5,9 +5,9 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import {CourseVO} from "@/shared/types";
+import {getCourseVOById} from "@/shared/services";
 // 注意：我们需要一个能获取 CourseVO 的 service，这里我们复用 introduction 领域下的
-import { getCourseVOById } from '@/features/teacher/course/course-management/sub-features/introduction/services/introductionService';
-import { CourseVO } from '@/features/teacher/course/course-management/sub-features/introduction/types';
 
 interface UseCourseManagementLayoutReturn {
     course: CourseVO | null;
@@ -17,7 +17,7 @@ interface UseCourseManagementLayoutReturn {
 
 export const useCourseManagementLayout = (): UseCourseManagementLayoutReturn => {
     const params = useParams();
-    const courseId = params.id as string;
+    const courseId = params.id as unknown as number;
 
     const [course, setCourse] = useState<CourseVO | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);

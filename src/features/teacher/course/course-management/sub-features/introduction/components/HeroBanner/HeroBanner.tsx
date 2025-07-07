@@ -3,10 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './HeroBanner.module.css';
-// [!code focus start]
-// 1. 导入我们定义的类型
-import { CourseVO, CourseDetail } from '../../types';
-// [!code focus end]
+import {CourseDetail, CourseVO} from "@/shared/types";
 
 // 2. 定义组件的 Props 接口
 interface HeroBannerProps {

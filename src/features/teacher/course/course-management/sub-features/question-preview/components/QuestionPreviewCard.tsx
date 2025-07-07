@@ -9,14 +9,7 @@ import { motion } from 'framer-motion';
 import MarkdownRenderer from '@/shared/components/ui/MarkdownRenderer/MarkdownRenderer';
 
 import styles from './QuestionPreviewCard.module.css';
-import {
-    QuestionDifficultyMap,
-    QuestionTypeTextMap
-} from "@/features/teacher/course/course-management/sub-features/question-bank/types/enums";
-import {
-    QuestionTypeEnum,
-    QuestionVO
-} from "@/features/teacher/course/course-management/sub-features/question-bank/types";
+import {QuestionDifficultyTextMap, QuestionTypeEnum, QuestionTypeTextMap, QuestionVO} from "@/shared/types";
 
 interface QuestionPreviewCardProps {
     question: QuestionVO;
@@ -28,7 +21,7 @@ const QuestionPreviewCard: React.FC<QuestionPreviewCardProps> = ({ question }) =
 
     // 渲染选项部分
     const OptionsSection = () => {
-        if (![QuestionTypeEnum.SINGLE_CHOICE, QuestionTypeEnum.MULTIPLE_CHOICE].includes(question.type) || !question.options) {
+        if (![QuestionTypeEnum.SINGLE_CHOICE, QuestionTypeEnum.MULTIPLE_CHOICE].includes(question.type as QuestionTypeEnum) || !question.options) {
             return null;
         }
 
@@ -86,7 +79,7 @@ const QuestionPreviewCard: React.FC<QuestionPreviewCardProps> = ({ question }) =
         );
     };
 
-    const difficultyInfo = QuestionDifficultyMap[question.difficulty];
+    const difficultyInfo = QuestionDifficultyTextMap[question.difficulty];
     const typeText = QuestionTypeTextMap[question.type];
 
     return (
@@ -127,11 +120,11 @@ const QuestionPreviewCard: React.FC<QuestionPreviewCardProps> = ({ question }) =
                 </div>
                 <div className={styles.footerSection}>
                     <strong>创建者：</strong>
-                    <span>{question.creators.map(c => c.nickname).join(', ')}</span>
+                    <span>{question.creators!!.map(c => c.nickname).join(', ')}</span>
                 </div>
                 <div className={styles.footerSection}>
                     <strong>创建于：</strong>
-                    <span>{new Date(question.createdAt).toLocaleString()}</span>
+                    <span>{new Date(question.createdAt!!).toLocaleString()}</span>
                 </div>
             </footer>
         </motion.div>

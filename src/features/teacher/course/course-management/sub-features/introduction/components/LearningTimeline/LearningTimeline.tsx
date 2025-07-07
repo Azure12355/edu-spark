@@ -3,15 +3,13 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import styles from './LearningTimeline.module.css';
-// [!code focus start]
-// 1. 从我们定义的领域类型中导入 TimelineItem
-import { TimelineItem as TimelineItemData } from '../../types';
-// [!code focus end]
+
+import {TimelineItem} from "@/shared/types";
 
 // 2. 更新组件的 Props 接口
 interface LearningTimelineProps {
     // items 是一个可选的 TimelineItemData 数组
-    items?: TimelineItemData[];
+    items?: TimelineItem[];
 }
 
 // 3. 新增一个优雅的空状态组件

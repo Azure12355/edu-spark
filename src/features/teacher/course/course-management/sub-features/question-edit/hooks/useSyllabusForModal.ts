@@ -6,10 +6,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-
-// 1. 导入本领域的 Service 和类型
-import { getSyllabusForModal } from '../services/syllabusServiceForModal';
-import { SyllabusVO } from '../types';
+import {SyllabusVO} from "@/shared/types";
+import {getSyllabusByCourseId} from "@/shared/services";
 
 // 2. 定义 Hook 的返回值类型
 interface UseSyllabusForModalReturn {
@@ -29,7 +27,7 @@ const syllabusCache = new Map<string, SyllabusVO>();
 export const useSyllabusForModal = (): UseSyllabusForModalReturn => {
     // 4. 获取当前页面的 courseId
     const params = useParams();
-    const courseId = params.id as string;
+    const courseId = params.id as any;
 
     // 5. 定义状态
     const [syllabus, setSyllabus] = useState<SyllabusVO | null>(() => {
@@ -56,7 +54,7 @@ export const useSyllabusForModal = (): UseSyllabusForModalReturn => {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await getSyllabusForModal(courseId);
+            const data = await getSyllabusByCourseId(courseId);
             setSyllabus(data);
             syllabusCache.set(courseId, data); // 成功后存入缓存
         } catch (err: any) {

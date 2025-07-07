@@ -4,10 +4,11 @@ import React from 'react';
 import { Reorder } from 'framer-motion';
 import styles from './EditableChapterNode.module.css';
 // 1. 导入新的领域类型
-import { ChapterVO, SectionVO, KnowledgePoint } from '../../types';
 import EditableInput from '../common/EditableInput/EditableInput';
 import EditableSectionNode from '../EditableSectionNode/EditableSectionNode';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+
+import {ChapterVO, KnowledgePoint, SectionVO} from "@/shared/types";
 
 // 2. 更新 Props 接口，使其更具体、更清晰
 interface EditableChapterNodeProps {

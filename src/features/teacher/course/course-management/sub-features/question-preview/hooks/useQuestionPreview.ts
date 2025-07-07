@@ -6,10 +6,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-
-// 1. 导入本领域内的 Service 和类型
-import { getQuestionForPreview } from '../services/questionPreviewService';
-import { QuestionVO } from '../types';
+import {QuestionVO} from "@/shared/types";
+import {getQuestionVOById} from "@/shared/services";
 
 // 2. 定义 Hook 返回值类型，作为对外的“契约”
 interface UseQuestionPreviewReturn {
@@ -26,7 +24,7 @@ interface UseQuestionPreviewReturn {
 export const useQuestionPreview = (): UseQuestionPreviewReturn => {
     // 3. 从路由中获取 questionId
     const params = useParams();
-    const questionId = params.questionId as string;
+    const questionId = params.questionId as any;
 
     // 4. 定义组件的状态
     const [question, setQuestion] = useState<QuestionVO | null>(null);
@@ -49,7 +47,7 @@ export const useQuestionPreview = (): UseQuestionPreviewReturn => {
 
         try {
             // c. 调用 Service 发送 API 请求
-            const data = await getQuestionForPreview(questionId);
+            const data = await getQuestionVOById(questionId);
             setQuestion(data);
         } catch (err: any) {
             // d. 捕获错误， apiClient 的拦截器已经处理了 toast 提示

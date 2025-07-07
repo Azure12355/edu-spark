@@ -6,10 +6,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
+import {SyllabusVO} from "@/shared/types";
+import {getSyllabusByCourseId} from "@/shared/services";
 
-// 1. 导入本领域内的 Service 和类型
-import { getSyllabusByCourseId } from '../services/syllabusService';
-import {SyllabusVO} from "@/features/teacher/course/course-management/sub-features/syllabus/types";
 
 interface UseSyllabusNavigatorReturn {
     syllabus: SyllabusVO | null ;
@@ -21,7 +20,7 @@ interface UseSyllabusNavigatorReturn {
 
 export const useSyllabusNavigator = (): UseSyllabusNavigatorReturn => {
     const params = useParams();
-    const courseId = params.id as string;
+    const courseId = params.id as unknown as number;
 
     const [syllabus, setSyllabus] = useState<SyllabusVO | null>(null);
     const [isLoading, setIsLoading] = useState(true);

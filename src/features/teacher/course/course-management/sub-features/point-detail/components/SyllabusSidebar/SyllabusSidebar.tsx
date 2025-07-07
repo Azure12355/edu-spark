@@ -4,10 +4,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SyllabusVO } from '../../types';
 import styles from './SyllabusSidebar.module.css';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 import ChapterNode from './ChapterNode';
+import {SyllabusVO} from "@/shared/types";
 
 interface SyllabusSidebarProps {
     syllabus: SyllabusVO | null;

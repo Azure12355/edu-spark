@@ -6,11 +6,9 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-// [!code focus start]
-// 1. 导入 service 和类型
-import { getSyllabusByCourseId } from '../services/syllabusService';
-import { SyllabusVO, ChapterVO } from '../types';
-// [!code focus end]
+import {SyllabusVO} from "@/shared/types";
+import {getSyllabusByCourseId} from "@/shared/services";
+
 
 // 2. 更新 Store 的状态和操作类型
 interface SyllabusState {

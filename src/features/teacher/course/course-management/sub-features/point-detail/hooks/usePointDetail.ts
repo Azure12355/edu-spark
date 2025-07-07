@@ -10,11 +10,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'next/navigation';
 
 // 1. 导入所需类型和 Service
-import { KnowledgePointDetailVO, SyllabusVO } from '../types';
-import { getKnowledgePointDetail, updatePointDetail } from '../services/pointDetailService';
-import { getSyllabusByCourseId } from '@/features/teacher/course/course-management/sub-features/syllabus/services/syllabusService';
 import { TocItem } from '../components/AuxiliarySidebar/TableOfContents';
-import { HotQuestion, hotQuestions as mockHotQuestions } from '@/shared/lib/data/pointDetailData';
+import {KnowledgePointDetailVO, SyllabusVO} from "@/shared/types";
+import {getKnowledgePointDetail, getSyllabusByCourseId} from '@/shared/services';
 
 // 2. 定义 Hook 返回值类型，作为对外的“契约”
 interface UsePointDetailReturn {
@@ -27,7 +25,6 @@ interface UsePointDetailReturn {
     toggleSyllabusSidebar: () => void;
     tableOfContents: TocItem[];
     activeTocId: string;
-    hotQuestions: HotQuestion[];
     handleTocLinkClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
     contentContainerRef: React.RefObject<HTMLDivElement> | any;
 }
@@ -35,8 +32,8 @@ interface UsePointDetailReturn {
 export const usePointDetail = (): UsePointDetailReturn => {
     // 3. 状态管理
     const params = useParams();
-    const courseId = params.id as string;
-    const pointId = params.pointId as string;
+    const courseId = params.id as unknown as number;
+    const pointId = params.pointId as unknown as number;
 
     const [pointDetail, setPointDetail] = useState<KnowledgePointDetailVO | null>(null);
     const [syllabus, setSyllabus] = useState<SyllabusVO | null>(null);
@@ -47,7 +44,6 @@ export const usePointDetail = (): UsePointDetailReturn => {
     // -- 右侧辅助栏相关状态 --
     const [tableOfContents, setTableOfContents] = useState<TocItem[]>([]);
     const [activeTocId, setActiveTocId] = useState('');
-    const [hotQuestions, setHotQuestions] = useState<HotQuestion[]>([]);
     const contentContainerRef = useRef<HTMLDivElement>(null);
     const observer = useRef<IntersectionObserver | null>(null);
 
@@ -145,10 +141,6 @@ export const usePointDetail = (): UsePointDetailReturn => {
         };
     }, [pointDetail?.content]); // 依赖于知识点内容的实际变化
 
-    // 6. 其他业务逻辑
-    useEffect(() => {
-        setHotQuestions(mockHotQuestions);
-    }, []);
 
     const toggleSyllabusSidebar = useCallback(() => setIsSyllabusSidebarCollapsed(prev => !prev), []);
 
@@ -172,7 +164,6 @@ export const usePointDetail = (): UsePointDetailReturn => {
         toggleSyllabusSidebar,
         tableOfContents,
         activeTocId,
-        hotQuestions,
         handleTocLinkClick,
         contentContainerRef,
     };

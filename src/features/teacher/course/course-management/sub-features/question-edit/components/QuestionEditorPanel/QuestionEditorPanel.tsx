@@ -9,13 +9,13 @@ import AnswerEditor
     from "@/features/teacher/course/course-management/sub-features/question-edit/components/AnswerEditor/AnswerEditor";
 import AnalysesEditor
     from "@/features/teacher/course/course-management/sub-features/question-edit/components/AnalysesEditor/AnalysesEditor";
-import {EditableQuestion} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
+import {QuestionVO} from "@/shared/types";
 
 // 1. 导入类型和所有子组件
 
 interface QuestionEditorPanelProps {
-    question: EditableQuestion;
-    onUpdate: (field: keyof EditableQuestion, value: any) => void;
+    question: QuestionVO;
+    onUpdate: (field: keyof QuestionVO, value: any) => void;
 }
 
 // 2. 定义动画变体，用于交错加载

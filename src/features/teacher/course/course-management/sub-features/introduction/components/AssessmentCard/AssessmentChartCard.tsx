@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import EChartsReactCore from '@/shared/components/ui/ECharts/EChartsReactCore';
 import type { EChartsOption } from 'echarts';
 import styles from './AssessmentChartCard.module.css';
-import { AssessmentItem } from '../../types'; // 从我们定义的领域类型中导入
+import {AssessmentItem} from "@/shared/types";
 
 // 定义组件 Props
 interface AssessmentChartCardProps {

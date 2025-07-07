@@ -2,12 +2,10 @@
 
 import React from 'react';
 import styles from './EditablePointNode.module.css';
-// [!code focus start]
-// 1. 导入我们新的领域类型
-import { KnowledgePoint } from '../../types';
-// [!code focus end]
+
 import EditableInput from '../common/EditableInput/EditableInput';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import {KnowledgePoint} from "@/shared/types";
 
 // 定义组件的 Props 接口
 interface EditablePointNodeProps {

@@ -3,17 +3,17 @@
 
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { EditableQuestion, QuestionTypeEnum } from '../../types';
 import styles from './AnswerEditor.module.css';
 
 // 导入所有子组件
 import { OptionsBasedEditor } from './OptionsBasedEditor';
 import { TrueFalseEditor } from './TrueFalseEditor';
 import { MarkdownBasedEditor } from './MarkdownBasedEditor';
+import {QuestionTypeEnum, QuestionVO} from "@/shared/types";
 
 interface AnswerEditorProps {
-    question: EditableQuestion;
-    onUpdate: (field: keyof EditableQuestion, value: any) => void;
+    question: QuestionVO;
+    onUpdate: (field: keyof QuestionVO, value: any) => void;
 }
 
 const AnswerEditor: React.FC<AnswerEditorProps> = ({ question, onUpdate }) => {

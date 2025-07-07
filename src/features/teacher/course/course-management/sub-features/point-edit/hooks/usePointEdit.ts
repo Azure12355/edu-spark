@@ -8,13 +8,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useImmer } from 'use-immer'; // 使用 Immer 来简化状态更新
 
-// 1. 导入类型和 Service
-import { LocalEditablePoint, PointUpdateRequestDTO } from '../types';
-import { getPointForEdit, savePointChanges } from '../services/pointEditService';
 
 // 2. 导入共享 Hooks 和 Store
 import { useToast } from '@/shared/hooks/useToast';
 import { useSyllabusStore } from '@/features/teacher/course/course-management/sub-features/syllabus/store/syllabusStore';
+import {LocalEditablePoint} from "@/features/teacher/course/course-management/sub-features/point-edit/types";
+import {PointUpdateRequestDTO} from "@/shared/types";
+import {getKnowledgePointDetail, updatePoint} from "@/shared/services";
 
 // 3. 定义 Hook 的返回值类型
 interface UsePointEditReturn {
@@ -35,8 +35,8 @@ export const usePointEdit = (): UsePointEditReturn => {
     const showToast = useToast();
     const { fetchSyllabus } = useSyllabusStore(); // 用于保存成功后刷新全局大纲
 
-    const courseId = params.id as string;
-    const pointId = params.pointId as string;
+    const courseId = params.id as any;
+    const pointId = params.pointId as any;
 
     const [localPoint, setLocalPoint] = useImmer<LocalEditablePoint | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -50,11 +50,11 @@ export const usePointEdit = (): UsePointEditReturn => {
         const loadPointData = async () => {
             setIsLoading(true);
             try {
-                const data = await getPointForEdit(pointId);
+                const data = await getKnowledgePointDetail(pointId);
                 // 将获取到的完整 VO 数据转换为本地可编辑的状态模型
                 setLocalPoint({
                     id: data.id,
-                    title: data.title,
+                    title: data?.title || '未知标题',
                     content: data.content || '', // 确保 content 不为 undefined
                     type: data.type,
                     difficulty: data.difficulty || '中等', // 提供默认值
@@ -105,7 +105,7 @@ export const usePointEdit = (): UsePointEditReturn => {
                 },
             };
 
-            await savePointChanges(updateDto);
+            await updatePoint(updateDto);
 
             showToast({ message: '知识点已成功保存！', type: 'success' });
 

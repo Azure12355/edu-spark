@@ -4,19 +4,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './QuestionConfigPanel.module.css';
-import Tooltip from "@/shared/components/ui/Tooltip/Tooltip";
-import {QuestionDifficultyEnum, QuestionTypeEnum} from "@/features/teacher/course/course-management/sub-features/question-bank/types";
-import {EditableQuestion} from "@/features/teacher/course/course-management/sub-features/question-edit/types";
 import {
-    QuestionDifficultyMap,
-    QuestionTypeTextMap
-} from "@/features/teacher/course/course-management/sub-features/question-bank/types/enums";
+    QuestionDifficultyEnum,
+    QuestionDifficultyTextMap,
+    QuestionTypeEnum,
+    QuestionTypeTextMap,
+    QuestionVO
+} from "@/shared/types";
 
 // 1. 定义 Props 接口
 interface QuestionConfigPanelProps {
-    question: EditableQuestion;
+    question: QuestionVO;
     // onUpdate 回调现在更具体
-    onUpdate: <K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => void;
+    onUpdate: <K extends keyof QuestionVO>(field: K, value: QuestionVO[K]) => void;
     onEditPoints: () => void; // 打开知识点选择模态框的回调
 }
 
@@ -63,7 +63,7 @@ const QuestionConfigPanel: React.FC<QuestionConfigPanelProps> = ({ question, onU
                                 onClick={() => onUpdate('difficulty', d)}
                                 className={question.difficulty === d ? styles.active : ''}
                             >
-                                {QuestionDifficultyMap[d].text}
+                                {QuestionDifficultyTextMap[d].text}
                             </button>
                         ))}
                     </div>

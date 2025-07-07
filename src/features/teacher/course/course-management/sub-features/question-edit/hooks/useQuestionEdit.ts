@@ -10,35 +10,32 @@ import { useParams, useRouter } from 'next/navigation';
 import { useImmer } from 'use-immer';
 
 // 1. 导入所需的所有类型、Service 和共享 Hooks
-import {
-    EditableQuestion,
-    QuestionAddRequestDTO,
-    QuestionUpdateRequestDTO,
-    QuestionTypeEnum,
-    QuestionDifficultyEnum,
-    SyllabusVO,
-    QuestionKnowledgePointLinkVO,
-} from '../types';
-import { getQuestionForEdit, createQuestion, updateQuestion } from '../services/questionEditService';
-import { getSyllabusForModal } from '../services/syllabusServiceForModal';
 import { useToast } from '@/shared/hooks/useToast';
+import {
+    QuestionAddRequestDTO,
+    QuestionDifficultyEnum,
+    QuestionKnowledgePointLinkVO,
+    QuestionTypeEnum, QuestionUpdateRequestDTO, QuestionVO,
+    SyllabusVO
+} from "@/shared/types";
+import {addQuestion, getQuestionVOById, getSyllabusByCourseId, updateQuestion} from "@/shared/services";
 
 // 2. 定义 Hook 返回的接口，这是它与外界的“契约”
 interface UseQuestionEditReturn {
-    question: EditableQuestion | null;
+    question: QuestionVO | null;
     syllabusForModal: SyllabusVO | null;
     mode: 'create' | 'edit';
     isLoading: boolean;
     isSaving: boolean;
     isKnowledgePointModalOpen: boolean;
-    handleFieldChange: <K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => void;
+    handleFieldChange: <K extends keyof QuestionVO>(field: K, value: QuestionVO[K]) => void;
     handleSave: () => Promise<void>;
     openKnowledgePointModal: () => void;
     closeKnowledgePointModal: () => void;
 }
 
 // 3. 创建新题目的默认模板
-const createDefaultQuestion = (): EditableQuestion => ({
+const createDefaultQuestion = (): QuestionVO => ({
     id: `new-${Date.now()}`,
     type: QuestionTypeEnum.SINGLE_CHOICE,
     difficulty: QuestionDifficultyEnum.MEDIUM,
@@ -55,10 +52,10 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
     const router = useRouter();
     const showToast = useToast();
 
-    const courseId = params.id as string;
-    const questionId = params.questionId as string;
+    const courseId = params.id as any;
+    const questionId = params.questionId as any;
 
-    const [question, setQuestion] = useImmer<EditableQuestion | null>(null);
+    const [question, setQuestion] = useImmer<QuestionVO | null>(null);
     const [syllabusForModal, setSyllabusForModal] = useState<SyllabusVO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -75,8 +72,8 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
             try {
                 // 并行获取题目详情和课程大纲
                 const [questionData, syllabusData] = await Promise.all([
-                    mode === 'edit' ? getQuestionForEdit(questionId) : Promise.resolve(createDefaultQuestion()),
-                    getSyllabusForModal(courseId)
+                    mode === 'edit' ? getQuestionVOById(questionId) : Promise.resolve(createDefaultQuestion()),
+                    getSyllabusByCourseId(courseId)
                 ]);
 
                 setQuestion(questionData);
@@ -94,7 +91,7 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
 
 
     // 6. 统一的状态更新函数 (包含复杂的业务联动逻辑)
-    const handleFieldChange = useCallback(<K extends keyof EditableQuestion>(field: K, value: EditableQuestion[K]) => {
+    const handleFieldChange = useCallback(<K extends keyof QuestionVO>(field: K, value: QuestionVO[K]) => {
         setQuestion(draft => {
             if (!draft) return;
 
@@ -190,7 +187,7 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
                     analyses: question.analyses.filter(Boolean),
                     knowledgePointIds: knowledgePointIds,
                 };
-                const newId = await createQuestion(addDto);
+                const newId = await addQuestion(addDto);
                 showToast({ message: '题目创建成功！', type: 'success' });
                 router.replace(`/teacher/courses/${courseId}/questions/${newId}/preview`);
             } else {

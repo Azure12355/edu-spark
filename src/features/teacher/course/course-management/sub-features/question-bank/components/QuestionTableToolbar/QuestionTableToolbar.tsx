@@ -4,9 +4,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './QuestionTableToolbar.module.css';
-import { QuestionTypeEnum } from '../../types';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
-import {QuestionTypeTextMap} from "@/features/teacher/course/course-management/sub-features/question-bank/types/enums";
+import {QuestionTypeEnum, QuestionTypeTextMap} from "@/shared/types";
 
 // 1. 定义 props 接口，使其成为一个完全受控的组件
 interface QuestionTableToolbarProps {

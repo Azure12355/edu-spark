@@ -4,8 +4,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './QuestionTable.module.css';
-import { QuestionVO } from '../../types';
 import TableRow from './TableRow';
+import {QuestionVO} from "@/shared/types";
 
 interface QuestionTableProps {
     questions: QuestionVO[];

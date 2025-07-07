@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import styles from './PointHeader.module.css';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
-import { KnowledgePointDetailVO } from '../../types'; // 使用更详细的 VO 类型
+import {KnowledgePointDetailVO} from "@/shared/types";
 
 // 1. 将骨架屏抽离为独立的、清晰的子组件
 const HeaderSkeleton: React.FC = () => (

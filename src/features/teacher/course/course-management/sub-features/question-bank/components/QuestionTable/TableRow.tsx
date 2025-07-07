@@ -6,10 +6,9 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import styles from './QuestionTable.module.css';
-import { QuestionVO } from '../../types';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import {QuestionDifficultyTextMap, QuestionTypeTextMap, QuestionVO} from "@/shared/types";
 // 1. 导入新的枚举映射
-import { QuestionTypeTextMap, QuestionDifficultyMap } from '../../types/enums';
 
 interface TableRowProps {
     question: QuestionVO;
@@ -30,7 +29,7 @@ const TableRow: React.FC<TableRowProps> = ({ question, isSelected, onSelectRow, 
 
     // 2. 从映射中获取中文文本和样式
     const typeText = QuestionTypeTextMap[question.type] || question.type;
-    const difficultyInfo = QuestionDifficultyMap[question.difficulty] || { text: question.difficulty, className: '' };
+    const difficultyInfo = QuestionDifficultyTextMap[question.difficulty] || { text: question.difficulty, className: '' };
 
     return (
         <motion.tr

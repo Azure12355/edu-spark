@@ -8,10 +8,7 @@ import styles from './LearningMethodsCard.module.css';
 interface LearningMethodsCardProps {
     title: string;
     intro: string;
-    // [!code focus start]
-    // learningMethods 是一个可选的字符串数组，与 CourseDetail 实体对应
     methods?: string[];
-    // [!code focus end]
 }
 
 // 动画变体 (保持不变)

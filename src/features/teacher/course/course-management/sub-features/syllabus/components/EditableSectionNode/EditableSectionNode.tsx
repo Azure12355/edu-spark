@@ -3,13 +3,11 @@
 import React from 'react';
 import { Reorder } from 'framer-motion';
 import styles from './EditableSectionNode.module.css';
-// [!code focus start]
-// 1. 导入新的领域类型
-import { SectionVO, KnowledgePoint } from '../../types';
-// [!code focus end]
+
 import EditableInput from '../common/EditableInput/EditableInput';
 import EditablePointNode from '../EditablePointNode/EditablePointNode';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import {KnowledgePoint, SectionVO} from "@/shared/types";
 
 // 2. 更新 Props 接口
 interface EditableSectionNodeProps {

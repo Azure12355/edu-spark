@@ -2,12 +2,12 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AnswerEditor.module.css';
-import { EditableQuestion } from '../../types';
 import Tooltip from "@/shared/components/ui/Tooltip/Tooltip";
+import { QuestionVO } from '@/shared/types';
 
 interface OptionsBasedEditorProps {
-    question: EditableQuestion;
-    onUpdate: (field: keyof EditableQuestion, value: any) => void;
+    question: QuestionVO;
+    onUpdate: (field: keyof QuestionVO, value: any) => void;
 }
 
 const itemVariants = {

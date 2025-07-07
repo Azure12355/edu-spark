@@ -8,8 +8,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/shared/hooks/useToast';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import { useUserStore } from '@/shared/store/userStore';
-import { listCoursesByPage, batchDeleteCourses } from '../services/courseService';
-import { CourseVO, Page, CourseQueryRequest } from '../types';
+import {CourseVO, CourseQueryRequestDTO, Page} from "@/shared/types";
+import {batchDeleteCourses, listCourseVOByPage} from "@/shared/services";
 
 // 定义排序状态的类型 (无变化)
 type Sorter = {
@@ -81,7 +81,7 @@ export const useMyCourses = (): UseMyCoursesReturn => {
         setError(null);
         setSelectedRowKeys([]);
 
-        let statusParam: CourseQueryRequest['status'] | undefined;
+        let statusParam: CourseQueryRequestDTO['status'] | undefined;
         switch (filterStatus) {
             case '进行中': statusParam = 'PUBLISHED'; break;
             case '已结束': statusParam = 'ARCHIVED'; break;
@@ -89,7 +89,7 @@ export const useMyCourses = (): UseMyCoursesReturn => {
             default: statusParam = undefined; // '全部课程'
         }
 
-        const query: CourseQueryRequest = {
+        const query: CourseQueryRequestDTO = {
             current: pagination.current,
             pageSize: pagination.pageSize,
             creatorId: loginUser.id,
@@ -100,7 +100,7 @@ export const useMyCourses = (): UseMyCoursesReturn => {
         };
 
         try {
-            const result: Page<CourseVO> = await listCoursesByPage(query);
+            const result: Page<CourseVO> = await listCourseVOByPage(query);
             setCourses(result.records);
             setPagination(prev => ({ ...prev, total: result.total }));
         } catch (err: any) {
@@ -176,7 +176,7 @@ export const useMyCourses = (): UseMyCoursesReturn => {
         }
         setIsLoading(true);
         try {
-            const success = await batchDeleteCourses(selectedRowKeys);
+            const success = await batchDeleteCourses({ids: selectedRowKeys});
             if (success) {
                 showToast({ message: `成功删除 ${selectedRowKeys.length} 门课程`, type: 'success' });
                 const remainingItems = pagination.total - selectedRowKeys.length;

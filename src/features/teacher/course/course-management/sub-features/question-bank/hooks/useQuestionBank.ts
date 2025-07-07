@@ -9,10 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useImmer } from 'use-immer';
 
 // 1. 导入类型、Service 和共享 Hooks
-import { QuestionVO, Page, QuestionTypeEnum } from '../types';
-import { getQuestionsByPointIdPaginated, batchDeleteQuestions, deleteQuestionById } from '../services/questionBankService';
 import { useToast } from '@/shared/hooks/useToast';
 import { useDebounce } from '@/shared/hooks/useDebounce';
+import {Page, QuestionTypeEnum, QuestionVO} from "@/shared/types";
+import {listQuestionVOByPage, deleteQuestion, batchDeleteQuestions} from "@/shared/services";
 
 // 2. 定义 Hook 返回值类型
 interface UseQuestionBankReturn {
@@ -30,7 +30,7 @@ interface UseQuestionBankReturn {
     selectedRowKeys: React.Key[];
 
     // Actions
-    handlePointSelect: (pointId: string | number) => void;
+    handlePointSelect: (pointId: number) => void;
     handleSearch: (term: string) => void;
     handleFilterChange: (type: '全部' | QuestionTypeEnum) => void;
     handlePageChange: (page: number, pageSize?: number) => void;
@@ -44,7 +44,7 @@ interface UseQuestionBankReturn {
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 10;
 
-export const useQuestionBank = (initialPointId: number | string | null): UseQuestionBankReturn => {
+export const useQuestionBank = (initialPointId: number | null): UseQuestionBankReturn => {
     // 3. 状态管理
     const [questions, setQuestions] = useImmer<QuestionVO[]>([]);
     const [pagination, setPagination] = useState({
@@ -56,7 +56,7 @@ export const useQuestionBank = (initialPointId: number | string | null): UseQues
     const [error, setError] = useState<string | null>(null);
 
     // -- 交互状态 --
-    const [selectedPointId, setSelectedPointId] = useState<string | null | number>(initialPointId);
+    const [selectedPointId, setSelectedPointId] = useState<null | number>(initialPointId);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<'全部' | QuestionTypeEnum>('全部');
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -79,7 +79,8 @@ export const useQuestionBank = (initialPointId: number | string | null): UseQues
         try {
             // 在实际项目中，searchTerm 和 filterType 应该作为参数传给后端
             // 这里我们暂时在前端进行模拟筛选
-            const pageData: Page<QuestionVO> = await getQuestionsByPointIdPaginated(selectedPointId, {
+            const pageData: Page<QuestionVO> = await listQuestionVOByPage({
+                knowledgePointId: selectedPointId,
                 current: pagination.current,
                 pageSize: pagination.pageSize,
             });
@@ -112,7 +113,7 @@ export const useQuestionBank = (initialPointId: number | string | null): UseQues
 
 
     // 7. 定义所有交互回调函数
-    const handlePointSelect = (pointId: string | number) => {
+    const handlePointSelect = (pointId: number) => {
         setSelectedPointId(pointId);
         setPagination({ ...pagination, current: 1 }); // 切换知识点时重置分页
         setSelectedRowKeys([]); // 清空勾选
@@ -136,7 +137,7 @@ export const useQuestionBank = (initialPointId: number | string | null): UseQues
 
     const handleDeleteQuestion = async (questionId: number) => {
         try {
-            await deleteQuestionById(questionId);
+            await deleteQuestion(questionId);
             showToast({ message: '题目删除成功！', type: 'success' });
             refetch(); // 重新加载数据
         } catch (error: any) {
@@ -150,7 +151,7 @@ export const useQuestionBank = (initialPointId: number | string | null): UseQues
             return;
         }
         try {
-            await batchDeleteQuestions(selectedRowKeys as number[]);
+            await batchDeleteQuestions({ids: selectedRowKeys as number[]});
             showToast({ message: `成功删除 ${selectedRowKeys.length} 道题目`, type: 'success' });
             setSelectedRowKeys([]); // 清空选择
             refetch(); // 重新加载数据

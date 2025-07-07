@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { SectionVO } from '../../types';
 import styles from './SyllabusSidebar.module.css';
+import {SectionVO} from "@/shared/types";
 
 interface SectionNodeProps {
     section: SectionVO;

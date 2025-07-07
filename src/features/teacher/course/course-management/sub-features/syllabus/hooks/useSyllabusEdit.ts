@@ -7,11 +7,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useSyllabusStore } from '../store/syllabusStore';
 import { useToast } from '@/shared/hooks/useToast';
-import { ChapterVO, SectionVO, KnowledgePoint } from '../types';
-import * as syllabusService from '../services/syllabusService'; // 导入所有 service 函数
 
 // 使用 immer 来简化深层嵌套状态的更新
 import { useImmer } from 'use-immer';
+import {ChapterVO, KnowledgePoint, SectionVO} from "@/shared/types";
 
 interface UseSyllabusEditReturn {
     localSyllabus: ChapterVO[];

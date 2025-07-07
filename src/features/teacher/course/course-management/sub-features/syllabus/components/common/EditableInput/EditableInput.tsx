@@ -10,11 +10,8 @@ interface EditableInputProps {
     className?: string;
     placeholder?: string;
     mode?: 'input' | 'textarea'; // 新增：支持 textarea 模式
-    // [!code focus start]
-    // 允许传入所有原生 input 和 textarea 的属性
     inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
     textareaProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-    // [!code focus end]
 }
 
 const EditableInput: React.FC<EditableInputProps> = ({
