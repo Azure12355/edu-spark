@@ -24,7 +24,7 @@
     justify-content: center;
     cursor: pointer;
     color: var(--teacher-text-secondary);
-    z-index: 10;
+    z-index: 9999;
     transition: all 0.2s ease;
 }
 
