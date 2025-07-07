@@ -9,7 +9,7 @@ export interface KnowledgePoint {
      * 知识点的唯一标识符，主键
      * @type {number}
      */
-    id: number;
+    id: number | string;
 
     /**
      * [逻辑外键] 所属小节ID (course_sections.id)
