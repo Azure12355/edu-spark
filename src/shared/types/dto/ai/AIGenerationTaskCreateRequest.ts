@@ -12,3 +12,5 @@ export interface AIGenerationTaskCreateRequestDTO {
     difficulty: string;
     modelId: string;
 }
+
+export interface AIConfig extends AIGenerationTaskCreateRequestDTO {};

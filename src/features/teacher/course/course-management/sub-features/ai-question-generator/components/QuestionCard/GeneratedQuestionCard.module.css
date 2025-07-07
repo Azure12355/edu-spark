@@ -1,0 +1,14 @@
+/* src/components/teacher/course-management/ai-generate/QuestionCard.module.css */
+.card {
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color);
+    border-radius: 16px; /* 增大圆角 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--card-theme-color, var(--teacher-primary)); /* 使用主题色作为左边框 */
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}

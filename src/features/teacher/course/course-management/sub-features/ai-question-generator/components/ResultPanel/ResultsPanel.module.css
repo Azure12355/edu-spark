@@ -1,0 +1,8 @@
+/* src/components/teacher/course-management/ai-generate/ResultPanel.module.css */
+/* 主面板现在只需要负责 flex 布局 */
+.panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0; /* 确保在 flex 布局中高度计算正确 */
+}

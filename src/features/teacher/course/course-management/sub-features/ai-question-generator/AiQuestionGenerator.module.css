@@ -1,10 +1,10 @@
+/* src/features/teacher/course/course-management/sub-features/ai-question-generator/AiQuestionGenerator.module.css */
 .pageContainer {
     display: flex;
     gap: 24px;
-    /* 核心修改：让页面容器占满父级（main.teacher-main-full）的100%高度和宽度 */
     height: 100%;
     width: 100%;
-    padding: 12px; /* 将内边距从全局布局移到这里 */
+    padding: 12px;
     align-items: flex-start;
     background-color: var(--teacher-bg-body);
 }
@@ -12,7 +12,6 @@
 .leftPanel {
     width: 380px;
     flex-shrink: 0;
-    /* 核心修改：让左侧面板也占满100%高度，以便其内部可以实现滚动 */
     height: 100%;
 }
 

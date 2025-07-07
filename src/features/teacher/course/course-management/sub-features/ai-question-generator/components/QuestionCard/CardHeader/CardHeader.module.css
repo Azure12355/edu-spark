@@ -1,0 +1,118 @@
+/* src/components/teacher/course-management/ai-generate/QuestionCard/CardHeader.module.css */
+.header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 左侧元信息区域 */
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* 增大元素间距 */
+    min-width: 0; /* 关键！允许滚动容器正确计算宽度 */
+    flex-grow: 1;
+}
+
+.typeTag {
+    background-color: var(--card-theme-bg, var(--teacher-primary-light));
+    color: var(--card-theme-color, var(--teacher-primary));
+    padding: 6px 14px; /* 调整内边距 */
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap; /* 防止标签自身换行 */
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+.pointLabel {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* --- 核心：可滚动的知识点标签容器 --- */
+.pointListContainer {
+    position: relative;
+    flex-grow: 1;
+    min-width: 0; /* 允许它在flex布局中收缩 */
+}
+
+.scrollableArea {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    /* 隐藏原生滚动条 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.scrollableArea::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+.pointTag {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+.pointTag:hover {
+    background-color: #e5e7eb;
+    color: var(--teacher-text-primary);
+}
+
+/* 核心：左右两侧的渐变遮罩，用于指示可滚动 */
+.scrollFade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none; /* 让鼠标可以穿透遮罩点击下方的标签 */
+    transition: opacity 0.3s ease;
+}
+.scrollFade.left {
+    left: 0;
+    background: linear-gradient(to right, var(--teacher-white), transparent);
+}
+.scrollFade.right {
+    right: 0;
+    background: linear-gradient(to left, var(--teacher-white), transparent);
+}
+
+
+/* 右侧操作按钮区域 */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 16px; /* 与左侧标签区保持距离 */
+    flex-shrink: 0;
+}
+
+.actions button {
+    background: none;
+    border: 1px solid transparent; /* 预留边框位置 */
+    color: var(--teacher-text-tertiary);
+    cursor: pointer;
+    padding: 0;
+    width: 34px; /* 增大点击区域 */
+    height: 34px;
+    border-radius: 50%;
+    font-size: 15px;
+    transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.actions button:hover {
+    color: var(--teacher-primary);
+    background-color: var(--teacher-primary-light);
+    transform: scale(1.1) rotate(5deg);
+    border-color: var(--teacher-primary-light);
+}
