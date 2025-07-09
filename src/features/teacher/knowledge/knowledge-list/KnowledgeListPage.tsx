@@ -109,7 +109,9 @@ export default function KnowledgeListPage() {
     return (
         <div className={styles.knowledgeContainer}>
             {/* Header 和 Steps 组件通常不需要修改 */}
-            <KnowledgeBaseHeader />
+            <KnowledgeBaseHeader openCreateKBModal={
+                () => setIsModalOpen(true)
+            } />
             <KnowledgeSteps
                 isVisible={isStepsVisible}
                 onToggle={() => setIsStepsVisible(!isStepsVisible)}

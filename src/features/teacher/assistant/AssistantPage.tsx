@@ -23,21 +23,110 @@ import { mockTeacherCourses, TeacherCourse } from '@/shared/lib/data/teacherAssi
 
 // 原有的模拟数据
 const teacherWelcomeData = {
-    title: "我是您的专属备课助教",
-    subtitle: "从课程设计、教案生成到题目创作，我能为您提供全方位的教学支持。您可以直接提问，或从下面的卡片开始。",
+    // [code focus start ++]
+    // --- 核心修改：更新标题和副标题 ---
+    title: "我是您的专属课程智能体",
+    subtitle: "我已加载了当前课程的知识库。您可以就本课程的任何内容向我提问，或使用下方的快捷指令开始.\n教学灵感，此刻触手可及 ✨",
+    // [code focus end ++]
+
+    // --- 核心修改：提示词卡片变得更通用，并聚焦于课程上下文 ---
     promptCards: [
-        { id: 'gen-syllabus', icon: <i className="fas fa-sitemap"></i>, title: '生成教学大纲', description: '为《计算机网络》课程生成一份为期16周的教学大纲，包含每周主题和关键知识点。' },
-        { id: 'create-exam', icon: <i className="fas fa-file-signature"></i>, title: '创建测验题目', description: '围绕“操作系统中的进程与线程”，出5道选择题和2道简答题，并提供答案和解析。' },
-        { id: 'design-case', icon: <i className="fas fa-lightbulb"></i>, title: '设计教学案例', description: '设计一个生动的案例，用于解释“市场营销中的4P理论”。' },
-        { id: 'write-script', icon: <i className="fas fa-film"></i>, title: '撰写讲解脚本', description: '为一段5分钟的，讲解“光合作用过程”的教学视频，撰写一份讲解稿。' },
+        {
+            id: 'summarize-keypoints',
+            icon: <i className="fas fa-project-diagram"></i>,
+            title: '总结核心概念',
+            description: '总结一下本课程中关于“TCP三次握手”的核心知识点。'
+        },
+        {
+            id: 'explain-difference',
+            icon: <i className="fas fa-exchange-alt"></i>,
+            title: '比较概念异同',
+            description: '比较一下“进程”与“线程”这两个概念的定义、优缺点和适用场景。'
+        },
+        {
+            id: 'generate-questions',
+            icon: <i className="fas fa-question-circle"></i>,
+            title: '生成练习题',
+            description: '围绕“动态规划”这个知识点，帮我出3道难度中等的编程题。'
+        },
+        {
+            id: 'provide-example',
+            icon: <i className="fas fa-laptop-code"></i>,
+            title: '提供代码示例',
+            description: '用Java语言提供一个“单例模式”的懒汉式和饿汉式实现代码。'
+        },
+        {
+            id: 'create-analogy',
+            icon: <i className="fas fa-lightbulb"></i>,
+            title: '创建生动比喻',
+            description: '用一个生动、易于理解的比喻来解释什么是“HTTP的无状态性”。'
+        },
+        {
+            id: 'design-activity',
+            icon: <i className="fas fa-users"></i>,
+            title: '设计课堂活动',
+            description: '为讲解“OSI七层模型”设计一个持续15分钟的课堂互动活动。'
+        }
     ] as PromptCardData[]
 };
-const teacherSkills: Skill[] = [
-    { id: 'lesson_plan', name: '教案生成', icon: <i style={{color: '#3B82F6'}} className="fas fa-book-open"></i> },
-    { id: 'exam_creation', name: '题目生成', icon: <i style={{color: '#10B981'}} className="fas fa-question-circle"></i> },
-    { id: 'ppt_outline', name: 'PPT大纲', icon: <i style={{color: '#F97316'}} className="fas fa-file-powerpoint"></i> },
-    { id: 'course_design', name: '课程设计', icon: <i style={{color: '#8B5CF6'}} className="fas fa-drafting-compass"></i> },
-    { id: 'knowledge_graph', name: '知识图谱', icon: <i style={{color: '#EF4444'}} className="fas fa-project-diagram"></i> },
+export const teacherSkills: Skill[] = [
+    // --- 核心备课与内容生成 ---
+    {
+        id: 'lesson_plan_generation',
+        name: '智能备课',
+        icon: <i style={{color: '#2F7BFF'}} className="fas fa-book-open"></i>
+    },
+    {
+        id: 'question_generation',
+        name: '题目生成',
+        icon: <i style={{color: '#16A34A'}} className="fas fa-question-circle"></i>
+    },
+    {
+        id: 'ppt_outline_creation',
+        name: 'PPT大纲',
+        icon: <i style={{color: '#F97316'}} className="fas fa-file-powerpoint"></i>
+    },
+    {
+        id: 'case_study_design',
+        name: '案例设计',
+        icon: <i style={{color: '#8B5CF6'}} className="fas fa-lightbulb"></i>
+    },
+
+    // --- 教学互动与评估 ---
+    {
+        id: 'grading_assistant',
+        name: '作业批改',
+        icon: <i style={{color: '#EF4444'}} className="fas fa-marker"></i>
+    },
+    {
+        id: 'feedback_generator',
+        name: '评语生成',
+        icon: <i style={{color: '#34D399'}} className="fas fa-comment-dots"></i>
+    },
+
+    // --- 知识管理与拓展 ---
+    {
+        id: 'knowledge_summary',
+        name: '知识点总结',
+        icon: <i style={{color: '#6366F1'}} className="fas fa-book-reader"></i>
+    },
+    {
+        id: 'resource_recommendation',
+        name: '教学资源推荐',
+        icon: <i style={{color: '#0EA5E9'}} className="fas fa-globe"></i>
+    },
+
+    // --- 高级与创新应用 ---
+    {
+        id: 'learning_path_design',
+        name: '设计学习路径',
+        icon: <i style={{color: '#D946EF'}} className="fas fa-route"></i>
+    },
+    {
+        id: 'simulation_script',
+        name: '实训脚本生成',
+        icon: <i style={{color: '#64748B'}} className="fas fa-terminal"></i>
+    }
 ];
 
 

@@ -106,7 +106,7 @@ const MyCoursesHeader: React.FC = () => {
                         </button>
                     </Tooltip>
                 </div>
-                <Link href="/teacher/courses/create" passHref>
+                <Link href="#" passHref>
                     <button className={styles.createButton}>
                         <i className="fas fa-plus"></i> 创建新课程
                     </button>

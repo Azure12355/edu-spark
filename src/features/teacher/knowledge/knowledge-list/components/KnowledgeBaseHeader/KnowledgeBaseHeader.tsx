@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useKnowledgeStats } from '../../hooks/useKnowledgeStats';
 import { useHeaderAnimations } from '../../services/useHeaderAnimations';
 import styles from './KnowledgeBaseHeader.module.css';
+import Link from "next/link";
 
 // --- 纯 UI 子组件 ---
 
@@ -70,8 +71,11 @@ const MetricCard: React.FC<MetricCardProps> = ({ icon, value, label, color }) =>
     </div>
 );
 
+interface Props {
+    openCreateKBModal: () => void;
+}
 
-const KnowledgeBaseHeader: React.FC = () => {
+const KnowledgeBaseHeader: React.FC<Props> = ({openCreateKBModal}) => {
     const { kbCount, docCount, sliceCount, isLoading } = useKnowledgeStats();
     const { containerRef, animationProps, interactionProps, styleProps } = useHeaderAnimations();
 
@@ -101,12 +105,12 @@ const KnowledgeBaseHeader: React.FC = () => {
                         构建、管理并共享您的教学知识资产，为强大的AI助教提供核心动力。
                     </p>
                     <div className={styles.quickActions}>
-                        <button className={`${styles.actionButton} ${styles.primary}`}>
+                        <button onClick={openCreateKBModal} className={`${styles.actionButton} ${styles.primary}`}>
                             <i className="fas fa-plus"></i> 创建知识库
                         </button>
-                        <button className={styles.actionButton}>
+                        <Link href={'/teacher/shared-resources'} className={styles.actionButton}>
                             <i className="fas fa-share-alt"></i> 共享广场
-                        </button>
+                        </Link>
                     </div>
                 </motion.div>
 
