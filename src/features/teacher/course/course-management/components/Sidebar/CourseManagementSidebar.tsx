@@ -5,11 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './CourseManagementSidebar.module.css';
-// [!code focus start]
-// 1. 导入我们新的领域类型
-import { CourseVO } from '../../sub-features/introduction/types';
-// [!code focus end]
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
+import {CourseVO} from "@/shared/types";
 
 // 侧边栏链接数据保持不变
 const sidebarLinks = [

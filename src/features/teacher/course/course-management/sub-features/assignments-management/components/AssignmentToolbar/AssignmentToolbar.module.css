@@ -1,0 +1,112 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/components/AssignmentToolbar/AssignmentToolbar.module.css] */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px; /* 增加左右内边距，与页面的整体容器对齐 */
+    background-color: var(--teacher-bg-card, #FFFFFF); /* 与页面背景区分 */
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    margin-bottom: 24px; /* 与下方内容保持间距 */
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 24px; /* 调整Tab与搜索框的间距 */
+}
+
+.tabs {
+    display: flex;
+    gap: 8px; /* Tab按钮之间的间距 */
+    background-color: #f2f3f5;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.tabButton {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* 防止按钮文字换行 */
+}
+
+.tabButton:hover:not(.activeTab) {
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.tabButton.activeTab {
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    box-shadow: 0 2px 8px rgba(47, 123, 255, 0.1);
+}
+
+.searchInputWrapper {
+    position: relative;
+    margin-left: 24px; /* 搜索框与Tab的额外间距 */
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-text-tertiary, #86909C);
+    font-size: 14px;
+}
+
+.searchInput {
+    width: 280px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding-left: 40px;
+    padding-right: 16px;
+    font-size: 14px;
+    color: var(--teacher-text-primary, #1D2129);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    transition: all 0.2s ease;
+}
+
+.searchInput::placeholder {
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+}
+
+.createButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.createButton:hover {
+    background-color: #1a5cff;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}

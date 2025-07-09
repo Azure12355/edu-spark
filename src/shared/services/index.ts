@@ -9,3 +9,5 @@ export * from './questionService';
 export * from './syllabusService';
 export * from './courseService'; // 新增
 export * from './classService'
+export * from './assignmentService';
+export * from './submissionService'

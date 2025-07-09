@@ -1,0 +1,106 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/components/CreateAssignmentModal/CreateAssignmentModal.module.css] */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr; /* 默认单列布局 */
+    gap: 20px;
+}
+
+/* 如果是两列布局，可以这样定义：
+@media (min-width: 600px) {
+    .formGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 24px;
+    }
+}
+*/
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.fullWidth {
+    grid-column: 1 / -1; /* 占据所有列宽 */
+}
+
+.label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+}
+
+.input, .select, .textarea {
+    width: 100%;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.input {
+    height: 40px;
+}
+
+.textarea {
+    padding: 12px;
+    min-height: 80px;
+    resize: vertical; /* 允许垂直方向拉伸 */
+}
+
+.input:focus, .select:focus, .textarea:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.inputError {
+    border-color: var(--teacher-red, #F53F3F) !important;
+}
+
+.errorMessage {
+    color: var(--teacher-red, #F53F3F);
+    font-size: 12px;
+    margin-top: 6px;
+    height: 1.2em; /* 预留空间防止布局抖动 */
+}
+
+/* Modal Footer Buttons (复用 styles from common) */
+.button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancelButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+}
+.cancelButton:hover:not(:disabled) {
+    background-color: var(--teacher-bg-hover);
+}
+
+.confirmButton {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: white;
+}
+.confirmButton:hover:not(:disabled) {
+    opacity: 0.9;
+}
+.confirmButton:disabled {
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+    cursor: not-allowed;
+}

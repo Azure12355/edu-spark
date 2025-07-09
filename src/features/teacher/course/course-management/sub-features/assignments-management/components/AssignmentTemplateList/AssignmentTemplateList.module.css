@@ -1,0 +1,27 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/components/AssignmentTemplateList/AssignmentTemplateList.module.css] */
+.listContainer {
+    position: relative;
+    min-height: 200px; /* 保证加载时有高度 */
+}
+
+.templateGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自适应列数，最小280px */
+    gap: 24px; /* 卡片之间的间距 */
+}
+
+.loadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--teacher-primary, #2F7BFF);
+    z-index: 10;
+    border-radius: 12px; /* 匹配父容器的圆角 */
+}

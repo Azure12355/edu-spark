@@ -1,6 +1,6 @@
 // [!file src/shared/services/classService.ts]
 import apiClient from '../api/apiClient';
-import {ClassActivityVO, ClassMemberVO, ClassVO, Page, PageRequest} from '../types';
+import {ActivityPublishRequestDTO, ClassActivityVO, ClassMemberVO, ClassVO, Page, PageRequest} from '../types';
 import {
     ClassCreateRequestDTO,
     ClassQueryRequestDTO,
@@ -8,7 +8,6 @@ import {
     MemberAddRequestDTO,
     MemberQueryRequestDTO,
     MemberUpdateRequestDTO,
-    ActivityPublishRequestDTO,
 } from '../types/dto/course/classes'; // 假设所有相关类型都从一个统一的index导出
 
 // ===================================================================

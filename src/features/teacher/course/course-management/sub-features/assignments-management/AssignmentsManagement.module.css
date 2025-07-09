@@ -1,0 +1,141 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/AssignmentsManagement.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.section {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+}
+
+/* --- 骨架屏样式 --- */
+.toolbar_skeleton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    height: 60px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.tabs_skeleton { display: flex; gap: 24px; }
+.tab_item_skeleton { height: 24px; border-radius: 6px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+.button_skeleton { width: 120px; height: 40px; border-radius: 8px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+
+.templateGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.template_card_skeleton {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.card_line_skeleton { height: 16px; border-radius: 4px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+.card_footer_skeleton { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+.card_tag_skeleton { width: 60px; height: 24px; border-radius: 12px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+.card_button_skeleton { width: 80px; height: 32px; border-radius: 6px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+
+.activityList { width: 100%; }
+.activity_header_skeleton, .activity_row_skeleton { display: flex; gap: 16px; padding: 16px 24px; align-items: center; }
+.activity_header_skeleton { color: var(--teacher-text-secondary); font-weight: 500; background-color: #f9fafb; border-bottom: 1px solid #e5e6eb; border-radius: 8px 8px 0 0; }
+.activity_row_skeleton { border-bottom: 1px solid #e5e6eb; }
+.activityList > div:last-child { border-bottom: none; }
+.row_cell_skeleton { height: 20px; border-radius: 4px; background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+
+/* src/features/teacher/course/course-management/sub-features/assignments-management/AssignmentsManagement.module.css */
+/* ... (保留所有原有样式) ... */
+
+/* [code focus start ++] */
+/* --- 错误和空状态样式 --- */
+.feedbackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+
+.feedbackContainer i.fa-exclamation-triangle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.createButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.createButton:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+/* [code focus end ++] */

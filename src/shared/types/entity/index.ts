@@ -20,3 +20,4 @@ export * from './user/User'; // 这是我们刚刚添加的
 export * from  './course/Class'
 export * from  './course/ClassActivity'
 export * from  './course/ClassMember'
+export * from './assignment'

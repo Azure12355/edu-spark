@@ -12,5 +12,9 @@ export * from './course/QuestionTypeEnum';
 export * from './user/UserRoleEnum';
 export * from './user/UserStatusEnum';
 export * from './course/VisibilityEnum';
+export * from './assignment/AssignmentTemplateStatusEnum'
+export * from './assignment/AssignmentTypeEnum'
+export * from './activity/ActivityStatusEnum'
+export * from './submission/SubmissionStatusEnum'
 
 export * from './course';

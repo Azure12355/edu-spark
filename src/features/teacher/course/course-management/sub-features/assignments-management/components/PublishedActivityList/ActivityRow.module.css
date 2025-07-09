@@ -1,0 +1,82 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/components/PublishedActivityList/ActivityRow.module.css] */
+.tableRow {
+    transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+    background-color: #f7f8fa;
+}
+
+.cell {
+    padding: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+    color: var(--teacher-text-primary, #1D2129);
+    white-space: nowrap; /* 防止内容换行 */
+}
+
+.table tbody tr:last-child .cell {
+    border-bottom: none;
+}
+
+.activityTitleLink {
+    font-weight: 500;
+    color: var(--teacher-link-color, #2F7BFF);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.activityTitleLink:hover {
+    text-decoration: underline;
+}
+
+.templateTitle {
+    color: var(--teacher-text-secondary, #4E5969);
+}
+
+.publisherCell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.publisherAvatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.statusBadge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.actionsCell {
+    text-align: right;
+    padding-right: 24px;
+    white-space: nowrap;
+}
+
+.actionButton {
+    background: none;
+    border: none;
+    color: var(--teacher-text-tertiary, #86909C);
+    cursor: pointer;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    margin-left: 4px;
+}
+
+.actionButton:hover {
+    background-color: #f2f3f5;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.deleteButton:hover {
+    color: var(--teacher-red, #F53F3F);
+    background-color: rgba(245, 63, 63, 0.1);
+}

@@ -1,0 +1,114 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/components/AssignmentTemplateList/TemplateCard.module.css] */
+.cardContainer {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+}
+
+.cardContainer:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.statusBadge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+    line-height: 1.3;
+}
+
+.description {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin-bottom: 16px;
+    line-height: 1.5;
+    flex-grow: 1; /* 让描述占据剩余空间，使底部对齐 */
+    min-height: 4.5em; /* 保证至少3行的高度 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 限制为3行 */
+    -webkit-box-orient: vertical;
+}
+
+.statsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* 将统计行推到底部 */
+    padding-top: 16px;
+    border-top: 1px solid var(--teacher-border-color, #e5e6eb);
+    margin-left: -20px; /* 负边距抵消 padding */
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.statItem i {
+    font-size: 12px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.actionButton {
+    background: none;
+    border: none;
+    color: var(--teacher-text-tertiary, #86909C);
+    cursor: pointer;
+    font-size: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionButton:hover {
+    background-color: #f2f3f5;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.publishButton {
+    color: var(--teacher-primary, #2F7BFF); /* 发布按钮突出颜色 */
+}
+.publishButton:hover {
+    background-color: var(--teacher-primary-light-bg, rgba(47, 123, 255, 0.1));
+}
+
+.deleteButton:hover {
+    color: var(--teacher-red, #F53F3F);
+    background-color: rgba(245, 63, 63, 0.1);
+}

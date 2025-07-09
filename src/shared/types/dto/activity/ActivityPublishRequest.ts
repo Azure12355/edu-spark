@@ -1,4 +1,4 @@
-// [!file src/shared/types/dto/course/classes/ActivityPublishRequest.ts]
+// ActivityPublishRequest.ts
 export interface ActivityPublishRequestDTO {
     activityTemplateId: number;
     title?: string;
