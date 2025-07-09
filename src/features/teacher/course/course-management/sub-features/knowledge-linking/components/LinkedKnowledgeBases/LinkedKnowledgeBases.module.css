@@ -1,0 +1,99 @@
+/* [!file src/features/teacher/course/course-management/sub-features/knowledge-linking/components/LinkedKnowledgeBases/LinkedKnowledgeBases.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.container {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--teacher-text-primary, #1D2129);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.countBadge {
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin: 0 -8px; /* 抵消卡片的内边距，让滚动条更贴近边缘 */
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- 骨架屏和空状态样式 --- */
+.emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--teacher-text-tertiary, #86909C);
+    padding: 20px;
+}
+
+.emptyState i {
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+.emptyState p {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 4px;
+}
+.emptyState span {
+    font-size: 13px;
+}
+
+.skeletonCard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+}
+.skeletonIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+.skeletonInfo {
+    flex-grow: 1;
+}
+.skeletonLine {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    margin-bottom: 8px;
+}

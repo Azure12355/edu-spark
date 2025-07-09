@@ -1,0 +1,78 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-publish/components/ClassPublishSettings/ClassRow.module.css] */
+.rowContainer {
+    display: grid;
+    grid-template-columns: 40px 2fr 1.5fr 1.5fr 60px;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    transition: background-color 0.2s ease;
+    position: relative; /* 为错误信息定位 */
+}
+
+.rowContainer:hover {
+    background-color: #f7f9fc;
+}
+
+.rowContainer.disabled {
+    opacity: 0.5;
+    background-color: #f7f8fa;
+}
+
+.rowContainer.errorRow {
+    background-color: #fff1f1;
+    border-left: 3px solid var(--teacher-red, #F53F3F);
+}
+
+.selectionCell, .classInfoCell, .dateCell, .configCell {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--teacher-primary, #2F7BFF);
+}
+
+.className {
+    font-weight: 500;
+}
+
+.dateInput {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.dateInput:disabled {
+    background-color: #f7f8fa;
+    cursor: not-allowed;
+}
+
+.configButton {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--teacher-text-tertiary, #86909C);
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.configButton:hover:not(:disabled) {
+    background-color: #f2f3f5;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: -16px;
+    left: 56px; /* 对齐班级名称 */
+    font-size: 12px;
+    color: var(--teacher-red, #F53F3F);
+}

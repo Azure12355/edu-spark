@@ -1,0 +1,75 @@
+/* [!file src/features/teacher/course/course-management/sub-features/knowledge-linking/components/LinkedKnowledgeBases/LinkedCard.module.css] */
+.cardContainer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.cardContainer:hover {
+    border-color: var(--teacher-primary-light, #EAF2FF);
+    background-color: var(--teacher-white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.iconWrapper {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--teacher-primary-light, #EAF2FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teacher-primary, #2F7BFF);
+    font-size: 18px;
+}
+
+.infoWrapper {
+    flex-grow: 1;
+    overflow: hidden; /* 防止内容溢出 */
+}
+
+.kbName {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kbDescription {
+    font-size: 13px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.unlinkButton {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--teacher-text-tertiary, #86909C);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unlinkButton:hover {
+    background-color: #fee2e2;
+    color: var(--teacher-red, #F53F3F);
+}

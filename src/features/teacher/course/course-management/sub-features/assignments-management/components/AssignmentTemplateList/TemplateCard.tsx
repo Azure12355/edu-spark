@@ -104,18 +104,23 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
                     </Tooltip>
                 </Link>
                 {templateStatus === AssignmentTemplateStatusEnum.READY && (
-                    <Tooltip content="发布到班级" position="top">
-                        <button onClick={() => onPublish(template)}
-                                className={`${styles.actionButton} ${styles.publishButton}`}>
-                            <i className="fas fa-paper-plane"></i>
-                        </button>
-                    </Tooltip>
+                    <Link href={`/teacher/courses/${courseId}/assignments/${id}/publish`} passHref>
+                        <Tooltip content="发布到班级" position="top">
+                            <button onClick={() => onPublish(template)}
+                                    className={`${styles.actionButton} ${styles.publishButton}`}>
+                                <i className="fas fa-paper-plane"></i>
+                            </button>
+                        </Tooltip>
+                    </Link>
                 )}
+
                 <Tooltip content="删除模板" position="top">
-                    <button onClick={() => onDelete(id)} className={`${styles.actionButton} ${styles.deleteButton}`}>
+                    <button onClick={() => onDelete(id)}
+                            className={`${styles.actionButton} ${styles.deleteButton}`}>
                         <i className="fas fa-trash-alt"></i>
                     </button>
                 </Tooltip>
+
             </div>
         </div>
     );

@@ -7,9 +7,9 @@ import {
     CourseQueryRequestDTO,
     CourseUpdateRequestDTO,
     CourseVO,
-    CourseDetail,
+    CourseDetail, KnowledgeBase,
 } from '../types';
-import { Page } from '../types/common';
+import { Page } from '@/shared/types';
 
 // ===================================================================
 //  课程 (Course) 本体相关服务
@@ -90,4 +90,39 @@ export const getCourseDetail = (id: number): Promise<CourseDetail> => {
  */
 export const saveOrUpdateCourseDetail = (courseDetail: CourseDetail): Promise<boolean> => {
     return apiClient.post('/course/detail/save', courseDetail);
+};
+
+// ===================================================================
+//  课程与知识库关联 (Course-KnowledgeBase Link) 相关服务
+// ===================================================================
+
+/**
+ * @description 将一个或多个知识库关联到指定课程。
+ * @param {number} courseId - 目标课程的ID。
+ * @param {number[]} knowledgeBaseIds - 要关联的知识库ID列表。
+ * @returns {Promise<void>} 操作成功则返回，失败则抛出异常。
+ */
+export const linkKnowledgeBasesToCourse = (courseId: number, knowledgeBaseIds: number[]): Promise<void> => {
+    return apiClient.post(`/course/${courseId}/knowledge-bases`, knowledgeBaseIds);
+};
+
+/**
+ * @description 解除课程与单个知识库的关联。
+ * @param {number} courseId - 课程ID。
+ * @param {number} knowledgeBaseId - 要解除关联的知识库ID。
+ * @returns {Promise<void>} 操作成功则返回，失败则抛出异常。
+ */
+export const unlinkKnowledgeBaseFromCourse = (courseId: number, knowledgeBaseId: number): Promise<void> => {
+    return apiClient.delete(`/course/${courseId}/knowledge-bases/${knowledgeBaseId}`);
+};
+
+
+
+/**
+ * @description 获取指定课程已关联的所有知识库列表。
+ * @param {number} courseId - 课程ID。
+ * @returns {Promise<KnowledgeBase[]>} 返回关联的知识库实体列表。
+ */
+export const listLinkedKnowledgeBases = (courseId: number): Promise<KnowledgeBase[]> => {
+    return apiClient.get(`/course/${courseId}/knowledge-bases`);
 };

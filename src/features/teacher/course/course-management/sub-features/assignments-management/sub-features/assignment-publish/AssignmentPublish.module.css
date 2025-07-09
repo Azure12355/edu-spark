@@ -1,0 +1,60 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-publish/AssignmentPublish.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.mainLayout {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    padding: 24px;
+    overflow: hidden;
+}
+
+/* 骨架屏样式 (保持不变) */
+.preview_skeleton, .settings_skeleton { /* ... */ }
+.line_skeleton { /* ... */ }
+.class_row_skeleton { /* ... */ }
+.checkbox_skeleton { /* ... */ }
+.class_info_skeleton { /* ... */ }
+.date_picker_skeleton { /* ... */ }
+.config_button_skeleton { /* ... */ }
+
+/* [code focus start ++] */
+/* --- 错误和空状态样式 --- */
+.feedbackContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 56px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+
+.feedbackContainer i.fa-exclamation-circle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 18px;
+}
+/* [code focus end ++] */

@@ -1,0 +1,73 @@
+/* [!file src/features/teacher/course/course-management/sub-features/knowledge-linking/components/LinkingToolbar/LinkingToolbar.module.css] */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.searchInputWrapper {
+    position: relative;
+    flex-grow: 1; /* 让搜索框占据大部分空间 */
+    max-width: 480px; /* 但也给一个最大宽度 */
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-text-tertiary, #86909C);
+    font-size: 14px;
+}
+
+.searchInput {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding-left: 40px;
+    padding-right: 16px;
+    font-size: 14px;
+    color: var(--teacher-text-primary, #1D2129);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    transition: all 0.2s ease;
+}
+
+.searchInput::placeholder {
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.rightActions {
+    display: flex;
+    align-items: center;
+}
+
+/* 预留的按钮样式 */
+.actionButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}

@@ -1,0 +1,86 @@
+/* [!file src/features/teacher/course/course-management/sub-features/knowledge-linking/components/AvailableKnowledgeBases/AvailableKnowledgeBases.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.container {
+    background-color: transparent; /* 背景由父容器提供 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--teacher-text-primary, #1D2129);
+    padding: 8px 0;
+}
+
+.grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding-bottom: 24px; /* 为滚动条留出空间 */
+    overflow-y: auto;
+}
+
+/* --- 骨架屏和空状态样式 --- */
+.emptyState {
+    grid-column: 1 / -1; /* 占据整行 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--teacher-text-tertiary, #86909C);
+    padding: 80px 40px;
+}
+
+.emptyState i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+.emptyState p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 4px;
+}
+.emptyState span {
+    font-size: 13px;
+}
+
+.skeletonCard {
+    height: 200px;
+    border-radius: 12px;
+    background-color: var(--teacher-white);
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.skeletonHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.skeletonAvatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+.skeletonLine {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}

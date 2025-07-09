@@ -1,0 +1,76 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-publish/components/ClassPublishSettings/ClassPublishSettings.module.css] */
+.settingsContainer {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    height: calc(100vh - 72px - 48px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.batchActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+}
+
+.globalDateInput {
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 6px;
+}
+
+.applyButton {
+    background-color: #f2f3f5;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.applyButton:hover {
+    background-color: #e5e7eb;
+    color: var(--teacher-text-primary);
+}
+
+.listContainer {
+    flex-grow: 1;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 8px;
+}
+
+.listHeader {
+    display: flex;
+    gap: 16px;
+    padding: 12px 16px;
+    background-color: #f9fafb;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 13px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.listBody {
+    max-height: calc(100% - 45px); /* Header height */
+    overflow-y: auto;
+}

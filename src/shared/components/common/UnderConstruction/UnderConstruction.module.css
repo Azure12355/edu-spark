@@ -1,0 +1,80 @@
+/* [!file src/shared/components/common/UnderConstruction/UnderConstruction.module.css] */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 500px; /* 保证在空页面中也有足够高度 */
+    background-color: var(--teacher-bg-body, #f7f8fa);
+    padding: 40px;
+    text-align: center;
+}
+
+.content {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.robotImageWrapper {
+    margin-bottom: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 12px;
+}
+
+.description {
+    font-size: 16px;
+    color: var(--teacher-text-secondary, #4E5969);
+    line-height: 1.7;
+    margin: 0 0 32px;
+}
+
+.description strong {
+    color: var(--teacher-primary, #2F7BFF);
+    font-weight: 600;
+}
+
+.progressBarContainer {
+    width: 100%;
+    max-width: 400px;
+}
+
+.progressBarLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary, #86909C);
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.progressPercent {
+    font-weight: 600;
+    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+}
+
+.progressBar {
+    width: 100%;
+    height: 12px;
+    background-color: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    border-radius: 6px;
+}

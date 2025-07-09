@@ -1,5 +1,5 @@
 import apiClient from '../../../../../shared/api/apiClient';
-import { UserVO } from '../../../../../shared/services/userService';
+import {UserVO} from "@/shared/types";
 
 // ===================================================================
 //  1. 类型定义 (与后端 VO 和 DTO 对齐)

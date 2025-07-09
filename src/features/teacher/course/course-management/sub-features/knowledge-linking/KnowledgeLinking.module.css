@@ -1,0 +1,69 @@
+/* [!file src/features/teacher/course/course-management/sub-features/knowledge-linking/KnowledgeLinking.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: hidden;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+}
+
+.mainLayout {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    overflow: hidden;
+}
+
+/* [code focus start ++] */
+/* --- 错误和空状态样式 --- */
+.feedbackContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 56px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+
+.feedbackContainer i.fa-exclamation-circle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 18px;
+}
+/* [code focus end ++] */
