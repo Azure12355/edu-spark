@@ -1,0 +1,86 @@
+/* [!file src/features/teacher/course/course-management/sub-features/classes-management/components/CreateClassModal/CreateClassModal.module.css] */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 24px;
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+}
+
+.input, .select {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.input:focus, .select:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.inputError {
+    border-color: var(--teacher-red, #F53F3F) !important;
+}
+
+.errorMessage {
+    color: var(--teacher-red, #F53F3F);
+    font-size: 12px;
+    margin-top: 6px;
+    height: 1.2em; /* 预留空间防止布局抖动 */
+}
+
+/* Modal Footer Buttons */
+.button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancelButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+}
+.cancelButton:hover:not(:disabled) {
+    background-color: var(--teacher-bg-hover);
+}
+
+.confirmButton {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: white;
+}
+.confirmButton:hover:not(:disabled) {
+    opacity: 0.9;
+}
+.confirmButton:disabled {
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+    cursor: not-allowed;
+}

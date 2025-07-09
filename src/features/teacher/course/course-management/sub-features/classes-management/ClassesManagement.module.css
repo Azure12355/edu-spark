@@ -1,0 +1,115 @@
+/* [!file src/features/teacher/course/course-management/sub-features/classes-management/ClassesManagement.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+}
+
+.mainContent {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    min-height: 500px; /* 确保内容区有最小高度 */
+}
+
+/* --- 骨架屏样式 (之前已创建) --- */
+.table_skeleton {
+    width: 100%;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.table_header_skeleton, .table_row_skeleton {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.5fr; /* 调整列宽以适应操作列 */
+    gap: 16px;
+    padding: 16px 24px;
+    align-items: center;
+}
+.table_header_skeleton {
+    background-color: #f7f8fa;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+.table_row_skeleton {
+    border-top: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+.table_cell_skeleton {
+    height: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+
+/* [code focus start ++] */
+/* --- 错误和空状态样式 --- */
+.errorContainer, .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.errorContainer i, .emptyState i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+.errorContainer i {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.errorContainer p, .emptyState p {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.createButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.createButton:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+/* [code focus end ++] */

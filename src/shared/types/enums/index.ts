@@ -12,3 +12,5 @@ export * from './course/QuestionTypeEnum';
 export * from './user/UserRoleEnum';
 export * from './user/UserStatusEnum';
 export * from './course/VisibilityEnum';
+
+export * from './course';
