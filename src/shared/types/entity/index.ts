@@ -1,18 +1,18 @@
 // src/shared/types/entity/index.ts
 
-export * from './AIGenerationTask';
-export * from './AIQuestionRecord';
-export * from './Chunk';
-export * from './Course';
-export * from './CourseChapter';
-export * from './CourseDetail';
-export * from './CourseEnrollment';
-export * from './CourseSection';
-export * from './Document';
-export * from './KnowledgeBase';
-export * from './KnowledgePoint';
-export * from './QARecord';
-export * from './QASession';
-export * from './Question';
-export * from './QuestionKnowledgePointLink';
-export * from './User'; // 这是我们刚刚添加的
+export * from './course/AIGenerationTask';
+export * from './course/AIQuestionRecord';
+export * from './kb/Chunk';
+export * from './course/Course';
+export * from './course/CourseChapter';
+export * from './course/CourseDetail';
+export * from './course/CourseEnrollment';
+export * from './course/CourseSection';
+export * from './kb/Document';
+export * from './kb/KnowledgeBase';
+export * from './kb/KnowledgePoint';
+export * from './kb/QARecord';
+export * from './kb/QASession';
+export * from './course/Question';
+export * from './course/QuestionKnowledgePointLink';
+export * from './user/User'; // 这是我们刚刚添加的

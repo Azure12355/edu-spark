@@ -2,7 +2,7 @@
 
 // 1. 导入 KnowledgePoint 类型定义
 //    我们直接复用实体类型，因为它不包含敏感信息且字段都是前端需要的。
-import { KnowledgePoint } from '@/shared/types/entity/KnowledgePoint';
+import { KnowledgePoint } from '@/shared/types/entity/kb/KnowledgePoint';
 
 /**
  * @description 课程小节视图对象（VO），作为 SyllabusVO 的一部分。

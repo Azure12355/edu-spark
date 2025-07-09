@@ -1,5 +1,5 @@
 // src/shared/types/vo/question/QuestionVO.ts
-import { UserVO } from '../UserVO';
+import { UserVO } from '../user/UserVO';
 import { QuestionKnowledgePointLinkVO } from './QuestionKnowledgePointLinkVO';
 
 /**

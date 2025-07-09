@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChunkVO } from '@/features/teacher/knowledge/knowledge-detail/sub-features/chunk-management/service/chunkService';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import { useToast } from '@/shared/hooks/useToast';
 import ConfirmationModal from '@/shared/components/ui/ConfirmationModal/ConfirmationModal';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
@@ -24,7 +23,6 @@ const ChunkCard: React.FC<ChunkCardProps> = ({ chunk, onDelete }) => {
 
     // --- 数据与样式 ---
     const extension = chunk.documentName.split('.').pop()?.toLowerCase() || 'txt';
-    const { icon, color } = getFileIcon(extension as any);
 
     // --- 事件处理 ---
     const handleCopy = (e: React.MouseEvent) => {
@@ -59,7 +57,6 @@ const ChunkCard: React.FC<ChunkCardProps> = ({ chunk, onDelete }) => {
                 <div className={styles.cardHeader}>
                     <div className={styles.headerLeft}>
                         <div className={styles.sourceInfo} title={chunk.documentName}>
-                            <i className={`fas ${icon}`} style={{ color }}></i>
                             <span>{chunk.documentName}</span>
                         </div>
                     </div>

@@ -1,15 +1,14 @@
 // src/shared/types/enums/index.ts
 
-export * from './AIQuestionStatusEnum';
-export * from './AITaskStatusEnum';
-export * from './CourseStatusEnum';
-export * from './CourseVisibilityEnum';
-export * from './DocumentStatusEnum';
-export * from './EnrollmentRoleEnum';
-export * from './KnowledgeBaseFormatTypeEnum';
-export * from './QuestionDifficultyEnum';
-export * from './QuestionSourceEnum';
-export * from './QuestionTypeEnum';
-export * from './UserRoleEnum';
-export * from './UserStatusEnum';
-export * from './VisibilityEnum';
+export * from './course/AIQuestionStatusEnum';
+export * from './course/AITaskStatusEnum';
+export * from './course/CourseStatusEnum';
+export * from './course/CourseVisibilityEnum';
+export * from './kb/DocumentStatusEnum';
+export * from './kb/KnowledgeBaseFormatTypeEnum';
+export * from './course/QuestionDifficultyEnum';
+export * from './course/QuestionSourceEnum';
+export * from './course/QuestionTypeEnum';
+export * from './user/UserRoleEnum';
+export * from './user/UserStatusEnum';
+export * from './course/VisibilityEnum';

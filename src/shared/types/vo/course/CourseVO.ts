@@ -1,5 +1,5 @@
 // src/shared/types/vo/CourseVO.ts
-import { UserVO } from './UserVO'; // 导入已有的 UserVO 类型
+import { UserVO } from '../user/UserVO'; // 导入已有的 UserVO 类型
 
 /**
  * @description 课程视图对象（VO），用于在前端安全地展示课程信息。

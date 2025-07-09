@@ -1,6 +1,4 @@
-// src/shared/types/vo/kb/index.ts
-
-export * from './ChunkDetailVO';
-export * from './ChunkVO';
-export * from './DocumentVO';
-export * from './KnowledgeBaseVO';
+export * from './chunk'
+export * from './document'
+export * from './kb'
+export * from './qa'

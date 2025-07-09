@@ -4,7 +4,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropdown } from '@/shared/hooks/useDropdown';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import styles from '../../styles/SourceFilterDropdown.module.css'; // 复用样式
 import { DocumentVO } from '../../../document-management/services/documentService';
 
@@ -29,7 +28,6 @@ const SourceFilterDropdown: React.FC<SourceFilterDropdownProps> = ({
     // 4. 计算当前选中的显示文本
     const selectedDoc = documents.find(d => d.id === activeFilterId);
     const displayLabel = selectedDoc ? selectedDoc.name : '所有文档';
-    const displayIcon = selectedDoc ? getFileIcon(selectedDoc.type as any).icon : 'fas fa-book';
 
     // 5. 动画变体
     const menuVariants = {
@@ -48,7 +46,6 @@ const SourceFilterDropdown: React.FC<SourceFilterDropdownProps> = ({
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >
-                <i className={displayIcon}></i>
                 <span className={styles.filterText} title={displayLabel}>{displayLabel}</span>
                 <motion.i className={`fas fa-chevron-down ${styles.chevron}`} animate={{ rotate: isOpen ? 180 : 0 }} />
             </button>
@@ -78,7 +75,6 @@ const SourceFilterDropdown: React.FC<SourceFilterDropdownProps> = ({
 
                         {/* 遍历文档列表 */}
                         {documents.map(doc => {
-                            const { icon, color } = getFileIcon(doc.type as any);
                             return (
                                 <li
                                     key={doc.id}
@@ -88,7 +84,6 @@ const SourceFilterDropdown: React.FC<SourceFilterDropdownProps> = ({
                                     aria-selected={activeFilterId === doc.id}
                                     title={doc.name}
                                 >
-                                    <i className={`fas ${icon}`} style={{ color }}></i>
                                     <span>{doc.name}</span>
                                 </li>
                             );

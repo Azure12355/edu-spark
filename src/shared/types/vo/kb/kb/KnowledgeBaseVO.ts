@@ -1,5 +1,5 @@
 // src/shared/types/vo/kb/KnowledgeBaseVO.ts
-import { UserVO } from '../UserVO';
+import { UserVO } from '../../user/UserVO';
 
 /**
  * @description 知识库视图对象（VO），用于在前端安全地展示知识库信息，并包含了所有者信息。

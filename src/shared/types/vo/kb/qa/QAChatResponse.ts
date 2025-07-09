@@ -1,11 +1,11 @@
-// src/shared/types/vo/qa/QACompleteResponse.ts
-import { ChunkVO } from '../kb/ChunkVO';
+// src/shared/types/vo/qa/QAChatResponse.ts
+import { ChunkVO } from '../chunk/ChunkVO';
 
 /**
- * @description QA 问答流程结束后的完整响应视图对象 (VO)。
- * 严格对标后端的 'com.weilanx.eduspark.model.vo.qa.QACompleteResponse.java'。
+ * @description QA 聊天场景的响应视图对象（VO），用于聚合一次问答的所有信息。
+ * 严格对标后端的 'com.weilanx.eduspark.model.vo.qa.QAChatResponse.java'。
  */
-export interface QACompleteResponseVO {
+export interface QAChatResponseVO {
     /**
      * 本次问答记录在数据库中的ID
      * @type {number}
@@ -22,7 +22,7 @@ export interface QACompleteResponseVO {
      * AI 生成的完整回答文本
      * @type {string}
      */
-    fullAnswer: string;
+    answer: string;
 
     /**
      * 本次回答引用的所有知识切片来源
@@ -31,7 +31,7 @@ export interface QACompleteResponseVO {
     references: ChunkVO[];
 
     /**
-     * 大模型返回的元数据，例如 token 消耗等
+     * 其他元数据，例如 token 消耗等
      * @type {Record<string, any> | null}
      */
     responseMetadata?: Record<string, any>;

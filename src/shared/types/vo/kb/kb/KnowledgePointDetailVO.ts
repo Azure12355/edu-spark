@@ -1,5 +1,5 @@
 // src/shared/types/vo/knowledge/KnowledgePointDetailVO.ts
-import { UserVO } from '../UserVO'; // 复用已有的 UserVO
+import { UserVO } from '../../user/UserVO'; // 复用已有的 UserVO
 
 // 嵌套的小节信息
 interface SectionInfo {

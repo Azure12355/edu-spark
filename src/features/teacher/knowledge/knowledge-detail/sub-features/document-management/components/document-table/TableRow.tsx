@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 import StatusDisplay from './StatusDisplay';
 import { DocumentVO } from '../../services/documentService';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import styles from '../../style/TableRow.module.css';
 
 interface TableRowProps {
@@ -19,7 +18,6 @@ interface TableRowProps {
 }
 
 const TableRow: React.FC<TableRowProps> = React.memo(({ doc, isSelected, onToggleRow, onPreview, onEdit, onDelete }) => {
-    const iconInfo = getFileIcon(doc.type as any);
 
     return (
         <motion.tr
@@ -36,7 +34,6 @@ const TableRow: React.FC<TableRowProps> = React.memo(({ doc, isSelected, onToggl
             <td className={styles.tableCell}>
                 <Tooltip content={doc.name}>
                     <div className={styles.fileInfo}>
-                        <div className={styles.fileIcon} style={{ color: iconInfo.color }}><i className={`fas ${iconInfo.icon}`}></i></div>
                         <div className={styles.fileText}>
                             <div className={styles.name}>{doc.name}</div>
                             <div className={styles.id}>ID: {doc.id}</div>

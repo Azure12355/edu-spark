@@ -1,6 +1,6 @@
 // src/shared/types/vo/ai/AIQuestionRecordVO.ts
-import { UserVO } from '../UserVO';
-import { QuestionKnowledgePointLinkVO } from '../question/QuestionKnowledgePointLinkVO';
+import { UserVO } from '../../user/UserVO';
+import { QuestionKnowledgePointLinkVO } from '../../question/QuestionKnowledgePointLinkVO';
 
 /**
  * @description AI题目记录的视图对象（VO），用于在审核列表展示。

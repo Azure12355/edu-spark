@@ -4,7 +4,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import styles from '../style/SearchResultItem.module.css';
 import type { SearchResult } from './SearchAndResults';
 
@@ -38,10 +37,6 @@ const formatScore = (score: number | undefined): string => {
 const SearchResultItem: React.FC<SearchResultItemProps> = ({ result, onPreview }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const { icon, color } = useMemo(
-        () => getFileIcon(result.documentType as any),
-        [result.documentType]
-    );
 
     const scorePercentage = useMemo(() => formatScore(result.distance), [result.distance]);
 
@@ -57,7 +52,6 @@ const SearchResultItem: React.FC<SearchResultItemProps> = ({ result, onPreview }
             {/* 卡片头部 */}
             <div className={styles.header}>
                 <div className={styles.sourceInfo}>
-                    <i className={`fas ${icon}`} style={{ color }}></i>
                     <span className={styles.sourceName} title={result.documentName}>
                         {result.documentName}
                     </span>

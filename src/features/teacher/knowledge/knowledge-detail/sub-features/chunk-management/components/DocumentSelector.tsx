@@ -4,7 +4,6 @@
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropdown } from '@/shared/hooks/useDropdown';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import styles from '../styles/DocumentSelector.module.css'; // [!code focus] 引用新的、专属的样式文件
 import { DocumentVO } from '../../document-management/services/documentService';
 
@@ -33,10 +32,8 @@ const DocumentSelector: React.FC<DocumentSelectorProps> = ({
     // 3. 将 UI 元素拆分为更小的、可读的变量
     const displayContent = useMemo(() => {
         if (selectedDoc) {
-            const { icon, color } = getFileIcon(selectedDoc.type as any);
             return (
                 <>
-                    <i className={`fas ${icon}`} style={{ color }}></i>
                     <span className={styles.text} title={selectedDoc.name}>{selectedDoc.name}</span>
                 </>
             );
@@ -85,7 +82,6 @@ const DocumentSelector: React.FC<DocumentSelectorProps> = ({
                                 aria-selected={selectedId === doc.id}
                                 title={doc.name}
                             >
-                                <i className={`fas ${getFileIcon(doc.type as any).icon}`} style={{ color: getFileIcon(doc.type as any).color }}></i>
                                 <span className={styles.text}>{doc.name}</span>
                                 <i className={`fas fa-check ${styles.checkIcon}`}></i>
                             </li>
