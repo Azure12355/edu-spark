@@ -16,7 +16,6 @@ const sidebarLinks = [
     { name: '班级管理', href: '/classes', icon: 'fas fa-users' },
     { name: '知识库', href: '/knowledge', icon: 'fas fa-database' },
     { name: '在线作业', href: '/assignments', icon: 'fas fa-pencil-ruler' },
-    { name: '线上考试', href: '/exams', icon: 'fas fa-scroll' },
     { name: '课程统计', href: '/analytics', icon: 'fas fa-chart-pie' },
 ];
 

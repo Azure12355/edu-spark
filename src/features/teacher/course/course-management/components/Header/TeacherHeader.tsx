@@ -13,8 +13,8 @@ import UserProfileDropdown from "@/shared/components/common/UserProfileDropdown/
 import {AnimatePresence, motion } from 'framer-motion';
 
 const navLinks = [
+    {name: '课程智能体', href: '/teacher/assistant'},
     {name: '工作台', href: '/teacher/studio'},
-    {name: '智能助教', href: '/teacher/assistant'},
     {name: '我的课程', href: '/teacher/courses'},
     {name: '知识库', href: '/teacher/knowledge'},
     {name: '共享资源', href: '/teacher/resources'},
