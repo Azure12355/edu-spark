@@ -1,30 +1,56 @@
-// src/components/teacher/studio/HotContentTable/HotContentTable.tsx
+// [!file src/widgets/analytics/HotContentTable/HotContentTable.tsx]
 "use client";
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './HotContentTable.module.css';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 
-// ... (模拟数据类型和数据保持不变)
+// [code focus start ++]
+// --- 核心修改：定义新的数据类型和模拟数据 ---
 type TrendDirection = 'up' | 'down';
-interface HotContentItem {
+interface HotQuestionItem {
     id: number;
     rank: number;
-    title: string;
-    clicks: string;
-    change: string;
+    title: string; // 题干摘要
+    errorRate: number; // 错误率
+    change: number; // 错误率变化
     trend: TrendDirection;
+    course: string; // 所属课程
 }
-const mockData: Record<string, HotContentItem[]> = {
-    '文本': Array.from({ length: 20 }, (_, i) => ({ id: i + 1, rank: i + 1, title: `经济日报：财政政策需精准提升效能，助力实体经济高质量发展 #${i + 1}`, clicks: `${(496.8 - i * 2.1).toFixed(1)}k`, change: `${(125.33 - i * 10.5).toFixed(2)}%`, trend: Math.random() > 0.3 ? 'down' : 'up', })),
-    '图文': Array.from({ length: 15 }, (_, i) => ({ id: i + 101, rank: i + 1, title: `AI 艺术作品欣赏：赛博朋克都市的霓虹灯与雨夜 #${i + 1}`, clicks: `${(350.5 - i * 3.3).toFixed(1)}k`, change: `${(99.8 - i * 8.2).toFixed(2)}%`, trend: Math.random() > 0.6 ? 'down' : 'up', })),
-    '视频': Array.from({ length: 25 }, (_, i) => ({ id: i + 201, rank: i + 1, title: `短视频教程：1分钟学会 Premiere Pro 高级色彩校正技巧 #${i + 1}`, clicks: `${(880.2 - i * 5.7).toFixed(1)}k`, change: `${(200.1 - i * 12.1).toFixed(2)}%`, trend: Math.random() > 0.4 ? 'down' : 'up', })),
+const mockData: Record<string, HotQuestionItem[]> = {
+    '本周': Array.from({ length: 20 }, (_, i) => ({
+        id: i + 1,
+        rank: i + 1,
+        title: `(数据结构) 关于二叉树的深度优先遍历... #${i + 1}`,
+        errorRate: 65.8 - i * 1.7,
+        change: 5.2 - i * 0.2,
+        trend: 'up',
+        course: '数据结构'
+    })),
+    '本月': Array.from({ length: 15 }, (_, i) => ({
+        id: i + 101,
+        rank: i + 1,
+        title: `(操作系统) 进程与线程的区别是什么？ #${i + 1}`,
+        errorRate: 72.1 - i * 2.1,
+        change: 3.1 + i * 0.1,
+        trend: 'down',
+        course: '操作系统'
+    })),
+    '本学期': Array.from({ length: 25 }, (_, i) => ({
+        id: i + 201,
+        rank: i + 1,
+        title: `(计算机网络) TCP三次握手的过程详解... #${i + 1}`,
+        errorRate: 80.5 - i * 1.1,
+        change: 1.5 - i * 0.05,
+        trend: 'up',
+        course: '计算机网络'
+    })),
 };
-const TABS = ['文本', '图文', '视频'];
+const TABS = ['本周', '本月', '本学期'];
 const ITEMS_PER_PAGE = 5;
 
 
-const TableRow = ({ item }: { item: HotContentItem }) => {
+const TableRow = ({ item }: { item: HotQuestionItem }) => {
     const titleRef = useRef<HTMLDivElement>(null);
     const [isTruncated, setIsTruncated] = useState(false);
 
@@ -36,18 +62,18 @@ const TableRow = ({ item }: { item: HotContentItem }) => {
 
     const titleContent = (
         <div ref={titleRef} className={styles.titleCell}>
+            <span className={styles.courseTag}>{item.course}</span>
             {item.title}
         </div>
     );
 
     return (
         <motion.tr
-            // 关键改动：优化动画效果
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            layout // 添加 layout 属性以实现更平滑的重新排序动画
+            layout
         >
             <td className={styles.colRank}>
                 <span className={`${styles.rank} ${styles[`rank${item.rank}`] || ''}`}>{item.rank}</span>
@@ -61,16 +87,17 @@ const TableRow = ({ item }: { item: HotContentItem }) => {
                     titleContent
                 )}
             </td>
-            <td className={styles.colClicks}>{item.clicks}</td>
+            <td className={styles.colErrorRate}>{item.errorRate.toFixed(1)}%</td>
             <td className={styles.colChange}>
                 <div className={`${styles.trend} ${styles[item.trend]}`}>
-                    {item.change}
+                    {item.change.toFixed(1)}%
                     <i className={`fas fa-arrow-${item.trend}`}></i>
                 </div>
             </td>
         </motion.tr>
     );
 };
+// [code focus end ++]
 
 
 const HotContentTable = () => {
@@ -99,7 +126,9 @@ const HotContentTable = () => {
     return (
         <div className={styles.card}>
             <div className={styles.header}>
-                <h3 className={styles.title}>线上热门内容</h3>
+                {/* [code focus start ++] */}
+                <h3 className={styles.title}>高频错题榜</h3>
+                {/* [code focus end ++] */}
                 <a href="#" className={styles.moreLink}>查看更多</a>
             </div>
 
@@ -112,7 +141,7 @@ const HotContentTable = () => {
                     >
                         {tab}
                         {activeTab === tab &&
-                            <motion.div className={styles.activeIndicator} layoutId="hotContentTabIndicator" />
+                            <motion.div className={styles.activeIndicator} layoutId="hotQuestionTabIndicator" />
                         }
                     </button>
                 ))}
@@ -122,17 +151,18 @@ const HotContentTable = () => {
                 <table>
                     <thead>
                     <tr>
+                        {/* [code focus start ++] */}
                         <th className={styles.colRank}>排名</th>
-                        <th className={styles.colTitle}>内容标题</th>
-                        <th className={styles.colClicks}>点击量</th>
-                        <th className={styles.colChange}>日涨幅</th>
+                        <th className={styles.colTitle}>题目</th>
+                        <th className={styles.colErrorRate}>错误率</th>
+                        <th className={styles.colChange}>较上周期</th>
+                        {/* [code focus end ++] */}
                     </tr>
                     </thead>
-                    {/* 关键改动：AnimatePresence 现在包裹 tbody */}
                     <AnimatePresence initial={false}>
                         <motion.tbody>
                             {paginatedData.map((item) => (
-                                <TableRow key={item.id} item={item} />
+                                <TableRow key={item.id} item={item as HotQuestionItem} />
                             ))}
                         </motion.tbody>
                     </AnimatePresence>
@@ -147,7 +177,6 @@ const HotContentTable = () => {
                     type="number"
                     className={styles.pageInput}
                     value={currentPage}
-                    // 确保输入框不会超过总页数
                     onChange={(e) => {
                         const val = e.target.value;
                         if (val === '' || (Number(val) > 0 && Number(val) <= totalPages)) {

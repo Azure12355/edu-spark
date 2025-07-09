@@ -7,10 +7,6 @@ import ConfirmationModal from '@/shared/components/ui/ConfirmationModal/Confirma
 import { useToast } from '@/shared/hooks/useToast';
 import styles from './KnowledgeCard.module.css';
 
-// 【核心】: 创建一个状态映射对象，用于将后端的数字/字符串状态转换为前端的显示信息
-// 注意：由于后端没有 status 字段，我们暂时不定义这个映射
-// const statusMap = { ... };
-
 // 【核心】: 重构 ProgressRing 组件以接收数字进度
 const ProgressRing: React.FC<{ progress: number, color: string }> = ({ progress, color }) => {
     const radius = 24;

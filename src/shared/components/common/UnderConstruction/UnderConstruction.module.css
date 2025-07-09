@@ -1,80 +1,143 @@
 /* [!file src/shared/components/common/UnderConstruction/UnderConstruction.module.css] */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Poppins:wght@300;500&display=swap');
+
 .container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    min-height: 500px; /* 保证在空页面中也有足够高度 */
-    background-color: var(--teacher-bg-body, #f7f8fa);
+    min-height: 500px;
+    background: radial-gradient(ellipse at bottom, #f3f4f6, #ffffff);
     padding: 40px;
-    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
 }
 
-.content {
+.contentWrapper {
     max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transform: translateZ(20px); /* 3D效果 */
 }
 
-.robotImageWrapper {
-    margin-bottom: 24px;
-    background-color: #fff;
+/* --- 核心：动态粒子背景 --- */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.particle {
+    position: absolute;
     border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(135deg, #a78bfa, #3b82f6);
+    animation: float 25s infinite ease-in-out;
 }
 
+/* 随机生成粒子的大小、位置和动画延迟 */
+.particle:nth-child(1) { width: 15px; height: 15px; left: 10%; animation-delay: -2s; }
+.particle:nth-child(2) { width: 25px; height: 25px; left: 20%; animation-delay: -4s; }
+.particle:nth-child(3) { width: 10px; height: 10px; left: 30%; animation-delay: -6s; }
+/* ... (可以根据需要添加更多) ... */
+.particle:nth-child(10) { width: 20px; height: 20px; left: 85%; animation-delay: -18s; }
+.particle:nth-child(11) { width: 12px; height: 12px; left: 95%; animation-delay: -20s; }
+.particle:nth-child(12) { width: 18px; height: 18px; left: 5%; animation-delay: -22s; }
+
+
+@keyframes float {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    1% { opacity: 0.5; }
+    99% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+
+/* --- 图标美化 --- */
+.iconContainer {
+    position: relative;
+    margin-bottom: 32px;
+    transform: translateZ(50px); /* 3D效果 */
+}
+.iconContainer i {
+    font-size: 64px;
+    background: linear-gradient(135deg, #4f46e5, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+/* 图标背后的光晕效果 */
+.iconGlow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    filter: blur(25px);
+    animation: pulseGlow 4s infinite ease-in-out;
+}
+@keyframes pulseGlow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+/* --- 排版优化 --- */
 .title {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--teacher-text-primary, #1D2129);
-    margin: 0 0 12px;
+    font-family: 'Merriweather', serif; /* 优雅的衬线字体 */
+    font-size: 40px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 16px;
+    transform: translateZ(30px); /* 3D效果 */
+    letter-spacing: -0.5px;
 }
-
 .description {
-    font-size: 16px;
-    color: var(--teacher-text-secondary, #4E5969);
-    line-height: 1.7;
-    margin: 0 0 32px;
+    font-family: 'Poppins', sans-serif; /* 现代无衬线字体 */
+    font-size: 17px;
+    color: #4b5563;
+    max-width: 500px;
+    line-height: 1.8;
+    margin: 0 0 40px;
+    transform: translateZ(20px); /* 3D效果 */
 }
-
 .description strong {
-    color: var(--teacher-primary, #2F7BFF);
-    font-weight: 600;
+    font-weight: 500;
+    color: #4f46e5;
 }
 
+/* --- 进度条美化 --- */
 .progressBarContainer {
     width: 100%;
     max-width: 400px;
+    transform: translateZ(10px); /* 3D效果 */
 }
-
 .progressBarLabel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    color: var(--teacher-text-tertiary, #86909C);
-    margin-bottom: 8px;
-    padding: 0 4px;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
 }
-
-.progressPercent {
-    font-weight: 600;
-    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
-}
-
 .progressBar {
     width: 100%;
-    height: 12px;
-    background-color: #e5e7eb;
-    border-radius: 6px;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
     overflow: hidden;
 }
-
 .progressFill {
     height: 100%;
-    background: linear-gradient(90deg, #60a5fa, #3b82f6);
-    border-radius: 6px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #818cf8, #a78bfa, #c4b5fd);
+    background-size: 300% 100%;
+    animation: progressFlow 2s linear infinite; /* 流光效果 */
+}
+@keyframes progressFlow {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }

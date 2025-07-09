@@ -1,10 +1,9 @@
-// [!file src/shared/components/common/UnderConstruction.tsx]
+// [!file src/shared/components/common/UnderConstruction/UnderConstruction.tsx]
 "use client";
 
 import React from 'react';
 import styles from './UnderConstruction.module.css';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { motion, useTransform, useMotionValue } from 'framer-motion';
 
 interface UnderConstructionProps {
     pageTitle?: string;
@@ -15,64 +14,86 @@ const UnderConstruction: React.FC<UnderConstructionProps> = ({
                                                                  pageTitle = "新功能探索中",
                                                                  featureName = "这个模块"
                                                              }) => {
+    // 1. 创建用于3D视差效果的 motion value
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const rotateX = useTransform(y, [-100, 100], [10, -10]);
+    const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+
+    const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        x.set(event.clientX - rect.left - rect.width / 2);
+        y.set(event.clientY - rect.top - rect.height / 2);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    // 2. Framer Motion 动画变体
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+    };
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 15, stiffness: 100 } }
+    };
+
     return (
-        <div className={styles.container}>
-            <div className={styles.content}>
-                <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className={styles.robotImageWrapper}
-                >
-                    <Image
-                        src="/robot.gif" // 复用 public/robot.gif
-                        alt="AI 工程师正在施工"
-                        width={180}
-                        height={180}
-                        unoptimized // GIF图需要此属性
-                    />
+        <motion.div
+            className={styles.container}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+        >
+            {/* 背景粒子效果 */}
+            <div className={styles.particles}>
+                {Array.from({ length: 30 }).map((_, i) => (
+                    <div key={i} className={styles.particle}></div>
+                ))}
+            </div>
+
+            {/* 内容容器 */}
+            <motion.div
+                className={styles.contentWrapper}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
+                {/* 核心图标 */}
+                <motion.div variants={itemVariants} className={styles.iconContainer}>
+                    <div className={styles.iconGlow}></div>
+                    <i className="fas fa-drafting-compass"></i>
                 </motion.div>
 
-                <motion.h1
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className={styles.title}
-                >
+                {/* 主标题 */}
+                <motion.h1 variants={itemVariants} className={styles.title}>
                     {pageTitle}
                 </motion.h1>
 
-                <motion.p
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                    className={styles.description}
-                >
-                    我们的 AI 工程师正在为<strong>{featureName}</strong>注入新的魔法！<br/>
-                    请稍作等待，更智能、更强大的功能即将上线。
+                {/* 副标题 */}
+                <motion.p variants={itemVariants} className={styles.description}>
+                    我们的AI工程师正在为 <strong>{featureName}</strong> 绘制蓝图，<br />
+                    用代码与光线，编织全新的交互体验。敬请期待！
                 </motion.p>
 
-                <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
-                    className={styles.progressBarContainer}
-                >
+                {/* 进度条 */}
+                <motion.div variants={itemVariants} className={styles.progressBarContainer}>
                     <div className={styles.progressBarLabel}>
-                        <span>正在编译思想火花...</span>
-                        <span className={styles.progressPercent}>42%</span>
+                        <span>创意编译中...</span>
                     </div>
                     <div className={styles.progressBar}>
                         <motion.div
                             className={styles.progressFill}
-                            initial={{ width: '0%' }}
-                            animate={{ width: '42%' }}
-                            transition={{ duration: 1.5, delay: 1, ease: "easeInOut" }}
+                            initial={{ width: 0 }}
+                            animate={{ width: '100%' }}
+                            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
                         />
                     </div>
                 </motion.div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 

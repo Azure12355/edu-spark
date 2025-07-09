@@ -1,4 +1,4 @@
-// src/components/teacher/studio/ContentTypePieChart/ContentTypePieChart.tsx
+// [!file src/widgets/analytics/ContentTypePieChart/ContentTypePieChart.tsx]
 "use client";
 import React from 'react';
 import EChartsReactCore from '@/shared/components/ui/ECharts/EChartsReactCore';
@@ -6,19 +6,29 @@ import type { EChartsOption } from 'echarts';
 import styles from './ContentTypePieChart.module.css';
 
 const ContentTypePieChart = () => {
-    // 1. 定义与设计稿一致的颜色
-    const chartColors = ['#00BFFF', '#3A84FF', '#4C51BF'];
+    // [code focus start ++]
+    // --- 核心修改：替换为题目来源相关的数据和配置 ---
+
+    // 1. 定义与题目来源匹配的颜色主题
+    const chartColors = ['#3b82f6', '#10b981', '#f97316']; // 蓝色:手动, 绿色:AI, 橙色:导入
+
+    // 2. 模拟数据，反映一个典型的题目构成
+    const seriesData = [
+        { value: 450, name: '手动创建' }, // 教师原创题目
+        { value: 820, name: 'AI生成' },  // AI辅助生成的题目
+        { value: 230, name: '批量导入' }, // 从外部文件导入的题目
+    ];
+
+    // 3. 计算总题量
+    const totalQuestions = seriesData.reduce((sum, item) => sum + item.value, 0);
 
     const option: EChartsOption = {
-        // 2. 定义图表的颜色主题
         color: chartColors,
-
-        // 3. 利用 title 属性在图表中心创建文本
         title: {
-            text: '928,530',
-            subtext: '内容量',
+            text: totalQuestions.toLocaleString(), // 格式化数字，例如 1,500
+            subtext: '题库总量',
             left: 'center',
-            top: '42%', // 精细调整垂直位置
+            top: '42%',
             textStyle: {
                 fontSize: 28,
                 fontWeight: 'bold',
@@ -28,75 +38,54 @@ const ContentTypePieChart = () => {
                 fontSize: 14,
                 color: '#86909C',
             },
-            itemGap: 10, // 主副标题间距
+            itemGap: 8,
         },
-
         tooltip: {
             trigger: 'item',
-            formatter: '{b}: {c} ({d}%)' // 提示框显示更详细信息
+            formatter: '{b}: {c} 道 ({d}%)' // 提示框显示具体题目数量和百分比
         },
-
-        // 4. 配置图例样式和位置
         legend: {
             orient: 'horizontal',
             bottom: '5%',
             left: 'center',
-            itemGap: 24, // 增大图例项间距
-            icon: 'circle', // 使用圆形图例
+            itemGap: 20,
+            icon: 'circle',
             textStyle: {
                 color: '#4E5969',
                 fontSize: 14,
-            }
+            },
+            // 图例现在也由数据驱动
+            data: seriesData.map(item => item.name)
         },
-
         series: [
             {
-                name: '内容类别占比',
+                name: '题目来源分布',
                 type: 'pie',
-                // 5. 创建环形图（甜甜圈图）
                 radius: ['60%', '80%'],
-                center: ['50%', '45%'], // 调整图表中心，为图例留出空间
-                avoidLabelOverlap: true,
-
-                // 6. 配置外部标签和引导线
+                center: ['50%', '45%'],
+                avoidLabelOverlap: false,
                 label: {
-                    show: true,
-                    position: 'outside',
-                    formatter: '{d}%', // 只显示百分比
-                    color: '#4E5969',
-                    fontSize: 14,
+                    show: false, // 保持中心区域简洁，信息通过 tooltip 展示
                 },
                 labelLine: {
-                    show: true,
-                    length: 15,
-                    length2: 15,
-                    smooth: true,
+                    show: false,
                 },
-
-                // 7. 高亮（悬浮）时的样式
                 emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: 16,
-                        fontWeight: 'bold'
-                    },
-                    scaleSize: 10 // 悬浮时放大尺寸
+                    scale: true,
+                    scaleSize: 8
                 },
-
-                // 8. 模拟数据
-                data: [
-                    { value: 445742, name: '纯文本' }, // 48%
-                    { value: 334300, name: '图文类' }, // 36%
-                    { value: 148588, name: '视频类' }, // 16%
-                ],
+                data: seriesData,
             },
         ],
     };
+    // [code focus end ++]
 
     return (
         <div className={styles.card}>
             <div className={styles.header}>
-                <h3 className={styles.title}>内容类别占比</h3>
+                {/* [code focus start ++] */}
+                <h3 className={styles.title}>题库来源分布</h3>
+                {/* [code focus end ++] */}
                 <a href="#" className={styles.moreLink}>查看更多</a>
             </div>
             <div className={styles.chartContainer}>

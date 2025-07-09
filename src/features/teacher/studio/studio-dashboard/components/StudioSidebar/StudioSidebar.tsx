@@ -1,38 +1,77 @@
-// src/components/teacher/studio/StudioSidebar/StudioSidebar.tsx
+// [!file src/features/teacher/studio/studio-dashboard/components/StudioSidebar/StudioSidebar.tsx]
+"use client"; // 确保这是一个客户端组件以使用Link
 import React from 'react';
 import styles from './StudioSidebar.module.css';
+import Link from 'next/link'; // 引入Next.js的Link组件
 
 // 定义入口项的数据结构
 interface AccessItem {
     name: string;
     icon: string;
     href: string;
+    description?: string; // 新增：简短的描述，用于Tooltip
 }
 
-// 快捷入口数据
+// [code focus start ++]
+// --- 核心修改：替换为真实的教学功能快捷入口 ---
 const quickAccessItems: AccessItem[] = [
-    { name: '内容管理', icon: 'far fa-file-alt', href: '#' },
-    { name: '内容数据', icon: 'far fa-chart-bar', href: '#' },
-    { name: '高级管理', icon: 'fas fa-cog', href: '#' },
-    { name: '线上推广', icon: 'fas fa-bullhorn', href: '#' },
-    { name: '内容投放', icon: 'fas fa-fire', href: '#' },
+    {
+        name: '我的课程',
+        icon: 'fas fa-book',
+        href: '/teacher/courses',
+        description: '查看和管理您创建的所有课程'
+    },
+    {
+        name: '知识库',
+        icon: 'fas fa-brain',
+        href: '/teacher/knowledge',
+        description: '管理您的个人和共享知识库'
+    },
+    {
+        name: 'AI 助教',
+        icon: 'fas fa-robot',
+        href: '/teacher/assistant',
+        description: '与您的专属AI教学助理对话'
+    },
+    {
+        name: '学情分析',
+        icon: 'fas fa-chart-pie',
+        href: '/teacher/studio', // 当前页面
+        description: '查看教学相关的统计数据'
+    },
+    {
+        name: '账号设置',
+        icon: 'fas fa-user-cog',
+        href: '/profile/settings', // 假设的个人设置页
+        description: '修改您的个人信息和偏好'
+    },
+    {
+        name: '帮助中心',
+        icon: 'fas fa-question-circle',
+        href: '/help',
+        description: '获取平台使用帮助和教程'
+    },
 ];
 
-// 最近访问数据
+// 最近访问数据 - 这里仍然使用模拟数据，因为真实数据需要从用户行为历史中获取
 const recentVisitsItems: AccessItem[] = [
-    { name: '内容数据', icon: 'far fa-chart-bar', href: '#' },
-    { name: '内容管理', icon: 'far fa-file-alt', href: '#' },
-    { name: '高级管理', icon: 'fas fa-cog', href: '#' },
+    { name: '我的课程', icon: 'fas fa-book', href: '/teacher/courses', description: '查看和管理您的所有课程' },
+    { name: 'AI 助教', icon: 'fas fa-robot', href: '/teacher/assistant', description: '与您的专属AI教学助理对话' },
+    { name: '知识库', icon: 'fas fa-brain', href: '/teacher/knowledge', description: '管理您的个人和共享知识库' },
 ];
+// [code focus end ++]
 
-// 可复用的网格项组件
+
+// 可复用的网格项组件 - 【核心修改】使用Link组件
 const AccessGridItem: React.FC<{ item: AccessItem }> = ({ item }) => (
-    <a href={item.href} className={styles.item}>
+    // [code focus start ++]
+    <Link href={item.href} className={styles.item} title={item.description}>
         <div className={styles.itemIcon}>
             <i className={item.icon}></i>
         </div>
         <span className={styles.itemName}>{item.name}</span>
-    </a>
+    </Link>
+    // [code focus end ++]
 );
 
 
@@ -42,7 +81,7 @@ const StudioSidebar = () => {
             {/* 快捷入口部分 */}
             <div className={styles.header}>
                 <h3 className={styles.title}>快捷入口</h3>
-                <a href="#" className={styles.moreLink}>查看更多</a>
+                {/* <a href="#" className={styles.moreLink}>查看更多</a> */}
             </div>
             <div className={styles.grid}>
                 {quickAccessItems.map(item => (

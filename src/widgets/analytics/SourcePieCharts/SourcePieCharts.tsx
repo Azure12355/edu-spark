@@ -1,61 +1,65 @@
-// src/components/teacher/studio/SourcePieCharts/SourcePieCharts.tsx
+// [!file src/widgets/analytics/SourcePieCharts/SourcePieCharts.tsx]
 "use client";
 import React from 'react';
 import EChartsReactCore from '@/shared/components/ui/ECharts/EChartsReactCore';
 import type { EChartsOption } from 'echarts';
 import styles from './SourcePieCharts.module.css';
 
-// 1. 定义共享的图例数据和颜色
+// [code focus start ++]
+// --- 核心修改：替换为学情分析相关的图表数据 ---
+
+// 1. 定义共享的图例数据和颜色，现在代表题型
 const legendData = [
-    { name: 'UGC原创', color: '#1d4cd4' },
-    { name: '国外网站', color: '#36a3ff' },
-    { name: '转载文章', color: '#8a73d1' },
-    { name: '行业报告', color: '#36cfff' },
-    { name: '其他', color: '#8de174' },
+    { name: '选择题', color: '#3b82f6' },
+    { name: '填空题', color: '#16a34a' },
+    { name: '判断题', color: '#f97316' },
+    { name: '简答题', color: '#8b5cf6' },
+    { name: '编程题', color: '#ef4444' },
 ];
-// 为了方便，我们创建一个颜色数组
 const chartColors = legendData.map(item => item.color);
 
 
-// 2. 创建一个可复用的函数来生成图表配置
+// 2. 更新图表配置生成函数，使其更适合展示得分率
 const createPieOption = (title: string, data: { value: number; name: string }[]): EChartsOption => {
+    // 计算总分，用于显示在中心
+    const totalScore = data.reduce((sum, item) => sum + item.value, 0);
+    const avgScore = data.length > 0 ? (totalScore / data.length).toFixed(1) : '0';
+
     return {
         color: chartColors,
+        // @ts-ignore
         title: {
-            text: title,
+            text: `${title}\n平均得分率`, // 主标题
+            subtext: `${avgScore}%`,    // 副标题显示平均分
             left: 'center',
-            top: 'center',
+            top: '40%', // 微调位置
             textStyle: {
                 fontSize: 16,
-                fontWeight: "bold",
-                color: '#4E5969'
+                fontWeight: "600",
+                color: '#4E5969',
+                lineHeight: 24,
+            },
+            subtextStyle: {
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: '#1D2129'
             }
         },
         tooltip: {
             trigger: 'item',
-            formatter: '{b}: {d}%'
+            formatter: '{b}: {c}%' // 提示框显示具体得分率
         },
         series: [
             {
-                name: '来源',
+                name: '题型得分率',
                 type: 'pie',
                 radius: ['65%', '85%'],
                 avoidLabelOverlap: false,
-                label: {
-                    show: true,
-                    position: 'outside',
-                    formatter: '{d}%',
-                    color: '#86909C',
-                    fontSize: 13,
-                },
-                labelLine: {
-                    show: true,
-                    length: 10,
-                    length2: 10,
-                },
+                label: { show: false }, // 标签默认不显示，保持图表简洁
+                labelLine: { show: false },
                 emphasis: {
-                    label: { show: false },
-                    scaleSize: 5
+                    scale: true,
+                    scaleSize: 8
                 },
                 data: data
             }
@@ -63,45 +67,59 @@ const createPieOption = (title: string, data: { value: number; name: string }[])
     };
 };
 
-// 3. 为每个饼图准备数据
-const textData = [
-    { value: 44, name: '转载文章' },
-    { value: 23, name: '其他' },
-    { value: 16, name: '国外网站' },
-    { value: 14, name: 'UGC原创' },
-    { value: 3, name: '行业报告' },
+// 3. 为每个课程准备符合逻辑的题型得分率数据
+// 《数据结构》: 编程和选择题是重点，简答题稍弱
+const dataStructureData = [
+    { value: 92, name: '选择题' },
+    { value: 85, name: '填空题' },
+    { value: 95, name: '判断题' },
+    { value: 78, name: '简答题' },
+    { value: 88, name: '编程题' },
 ];
-const imageData = [
-    { value: 31, name: '转载文章' },
-    { value: 27, name: '行业报告' },
-    { value: 26, name: '国外网站' },
-    { value: 8, name: 'UGC原创' },
-    { value: 7, name: '其他' },
+
+// 《操作系统》: 简答和选择是重点，编程题较少且得分率高
+const osData = [
+    { value: 90, name: '选择题' },
+    { value: 88, name: '填空题' },
+    { value: 94, name: '判断题' },
+    { value: 91, name: '简答题' },
+    { value: 95, name: '编程题' },
 ];
-const videoData = [
-    { value: 42, name: '转载文章' },
-    { value: 24, name: '行业报告' },
-    { value: 22, name: '其他' },
-    { value: 8, name: '国外网站' },
-    { value: 4, name: 'UGC原创' },
+
+// 《计算机网络》: 简答题和选择题是难点，得分率稍低
+const networkData = [
+    { value: 85, name: '选择题' },
+    { value: 90, name: '填空题' },
+    { value: 96, name: '判断题' },
+    { value: 82, name: '简答题' },
+    { value: 89, name: '编程题' },
 ];
+// [code focus end ++]
 
 
 const SourcePieCharts = () => {
     return (
         <div className={styles.card}>
             <div className={styles.header}>
-                <h3 className={styles.title}>内容发布来源</h3>
+                {/* [code focus start ++] */}
+                <h3 className={styles.title}>课程题型得分率分析</h3>
+                {/* [code focus end ++] */}
             </div>
             <div className={styles.chartGrid}>
                 <div className={styles.chartWrapper}>
-                    <EChartsReactCore option={createPieOption('纯文本', textData)} />
+                    {/* [code focus start ++] */}
+                    <EChartsReactCore option={createPieOption('数据结构', dataStructureData)} />
+                    {/* [code focus end ++] */}
                 </div>
                 <div className={styles.chartWrapper}>
-                    <EChartsReactCore option={createPieOption('图文类', imageData)} />
+                    {/* [code focus start ++] */}
+                    <EChartsReactCore option={createPieOption('操作系统', osData)} />
+                    {/* [code focus end ++] */}
                 </div>
                 <div className={styles.chartWrapper}>
-                    <EChartsReactCore option={createPieOption('视频类', videoData)} />
+                    {/* [code focus start ++] */}
+                    <EChartsReactCore option={createPieOption('计算机网络', networkData)} />
+                    {/* [code focus end ++] */}
                 </div>
             </div>
             <div className={styles.legendContainer}>

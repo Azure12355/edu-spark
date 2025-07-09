@@ -1,78 +1,84 @@
-/* src/components/teacher/studio/Announcements/Announcements.module.css */
+/* [!file src/widgets/analytics/Announcements/Announcements.module.css] */
+/* ... .card, .header, .title, .moreLink, .list, .item, .text 样式保持不变 ... */
 .card {
     background-color: white;
     padding: 24px;
     border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--teacher-border-color);
 }
-
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
-
 .title {
     font-size: 18px;
     font-weight: 600;
-    color: var(--teacher-text-primary);
 }
-
 .moreLink {
     font-size: 14px;
-    color: var(--teacher-text-secondary);
+    color: var(--teacher-text-tertiary);
     text-decoration: none;
 }
-.moreLink:hover {
-    color: var(--teacher-primary);
-}
-
 .list {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* 列表项之间的间距 */
+    gap: 12px;
 }
-
 .item {
     display: flex;
     align-items: center;
     gap: 12px;
     text-decoration: none;
+    color: var(--teacher-text-secondary);
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
-
-.tag {
-    flex-shrink: 0; /* 防止标签被压缩 */
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 6px;
+.item:hover {
+    background-color: #f7f9fc;
 }
-
-/* --- 多彩标签样式 --- */
-.tagActivity {
-    color: #FF7D00;
-    background-color: #FFF7E8;
-}
-.tagMessage {
-    color: #00B42A;
-    background-color: #E8FFEA;
-}
-.tagNotification {
-    color: #165DFF;
-    background-color: #E8F3FF;
-}
-
 .text {
+    flex-grow: 1;
     font-size: 14px;
-    color: var(--teacher-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex-grow: 1; /* 占据多余空间 */
-    transition: color 0.2s;
+    margin: 0;
 }
 
-.item:hover .text {
-    color: var(--teacher-primary);
+
+/* [code focus start ++] */
+/* --- 核心修改：更新标签样式以匹配新的类型 --- */
+.tag {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid;
 }
+
+/* 待办事项 - 紧急的红色 */
+.tagTodo {
+    color: #ef4444;
+    background-color: #fee2e2;
+    border-color: #fecaca;
+}
+
+/* 提醒事项 - 警示的橙色 */
+.tagReminder {
+    color: #f97316;
+    background-color: #fff7ed;
+    border-color: #fed7aa;
+}
+
+/* 系统更新 - 提示性的蓝色 */
+.tagUpdate {
+    color: #3b82f6;
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+}
+/* [code focus end ++] */

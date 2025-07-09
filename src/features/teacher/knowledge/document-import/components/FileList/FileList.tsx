@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import styles from './FileList.module.css';
-import { getFileIcon } from '@/shared/lib/data/documentData';
 import { UploadableFile, UploadStatus } from '@/shared/hooks/useFileUpload'; // 从Hook导入类型
 
 interface FileListProps {
@@ -43,12 +42,8 @@ const FileList: React.FC<FileListProps> = ({ files, onDelete }) => {
                 {files.map(uploadableFile => {
                     const { file } = uploadableFile;
                     const extension = file.name.split('.').pop()?.toLowerCase() || 'txt';
-                    const { icon, color } = getFileIcon(extension as any);
                     return (
                         <div key={uploadableFile.id} className={styles.item}>
-                            <div className={styles.fileIcon} style={{ fontSize: '24px', color: color }}>
-                                <i className={`fas ${icon}`}></i>
-                            </div>
                             <span className={styles.fileName}>{file.name}</span>
                             <div className={styles.actions}>
                                 <StatusDisplay file={uploadableFile} />

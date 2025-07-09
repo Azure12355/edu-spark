@@ -1,4 +1,4 @@
-// src/components/teacher/studio/TopicRadarChart/TopicRadarChart.tsx
+// [!file src/widgets/analytics/TopicRadarChart/TopicRadarChart.tsx]
 "use client";
 import React from 'react';
 import EChartsReactCore from '@/shared/components/ui/ECharts/EChartsReactCore';
@@ -6,43 +6,78 @@ import type { EChartsOption } from 'echarts';
 import styles from './TopicRadarChart.module.css';
 
 const TopicRadarChart = () => {
+    // [code focus start ++]
+    // --- 核心修改：替换为班级综合能力对比数据 ---
     const option: EChartsOption = {
-        color: ['#1A237E', '#29B6F6', '#2196F3'],
+        color: ['#4f46e5', '#059669', '#d97706'], // 使用一组鲜艳且对比强烈的颜色
         tooltip: { trigger: 'item' },
         legend: {
-            data: ['纯文本', '图文类', '视频类'],
-            right: 10,
-            top: 10,
-            orient: 'vertical',
-            icon: 'circle'
+            data: ['01班 平均水平', '02班 平均水平', '03班 平均水平'],
+            bottom: 10, // 图例放在底部
+            textStyle: {
+                color: '#4E5969'
+            }
         },
         radar: {
+            // 定义雷达图的维度指标，这些是衡量学生能力的关键维度
             indicator: [
-                { name: '娱乐', max: 6500 }, { name: '体育', max: 16000 },
-                { name: '财经', max: 30000 }, { name: '科技', max: 38000 },
-                { name: '其他', max: 52000 }, { name: '国际', max: 25000 }
+                { name: '理论掌握度', max: 100 },
+                { name: '编程实践能力', max: 100 },
+                { name: '作业完成率', max: 100 },
+                { name: '知识点覆盖广度', max: 100 },
+                { name: '难题挑战率', max: 100 }
             ],
             shape: 'circle',
-            center: ['45%', '55%'], // 微调中心点
-            radius: '65%', // 调整大小
-            splitArea: { areaStyle: { color: ['#FAFBFC', '#FFFFFF'], shadowBlur: 0 } },
-            axisLine: { lineStyle: { color: '#F2F3F5' } },
-            splitLine: { lineStyle: { color: '#F2F3F5' } }
+            center: ['50%', '50%'],
+            radius: '65%',
+            splitArea: {
+                areaStyle: {
+                    color: ['rgba(250, 251, 252, 0.8)', 'rgba(242, 243, 245, 0.8)'], // 使用更柔和的背景填充色
+                    shadowBlur: 0
+                }
+            },
+            axisLine: { lineStyle: { color: '#E5E6EB' } },
+            splitLine: { lineStyle: { color: '#E5E6EB' } },
+            axisName: { // 优化雷达图轴线文字样式
+                color: '#4E5969',
+                fontSize: 13
+            }
         },
         series: [{
-            name: '题材分布',
+            name: '班级能力对比',
             type: 'radar',
             data: [
-                { value: [4200, 3000, 20000, 35000, 50000, 18000], name: '纯文本', areaStyle: { opacity: 0.2 } },
-                { value: [5000, 14000, 28000, 26000, 42000, 21000], name: '图文类', areaStyle: { opacity: 0.2 } },
-                { value: [6000, 15000, 18000, 30000, 32000, 11000], name: '视频类', areaStyle: { opacity: 0.2 } }
+                {
+                    value: [92, 85, 95, 75, 88, 65],
+                    name: '01班 平均水平',
+                    areaStyle: { opacity: 0.2 },
+                    symbol: 'circle',
+                    symbolSize: 6
+                },
+                {
+                    value: [80, 92, 88, 85, 76, 80],
+                    name: '02班 平均水平',
+                    areaStyle: { opacity: 0.2 },
+                    symbol: 'triangle',
+                    symbolSize: 6
+                },
+                {
+                    value: [75, 78, 82, 93, 91, 88],
+                    name: '03班 平均水平',
+                    areaStyle: { opacity: 0.2 },
+                    symbol: 'diamond',
+                    symbolSize: 6
+                }
             ]
         }]
     };
+    // [code focus end ++]
 
     return (
         <div className={styles.card}>
-            <h3 className={styles.title}>内容题材分布</h3>
+            {/* [code focus start ++] */}
+            <h3 className={styles.title}>班级综合能力对比</h3>
+            {/* [code focus end ++] */}
             <div className={styles.chartContainer}>
                 <EChartsReactCore option={option} />
             </div>

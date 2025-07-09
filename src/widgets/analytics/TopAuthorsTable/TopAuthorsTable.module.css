@@ -82,3 +82,80 @@
 .authorName {
     font-weight: 500;
 }
+
+/* [code focus start ++] */
+/* --- 核心修改：新的样式 --- */
+.authorHeader {
+    text-align: left;
+    width: 30%; /* 给作者列更多空间 */
+}
+
+.authorInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.rankCell {
+    width: 60px;
+    text-align: center;
+}
+
+.rank {
+    font-weight: bold;
+    font-size: 14px;
+    color: #86909C;
+}
+
+.rank1, .rank2, .rank3 {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    color: white;
+}
+.rank1 { background-color: #FFD700; } /* 金 */
+.rank2 { background-color: #C0C0C0; } /* 银 */
+.rank3 { background-color: #CD7F32; } /* 铜 */
+
+
+.sortableTh {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+.sortableTh:hover {
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.sortableHeader {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sortIcons {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.8;
+    color: #cbd5e1;
+}
+
+.sortIcons .active {
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.ratingCell {
+    font-weight: 500;
+}
+.ratingCell i {
+    color: #facc15; /* 黄色星星 */
+    margin-right: 4px;
+}
+/* [code focus end ++] */

@@ -1,63 +1,56 @@
-/* src/components/teacher/knowledge/home/KnowledgeBaseHeader/KnowledgeBaseHeader.module.css */
+/* [!file src/features/teacher/knowledge/knowledge-list/components/KnowledgeBaseHeader/KnowledgeBaseHeader.module.css] */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* --- 根容器：相对定位，隔离堆叠上下文 --- */
+/* --- 主容器 --- */
 .banner {
+    font-family: 'Inter', sans-serif;
     position: relative;
-    padding: 48px 56px;
+    padding: 48px;
     border-radius: 24px;
-    background-color: #111827; /* 深色底色，用于衬托辉光 */
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    background-color: #0f172a; /* 深邃的科技蓝黑背景 */
+    color: white;
+    border: 1px solid #1e293b;
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.3);
 }
 
-/* --- 背景层1：动态极光效果 --- */
-.aurora {
+/* --- 背景效果层 --- */
+.backgroundEffects {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(
-            ellipse 100% 100% at center,
-            rgba(79, 70, 229, 0.15) 0%, /* 靛蓝色辉光 */
-            rgba(139, 92, 246, 0.1) 30%, /* 紫罗兰色辉光 */
-            transparent 70%
-    );
-    opacity: 0.8;
-    transition: background-position 0.4s ease-out;
-    will-change: background-position;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     z-index: 0;
 }
-
-/* --- 背景层2：静态网格图案 --- */
-.gridPattern {
+.aurora {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    mix-blend-mode: soft-light; /* 柔和叠加模式 */
+    opacity: 0.8;
+}
+.gridPattern {
+    width: 100%; height: 100%;
     background-image:
-            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    opacity: 0.5;
-    mask-image: radial-gradient(ellipse 150% 150% at 50% 0%, white, transparent 80%);
-    z-index: 1;
+            linear-gradient(to right, rgba(30, 41, 59, 0.5) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: panGrid 15s linear infinite;
+}
+@keyframes panGrid {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
 }
 
-/* --- 内容包裹器：确保内容在背景之上 --- */
+/* --- 内容层 --- */
 .contentWrapper {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 40px;
 }
-
 .leftSection {
-    max-width: 60%;
+    max-width: 55%;
 }
 
 .titleGroup {
@@ -67,140 +60,139 @@
     margin-bottom: 16px;
 }
 
-.titleIcon {
-    font-size: 36px;
-    color: white;
-}
-
 .title {
     font-size: 32px;
     font-weight: 700;
-    color: white;
-    letter-spacing: -0.02em;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    letter-spacing: -0.5px;
 }
-
 .subtitle {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #94a3b8; /* 淡灰色，增加对比度 */
+    max-width: 480px;
     line-height: 1.7;
-    margin: 0 0 32px;
-    max-width: 500px;
+    margin-bottom: 32px;
 }
 
 .quickActions {
     display: flex;
     gap: 16px;
 }
-
 .actionButton {
-    padding: 12px 24px;
-    border-radius: 50px; /* 全圆角胶囊按钮 */
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #e2e8f0;
 }
-
 .actionButton.primary {
-    background: white;
-    color: #1e293b;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
     border: none;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    color: white;
 }
-
-.actionButton.primary:hover {
+.actionButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
-
-.actionButton:not(.primary) {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.actionButton:not(.primary):hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.4);
+.actionButton.primary:hover {
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
 }
 
 /* --- 右侧统计卡片 --- */
 .rightSection {
     display: flex;
-    gap: 20px;
-}
-
-.statCard {
-    /* 玻璃拟态效果 */
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-
-    border-radius: 16px;
-    padding: 24px;
-    width: 160px;
-    text-align: center;
-    display: flex;
     flex-direction: column;
+    gap: 16px;
+}
+
+.metricCard {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.statCard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
-}
-
-.statValue {
-    font-size: 40px;
-    font-weight: 700;
-    color: white;
-    line-height: 1;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.2);
-}
-
-.statLabel {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-/* --- 移动端响应式 --- */
-@media (max-width: 992px) {
-    .contentWrapper {
-        flex-direction: column;
-        text-align: center;
-    }
-    .leftSection, .rightSection {
-        max-width: 100%;
-        align-items: center;
-    }
-    .banner { padding: 40px 24px; }
-}
-
-/* ... 保留所有原有样式 ... */
-
-/* --- 新增：统计卡片的骨架屏样式 --- */
-.metricCardSkeleton {
-    width: 160px; /* 与真实卡片宽度一致 */
-    height: 155px; /* 与真实卡片高度大致一致 */
-    background-color: rgba(255, 255, 255, 0.05);
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    min-width: 280px;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.metricIconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--metric-color);
+    color: white;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.iconShine { /* 卡片图标的扫光效果 */
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.6s ease;
+}
+.metricCard:hover .iconShine {
+    left: 100%;
+}
+
+.metricContent {
+    text-align: left;
+}
+.metricValue {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.metricLabel {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.metricCardSkeleton {
+    height: 82px; width: 280px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(30, 41, 59, 0.5) 25%, rgba(51, 65, 85, 0.5) 50%, rgba(30, 41, 59, 0.5) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+/* --- 大脑电路图标 --- */
+.brainIconContainer {
+    width: 56px; height: 56px;
+}
+.brainSvg {
+    width: 100%; height: 100%;
+    stroke: var(--metric-color, #4f46e5);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+}
+.brainPath {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: drawBrain 2s ease-in-out forwards;
+}
+@keyframes drawBrain { to { stroke-dashoffset: 0; } }
+
+.spark1, .spark2, .spark3 {
+    fill: white;
+    animation: sparkPulse 2s infinite;
+}
+.spark2 { animation-delay: 0.5s; }
+.spark3 { animation-delay: 1s; }
+@keyframes sparkPulse {
+    0%, 100% { r: 0; opacity: 0; }
+    50% { r: 3; opacity: 1; }
 }
