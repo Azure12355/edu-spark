@@ -1,0 +1,208 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-edit/components/QuestionLinkManager/AddQuestionModal.module.css] */
+.searchSection {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.searchInputWrapper {
+    position: relative;
+    flex-grow: 1;
+}
+
+.searchInput {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    padding-left: 40px; /* 为搜索图标留出空间 */
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-text-tertiary, #86909C);
+    font-size: 14px;
+}
+.searchSpinner {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-primary);
+    font-size: 14px;
+}
+
+.typeSelect {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.searchInput:focus, .typeSelect:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.resultsSection {
+    min-height: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 8px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--teacher-text-tertiary);
+    font-size: 15px;
+}
+
+.questionList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.questionItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.questionItem:last-child {
+    border-bottom: none;
+}
+
+.questionItem:hover {
+    background-color: #f7f8fa;
+}
+
+.questionItem.selected {
+    background-color: var(--teacher-primary-light-bg, rgba(47, 123, 255, 0.1));
+    border-left: 4px solid var(--teacher-primary, #2F7BFF);
+    padding-left: 12px;
+}
+.questionItem.selected .selectIcon i {
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.questionStem {
+    flex-grow: 1;
+    font-size: 14px;
+    color: var(--teacher-text-primary, #1D2129);
+    margin-right: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+}
+
+.questionTypeTag {
+    background-color: #e6efff;
+    color: #2F7BFF;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+.scoreInput {
+    width: 60px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 6px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-size: 14px;
+    text-align: right;
+    -moz-appearance: textfield;
+    margin-right: 12px;
+}
+.scoreInput::-webkit-outer-spin-button,
+.scoreInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.scoreInput:disabled {
+    background-color: #f2f3f5;
+    color: #86909C;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+
+.selectIcon {
+    font-size: 20px;
+    color: var(--teacher-border-color);
+    flex-shrink: 0;
+}
+
+/* Modal Footer Buttons */
+.button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancelButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-secondary);
+}
+.cancelButton:hover:not(:disabled) {
+    background-color: var(--teacher-bg-hover);
+}
+
+.confirmButton {
+    background-color: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+    color: white;
+}
+.confirmButton:hover:not(:disabled) {
+    opacity: 0.9;
+}
+.confirmButton:disabled {
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+    cursor: not-allowed;
+}

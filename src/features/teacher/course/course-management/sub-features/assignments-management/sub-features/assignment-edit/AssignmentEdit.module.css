@@ -1,0 +1,176 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-edit/AssignmentEdit.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* [code focus start ++] */
+.saveButton, .cancelButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.saveButton {
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border-color: var(--teacher-primary);
+}
+
+.saveButton:hover:not(:disabled) {
+    background-color: #1a5cff;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+.saveButton:disabled {
+    background-color: #a5b4fc;
+    border-color: #a5b4fc;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    color: var(--teacher-text-secondary, #4E5969);
+    border-color: var(--teacher-border-color, #e5e6eb);
+}
+
+.cancelButton:hover:not(:disabled) {
+    background-color: var(--teacher-bg-hover);
+}
+/* [code focus end ++] */
+
+.saveButton_skeleton, .cancelButton_skeleton {
+    width: 100px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.section_skeleton {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    min-height: 250px;
+}
+
+.section_title_skeleton {
+    height: 24px;
+    width: 200px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.line_skeleton {
+    height: 16px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    margin-bottom: 12px;
+}
+
+.button_row_skeleton {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.button_skeleton {
+    width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.table_header_skeleton, .table_row_skeleton {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    gap: 16px;
+    padding: 12px 16px;
+    align-items: center;
+}
+.table_header_skeleton {
+    background-color: #f7f8fa;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+.table_row_skeleton {
+    border-top: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+/* [code focus start ++] */
+/* 错误和空状态样式 */
+.feedbackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+
+.feedbackContainer i.fa-exclamation-circle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+/* [code focus end ++] */

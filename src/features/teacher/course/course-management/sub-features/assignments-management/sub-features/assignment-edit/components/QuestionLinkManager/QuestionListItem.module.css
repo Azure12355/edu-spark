@@ -1,0 +1,140 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-edit/components/QuestionLinkManager/QuestionListItem.module.css] */
+.itemContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px dashed var(--teacher-border-color, #e5e6eb);
+}
+
+.itemContainer:last-child {
+    border-bottom: none;
+}
+
+.questionInfo {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.orderIndex {
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    flex-shrink: 0;
+}
+
+.questionStem {
+    font-size: 15px;
+    color: var(--teacher-text-primary, #1D2129);
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px; /* 限制题干宽度 */
+}
+
+.questionTypeTag, .questionDifficultyTag {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.questionTypeTag {
+    background-color: #e6efff;
+    color: #2F7BFF;
+}
+
+/* 难度标签颜色 */
+.questionDifficultyTag.EASY { background-color: #e8ffea; color: #00b42a; }
+.questionDifficultyTag.MEDIUM { background-color: #fff7e8; color: #f59e0b; }
+.questionDifficultyTag.HARD { background-color: #ffe8e8; color: #f53f3f; }
+
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.scoreInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.scoreInput {
+    width: 60px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 6px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-size: 14px;
+    text-align: right;
+    -moz-appearance: textfield; /* 移除 Firefox 的 spinner */
+}
+.scoreInput::-webkit-outer-spin-button,
+.scoreInput::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* 移除 Chrome/Safari 的 spinner */
+    margin: 0;
+}
+
+.scoreInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.scoreDisplay {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--teacher-text-primary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.scoreDisplay:hover {
+    background-color: #f7f8fa;
+}
+.scoreDisplay i {
+    font-size: 12px;
+    color: var(--teacher-text-tertiary);
+}
+
+
+.actionButton {
+    background: none;
+    border: none;
+    color: var(--teacher-text-tertiary, #86909C);
+    cursor: pointer;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionButton:hover {
+    background-color: #f2f3f5;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.deleteButton:hover {
+    color: var(--teacher-red, #F53F3F);
+    background-color: rgba(245, 63, 63, 0.1);
+}

@@ -16,7 +16,7 @@ const BASE_URL = '/assignments';
  * @returns {Promise<AssignmentVO>} 返回新创建模板的视图对象。
  */
 export const createAssignmentTemplate = (createRequest: AssignmentCreateRequestDTO): Promise<AssignmentVO> => {
-    return apiClient.post(`${BASE_URL}/template`, createRequest);
+    return apiClient.post(`${BASE_URL}/templates`, createRequest);
 };
 
 /**
@@ -26,7 +26,7 @@ export const createAssignmentTemplate = (createRequest: AssignmentCreateRequestD
  * @returns {Promise<AssignmentVO>} 返回更新后的模板视图对象。
  */
 export const updateAssignmentTemplate = (templateId: number, updateRequest: AssignmentUpdateRequestDTO): Promise<AssignmentVO> => {
-    return apiClient.put(`${BASE_URL}/template/${templateId}`, updateRequest);
+    return apiClient.put(`${BASE_URL}/templates/${templateId}`, updateRequest);
 };
 
 /**
@@ -35,7 +35,7 @@ export const updateAssignmentTemplate = (templateId: number, updateRequest: Assi
  * @returns {Promise<boolean>} 返回操作是否成功。
  */
 export const deleteAssignmentTemplate = (templateId: number): Promise<boolean> => {
-    return apiClient.delete(`${BASE_URL}/template/${templateId}`);
+    return apiClient.delete(`${BASE_URL}/templates/${templateId}`);
 };
 
 /**
@@ -44,7 +44,7 @@ export const deleteAssignmentTemplate = (templateId: number): Promise<boolean> =
  * @returns {Promise<AssignmentVO>} 返回模板的详细视图对象。
  */
 export const getAssignmentTemplate = (templateId: number): Promise<AssignmentVO> => {
-    return apiClient.get(`${BASE_URL}/template/${templateId}`);
+    return apiClient.get(`${BASE_URL}/templates/${templateId}`);
 };
 
 /**
@@ -63,7 +63,7 @@ export const listAssignmentTemplatesByPage = (queryRequest: AssignmentQueryReque
  * @returns {Promise<boolean>} 返回操作是否成功。
  */
 export const linkQuestionsToTemplate = (templateId: number, linkRequests: QuestionLinkRequestDTO[]): Promise<boolean> => {
-    return apiClient.post(`${BASE_URL}/template/${templateId}/questions`, linkRequests);
+    return apiClient.post(`${BASE_URL}/templates/${templateId}/questions`, linkRequests);
 };
 
 /**
@@ -73,5 +73,5 @@ export const linkQuestionsToTemplate = (templateId: number, linkRequests: Questi
  * @returns {Promise<boolean>} 返回操作是否成功。
  */
 export const unlinkQuestionFromTemplate = (templateId: number, questionId: number): Promise<boolean> => {
-    return apiClient.delete(`${BASE_URL}/template/${templateId}/questions/${questionId}`);
+    return apiClient.delete(`${BASE_URL}/templates/${templateId}/questions/${questionId}`);
 };

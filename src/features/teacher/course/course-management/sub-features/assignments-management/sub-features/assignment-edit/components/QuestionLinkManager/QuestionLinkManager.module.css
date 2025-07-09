@@ -1,0 +1,99 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-edit/components/QuestionLinkManager/QuestionLinkManager.module.css] */
+.managerContainer {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    position: relative; /* 为加载遮罩层定位 */
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: flex-end; /* 按钮靠右 */
+    margin-bottom: 20px;
+}
+
+.addButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.addButton:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+.questionList {
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.listHeader {
+    display: flex;
+    padding: 12px 16px;
+    background-color: #f7f8fa;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 14px;
+}
+
+.headerCell {
+    /* flex 属性由 JSX 内部的 inline style 控制 */
+}
+
+/* 题目列表的空状态和加载状态 */
+.emptyState, .loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.emptyState i, .loadingState i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+
+.emptyState p, .loadingState p {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.loadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--teacher-primary, #2F7BFF);
+    z-index: 10;
+    border-radius: 12px;
+}
