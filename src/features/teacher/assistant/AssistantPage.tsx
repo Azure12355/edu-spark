@@ -124,7 +124,7 @@ export const teacherSkills: Skill[] = [
 
 
 export default function AssistantPage() {
-
+    // --- 1. 从 Hook 中解构出所有需要用到的状态和方法 ---
     const {
         courses,
         selectedCourse,
@@ -133,125 +133,35 @@ export default function AssistantPage() {
         selectedNode,
         handleSelectNode,
         isLoading,
-        error,
+        messages,
+        isSending,
+        sendMessage,
+        stopSending,
+        clearConversation,
+        selectedSkill,
+        setSelectedSkill,
+        // thinkingMode 和 setThinkingMode 暂时还未使用，后续会用到
     } = useTeacherAssistant();
 
+    // 弹窗的开关状态，这是纯UI状态，可以保留在组件中
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // 原有的对话状态
-    const [messages, setMessages] = useState<BubbleMessage[]>([]);
+    // 输入框的值，这也是纯UI状态
     const [inputValue, setInputValue] = useState('');
-    const [isSending, setIsSending] = useState(false);
+    // 控制思考面板的显示，纯UI状态
     const [showThinkingPanelId, setShowThinkingPanelId] = useState<string | null>(null);
-    const [selectedSkill, setSelectedSkill] = useState<string>('');
-    const abortControllerRef = useRef<AbortController | null>(null);
-    const showToast = useToast();
 
-    // 原有的对话处理逻辑
-    const handleSendMessage = async (data: { text: string; mode: any }) => {
-        let content = data.text.trim();
-        if (!content) return;
+    // --- 2. 移除所有本地业务逻辑和状态管理 (useState, useRef for abort, handleSendMessage) ---
 
-        const skillName = teacherSkills.find(s => s.id === selectedSkill)?.name || '';
-        if (skillName) {
-            content = `[使用${skillName}功能] ${content}`;
-        }
-
-        // 在发送消息时，附带当前课程和知识点上下文
-        const contextMessage = `当前课程: ${selectedCourse?.name || '无'}\n当前知识点: ${selectedNode?.name || '整个课程'}\n\n用户提问: ${content}`;
-        console.log("发送包含上下文的消息:", contextMessage);
-
-        setIsSending(true);
-        abortControllerRef.current = new AbortController();
-        const newUserMessage: BubbleMessage = {id: `user-${Date.now()}`, role: 'user', content, isComplete: true};
-        const assistantMsgId = `assistant-${Date.now()}`;
-
-        const currentMessages = [...messages, newUserMessage];
-        setMessages([...currentMessages, {
-            id: assistantMsgId,
-            role: 'assistant',
-            content: '',
-            isThinking: true,
-            isComplete: false
-        }]);
-        setInputValue('');
-        setSelectedSkill('');
-
-        const apiMessagesHistory = currentMessages.filter(m => m.role === 'user' || m.isComplete).map(({
-                                                                                                           role,
-                                                                                                           content
-                                                                                                       }) => ({
-            role,
-            content
-        }));
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    messages: apiMessagesHistory,
-                    courseId: selectedCourse?.id,
-                    /* [code focus start ++] */
-                    // 传递选中的知识节点信息
-                    contextNode: selectedNode,
-                    /* [code focus end ++] */
-                }),
-                signal: abortControllerRef.current.signal,
-            });
-
-            if (!response.ok || !response.body) throw new Error('API request failed');
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let accumulatedContent = '';
-
-            while (true) {
-                const {value, done} = await reader.read();
-                if (done) break;
-                const chunk = decoder.decode(value, {stream: true});
-                const lines = chunk.split('\n\n');
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const jsonDataString = line.substring('data: '.length).trim();
-                        if (jsonDataString === '[DONE]') break;
-                        try {
-                            const parsedChunk = JSON.parse(jsonDataString);
-                            const deltaContent = parsedChunk.choices?.[0]?.delta?.content || '';
-                            if (deltaContent) {
-                                accumulatedContent += deltaContent;
-                                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? {
-                                    ...msg,
-                                    content: accumulatedContent,
-                                    isThinking: true
-                                } : msg));
-                            }
-                        } catch (e) { /* ignore */
-                        }
-                    }
-                }
-            }
-            setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? {
-                ...msg,
-                content: accumulatedContent,
-                isThinking: false,
-                isComplete: true
-            } : msg));
-        } catch (error: any) {
-            if (error.name !== 'AbortError') {
-                showToast({message: "请求出错，请稍后重试", type: 'error'});
-                setMessages(prev => prev.filter(msg => msg.id !== assistantMsgId));
-            }
-        } finally {
-            setIsSending(false);
-            abortControllerRef.current = null;
-        }
+    // 简单的提交处理函数
+    const handleSubmit = async (data: { text: string; mode: any }) => {
+        // 调用 Hook 中的 sendMessage 方法
+        await sendMessage(data.text);
+        setInputValue(''); // 发送后清空输入框
     };
 
-    const handleStopSending = () => abortControllerRef.current?.abort();
-    const handleClearChat = () => setMessages([]);
-    const toggleThinkingPanel = (id: string) => setShowThinkingPanelId(prev => (prev === id ? null : id));
-    const handleCardClick = (card: PromptCardData) => handleSendMessage({text: card.description, mode: 'auto'});
+    const handleCardClick = (card: PromptCardData) => {
+        sendMessage(card.description);
+    };
 
     const showWelcome = messages.length === 0;
 
@@ -265,7 +175,7 @@ export default function AssistantPage() {
             <ChatSidebar
                 currentCourse={selectedCourse}
                 onCourseSelectClick={() => setIsModalOpen(true)}
-                onNewChatClick={handleClearChat}
+                onNewChatClick={clearConversation} // 使用 Hook 中的方法
                 syllabus={syllabus}
                 selectedNode={selectedNode}
                 onNodeSelect={handleSelectNode}
@@ -278,8 +188,7 @@ export default function AssistantPage() {
                     showWelcome={showWelcome}
                     welcomeScreen={
                         <WelcomeScreen
-                            avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority
-                                           style={{borderRadius: '50%'}}/>}
+                            avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority style={{borderRadius: '50%'}}/>}
                             title={teacherWelcomeData.title}
                             subtitle={teacherWelcomeData.subtitle}
                             promptCards={teacherWelcomeData.promptCards}
@@ -290,9 +199,9 @@ export default function AssistantPage() {
                         messages.map(msg => (
                             <MessageBubble
                                 key={msg.id}
-                                message={{...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined}}
+                                message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
                                 isThinkingPanelOpen={showThinkingPanelId === msg.id}
-                                onToggleThinkingPanel={toggleThinkingPanel}
+                                onToggleThinkingPanel={() => setShowThinkingPanelId(prev => prev === msg.id ? null : msg.id)}
                                 showAvatar={false}
                             />
                         ))
@@ -301,20 +210,20 @@ export default function AssistantPage() {
                         <SkillSelector
                             skills={teacherSkills}
                             selectedSkillId={selectedSkill}
-                            onSkillSelect={setSelectedSkill}
+                            onSkillSelect={setSelectedSkill} // 使用 Hook 中的方法
                         />
                     }
                     inputForm={
                         <ChatInputForm
                             inputValue={inputValue}
                             onInputChange={setInputValue}
-                            onSubmit={handleSendMessage}
+                            onSubmit={handleSubmit} // 使用新的提交处理函数
                             isSending={isSending}
-                            onStop={handleStopSending}
+                            onStop={stopSending} // 使用 Hook 中的方法
                             shouldFocus={!showWelcome}
                         />
                     }
-                    footer={<ChatFooter/>}
+                    footer={<ChatFooter />}
                 />
             </div>
 
@@ -323,10 +232,8 @@ export default function AssistantPage() {
                 onClose={() => setIsModalOpen(false)}
                 courses={courses}
                 selectedCourse={selectedCourse}
-                onSelectCourse={handleSelectCourse}
-                /* [code focus start ++] */
-                isLoading={isLoading} // Pass the loading state here
-                /* [code focus end ++] */
+                onSelectCourse={(course) => handleSelectCourse(course as CourseVO)}
+                isLoading={isLoading}
             />
         </div>
     );
