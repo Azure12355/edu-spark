@@ -1,0 +1,92 @@
+/* [!file src/features/teacher/shared-resources/components/ResourceToolbar/ResourceToolbar.module.css] */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tabButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.tabButton::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.tabButton.active {
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.tabButton.active::after {
+    width: 60%;
+}
+
+.tabButton:hover:not(.active) {
+    color: var(--teacher-text-primary, #1D2129);
+}
+
+.searchWrapper {
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-text-tertiary, #86909C);
+    font-size: 14px;
+}
+
+.searchInput {
+    width: 300px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding-left: 40px;
+    padding-right: 16px;
+    font-size: 14px;
+    color: var(--teacher-text-primary, #1D2129);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    transition: all 0.2s ease;
+}
+
+.searchInput::placeholder {
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}

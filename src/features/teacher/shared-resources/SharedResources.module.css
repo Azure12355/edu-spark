@@ -1,0 +1,132 @@
+/* [!file src/features/teacher/shared-resources/SharedResources.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+}
+
+.mainContent {
+    /* 主内容区可以根据需要添加背景色或边框 */
+}
+
+/* --- 骨架屏样式 --- */
+.toolbar_skeleton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.tabs_skeleton {
+    display: flex;
+    gap: 16px;
+}
+
+.tab_item_skeleton, .search_skeleton {
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+.search_skeleton {
+    width: 300px;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.card_skeleton {
+    height: 220px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card_header_skeleton, .card_body_skeleton, .card_footer_skeleton {
+    display: flex;
+}
+.card_header_skeleton, .card_body_skeleton {
+    flex-direction: column;
+}
+.card_body_skeleton {
+    flex-grow: 1;
+    justify-content: center;
+    gap: 12px;
+}
+.card_footer_skeleton {
+    align-items: center;
+    gap: 10px;
+}
+
+.card_line_skeleton {
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.card_avatar_skeleton {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+
+.feedbackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 56px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+
+.feedbackContainer i.fa-exclamation-circle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 18px;
+}

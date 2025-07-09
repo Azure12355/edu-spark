@@ -1,0 +1,172 @@
+/* [!file src/features/teacher/shared-resources/components/ResourceGrid/ResourceCard.module.css] */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+.cardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    font-family: 'Noto Sans SC', sans-serif; /* 使用更适合中文阅读的字体 */
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    height: 280px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 18px; /* 更圆润的圆角 */
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* --- 核心悬浮效果 --- */
+.cardContainer:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.12);
+    border-color: oklch(from var(--theme-color-main) l c h / 40%);
+}
+
+/* --- 抽象背景辉光 --- */
+.glowEffect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at center, oklch(from var(--theme-color-main) l c h / 15%) 0%, transparent 50%);
+    transform: translate(-25%, -25%);
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 0;
+}
+.cardContainer:hover .glowEffect {
+    transform: translate(-25%, -25%) scale(1.2);
+}
+
+/* --- 卡片各部分样式 (所有内容都在辉光之上) --- */
+.cardHeader, .cardBody, .cardFooter {
+    position: relative;
+    z-index: 1;
+}
+
+.cardHeader {
+    padding: 20px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.iconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, var(--theme-color-main) 0%, oklch(from var(--theme-color-main) l c h / 70%) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 8px oklch(from var(--theme-color-main) l c h / 20%);
+}
+
+.tags {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.tag {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: oklch(from var(--theme-color-main) l c h);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid oklch(from var(--theme-color-main) l c h / 20%);
+}
+
+.cardBody {
+    padding: 16px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.description {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    line-height: 1.6;
+    margin: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-top: 1px solid #f0f2f5;
+}
+
+.creatorInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.creatorAvatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.creatorName {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+}
+
+/* --- 查看详情的提示箭头 --- */
+.actionHint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--teacher-text-tertiary);
+    font-size: 13px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.cardContainer:hover .actionHint {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.actionHint i {
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.cardContainer:hover .actionHint i {
+    transform: translateX(4px);
+}

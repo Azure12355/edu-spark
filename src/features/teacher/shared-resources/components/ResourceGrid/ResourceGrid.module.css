@@ -1,0 +1,80 @@
+/* [!file src/features/teacher/shared-resources/components/ResourceGrid/ResourceGrid.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* --- 骨架屏和空状态样式 --- */
+.emptyState {
+    grid-column: 1 / -1; /* 占据整行 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+.emptyState i {
+    font-size: 56px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+.emptyState p {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 8px;
+}
+.emptyState span {
+    font-size: 14px;
+}
+
+.card_skeleton {
+    height: 300px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.card_header_skeleton {
+    height: 140px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    margin-bottom: 16px;
+}
+.card_body_skeleton {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.card_footer_skeleton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+.card_line_skeleton {
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+.card_avatar_skeleton {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}

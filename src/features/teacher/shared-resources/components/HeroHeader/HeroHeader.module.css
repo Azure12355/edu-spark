@@ -1,0 +1,111 @@
+/* [!file src/features/teacher/shared-resources/components/HeroHeader/HeroHeader.module.css] */
+/* 引入一个优雅的英文字体，用于标题 */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.heroContainer {
+    position: relative;
+    padding: 80px 40px;
+    border-radius: 24px;
+    overflow: hidden; /* 隐藏抽象图形的溢出部分 */
+    background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.backgroundShapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* 让图形不干扰鼠标事件 */
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    filter: blur(40px); /* 关键的模糊效果 */
+}
+
+.shape1 {
+    width: 300px;
+    height: 300px;
+    background-color: #a78bfa; /* 淡紫色 */
+    top: -80px;
+    left: -50px;
+}
+
+.shape2 {
+    width: 250px;
+    height: 250px;
+    background-color: #60a5fa; /* 淡蓝色 */
+    bottom: -100px;
+    right: -80px;
+}
+
+.shape3 {
+    width: 200px;
+    height: 200px;
+    background-color: #34d399; /* 淡绿色 */
+    bottom: 50%;
+    left: 45%;
+    transform: translateY(50%);
+}
+
+.iconWrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.iconWrapper i {
+    font-size: 28px;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.title {
+    font-family: 'Playfair Display', serif; /* 应用艺术字体 */
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 16px;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--teacher-text-secondary, #4E5969);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .heroContainer {
+        padding: 60px 20px;
+    }
+    .title {
+        font-size: 32px;
+    }
+    .subtitle {
+        font-size: 15px;
+    }
+}
