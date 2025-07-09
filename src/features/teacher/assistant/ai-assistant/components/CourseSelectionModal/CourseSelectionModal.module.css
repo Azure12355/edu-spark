@@ -1,4 +1,4 @@
-/* src/components/teacher/assistant/CourseSelectionModal/CourseSelectionModal.module.css */
+/* [!file src/features/teacher/assistant/ai-assistant/components/CourseSelectionModal/CourseSelectionModal.module.css] */
 .courseList {
     display: flex;
     flex-direction: column;
@@ -10,37 +10,46 @@
     align-items: center;
     gap: 16px;
     padding: 16px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 2px solid var(--teacher-border-color);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    background-color: var(--teacher-white);
 }
 
 .courseItem:hover {
     border-color: #a5b4fc;
     background-color: #f4f6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .courseItem.selected {
     border-color: var(--teacher-primary);
     background-color: var(--teacher-primary-light);
-    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.15);
 }
 
 .courseIcon {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 8px; /* Use rounded rectangle for a modern look */
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 20px;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.courseItem:hover .courseIcon {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 .courseInfo {
     flex-grow: 1;
+    overflow: hidden;
 }
 
 .courseName {
@@ -48,6 +57,9 @@
     font-weight: 600;
     margin: 0 0 4px 0;
     color: var(--teacher-text-primary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .courseTerm {
@@ -63,32 +75,95 @@
     color: var(--teacher-text-secondary);
 }
 
-.knowledgeCount {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    background-color: #f3f4f6;
-    padding: 4px 10px;
-    border-radius: 16px;
-}
-
-.courseItem.selected .knowledgeCount {
-    background-color: white;
-}
-
 .checkIcon {
-    font-size: 22px;
+    font-size: 24px;
     color: var(--teacher-primary);
 }
 
+/* --- Skeleton Loader --- */
+/* [code focus start ++] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeletonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.skeletonItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: var(--teacher-white);
+}
+.skeletonIcon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+}
+.skeletonDetails {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.skeletonText {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+}
+
+/* --- Empty State --- */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: var(--teacher-white);
+    border-radius: 12px;
+}
+.emptyIcon {
+    font-size: 48px;
+    color: var(--teacher-text-tertiary);
+    opacity: 0.5;
+    margin-bottom: 16px;
+}
+.emptyTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+    margin: 0 0 8px;
+}
+.emptyText {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    line-height: 1.6;
+    max-width: 300px;
+}
+/* [code focus end ++] */
+
+
+/* --- Footer Buttons --- */
 .footerButton {
     padding: 8px 20px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px solid var(--teacher-border);
+    border: 1px solid var(--teacher-border-color);
+    transition: all 0.2s ease;
 }
 
 .cancelButton {
@@ -112,10 +187,4 @@
     cursor: not-allowed;
     background-color: #a5b4fc;
     border-color: #a5b4fc;
-}
-
-.noCourses {
-    padding: 40px 20px;
-    text-align: center;
-    color: var(--teacher-text-tertiary);
 }

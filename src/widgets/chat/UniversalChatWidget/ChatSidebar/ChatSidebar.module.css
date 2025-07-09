@@ -1,213 +1,184 @@
-/* src/components/common/UniversalChatWidget/ChatSidebar/ChatSidebar.module.css */
-
-.sidebarContainer {
-    position: relative;
+/* [!file src/widgets/chat/UniversalChatWidget/ChatSidebar/ChatSidebar.module.css] */
+.sidebar {
+    width: 320px;
     height: 100%;
     background-color: #f7f9fc;
     border-right: 1px solid var(--teacher-border-color);
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0;
 }
 
-.sidebar {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+.sidebarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoText {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary);
+}
+
+.newChatButton {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.newChatButton:hover {
+    background-color: #dbeafe;
+    transform: rotate(90deg);
+}
+
+.contextSelectors {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px 0;
     display: flex;
     flex-direction: column;
 }
 
-/* --- 核心修改区域 --- */
-.header {
-    padding: 16px 12px;
-    flex-shrink: 0;
+.sectionTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teacher-text-tertiary);
+    text-transform: uppercase;
+    padding: 0 16px 8px;
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid var(--teacher-border-color); /* 添加分割线 */
 }
 
-/* 新增: 用于包裹课程选择框和新对话按钮的容器 */
-.headerContent {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex-grow: 1;
-    overflow: hidden; /* 防止内容在动画期间溢出 */
-    padding: 3px;
-}
-
-/* 新增: 课程选择框样式 */
 .courseSelector {
-    background-color: var(--teacher-white);
-    border: 1px solid var(--teacher-border-color);
-    border-radius: 10px;
-    padding: 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    margin: 0 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: background-color 0.2s;
 }
 
 .courseSelector:hover {
-    border-color: var(--teacher-primary);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px);
+    background-color: var(--teacher-bg-hover);
 }
 
-.courseSelectorContent {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    overflow: hidden;
-}
-
+/* [code focus start ++] */
 .courseIcon {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 18px;
     flex-shrink: 0;
-    transition: transform 0.3s ease;
 }
 
-.courseSelector:hover .courseIcon {
-    transform: scale(1) rotate(-10deg);
-}
-
-.courseDetails {
-    display: flex;
-    flex-direction: column;
+.courseInfo {
+    flex-grow: 1;
     overflow: hidden;
-    white-space: nowrap;
 }
 
-.courseNameLabel {
-    font-size: 12px;
-    color: var(--teacher-text-tertiary);
-}
-
-.courseNameValue {
-    font-size: 15px;
+.courseName {
+    display: block;
+    font-size: 14px;
     font-weight: 600;
     color: var(--teacher-text-primary);
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.courseSelectorChevron {
-    color: var(--teacher-text-tertiary);
-    transition: transform 0.2s ease;
-}
-
-.courseSelector:hover .courseSelectorChevron {
-    transform: scale(1.2);
-}
-
-/* --- 结束核心修改 --- */
-
-.newChatButton {
-    width: 100%;
-    padding: 10px 12px;
-    background-color: #eef2ff;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center; /* 居中内容 */
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--widget-primary-blue);
-    cursor: pointer;
-    transition: all 0.2s ease;
     white-space: nowrap;
-}
-.newChatButton:hover {
-    background-color: #e0e7ff;
-    border-color: #c7d2fe;
-}
-.newChatButton i {
-    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.toggleButton {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: white;
-    border: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
+.courseTerm {
+    display: block;
+    font-size: 12px;
+    color: var(--teacher-text-secondary);
+}
+
+.switchIcon {
+    color: var(--teacher-text-tertiary);
+    font-size: 14px;
+}
+
+.noCourse {
     justify-content: center;
-    cursor: pointer;
-    color: var(--widget-text-tertiary);
-    transition: all 0.2s ease;
-}
-.toggleButton:hover {
-    border-color: var(--teacher-primary);
-    color: var(--teacher-primary);
-    background-color: #f4f8ff;
-}
-.toggleButton .icon {
-    transition: transform 0.25s ease;
+    color: var(--teacher-text-secondary);
+    font-style: italic;
+    cursor: default;
 }
 
-.scrollableArea {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 0 12px 16px;
-    scrollbar-width: none;
+.divider {
+    height: 1px;
+    background-color: var(--teacher-border-color);
+    margin: 16px;
 }
-.scrollableArea::-webkit-scrollbar { display: none; }
 
-.menuItem {
+/* Skeleton Loading Styles */
+.loading {
+    cursor: default;
+}
+.skeletonAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+.skeletonLine {
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    margin-bottom: 8px;
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+/* [code focus end ++] */
+
+.sidebarFooter {
+    padding: 16px;
+    border-top: 1px solid var(--teacher-border-color);
+    flex-shrink: 0;
+}
+
+.footerLink {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 10px;
+    padding: 10px;
     border-radius: 8px;
     text-decoration: none;
-    color: var(--widget-text-secondary);
     font-size: 14px;
-    cursor: pointer;
+    font-weight: 500;
+    color: var(--teacher-text-secondary);
     transition: background-color 0.2s, color 0.2s;
-    position: relative;
-    white-space: nowrap;
-    overflow: hidden;
 }
-.menuItem:hover { background-color: #eef2ff; }
-.menuItem.active { background-color: #eef2ff; color: var(--widget-primary-blue); font-weight: 500; }
-.menuItem .icon { width: 20px; text-align: center; font-size: 16px; flex-shrink: 0; }
-.menuItem .text { flex-grow: 1; }
-.menuItem .notification { width: 6px; height: 6px; background-color: #ef4444; border-radius: 50%; }
 
-.menuItemIconOnly {
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    margin: 8px auto;
-    border-radius: 8px;
-}
-.menuItemIconOnly .icon { margin: 0; font-size: 18px; }
-.menuItemIconOnly.active { background-color: var(--widget-primary-blue); color: white; }
-.menuItemIconOnly:hover:not(.active) { background-color: #eef2ff; color: var(--widget-primary-blue); }
-
-.menuSection { margin-bottom: 16px; }
-.sectionTitle {
-    font-size: 12px;
-    color: var(--widget-text-tertiary);
-    padding: 12px 10px 4px;
-    white-space: nowrap;
-    overflow: hidden;
+.footerLink:hover {
+    background-color: var(--teacher-bg-hover);
+    color: var(--teacher-text-primary);
 }

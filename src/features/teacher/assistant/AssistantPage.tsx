@@ -1,7 +1,7 @@
-// src/app/teacher/(dashboard)/assistant/KnowledgeDetailPage.tsx
+// [!file src/features/teacher/assistant/AssistantPage.tsx]
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useRef, useState} from 'react';
 import Image from 'next/image';
 import styles from './Assistant.module.css';
 
@@ -9,27 +9,27 @@ import styles from './Assistant.module.css';
 import ChatSidebar from '@/widgets/chat/UniversalChatWidget/ChatSidebar/ChatSidebar';
 import ChatPanel from '@/widgets/chat/UniversalChatWidget/ChatPanel/ChatPanel';
 import WelcomeScreen from '@/widgets/chat/UniversalChatWidget/WelcomeScreen/WelcomeScreen';
-import MessageBubble, { BubbleMessage } from '@/widgets/chat/UniversalChatWidget/MessageBubble/MessageBubble';
-import { PromptCardData } from '@/widgets/chat/UniversalChatWidget/PromptCard/PromptCard';
+import MessageBubble, {BubbleMessage} from '@/widgets/chat/UniversalChatWidget/MessageBubble/MessageBubble';
+import {PromptCardData} from '@/widgets/chat/UniversalChatWidget/PromptCard/PromptCard';
 import ChatInputForm from '@/widgets/chat/UniversalChatWidget/ChatInputForm/ChatInputForm';
-import SkillSelector, { Skill } from '@/widgets/chat/UniversalChatWidget/SkillSelector/SkillSelector';
+import SkillSelector, {Skill} from '@/widgets/chat/UniversalChatWidget/SkillSelector/SkillSelector';
 import ChatFooter from '@/widgets/chat/UniversalChatWidget/ChatFooter/ChatFooter';
-import { useToast } from '@/shared/hooks/useToast';
+import {useToast} from '@/shared/hooks/useToast';
 
-// --- 核心改造：导入课程选择相关组件和数据 ---
-import CourseSelectionModal from '@/features/teacher/assistant/ai-assistant/components/CourseSelectionModal/CourseSelectionModal';
-import { mockTeacherCourses, TeacherCourse } from '@/shared/lib/data/teacherAssistantCourseData';
+// --- 核心改造：导入课程选择相关组件和新的 Hook ---
+import CourseSelectionModal
+    from '@/features/teacher/assistant/ai-assistant/components/CourseSelectionModal/CourseSelectionModal';
+/* [code focus start ++] */
+// 1. 导入新创建的 Hook
+import {useTeacherAssistant} from '@/features/teacher/assistant/ai-assistant/hooks/useTeacherAssistant';
+/* [code focus end ++] */
+import {CourseVO} from "@/shared/types";
 
 
 // 原有的模拟数据
 const teacherWelcomeData = {
-    // [code focus start ++]
-    // --- 核心修改：更新标题和副标题 ---
     title: "我是您的专属课程智能体",
     subtitle: "我已加载了当前课程的知识库。您可以就本课程的任何内容向我提问，或使用下方的快捷指令开始.\n教学灵感，此刻触手可及 ✨",
-    // [code focus end ++]
-
-    // --- 核心修改：提示词卡片变得更通用，并聚焦于课程上下文 ---
     promptCards: [
         {
             id: 'summarize-keypoints',
@@ -70,7 +70,6 @@ const teacherWelcomeData = {
     ] as PromptCardData[]
 };
 export const teacherSkills: Skill[] = [
-    // --- 核心备课与内容生成 ---
     {
         id: 'lesson_plan_generation',
         name: '智能备课',
@@ -91,8 +90,6 @@ export const teacherSkills: Skill[] = [
         name: '案例设计',
         icon: <i style={{color: '#8B5CF6'}} className="fas fa-lightbulb"></i>
     },
-
-    // --- 教学互动与评估 ---
     {
         id: 'grading_assistant',
         name: '作业批改',
@@ -103,8 +100,6 @@ export const teacherSkills: Skill[] = [
         name: '评语生成',
         icon: <i style={{color: '#34D399'}} className="fas fa-comment-dots"></i>
     },
-
-    // --- 知识管理与拓展 ---
     {
         id: 'knowledge_summary',
         name: '知识点总结',
@@ -115,8 +110,6 @@ export const teacherSkills: Skill[] = [
         name: '教学资源推荐',
         icon: <i style={{color: '#0EA5E9'}} className="fas fa-globe"></i>
     },
-
-    // --- 高级与创新应用 ---
     {
         id: 'learning_path_design',
         name: '设计学习路径',
@@ -131,9 +124,18 @@ export const teacherSkills: Skill[] = [
 
 
 export default function AssistantPage() {
-    // --- 核心改造：添加课程选择相关状态 ---
-    const [courses, setCourses] = useState<TeacherCourse[]>([]);
-    const [selectedCourse, setSelectedCourse] = useState<TeacherCourse | null>(null);
+
+    const {
+        courses,
+        selectedCourse,
+        handleSelectCourse,
+        syllabus,
+        selectedNode,
+        handleSelectNode,
+        isLoading,
+        error,
+    } = useTeacherAssistant();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 原有的对话状态
@@ -145,34 +147,6 @@ export default function AssistantPage() {
     const abortControllerRef = useRef<AbortController | null>(null);
     const showToast = useToast();
 
-    // --- 核心改造：在页面加载时获取课程数据并设置默认课程 ---
-    useEffect(() => {
-        const loadedCourses = mockTeacherCourses; // 在实际应用中，这里会是 API 请求
-        setCourses(loadedCourses);
-
-        if (loadedCourses.length > 0) {
-            setSelectedCourse(loadedCourses[0]);
-        } else {
-            // 如果没有课程，设置一个默认的占位课程
-            setSelectedCourse({
-                id: 'default-course',
-                name: 'EduSpark 默认课程',
-                term: '通用',
-                icon: 'fas fa-chalkboard-teacher',
-                color: '#6c757d',
-                knowledgeBaseCount: 0,
-            });
-        }
-    }, []);
-
-    // --- 核心改造：处理课程选择的逻辑 ---
-    const handleSelectCourse = (course: TeacherCourse) => {
-        setSelectedCourse(course);
-        // 切换课程后，清空当前对话，并给出提示
-        setMessages([]);
-        showToast({ message: `已切换到《${course.name}》课程`, type: 'info' });
-    };
-
     // 原有的对话处理逻辑
     const handleSendMessage = async (data: { text: string; mode: any }) => {
         let content = data.text.trim();
@@ -183,27 +157,46 @@ export default function AssistantPage() {
             content = `[使用${skillName}功能] ${content}`;
         }
 
-        // 在发送消息时，可以附带当前课程信息
-        const contextMessage = `当前课程: ${selectedCourse?.name || '无'}\n\n用户提问: ${content}`;
-        console.log("发送包含课程上下文的消息:", contextMessage);
+        // 在发送消息时，附带当前课程和知识点上下文
+        const contextMessage = `当前课程: ${selectedCourse?.name || '无'}\n当前知识点: ${selectedNode?.name || '整个课程'}\n\n用户提问: ${content}`;
+        console.log("发送包含上下文的消息:", contextMessage);
 
         setIsSending(true);
         abortControllerRef.current = new AbortController();
-        const newUserMessage: BubbleMessage = { id: `user-${Date.now()}`, role: 'user', content, isComplete: true };
+        const newUserMessage: BubbleMessage = {id: `user-${Date.now()}`, role: 'user', content, isComplete: true};
         const assistantMsgId = `assistant-${Date.now()}`;
 
         const currentMessages = [...messages, newUserMessage];
-        setMessages([...currentMessages, { id: assistantMsgId, role: 'assistant', content: '', isThinking: true, isComplete: false }]);
+        setMessages([...currentMessages, {
+            id: assistantMsgId,
+            role: 'assistant',
+            content: '',
+            isThinking: true,
+            isComplete: false
+        }]);
         setInputValue('');
         setSelectedSkill('');
 
-        const apiMessagesHistory = currentMessages.filter(m => m.role === 'user' || m.isComplete).map(({ role, content }) => ({ role, content }));
+        const apiMessagesHistory = currentMessages.filter(m => m.role === 'user' || m.isComplete).map(({
+                                                                                                           role,
+                                                                                                           content
+                                                                                                       }) => ({
+            role,
+            content
+        }));
 
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: apiMessagesHistory, courseId: selectedCourse?.id }), // 向API传递courseId
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    messages: apiMessagesHistory,
+                    courseId: selectedCourse?.id,
+                    /* [code focus start ++] */
+                    // 传递选中的知识节点信息
+                    contextNode: selectedNode,
+                    /* [code focus end ++] */
+                }),
                 signal: abortControllerRef.current.signal,
             });
 
@@ -214,9 +207,9 @@ export default function AssistantPage() {
             let accumulatedContent = '';
 
             while (true) {
-                const { value, done } = await reader.read();
+                const {value, done} = await reader.read();
                 if (done) break;
-                const chunk = decoder.decode(value, { stream: true });
+                const chunk = decoder.decode(value, {stream: true});
                 const lines = chunk.split('\n\n');
                 for (const line of lines) {
                     if (line.startsWith('data: ')) {
@@ -227,16 +220,26 @@ export default function AssistantPage() {
                             const deltaContent = parsedChunk.choices?.[0]?.delta?.content || '';
                             if (deltaContent) {
                                 accumulatedContent += deltaContent;
-                                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: accumulatedContent, isThinking: true } : msg));
+                                setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? {
+                                    ...msg,
+                                    content: accumulatedContent,
+                                    isThinking: true
+                                } : msg));
                             }
-                        } catch (e) { /* ignore */ }
+                        } catch (e) { /* ignore */
+                        }
                     }
                 }
             }
-            setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? { ...msg, content: accumulatedContent, isThinking: false, isComplete: true } : msg));
+            setMessages(prev => prev.map(msg => msg.id === assistantMsgId ? {
+                ...msg,
+                content: accumulatedContent,
+                isThinking: false,
+                isComplete: true
+            } : msg));
         } catch (error: any) {
             if (error.name !== 'AbortError') {
-                showToast({ message: "请求出错，请稍后重试", type: 'error' });
+                showToast({message: "请求出错，请稍后重试", type: 'error'});
                 setMessages(prev => prev.filter(msg => msg.id !== assistantMsgId));
             }
         } finally {
@@ -248,7 +251,7 @@ export default function AssistantPage() {
     const handleStopSending = () => abortControllerRef.current?.abort();
     const handleClearChat = () => setMessages([]);
     const toggleThinkingPanel = (id: string) => setShowThinkingPanelId(prev => (prev === id ? null : id));
-    const handleCardClick = (card: PromptCardData) => handleSendMessage({ text: card.description, mode: 'auto' });
+    const handleCardClick = (card: PromptCardData) => handleSendMessage({text: card.description, mode: 'auto'});
 
     const showWelcome = messages.length === 0;
 
@@ -263,6 +266,10 @@ export default function AssistantPage() {
                 currentCourse={selectedCourse}
                 onCourseSelectClick={() => setIsModalOpen(true)}
                 onNewChatClick={handleClearChat}
+                syllabus={syllabus}
+                selectedNode={selectedNode}
+                onNodeSelect={handleSelectNode}
+                isLoading={isLoading}
             />
 
             <div className={styles.chatPanelContainer}>
@@ -271,7 +278,8 @@ export default function AssistantPage() {
                     showWelcome={showWelcome}
                     welcomeScreen={
                         <WelcomeScreen
-                            avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority style={{borderRadius: '50%'}}/>}
+                            avatar={<Image src="/robot.gif" alt="智能助教" width={80} height={80} priority
+                                           style={{borderRadius: '50%'}}/>}
                             title={teacherWelcomeData.title}
                             subtitle={teacherWelcomeData.subtitle}
                             promptCards={teacherWelcomeData.promptCards}
@@ -282,7 +290,7 @@ export default function AssistantPage() {
                         messages.map(msg => (
                             <MessageBubble
                                 key={msg.id}
-                                message={{ ...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined }}
+                                message={{...msg, agent: msg.role === 'assistant' ? assistantAgent : undefined}}
                                 isThinkingPanelOpen={showThinkingPanelId === msg.id}
                                 onToggleThinkingPanel={toggleThinkingPanel}
                                 showAvatar={false}
@@ -306,17 +314,19 @@ export default function AssistantPage() {
                             shouldFocus={!showWelcome}
                         />
                     }
-                    footer={<ChatFooter />}
+                    footer={<ChatFooter/>}
                 />
             </div>
 
-            {/* --- 核心改造：渲染课程选择弹窗 --- */}
             <CourseSelectionModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 courses={courses}
                 selectedCourse={selectedCourse}
                 onSelectCourse={handleSelectCourse}
+                /* [code focus start ++] */
+                isLoading={isLoading} // Pass the loading state here
+                /* [code focus end ++] */
             />
         </div>
     );

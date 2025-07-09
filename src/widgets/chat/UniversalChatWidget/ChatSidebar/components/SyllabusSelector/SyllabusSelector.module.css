@@ -1,0 +1,105 @@
+/* [!file src/widgets/chat/UniversalChatWidget/ChatSidebar/components/SyllabusSelector/SyllabusSelector.module.css] */
+.selectorContainer {
+    padding: 10px 0;
+}
+
+.treeList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nodeItem {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin: 2px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+    position: relative;
+    gap: 10px;
+}
+
+.nodeItem:hover {
+    background-color: var(--teacher-bg-hover);
+}
+
+.nodeItem.active {
+    background-color: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    font-weight: 600;
+}
+
+.toggleIcon {
+    font-size: 10px;
+    color: var(--teacher-text-tertiary);
+    transition: transform 0.2s ease-in-out;
+    padding: 4px;
+}
+
+.toggleIcon.expanded {
+    transform: rotate(90deg);
+}
+
+.typeIcon {
+    font-size: 14px;
+    color: var(--teacher-text-secondary);
+    width: 16px;
+    text-align: center;
+}
+
+.nodeItem.active .typeIcon {
+    color: var(--teacher-primary);
+}
+
+.nodeTitle {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.emptyState, .errorState {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--teacher-text-tertiary);
+}
+
+/* --- Skeleton Loader --- */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeletonContainer {
+    padding: 10px 20px;
+}
+
+.skeletonItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+}
+
+.skeletonIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.skeletonText {
+    height: 14px;
+    width: 80%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}

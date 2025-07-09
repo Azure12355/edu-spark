@@ -1,24 +1,62 @@
-// src/components/teacher/assistant/CourseSelectionModal/CourseSelectionModal.tsx
+// [!file src/features/teacher/assistant/ai-assistant/components/CourseSelectionModal/CourseSelectionModal.tsx]
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import Modal from '@/shared/components/ui/Modal/Modal';
-import { TeacherCourse } from '@/shared/lib/data/teacherAssistantCourseData';
+import { CourseVO } from '@/shared/types';
 import styles from './CourseSelectionModal.module.css';
+import { motion } from 'framer-motion';
 
+// --- 1. Prop Definition ---
 interface CourseSelectionModalProps {
     isOpen: boolean;
     onClose: () => void;
-    courses: TeacherCourse[];
-    selectedCourse: TeacherCourse | null;
-    onSelectCourse: (course: TeacherCourse) => void;
+    courses: CourseVO[];
+    selectedCourse: CourseVO | null;
+    onSelectCourse: (course: CourseVO) => void;
+    isLoading: boolean;
 }
 
-const CourseSelectionModal: React.FC<CourseSelectionModalProps> = ({ isOpen, onClose, courses, selectedCourse, onSelectCourse }) => {
-    // 使用一个临时状态来处理弹窗内的选择，避免在用户确认前就改变外部状态
+// --- 2. Local Sub-Components for Different States ---
+
+const CourseListSkeleton = () => (
+    <div className={styles.skeletonContainer}>
+        {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className={styles.skeletonItem}>
+                <div className={styles.skeletonIcon}></div>
+                <div className={styles.skeletonDetails}>
+                    <div className={styles.skeletonText} style={{ width: '60%' }}></div>
+                    <div className={styles.skeletonText} style={{ width: '40%' }}></div>
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+const EmptyState = () => (
+    <div className={styles.emptyState}>
+        <div className={styles.emptyIcon}>
+            <i className="fas fa-book-dead"></i>
+        </div>
+        <h4 className={styles.emptyTitle}>暂无课程</h4>
+        <p className={styles.emptyText}>
+            您还没有创建任何课程。请前往“我的课程”页面开始创建您的第一个课程。
+        </p>
+    </div>
+);
+
+// --- 3. Main Component ---
+
+const CourseSelectionModal: React.FC<CourseSelectionModalProps> = ({
+                                                                       isOpen,
+                                                                       onClose,
+                                                                       courses,
+                                                                       selectedCourse,
+                                                                       onSelectCourse,
+                                                                       isLoading
+                                                                   }) => {
     const [tempSelectedCourse, setTempSelectedCourse] = useState(selectedCourse);
 
-    // 当弹窗打开时，同步外部选中的课程到临时状态
     useEffect(() => {
         if (isOpen) {
             setTempSelectedCourse(selectedCourse);
@@ -32,11 +70,52 @@ const CourseSelectionModal: React.FC<CourseSelectionModalProps> = ({ isOpen, onC
         onClose();
     };
 
+    const renderBody = () => {
+        if (isLoading) {
+            return <CourseListSkeleton />;
+        }
+        if (courses.length === 0) {
+            return <EmptyState />;
+        }
+        return (
+            <div className={styles.courseList}>
+                {courses.map((course) => (
+                    <motion.div
+                        key={course.id}
+                        className={`${styles.courseItem} ${tempSelectedCourse?.id === course.id ? styles.selected : ''}`}
+                        onClick={() => setTempSelectedCourse(course)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        <div className={styles.courseIcon} style={{ backgroundColor: course.colorTheme || '#4f46e5' }}>
+                            <i className={'fas fa-book-reader'}></i>
+                        </div>
+                        <div className={styles.courseInfo}>
+                            <h4 className={styles.courseName}>{course.name}</h4>
+                            <p className={styles.courseTerm}>{course.term}</p>
+                        </div>
+                        <div className={styles.courseMeta}>
+                            {tempSelectedCourse?.id === course.id && (
+                                <motion.div
+                                    className={styles.checkIcon}
+                                    initial={{ scale: 0.5, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                >
+                                    <i className="fas fa-check-circle"></i>
+                                </motion.div>
+                            )}
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        );
+    };
+
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            title="切换课程"
+            title="切换课程上下文"
             footer={
                 <>
                     <button className={`${styles.footerButton} ${styles.cancelButton}`} onClick={onClose}>
@@ -45,45 +124,14 @@ const CourseSelectionModal: React.FC<CourseSelectionModalProps> = ({ isOpen, onC
                     <button
                         className={`${styles.footerButton} ${styles.confirmButton}`}
                         onClick={handleConfirm}
-                        disabled={!tempSelectedCourse || tempSelectedCourse.id === selectedCourse?.id}
+                        disabled={isLoading || !tempSelectedCourse || tempSelectedCourse.id === selectedCourse?.id}
                     >
                         确认切换
                     </button>
                 </>
             }
         >
-            <div className={styles.courseList}>
-                {courses.map((course) => (
-                    <div
-                        key={course.id}
-                        className={`${styles.courseItem} ${tempSelectedCourse?.id === course.id ? styles.selected : ''}`}
-                        onClick={() => setTempSelectedCourse(course)}
-                    >
-                        <div className={styles.courseIcon} style={{ backgroundColor: course.color }}>
-                            <i className={course.icon}></i>
-                        </div>
-                        <div className={styles.courseInfo}>
-                            <h4 className={styles.courseName}>{course.name}</h4>
-                            <p className={styles.courseTerm}>{course.term}</p>
-                        </div>
-                        <div className={styles.courseMeta}>
-              <span className={styles.knowledgeCount}>
-                <i className="fas fa-database"></i> {course.knowledgeBaseCount}
-              </span>
-                            {tempSelectedCourse?.id === course.id && (
-                                <div className={styles.checkIcon}>
-                                    <i className="fas fa-check-circle"></i>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ))}
-                {courses.length === 0 && (
-                    <div className={styles.noCourses}>
-                        <p>暂无可选择的课程，请先在“我的课程”页面创建课程。</p>
-                    </div>
-                )}
-            </div>
+            {renderBody()}
         </Modal>
     );
 };
