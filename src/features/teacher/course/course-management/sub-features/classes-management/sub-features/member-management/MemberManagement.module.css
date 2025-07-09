@@ -1,0 +1,115 @@
+/* [!file src/features/teacher/course/course-management/sub-features/classes-management/sub-features/member-management/MemberManagement.module.css] */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.pageContainer {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--teacher-bg-body, #f7f8fa);
+}
+
+.header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0;
+}
+
+/* [code focus start ++] */
+.inviteButtonHeader {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.inviteButtonHeader:hover {
+    background-color: #1a5cff;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+/* [code focus end ++] */
+
+.mainContent {
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    min-height: 500px;
+}
+
+/* 骨架屏样式 (保持不变) */
+.table_skeleton { /* ... */ }
+.table_header_skeleton, .table_row_skeleton { /* ... */ }
+.table_cell_skeleton { /* ... */ }
+
+/* [code focus start ++] */
+/* 错误和空状态样式 */
+.feedbackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.feedbackContainer i {
+    font-size: 48px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+
+.feedbackContainer i.fa-exclamation-circle {
+    color: var(--teacher-red, #F53F3F);
+}
+
+.feedbackContainer p {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.inviteButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.inviteButton:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+/* [code focus end ++] */

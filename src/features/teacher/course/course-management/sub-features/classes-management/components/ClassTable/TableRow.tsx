@@ -22,14 +22,14 @@ const statusMap: { [key: string]: { text: string; color: string; bgColor: string
 };
 
 const TableRow: React.FC<TableRowProps> = ({ classInfo, onDelete }) => {
-    const { id, name, term, status, memberCount, maxMembers, teacher, createdAt } = classInfo;
+    const { id, name, term, status, memberCount, maxMembers, teacher, createdAt, courseTemplate } = classInfo;
     const statusInfo = statusMap[status] || statusMap.ARCHIVED;
 
     return (
         <tr className={styles.tableRow}>
             {/* 班级名称 */}
             <td className={styles.cell}>
-                <Link href={`/teacher/courses/${classInfo.courseTemplate.id}/classes/${id}/dashboard`} className={styles.classNameLink}>
+                <Link href={`/teacher/courses/${courseTemplate.id}/classes/${id}/dashboard`} className={styles.classNameLink}>
                     {name}
                 </Link>
             </td>
@@ -65,9 +65,11 @@ const TableRow: React.FC<TableRowProps> = ({ classInfo, onDelete }) => {
             </td>
             {/* 操作列 */}
             <td className={`${styles.cell} ${styles.actionsCell}`}>
-                <Tooltip content="成员管理" position="top">
-                    <button className={styles.actionButton}><i className="fas fa-users"></i></button>
-                </Tooltip>
+                <Link href={`/teacher/courses/${courseTemplate.id}/classes/${id}/members`} passHref>
+                    <Tooltip content="成员管理" position="top">
+                        <button className={styles.actionButton}><i className="fas fa-users"></i></button>
+                    </Tooltip>
+                </Link>
                 <Tooltip content="活动发布" position="top">
                     <button className={styles.actionButton}><i className="fas fa-paper-plane"></i></button>
                 </Tooltip>

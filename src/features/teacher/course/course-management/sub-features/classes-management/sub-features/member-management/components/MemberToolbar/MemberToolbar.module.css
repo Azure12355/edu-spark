@@ -1,0 +1,77 @@
+/* [!file src/features/teacher/course/course-management/sub-features/classes-management/sub-features/member-management/components/MemberToolbar/MemberToolbar.module.css] */
+.toolbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+    margin-bottom: 20px;
+}
+
+.searchInputWrapper {
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--teacher-text-tertiary, #86909C);
+    font-size: 14px;
+}
+
+.searchInput {
+    width: 320px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    padding-left: 40px;
+    padding-right: 16px;
+    font-size: 14px;
+    color: var(--teacher-text-primary, #1D2129);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    transition: all 0.2s ease;
+}
+
+.searchInput::placeholder {
+    color: var(--teacher-text-tertiary, #86909C);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
+
+.filtersWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filterSelect {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: var(--teacher-primary, #2F7BFF);
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.15);
+}
