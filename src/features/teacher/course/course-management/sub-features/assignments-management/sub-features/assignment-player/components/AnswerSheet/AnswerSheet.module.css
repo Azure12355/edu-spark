@@ -1,0 +1,85 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-player/components/AnswerSheet/AnswerSheet.module.css] */
+.sheetContainer {
+    flex-shrink: 0;
+    width: 320px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-radius: 12px;
+    padding: 24px;
+    overflow-y: auto;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: var(--teacher-text-primary, #1D2129);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+}
+
+.typeGroup {
+    margin-bottom: 20px;
+}
+
+.groupTitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teacher-text-secondary, #4E5969);
+    margin: 0 0 12px;
+}
+
+.answerGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 12px;
+}
+
+.answerItem {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    background-color: #f7f8fa;
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.answerItem:hover {
+    border-color: var(--teacher-primary, #2F7BFF);
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.answerItem.answered {
+    background-color: #e6efff; /* A light blue */
+    border-color: #a3c2ff;
+    color: var(--teacher-primary, #2F7BFF);
+}
+
+.answerItem.current {
+    border-color: var(--teacher-primary, #2F7BFF);
+    background-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.markIndicator {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--teacher-primary, #F59E0B); /* Use a warning color for marks */
+    border-radius: 50%;
+    border: 1px solid white;
+}

@@ -1,0 +1,74 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-player/components/ControlPanel/ControlPanel.module.css] */
+.panelContainer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 32px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-top: 1px solid var(--teacher-border-color, #e5e6eb);
+    height: 72px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.leftActions, .rightActions {
+    flex: 1;
+}
+.rightActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mainActions {
+    display: flex;
+    gap: 16px;
+}
+
+.navButton, .submitButton, .secondaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--teacher-border-color, #e5e6eb);
+    transition: all 0.2s ease;
+}
+
+.navButton {
+    background-color: var(--teacher-white);
+    color: var(--teacher-text-primary, #1D2129);
+}
+.navButton:hover:not(:disabled) {
+    background-color: #f7f8fa;
+    border-color: #d1d5db;
+}
+
+.submitButton {
+    background-color: var(--teacher-primary, #2F7BFF);
+    border-color: var(--teacher-primary, #2F7BFF);
+    color: white;
+}
+.submitButton:hover:not(:disabled) {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+.secondaryButton {
+    background-color: #f7f8fa;
+    color: var(--teacher-text-secondary, #4E5969);
+}
+.secondaryButton:hover:not(:disabled) {
+    background-color: #e5e7eb;
+}
+
+
+/* Disabled State */
+.navButton:disabled, .submitButton:disabled, .secondaryButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

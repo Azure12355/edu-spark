@@ -1,0 +1,86 @@
+/* [!file src/features/teacher/course/course-management/sub-features/assignments-management/sub-features/assignment-player/components/PlayerHeader/PlayerHeader.module.css] */
+.header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    background-color: var(--teacher-bg-card, #FFFFFF);
+    border-bottom: 1px solid var(--teacher-border-color, #e5e6eb);
+    height: 64px;
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.backButton {
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.backButton:hover {
+    background-color: #f2f3f5;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teacher-text-primary, #1D2129);
+    margin: 0;
+}
+
+.metaInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--teacher-text-tertiary, #86909C);
+    margin-top: 2px;
+}
+.metaInfo i {
+    font-size: 11px;
+}
+
+.divider {
+    color: var(--teacher-border-color, #e5e6eb);
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.countdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--teacher-text-secondary, #4E5969);
+    font-size: 14px;
+}
+.countdown i {
+    color: var(--teacher-primary, #2F7BFF);
+    font-size: 16px;
+}
+.timeValue {
+    font-weight: 600;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 15px;
+    color: var(--teacher-primary, #2F7BFF);
+}

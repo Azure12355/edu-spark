@@ -3,10 +3,10 @@
 
 import React from 'react';
 import styles from './TemplateCard.module.css';
-import { AssignmentVO } from '@/shared/types';
+import {AssignmentVO} from '@/shared/types';
 import Tooltip from "@/shared/components/ui/Tooltip/Tooltip";
-import { AssignmentTemplateStatusEnum } from '@/shared/types/enums/assignment/AssignmentTemplateStatusEnum';
-import { AssignmentTypeEnum } from '@/shared/types/enums/assignment/AssignmentTypeEnum';
+import {AssignmentTemplateStatusEnum} from '@/shared/types/enums/assignment/AssignmentTemplateStatusEnum';
+import {AssignmentTypeEnum} from '@/shared/types/enums/assignment/AssignmentTypeEnum';
 // [code focus start ++]
 import Link from 'next/link'; // 导入 Link 组件
 // [code focus end ++]
@@ -23,8 +23,8 @@ interface TemplateCardProps {
 
 // 模板状态的文本和颜色映射 (保持不变)
 const statusMap: { [key: string]: { text: string; color: string; bgColor: string; } } = {
-    [AssignmentTemplateStatusEnum.DRAFT]: { text: '草稿', color: '#86909C', bgColor: '#F2F3F5' },
-    [AssignmentTemplateStatusEnum.READY]: { text: '就绪可用', color: '#00B42A', bgColor: '#E8FFEA' },
+    [AssignmentTemplateStatusEnum.DRAFT]: {text: '草稿', color: '#86909C', bgColor: '#F2F3F5'},
+    [AssignmentTemplateStatusEnum.READY]: {text: '就绪可用', color: '#00B42A', bgColor: '#E8FFEA'},
 };
 
 // 模板类型的文本映射 (保持不变)
@@ -48,7 +48,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     // const { id, title, description, type, templateStatus, questionCount, totalScore, createdAt } = template;
     // [code focus end --]
     // [code focus start ++]
-    const { id, title, description, type, templateStatus, questionCount, totalScore, createdAt, courseId } = template; // 解构出 courseId
+    const {id, title, description, type, templateStatus, questionCount, totalScore, createdAt, courseId} = template; // 解构出 courseId
     // [code focus end ++]
     const statusInfo = statusMap[templateStatus] || statusMap.DRAFT;
     const typeText = typeTextMap[type] || '未知类型';
@@ -58,7 +58,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
             {/* 状态徽章 */}
             <div
                 className={styles.statusBadge}
-                style={{ color: statusInfo.color, backgroundColor: statusInfo.bgColor }}
+                style={{color: statusInfo.color, backgroundColor: statusInfo.bgColor}}
             >
                 {statusInfo.text}
             </div>
@@ -96,14 +96,17 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
                 </Link>
                 {/* [code focus end ++] */}
 
-                <Tooltip content="查看详情" position="top">
-                    <button onClick={() => onView(id)} className={styles.actionButton}>
-                        <i className="fas fa-eye"></i>
-                    </button>
-                </Tooltip>
+                <Link href={`/teacher/courses/${courseId}/assignments/${id}/player`} passHref>
+                    <Tooltip content="查看详情" position="top">
+                        <button onClick={() => onView(id)} className={styles.actionButton}>
+                            <i className="fas fa-eye"></i>
+                        </button>
+                    </Tooltip>
+                </Link>
                 {templateStatus === AssignmentTemplateStatusEnum.READY && (
                     <Tooltip content="发布到班级" position="top">
-                        <button onClick={() => onPublish(template)} className={`${styles.actionButton} ${styles.publishButton}`}>
+                        <button onClick={() => onPublish(template)}
+                                className={`${styles.actionButton} ${styles.publishButton}`}>
                             <i className="fas fa-paper-plane"></i>
                         </button>
                     </Tooltip>
