@@ -1,0 +1,17 @@
+/* [!file src/features/student/assignment/player/components/AnswerSheet/AnswerSheet.module.css] */
+.sheetContainer {
+    padding: 24px;
+    background-color: var(--student-white);
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 12px;
+}

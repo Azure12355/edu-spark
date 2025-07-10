@@ -1,0 +1,26 @@
+/* [!file src/features/student/assignment/player/AssignmentPlayerPage.module.css] */
+.playerLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px; /* 主区域 + 答题卡 */
+    height: 100%;
+    background-color: #f7f8fa;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.loadingState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 18px;
+}
+
+.aside {
+    background-color: var(--student-white);
+    border-left: 1px solid var(--border-color);
+}

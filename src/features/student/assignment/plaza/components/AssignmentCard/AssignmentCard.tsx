@@ -1,24 +1,26 @@
-// [!file src/features/student/assignment/plaza/components/AssignmentCard/AssignmentCard.tsx]
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ClassActivityVO } from '@/shared/types';
+import { ClassActivityVO, ActivityStatusEnum } from '@/shared/types'; // 1. 导入 ActivityStatusEnum
 import styles from './AssignmentCard.module.css';
 
 interface AssignmentCardProps {
     activity: ClassActivityVO;
 }
 
+// 2. 使用 Record<ActivityStatusEnum, ...> 来创建类型安全的 statusMap
+const statusMap: Record<ActivityStatusEnum, { text: string; icon: string; className: string }> = {
+    [ActivityStatusEnum.ONGOING]: { text: '进行中', icon: 'fa-play-circle', className: styles.ONGOING },
+    [ActivityStatusEnum.NOT_STARTED]: { text: '未开始', icon: 'fa-hourglass-start', className: styles.NOT_STARTED },
+    [ActivityStatusEnum.ENDED]: { text: '已结束', icon: 'fa-check-circle', className: styles.ENDED },
+    [ActivityStatusEnum.PENDING]: { text: '待发布', icon: 'fa-clock', className: styles.ENDED }, // PENDING 状态也使用已结束的样式
+};
+
+
 const AssignmentCard: React.FC<AssignmentCardProps> = ({ activity }) => {
     const router = useRouter();
 
-    const statusMap = {
-        ONGOING: { text: '进行中', icon: 'fa-play-circle', className: styles.ONGOING },
-        NOT_STARTED: { text: '未开始', icon: 'fa-hourglass-start', className: styles.NOT_STARTED },
-        ENDED: { text: '已结束', icon: 'fa-check-circle', className: styles.ENDED },
-        PENDING: { text: '待发布', icon: 'fa-clock', className: styles.ENDED },
-    };
-
+    // ... typeMap 保持不变 ...
     const typeMap = {
         HOMEWORK: '课程作业',
         QUIZ: '随堂测验',
@@ -26,15 +28,15 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ activity }) => {
         FINAL_EXAM: '期末考试',
     };
 
-    const { status, text, icon } = statusMap[activity.status as keyof typeof statusMap] || statusMap.ENDED;
+    // 3. 将 activity.status 断言为 ActivityStatusEnum
+    const currentStatusKey = activity.status as ActivityStatusEnum;
+    const statusInfo = statusMap[currentStatusKey] || statusMap.ENDED; // 提供一个默认值以防万一
     const settings = activity.settingsOverride || {};
 
     const handleActionClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        // 根据状态导航到不同页面
-        if (activity.status === 'ENDED') {
-            // router.push(`/student/assignment/report/${activity.id}`);
-            alert('跳转到报告页面');
+        if (currentStatusKey === ActivityStatusEnum.ENDED) {
+            router.push(`/student/assignment/report/${activity.id}`);
         } else {
             router.push(`/student/assignment/player/${activity.id}`);
         }
@@ -45,9 +47,10 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ activity }) => {
             <div className={styles.cardContainer}>
                 <div className={styles.header}>
                     <h3 className={styles.title}>{activity.title}</h3>
-                    <div className={`${styles.statusTag} ${statusMap[activity.status].className}`}>
-                        <i className={`fas ${statusMap[activity.status].icon}`}></i>
-                        <span>{statusMap[activity.status].text}</span>
+                    {/* 4. 现在 TypeScript 可以安全地推断类型 */}
+                    <div className={`${styles.statusTag} ${statusInfo.className}`}>
+                        <i className={`fas ${statusInfo.icon}`}></i>
+                        <span>{statusInfo.text}</span>
                     </div>
                 </div>
                 <p className={styles.description}>{activity.description}</p>
@@ -70,8 +73,8 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ activity }) => {
                         <i className="fas fa-user-edit"></i>
                         <span>发布者: <strong>{activity.publisher.nickname}</strong></span>
                     </div>
-                    <button className={`${styles.actionButton} ${activity.status === 'ENDED' ? styles.report : styles.start}`} onClick={handleActionClick}>
-                        {activity.status === 'ENDED' ? '查看报告' : '开始练习'}
+                    <button className={`${styles.actionButton} ${currentStatusKey === ActivityStatusEnum.ENDED ? styles.report : styles.start}`} onClick={handleActionClick}>
+                        {currentStatusKey === ActivityStatusEnum.ENDED ? '查看报告' : '开始练习'}
                     </button>
                 </div>
             </div>

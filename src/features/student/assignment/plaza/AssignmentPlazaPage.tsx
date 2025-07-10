@@ -20,7 +20,13 @@ const AssignmentPlazaPage = () => {
     return (
         <div className={styles.plazaContainer}>
             <header className={styles.header}>
-                <h1 className={styles.title}>在线练习中心</h1>
+                <div className={styles.headerContent}>
+                    <i className={`fas fa-pen-ruler ${styles.headerIcon}`}></i>
+                    <div className={styles.titleWrapper}>
+                        <h1 className={styles.title}>在线练习中心</h1>
+                        <p className={styles.subtitle}>在这里巩固所学，检验成果，不断超越自我。</p>
+                    </div>
+                </div>
             </header>
 
             <AssignmentToolbar

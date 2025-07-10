@@ -1,0 +1,177 @@
+/* [!file src/features/student/assignment/player/components/QuestionViewer/QuestionViewer.module.css] */
+.viewerContainer {
+    padding: 32px 48px; /* 增加左右内边距 */
+    flex-grow: 1; /* 让内容区占据剩余空间 */
+}
+
+.questionHeader {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--student-border);
+}
+
+.questionType {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 99px;
+    background-color: var(--student-primary-light-bg);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--student-primary);
+    margin-bottom: 16px;
+}
+
+.questionStem {
+    font-size: 18px;
+    line-height: 1.8; /* 增加行高，提升阅读舒适度 */
+    color: var(--student-text-primary);
+}
+
+.optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin-top: 24px;
+}
+
+.optionItem {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* 增加选项标识和内容的间距 */
+    padding: 16px;
+    border: 2px solid var(--student-border); /* 边框加粗，更清晰 */
+    border-radius: 12px; /* 更圆润 */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.optionItem:hover {
+    border-color: #a5b4fc; /* 悬浮时显示柔和的品牌色 */
+    background-color: #f5f3ff;
+}
+
+.optionItem.selected {
+    border-color: var(--student-primary);
+    background-color: var(--student-primary-light-bg);
+    box-shadow: 0 4px 12px -4px rgba(47, 123, 255, 0.2);
+}
+
+.optionLabel {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--student-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+.optionItem.selected .optionLabel {
+    background-color: var(--student-primary);
+    color: white;
+    border-color: var(--student-primary);
+}
+
+.textareaAnswer {
+    width: 100%;
+    min-height: 200px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid var(--student-border);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-top: 16px;
+    transition: all 0.2s ease-in-out;
+}
+.textareaAnswer:focus {
+    outline: none;
+    border-color: var(--student-primary);
+    box-shadow: 0 0 0 3px var(--student-primary-light-bg);
+}
+
+/* [code focus start ++] */
+/* --- 多选题的 Checkbox 样式 --- */
+.checkboxLabel {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 8px; /* 方形 */
+    border: 2px solid var(--student-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+.optionItem.selected .checkboxLabel {
+    background-color: var(--student-primary);
+    color: white;
+    border-color: var(--student-primary);
+}
+
+/* --- 判断题的按钮样式 --- */
+.trueFalseContainer {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+}
+.trueFalseButton {
+    flex-grow: 1;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: 2px solid var(--student-border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.2s ease-in-out;
+}
+.trueFalseButton.true {
+    color: #16a34a;
+}
+.trueFalseButton.false {
+    color: #ef4444;
+}
+.trueFalseButton.true:hover {
+    border-color: #a7f3d0;
+    background-color: #f0fdf4;
+}
+.trueFalseButton.false:hover {
+    border-color: #fecaca;
+    background-color: #fef2f2;
+}
+.trueFalseButton.selected.true {
+    border-color: #16a34a;
+    background-color: #dcfce7;
+}
+.trueFalseButton.selected.false {
+    border-color: #ef4444;
+    background-color: #fee2e2;
+}
+
+/* --- 填空题的输入框样式 --- */
+.fillBlankInput {
+    display: inline-block;
+    width: 120px;
+    border: none;
+    border-bottom: 2px solid var(--student-text-tertiary);
+    background: transparent;
+    text-align: center;
+    font-size: 18px; /* 与题干字体大小一致 */
+    margin: 0 8px;
+    padding: 4px 0;
+    color: var(--student-primary);
+    font-weight: 600;
+}
+.fillBlankInput:focus {
+    outline: none;
+    border-bottom-color: var(--student-primary);
+}
+/* [code focus end ++] */

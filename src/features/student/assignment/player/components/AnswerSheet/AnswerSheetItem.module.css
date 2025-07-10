@@ -1,0 +1,46 @@
+/* [!file src/features/student/assignment/player/components/AnswerSheet/AnswerSheetItem.module.css] */
+/* [code focus start ++] */
+.item {
+    width: 42px; /* 稍微增大尺寸 */
+    height: 42px;
+    border-radius: 10px; /* 更圆润 */
+    border: 2px solid var(--student-border);
+    background-color: var(--student-white);
+    color: var(--student-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600; /* 字体加粗 */
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    border-color: #a5b4fc;
+}
+
+.item.current {
+    border-color: var(--student-primary);
+    color: var(--student-primary);
+    background-color: var(--student-primary-light-bg);
+    box-shadow: 0 0 0 3px var(--student-primary-light-bg);
+}
+
+.item.answered {
+    background-color: var(--student-primary);
+    border-color: var(--student-primary);
+    color: white;
+}
+
+/* 当一个题目既是当前题又是已答题时的样式 */
+.item.answered.current {
+    box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.3);
+}
+
+.item:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+/* [code focus end ++] */

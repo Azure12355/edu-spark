@@ -1,0 +1,24 @@
+/* [!file src/features/student/assignment/player/components/PlayerHeader/PlayerHeader.module.css] */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: var(--student-white);
+    border-bottom: 1px solid var(--student-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.title {
+    font-size: 20px;
+    font-weight: 600;
+}
+.timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--student-primary);
+}

@@ -1,0 +1,56 @@
+/* [!file src/features/student/assignment/player/components/ControlPanel/ControlPanel.module.css] */
+.panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 新增，确保垂直居中 */
+    padding: 16px 24px;
+    border-top: 1px solid var(--student-border);
+    background-color: var(--student-white); /* 给予背景色，使其与内容区分 */
+    position: sticky;
+    bottom: 0; /* 固定在 main-content 底部 */
+    z-index: 10;
+}
+
+/* [code focus start ++] */
+.button {
+    padding: 12px 28px; /* 增加内边距 */
+    border-radius: 8px;
+    font-size: 15px; /* 字体稍大 */
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--student-border);
+    display: flex; /* 用于未来添加icon */
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.prevNextButton {
+    background-color: var(--student-white);
+    color: var(--student-text-primary);
+}
+.prevNextButton:hover:not(:disabled) {
+    border-color: var(--student-primary);
+    color: var(--student-primary);
+    background-color: var(--student-primary-light-bg);
+}
+
+.submitButton {
+    background-color: var(--student-primary);
+    border-color: var(--student-primary);
+    color: white;
+}
+.submitButton:hover:not(:disabled) {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(47, 123, 255, 0.2);
+}
+
+.button:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+/* [code focus end ++] */

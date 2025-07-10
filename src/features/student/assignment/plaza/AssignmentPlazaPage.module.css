@@ -2,17 +2,62 @@
 .plazaContainer {
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 .header {
-    margin-bottom: 24px;
+    padding: 20px 10px;
+    margin: 0 auto; /* 利用负边距让 header 充满父容器的 padding 区域 */
+    border-radius: 0 0 24px 24px; /* 只给底部设置圆角 */
+    position: relative;
+    overflow: hidden;
+
+}
+
+/* 背景辉光效果 */
+.header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 150%;
+    filter: blur(50px);
+    opacity: 0.8;
+}
+
+.headerContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.headerIcon {
+    font-size: 36px;
+    color: var(--student-primary);
+}
+
+.titleWrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 .title {
-    font-size: 28px;
+    font-size: 32px; /* 增大字号 */
     font-weight: 700;
     color: var(--student-text-primary);
+    margin: 0;
+    line-height: 1.2;
 }
+
+.subtitle {
+    font-size: 15px;
+    color: var(--student-text-secondary);
+    margin-top: 8px;
+}
+/* [code focus end ++] */
 
 .gridContainer {
     display: grid;
