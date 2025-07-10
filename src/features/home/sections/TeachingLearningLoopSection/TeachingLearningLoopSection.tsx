@@ -202,7 +202,7 @@ const TeachingLearningLoopSection: React.FC = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
         >
-          <a href="#" className={`${styles.actionBtn} ${styles.primaryBtn}`}>立即体验教学闭环</a>
+          <a href="/teacher/studio" className={`${styles.actionBtn} ${styles.primaryBtn}`}>立即体验教学闭环</a>
           <a href="#" className={`${styles.actionBtn} ${styles.secondaryBtn}`}>查看功能白皮书</a>
         </motion.div>
 

@@ -15,17 +15,17 @@ const actionCards: ActionCardProps[] = [
         themeColor: '#4f46e5',
     },
     {
-        href: '/student/assignment/player',
+        href: '/student/assignment/plaza',
         icon: 'fas fa-pen-ruler',
         title: '在线练习中心',
         description: '海量题库，智能推荐，即时反馈，巩固你的知识掌握。',
         themeColor: '#059669',
     },
     {
-        href: '/student/knowledge',
+        href: '/student/shared-resources',
         icon: 'fas fa-lightbulb',
-        title: '构建个人知识库',
-        description: '上传资料，创建卡片，打造属于你自己的专属学习大脑。',
+        title: '探索共享知识库',
+        description: '探索资料，创建卡片，打造属于你自己的专属学习大脑。',
         themeColor: '#db2777',
     },
 ];

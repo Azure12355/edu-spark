@@ -3,6 +3,9 @@
     background-color: var(--student-white);
     border-radius: 12px;
     border: 1px solid var(--student-border);
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 .content {
     padding: 0 24px 24px;

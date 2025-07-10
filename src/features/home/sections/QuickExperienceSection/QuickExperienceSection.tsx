@@ -73,7 +73,7 @@ const QuickExperienceSection: React.FC = () => {
             <motion.p variants={itemVariants}>
               上传您的课程大纲、知识库文档，EduSpark 即可为您自动设计包含知识讲解、实训练习与指导的完整教学内容，将您从繁重的备课工作中解放出来。
             </motion.p>
-            <motion.a href="#" className={`${styles.actionButton} ${styles.primaryGradientBtn}`} variants={itemVariants}>
+            <motion.a href="/teacher/studio" className={`${styles.actionButton} ${styles.primaryGradientBtn}`} variants={itemVariants}>
               进入教师工作台
             </motion.a>
             <motion.div className={styles.featureBox} variants={itemVariants}>
@@ -94,7 +94,7 @@ const QuickExperienceSection: React.FC = () => {
             <motion.p variants={itemVariants}>
               在这里，您可以随时随地进行在线练习，获得即时反馈和个性化辅导。AI 将成为您的全天候学习伙伴，帮助您攻克每一个知识难点。
             </motion.p>
-            <motion.a href="#" className={`${styles.actionButton} ${styles.primaryGradientBtn}`} variants={itemVariants}>
+            <motion.a href="/student/home" className={`${styles.actionButton} ${styles.primaryGradientBtn}`} variants={itemVariants}>
               开始在线学习
             </motion.a>
             <motion.div className={styles.apiFeaturesGrid} variants={itemVariants}>

@@ -121,7 +121,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isSelected, onSelectCha
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <span>{course.creator.username === loginUser!!.username ? '进入管理': '开始学习'}</span>
+                            <span>进入管理</span>
                             <i className="fas fa-arrow-right"></i>
                         </motion.button>
                     </Link>

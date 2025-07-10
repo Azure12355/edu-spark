@@ -238,7 +238,7 @@ const EduSparkScenariosSection: React.FC = () => {
                   ))}
                 </motion.div>
                 <motion.div className={styles.cardButtons} variants={cardTextItemVariants}>
-                  <a href="#" className={`${styles.cardBtn} ${styles.primaryBtn}`}>体验该场景</a>
+                  <a href="/student/assignment/plaza" className={`${styles.cardBtn} ${styles.primaryBtn}`}>体验该场景</a>
                   <a href="#" className={`${styles.cardBtn} ${styles.secondaryBtn}`}>查看详情</a>
                 </motion.div>
               </motion.div>

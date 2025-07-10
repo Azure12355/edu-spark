@@ -20,7 +20,7 @@ const features: FeatureItem[] = [
     title: "教师智能备课",
     description: "上传课程大纲，一键生成包含知识点、实训任务的完整教案。",
     linkText: "开始备课",
-    href: "/teacher/dashboard", // 假设的教师端链接
+    href: "/teacher/studio", // 假设的教师端链接
     tag: "效率提升",
     tagType: "hot"
   },
@@ -28,7 +28,7 @@ const features: FeatureItem[] = [
     title: "学生在线练习",
     description: "选择学科，进行实时练习与评测，获取即时反馈和纠错指导。",
     linkText: "开始学习",
-    href: "/student/dashboard", // 假设的学生端链接
+    href: "/student/assignment/plaza", // 假设的学生端链接
     tag: "个性化",
     tagType: "new"
   },
@@ -36,7 +36,7 @@ const features: FeatureItem[] = [
     title: "课程资源广场",
     description: "探索由AI和教师社区共同创建的丰富课程、题库和教学资源。",
     linkText: "浏览课程",
-    href: "/courses" // 假设的课程广场链接
+    href: "/shared-resources" // 假设的课程广场链接
   },
   {
     title: "使用指南与文档",

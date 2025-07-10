@@ -14,7 +14,7 @@ export default function StudentDashboardLayout({
     const pathname = usePathname();
 
     const navLinks = [
-        {name: '智能广场', href: '/student/home'},
+        {name: '灵动广场', href: '/student/home'},
         {name: '课程智能体', href: '/student/assistant'},
         {name: '我的课程', href: '/student/courses'},
         {name: '在线练习', href: '/student/assignment/plaza'},
