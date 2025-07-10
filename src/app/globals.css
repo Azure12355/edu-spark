@@ -27,7 +27,7 @@ body {
 
 /* src/app/globals.css */
 :root {
-    --theme-primary-blue: #0052FF;
+    --theme-primary-blue: rgb(11, 58, 245);
     --theme-light-blue: #E0E8FF; /* 用于 Hero 背景等 */
     --text-dark: #1D2129; /* 主要文本颜色 */
     --text-medium: #4E5969; /* 次要文本 */

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import styles from './CourseCard.module.css';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 import {CourseVO} from "@/shared/types/vo/course/CourseVO";
+import {useUserStore} from "@/shared/store/userStore";
 
 interface CourseCardProps {
     course: CourseVO;
@@ -20,6 +21,8 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isSelected, onSelectCha
         DRAFT: { text: '草稿', className: styles.statusDRAFT, icon: 'fas fa-pencil-alt' },
         ARCHIVED: { text: '已归档', className: styles.statusARCHIVED, icon: 'fas fa-archive' },
     };
+
+    const {loginUser} = useUserStore();
     const statusInfo = statusMap[course.status];
 
     const cardStyle = {
@@ -118,7 +121,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isSelected, onSelectCha
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <span>进入管理</span>
+                            <span>{course.creator.username === loginUser!!.username ? '进入管理': '开始学习'}</span>
                             <i className="fas fa-arrow-right"></i>
                         </motion.button>
                     </Link>

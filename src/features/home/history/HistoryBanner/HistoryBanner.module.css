@@ -1,7 +1,7 @@
 /* src/components/student/component/history/HistoryBanner/HistoryBanner.module.css */
 .banner {
     background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-    color: var(--student-white);
+    color: var(--white);
     border-radius: 16px;
     padding: 40px;
     position: relative;

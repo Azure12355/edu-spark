@@ -1,5 +1,6 @@
 /* [!file src/features/student/home/components/HeroSection/HeroSection.module.css] */
 /* [code focus start ++] */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Noto+Sans+SC:wght@500;700&display=swap');
 .heroSection {
     width: 100%;
     padding: 60px 20px; /* 增加垂直内边距 */
@@ -12,20 +13,35 @@
     background-position: center;
 }
 
+.mainTitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 15px rgba(79, 70, 229, 0.1);
+}
+
 .heroTitle {
+    font-family: 'Noto Sans SC', sans-serif; /* 应用新的中文字体 */
     font-size: 42px;
     font-weight: 700;
-    color: var(--student-text-primary);
+    color: #1f2937; /* 加深颜色以提高对比度 */
     text-align: center;
     max-width: 800px;
     line-height: 1.4;
-    letter-spacing: -1px;
+    letter-spacing: 1px; /* 增加一点字间距 */
 }
 
 .heroTitle span {
-    background: -webkit-linear-gradient(45deg, #4f46e5, #3b82f6, #22c55e);
+    /* [code focus start ++] */
+    background: linear-gradient(90deg, #3b82f6, #6e3bd7); /* 调整渐变色以匹配图片 */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    /* [code focus end ++] */
 }
 
 
@@ -111,8 +127,8 @@
     background: var(--student-primary);
     color: white;
     border-radius: 10px;
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     border: none;
     font-size: 16px;
     display: flex;
@@ -161,4 +177,3 @@
 .suggestionTag i {
     font-size: 12px;
 }
-/* [code focus end ++] */

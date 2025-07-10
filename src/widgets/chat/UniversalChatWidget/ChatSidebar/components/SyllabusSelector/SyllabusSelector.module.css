@@ -23,18 +23,18 @@
 }
 
 .nodeItem:hover {
-    background-color: var(--teacher-bg-hover);
+    background-color: var(--bg-light-gray);
 }
 
 .nodeItem.active {
-    background-color: var(--teacher-primary-light);
-    color: var(--teacher-primary);
+    background-color: rgba(98, 148, 222, 0.27);
+    color: var(--theme-primary-blue);
     font-weight: 600;
 }
 
 .toggleIcon {
     font-size: 10px;
-    color: var(--teacher-text-tertiary);
+    color: var(--text-dark);
     transition: transform 0.2s ease-in-out;
     padding: 4px;
 }
@@ -51,7 +51,7 @@
 }
 
 .nodeItem.active .typeIcon {
-    color: var(--teacher-primary);
+    color: var(--theme-primary-blue);
 }
 
 .nodeTitle {
@@ -66,7 +66,7 @@
     padding: 20px;
     text-align: center;
     font-size: 13px;
-    color: var(--teacher-text-tertiary);
+    color: var(--text-dark);
 }
 
 /* --- Skeleton Loader --- */

@@ -33,7 +33,7 @@ export default function TeacherDashboardLayout({
 
     return (
         <div className="teacher-layout-wrapper">
-            {!isKnowledgeDetailPage && <Header navLinks={navLinks} name={"教师端🧑‍🏫"} />}
+            {!isKnowledgeDetailPage && <Header navLinks={navLinks} name={"教师端"} />}
             <main
                 className={isImmersivePage ? "teacher-main-full" : "teacher-main-container"}
             >

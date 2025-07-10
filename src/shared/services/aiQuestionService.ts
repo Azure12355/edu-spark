@@ -1,18 +1,14 @@
 // src/shared/services/aiQuestionService.ts
 
 import apiClient from '../api/apiClient';
+import {AIGenerationTaskCreateResponseVO, AIGenerationTaskVO, AIQuestionRecordVO,} from '../types';
+import {Page} from '../types/common';
 import {
     AIGenerationTaskCreateRequestDTO,
     AIQuestionImportRequestDTO,
     AIQuestionRecordQueryRequestDTO,
-    AIQuestionRecordUpdateRequestDTO,
-} from '../types';
-import {
-    AIGenerationTaskCreateResponseVO,
-    AIGenerationTaskVO,
-    AIQuestionRecordVO,
-} from '../types';
-import { Page } from '../types/common';
+    AIQuestionRecordUpdateRequestDTO
+} from '../types/dto/course/ai';
 
 /**
  * @description 创建并启动一个异步的AI出题任务。

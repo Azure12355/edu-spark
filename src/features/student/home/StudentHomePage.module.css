@@ -1,29 +1,80 @@
 
-/* [code focus start ++] */
-/* Import a professional sans-serif font */
+/* --- 核心动画：定义光晕的漂浮效果 --- */
+@keyframes dreamy-float {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+        opacity: 0.4;
+    }
+    25% {
+        transform: translate(20px, 30px) scale(1.05);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-15px, 10px) scale(0.95);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translate(10px, -25px) scale(1.02);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(0px, 0px) scale(1);
+        opacity: 0.4;
+    }
+}
 
 .homePageContainer {
     width: 100%;
-    position: relative; /* Crucial for layering the background */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden; /* Prevent halos from causing horizontal scroll */
+    font-family: 'Inter', sans-serif; /* 应用字体 */
+    overflow: hidden; /* 防止光晕溢出导致滚动条 */
+    background-color: #fcfcff; /* 一个非常非常浅的几乎白色的基础色 */
+    isolation: isolate; /* 创建堆叠上下文 */
 }
+
+/* --- 光晕层 1: 蓝色光晕 --- */
+.homePageContainer::before {
+    content: '';
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: -20%;
+    left: -15%;
+    background: radial-gradient(circle, rgba(220, 235, 255, 0.7) 0%, transparent 60%);
+    filter: blur(120px);
+    z-index: -1;
+    animation: dreamy-float 35s infinite ease-in-out;
+}
+
+/* --- 光晕层 2: 粉色光晕 --- */
+.homePageContainer::after {
+    content: '';
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    bottom: -30%;
+    right: -20%;
+    background: radial-gradient(circle, rgba(255, 224, 230, 0.7) 0%, transparent 60%);
+    filter: blur(120px);
+    z-index: -1;
+    animation: dreamy-float 40s infinite ease-in-out reverse; /* 使用反向动画增加变化 */
+}
+
 
 .mainContent {
     width: 100%;
     max-width: 1280px;
     padding: 0 24px;
-    margin-bottom: 120px; /* More space at the bottom */
+    margin-bottom: 120px;
     position: relative;
-    z-index: 1; /* Content is above the background */
+    z-index: 1;
 }
 
 /* A wrapper for each section to apply consistent margin and animation */
 .sectionWrapper {
     width: 100%;
-    margin-top: 80px; /* Increased vertical spacing */
+    margin-top: 80px;
 }
-/* [code focus end ++] */

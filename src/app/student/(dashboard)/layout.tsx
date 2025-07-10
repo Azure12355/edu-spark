@@ -18,14 +18,12 @@ export default function StudentDashboardLayout({
         {name: '课程智能体', href: '/student/assistant'},
         {name: '我的课程', href: '/student/courses'},
         {name: '在线练习', href: '/student/assignment/plaza'},
-        {name: '学情分析', href: '/student/academic'},
-        {name: '知识库', href: '/student/knowledge'},
         {name: '共享资源', href: '/student/shared-resources'},
     ];
 
     return (
         <div className="student-layout-wrapper">
-            <Header navLinks={navLinks} name={"学生端📐"}/>
+            <Header navLinks={navLinks} name={"学生端"}/>
             <div className="student-main-container">
                 {children}
             </div>

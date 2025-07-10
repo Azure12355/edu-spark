@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import { useUserStore } from '@/shared/store/userStore';
-import { login, register, logout, UserLoginRequest, UserRegisterRequest } from '@/shared/services/userService';
 import { useToast } from './useToast';
+import {login, logout, register} from "@/shared/services";
+import {UserLoginRequestDTO, UserRegisterRequestDTO} from "@/shared/types";
 
 /**
  * 封装所有认证相关逻辑的自定义 Hook
@@ -20,7 +21,7 @@ export const useAuth = () => {
     /**
      * 处理登录逻辑
      */
-    const handleLogin = async (loginRequest: UserLoginRequest) => {
+    const handleLogin = async (loginRequest: UserLoginRequestDTO) => {
         setIsLoading(true);
         try {
             const loggedInUser = await login(loginRequest);
@@ -47,7 +48,7 @@ export const useAuth = () => {
     /**
      * 处理注册逻辑
      */
-    const handleRegister = async (registerRequest: UserRegisterRequest) => {
+    const handleRegister = async (registerRequest: UserRegisterRequestDTO) => {
         setIsLoading(true);
         // 前端基础校验
         if (!registerRequest.username || registerRequest.username.length < 4) {

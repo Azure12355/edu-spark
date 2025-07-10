@@ -31,6 +31,46 @@ const suggestionTags = [
     { text: "论文润色", icon: "fas fa-pen-fancy", color: "#8B5CF6" },
 ];
 
+// 1. 定义动画变体
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15, // 子元素依次入场，间隔0.15秒
+            delayChildren: 0.2,    // 容器延迟0.2秒后开始执行子动画
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(5px)' }, // 初始状态：透明、下方30px、模糊
+    visible: {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        transition: {
+            type: 'spring',
+            damping: 15,
+            stiffness: 100,
+        },
+    },
+};
+
+const formVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            type: 'spring',
+            damping: 20,
+            stiffness: 100,
+            delay: 0.1, // 让搜索框比标题稍晚出现
+        },
+    },
+};
+
 const HeroSection = () => {
     const [inputValue, setInputValue] = useState('');
     const [isListening, setIsListening] = useState(false);
@@ -99,12 +139,24 @@ const HeroSection = () => {
     };
 
     return (
-        <section className={styles.heroSection}>
-            <h1 className={styles.heroTitle}>
-                开启你的 <span>AI 智能学习</span> 新纪元
-            </h1>
+        // [code focus start ++]
+        // 2. 将动画变体应用到 section 容器
+        <motion.section
+            className={styles.heroSection}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            {/* [code focus end ++] */}
+            <motion.h1 className={styles.mainTitle} variants={itemVariants}>EduSpark</motion.h1>
 
-            <form className={styles.searchForm} onSubmit={handleFormSubmit}>
+            {/* 3. 为每个核心元素应用 itemVariants */}
+            <motion.h1 className={styles.heroTitle} variants={itemVariants}>
+                开启你的 <span>AI 智能学习</span> 新纪元
+            </motion.h1>
+
+            {/* 4. 为表单应用独特的 formVariants */}
+            <motion.form className={styles.searchForm} onSubmit={handleFormSubmit} variants={formVariants}>
                 <textarea
                     ref={textareaRef}
                     className={styles.inputField}
@@ -144,9 +196,10 @@ const HeroSection = () => {
                         <i className="fas fa-arrow-up"></i>
                     </motion.button>
                 </div>
-            </form>
+            </motion.form>
 
-            <div className={styles.suggestionTags}>
+            {/* 5. 为建议标签的容器也应用 itemVariants */}
+            <motion.div className={styles.suggestionTags} variants={itemVariants}>
                 {suggestionTags.map(tag => (
                     <button
                         type="button"
@@ -159,8 +212,10 @@ const HeroSection = () => {
                         <span>{tag.text}</span>
                     </button>
                 ))}
-            </div>
-        </section>
+            </motion.div>
+            {/* [code focus start ++] */}
+        </motion.section>
+        // [code focus end ++]
     );
 };
 

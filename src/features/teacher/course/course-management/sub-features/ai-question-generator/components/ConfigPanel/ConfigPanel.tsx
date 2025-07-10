@@ -15,6 +15,7 @@ import ConfirmationModal from "@/shared/components/ui/ConfirmationModal/Confirma
 import InputModal from "@/shared/components/ui/InputModal/InputModal";
 import KnowledgePointSelectionModal from './KnowledgePointSelectionModal/KnowledgePointSelectionModal';
 import { useAIConfig } from '../../hooks/useAIConfig';
+import {useConfirmationModal} from "@/shared/hooks/useConfirmationModal";
 
 const ConfigPanel: React.FC = () => {
     const router = useRouter();
@@ -23,14 +24,11 @@ const ConfigPanel: React.FC = () => {
     const {
         config,
         isGenerating,
-        isConfirmModalOpen,
         isPointModalOpen,
         isAddPointModalOpen,
+        handleGenerate,
         updateConfig,
         handleQuantityChange,
-        handleGenerateToggle,
-        handleConfirmGeneration,
-        closeConfirmModal,
         openPointModal,
         closePointModal,
         openAddPointModal,
@@ -38,6 +36,7 @@ const ConfigPanel: React.FC = () => {
         handleAddPointSubmit,
         handlePointsSelected,
     } = useAIConfig();
+
 
     return (
         <>
@@ -83,7 +82,7 @@ const ConfigPanel: React.FC = () => {
                 <footer className={styles.footer}>
                     <button
                         className={`${styles.generateButton} ${isGenerating ? styles.stop : styles.start}`}
-                        onClick={handleGenerateToggle}
+                        onClick={handleGenerate}
                     >
                         {isGenerating ? (
                             <motion.span><i className={`${styles.spinner} fas fa-spinner`}></i> 正在出题...</motion.span>
@@ -94,16 +93,6 @@ const ConfigPanel: React.FC = () => {
                 </footer>
             </div>
 
-            {/* 4. 将所有模态框的控制逻辑也交给 Hook */}
-            <ConfirmationModal
-                isOpen={isConfirmModalOpen}
-                onClose={closeConfirmModal}
-                onConfirm={handleConfirmGeneration}
-                title="确认开始智能出题"
-                message={<>AI 将根据您当前的配置生成 <strong>{config.quantity}</strong> 道题目。<br/>此操作会覆盖上次生成的结果，确定要开始吗？</>}
-                confirmText="开始出题"
-                type="info"
-            />
             <KnowledgePointSelectionModal
                 isOpen={isPointModalOpen}
                 onClose={closePointModal}

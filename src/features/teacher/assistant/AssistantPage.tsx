@@ -147,19 +147,23 @@ export default function AssistantPage() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
+    const initialQuestionHandledRef = useRef(false);
+
     useEffect(() => {
-        // 2. 检查 URL 中是否存在 'q' 参数
+        // 3. 检查 URL 中是否存在 'q' 参数，并且该问题尚未被处理
         const initialQuestion = searchParams.get('q');
-        if (initialQuestion) {
-            // 3. 如果存在，则自动发送消息
-            // 解码URL参数以防包含特殊字符
+        if (initialQuestion && !initialQuestionHandledRef.current) {
+            // 4. 标记为已处理，这样即使在严格模式下重跑，也不会再次执行
+            initialQuestionHandledRef.current = true;
+
+            // 5. 解码并发送消息
             sendMessage(decodeURIComponent(initialQuestion));
 
-            // 4. (可选但推荐) 发送后，从URL中移除该参数，避免刷新页面时重复提问
-            // 使用 router.replace 来更新URL而不创建新的历史记录
+            // 6. 从URL中移除参数
             router.replace('/student/assistant');
         }
-    }, [searchParams]);
+        // 7. 依赖项可以保持不变，或者为了更精确，可以加上 router 和 sendMessage
+    }, [searchParams, router, sendMessage]);
 
     // 弹窗的开关状态，这是纯UI状态，可以保留在组件中
     const [isModalOpen, setIsModalOpen] = useState(false);

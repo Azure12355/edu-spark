@@ -15,7 +15,7 @@
 }
 
 .modal {
-    background-color: var(--teacher-white);
+    background-color: var(--white);
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -46,13 +46,13 @@
 .title {
     font-size: 20px;
     font-weight: 600;
-    color: var(--teacher-text-primary);
+    color: var(--text-dark);
     margin: 0 0 8px;
 }
 
 .message {
     font-size: 14px;
-    color: var(--teacher-text-secondary);
+    color: var(--text-secondary);
     line-height: 1.7;
     margin: 0 0 24px;
 }
@@ -70,16 +70,16 @@
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px solid var(--teacher-border-color);
+    border: 1px solid var(--border-dark);
     transition: all 0.2s;
 }
 
 .cancelButton {
-    background-color: var(--teacher-white);
-    color: var(--teacher-text-secondary);
+    background-color: var(--white);
+    color: var(--text-dark);
 }
 .cancelButton:hover {
-    background-color: var(--teacher-bg-hover);
+    background-color: var(--bg-light-gray);
 }
 
 .confirmButton { color: white; }

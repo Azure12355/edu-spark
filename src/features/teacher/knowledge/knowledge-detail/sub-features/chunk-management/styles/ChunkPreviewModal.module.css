@@ -11,7 +11,7 @@
     padding: 20px;
 }
 .modal {
-    background-color: var(--teacher-bg-card);
+    background-color: var(--bg-light-gray);
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -27,7 +27,7 @@ overflow: hidden;
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    border-bottom: 1px solid var(--teacher-border-color);
+    border-bottom: 1px solid var(--border-color);
     background-color: #f9fafb;
     flex-shrink: 0;
 }
@@ -37,32 +37,32 @@ overflow: hidden;
     gap: 12px;
 }
 .headerInfo i {
-    color: var(--teacher-primary);
+    color: var(--theme-primary-blue);
     font-size: 18px;
 }
 .headerInfo h2 {
     font-size: 18px;
     font-weight: 600;
-    color: var(--teacher-text-primary);
+    color: var(--text-dark);
     margin: 0;
 }
 .sourceDoc {
     font-size: 13px;
-    color: var(--teacher-text-secondary);
+    color: var(--text-dark);
     background-color: #eef2ff;
     padding: 4px 10px;
     border-radius: 6px;
 }
 .closeButton {
     background: none; border: none; font-size: 18px;
-    color: var(--teacher-text-tertiary); cursor: pointer;
+    color: var(--text-secondary); cursor: pointer;
     width: 36px; height: 36px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
 }
 .closeButton:hover {
     background-color: #e5e7eb;
-    color: var(--teacher-text-primary);
+    color: var(--text-dark);
 }
 
 .modalBody {
@@ -70,7 +70,7 @@ overflow: hidden;
     overflow-y: auto;
     padding: 24px;
 background-color: transparent;
-background-color: var(--teacher-bg-card);
+background-color: var(--bg-light-gray);
 }
 /* 美化滚动条 */
 .modalBody::-webkit-scrollbar { width: 6px; }
@@ -91,7 +91,7 @@ background-color: var(--teacher-bg-card);
     display: flex;
     justify-content: flex-end;
     padding: 16px 24px;
-    border-top: 1px solid var(--teacher-border-color);
+    border-top: 1px solid var(--border-color);
     background-color: #f9fafb;
     flex-shrink: 0;
 }
@@ -101,12 +101,12 @@ background-color: var(--teacher-bg-card);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    background-color: var(--teacher-white);
-    border: 1px solid var(--teacher-border-color);
-    color: var(--teacher-text-secondary);
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
     transition: all 0.2s;
 }
 .footerButton:hover {
-    border-color: var(--teacher-primary);
-    color: var(--teacher-primary);
+    border-color: var(--theme-primary-blue);
+    color: var(--theme-primary-blue);
 }

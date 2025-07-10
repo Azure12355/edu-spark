@@ -13,7 +13,7 @@
     flex-grow: 1; /* 关键：占据所有剩余空间 */
     height: 100%;
     display: flex; /* 让内部的 ChatPanel 可以撑满 */
-    border-left: 1px solid var(--teacher-border-color);
+    border-left: 1px solid var(--border-color);
     min-width: 0; /* 防止被压缩 */
 }
 

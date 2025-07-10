@@ -1,14 +1,13 @@
 // src/shared/services/questionService.ts
 
 import apiClient from '../api/apiClient';
+import { Page, PageRequest } from '../types/common';
 import {
     QuestionAddRequestDTO,
-    QuestionBatchDeleteRequestDTO,
-    QuestionQueryRequestDTO,
-    QuestionUpdateRequestDTO,
-    QuestionVO,
-} from '../types';
-import { Page, PageRequest } from '../types/common';
+    QuestionBatchDeleteRequestDTO, QuestionQueryRequestDTO,
+    QuestionUpdateRequestDTO
+} from "@/shared/types/dto/course/question";
+import {QuestionVO} from "@/shared/types";
 
 /**
  * @description 创建一个新题目。
