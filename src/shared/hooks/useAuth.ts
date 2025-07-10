@@ -87,12 +87,12 @@ export const useAuth = () => {
             await logout();
             clearUser(); // 清除全局用户状态
             showToast({ message: '您已成功退出登录', type: 'info' });
-            router.push('/'); // 注销后跳转到首页
+            router.push('/home'); // 注销后跳转到首页
         } catch (error: any) {
             console.error('Logout failed:', error);
             // 即使后端退出失败，也强制清除前端状态
             clearUser();
-            router.push('/');
+            router.push('/home');
         } finally {
             setIsLoading(false);
         }

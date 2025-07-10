@@ -1,6 +1,0 @@
-/* src/components/student/component/my-agents/AgentList.module.css */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 24px;
-}

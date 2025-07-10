@@ -1,0 +1,41 @@
+/* src/app/student/(dashboard)/history/[id]/historyDetail.module.css */
+.detailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%; /* 确保容器能撑满父级 */
+}
+
+/* 错误或未找到状态的样式 */
+.notFoundContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    text-align: center;
+    height: 100%;
+}
+.notFoundIcon {
+    font-size: 60px;
+    color: var(--text-dark);
+    opacity: 0.5;
+}
+.notFoundContainer h2 {
+    font-size: 24px;
+    color: var(--text-dark);
+}
+.notFoundContainer p {
+    color: var(--text-dark);
+    max-width: 400px;
+}
+.backLink {
+    display: inline-block;
+    background-color: var(--theme-primary-blue);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}

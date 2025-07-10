@@ -32,19 +32,8 @@ export default function HomePage() {
     setIsChatbotOpen(false);
   };
 
-    const navLinks = [
-        {name: '首页', href: '/'},
-        {name: '学生中心', href: '/student/home'},
-        {name: '教师中心', href: '/teacher/studio'},
-        {name: '课程智能体', href: '/student/assistant'},
-        {name: '在线练习', href: '/student/assignment/player'},
-        {name: '学情分析', href: '/teacher/academic'},
-        {name: '共享资源', href: '/teacher/shared-resources'},
-    ];
-
   return (
     <>
-        <Header navLinks={navLinks} name={"首页"}/>
       {/*
         将打开聊天机器人的函数 (handleOpenChatbot) 作为 prop 传递给 FloatingSidebar。
         当 FloatingSidebar 内部的“售前咨询”按钮被点击时，会调用这个函数。
@@ -69,15 +58,7 @@ export default function HomePage() {
           - 上火山引擎，用豆包大模型 (CallToActionSection)
         */}
       </main>
-      
-      <Footer />
 
-      {/* 
-        渲染 CourseAssistantWidget。
-        它的显示与否 (`isOpen`) 由本组件 (HomePage) 的 isChatbotOpen 状态控制。
-        同时，将关闭浮窗的函数 (handleCloseChatbot) 传递给 CourseAssistantWidget，
-        以便 CourseAssistantWidget 内部的关闭按钮可以调用它来改变 isChatbotOpen 状态。
-      */}
       <CourseAssistantWidget isOpen={isChatbotOpen} onClose={handleCloseChatbot} />
     </>
   );

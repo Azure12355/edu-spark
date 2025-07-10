@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({navLinks, name, icon}) => {
             <header className={styles.header}>
                 {/* 1. 左侧区域：Logo */}
                 <div className={styles.leftSection}>
-                    <Link href="/" className={styles.logo}>
+                    <Link href="/home" className={styles.logo}>
                         <Image src={icon || "/robot.gif"} alt="EduSpark Logo" width={44} height={44} className={styles.logoIcon} />
                         <h1 className={styles.logoTitle}>EduSpark · {name}</h1>
                     </Link>

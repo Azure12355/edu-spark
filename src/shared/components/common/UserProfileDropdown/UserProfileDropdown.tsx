@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './UserProfileDropdown.module.css';
-import { UserVO } from '@/shared/services/userService'; // 引入用户类型
+import {UserVO} from "@/shared/types";
 
 interface UserProfileDropdownProps {
     user: UserVO;
@@ -27,9 +27,9 @@ const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ user, onLogou
         { href: '/teacher/courses', icon: 'fas fa-book-open', text: '我的课程' },
         { href: '/teacher/knowledge', icon: 'fas fa-brain', text: '我的知识库' },
     ] : [
-        { href: '/student/plaza', icon: 'fas fa-store', text: '智能体广场' },
-        { href: '/student/my-agents', icon: 'fas fa-robot', text: '我的智能体' },
-        { href: '/student/history', icon: 'fas fa-history', text: '对话历史' },
+        { href: '/plaza', icon: 'fas fa-store', text: '智能体广场' },
+        { href: '/my-agents', icon: 'fas fa-robot', text: '我的智能体' },
+        { href: '/history', icon: 'fas fa-history', text: '对话历史' },
     ];
 
 

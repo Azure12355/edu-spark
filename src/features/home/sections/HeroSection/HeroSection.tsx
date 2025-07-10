@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './HeroSection.module.css';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -64,8 +65,13 @@ const HeroSection: React.FC = () => {
             为教师提供智能备课与学情分析，为学生打造个性化实时练习与辅导。开启教学新范式，培养未来高素质人才。
           </motion.p>
           <motion.div variants={itemVariants} className={styles.heroButtons}>
-            <a href="#" className={`${styles.heroBtn} ${styles.primaryBtn}`}>教师快速备课</a>
-            <a href="#" className={`${styles.heroBtn} ${styles.secondaryBtn}`}>学生在线实训</a>
+            <Link href={"/teacher/studio"}>
+              <button className={`${styles.heroBtn} ${styles.primaryBtn}`}>教师快速备课</button>
+            </Link>
+            <Link href={"/student/home"}>
+              <button  className={`${styles.heroBtn} ${styles.secondaryBtn}`}>学生在线学习</button>
+            </Link>
+
           </motion.div>
         </div>
         <motion.div

@@ -5,10 +5,8 @@
 }
 
 .pageContainer {
-    padding: 32px;
     height: 100%;
     overflow-y: auto;
-    background-color: var(--teacher-bg-body, #f7f8fa);
 }
 
 .header {
