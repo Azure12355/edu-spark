@@ -1,0 +1,31 @@
+.creativeGrid {
+    /* 使用 CSS column 实现瀑布流布局，这是最简单且性能最好的方式 */
+    column-count: 4; /* 默认4列，可以根据需要调整 */
+    column-gap: 20px; /* 列之间的间距 */
+    width: 100%;
+}
+
+/*
+ * 为了防止卡片在列之间被切断，我们在 CreativeCard 的 .cardWrapper 中
+ * 已经添加了 `break-inside: avoid;` 和 `margin-bottom: 20px;`
+ * 这里是确保网格本身正确工作的核心。
+*/
+
+/* --- 响应式设计：根据屏幕宽度调整列数 --- */
+@media (max-width: 1200px) {
+    .creativeGrid {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 992px) {
+    .creativeGrid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .creativeGrid {
+        column-count: 1;
+    }
+}

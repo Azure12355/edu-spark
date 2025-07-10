@@ -60,7 +60,7 @@ body {
 }
 
 .link-arrow {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     text-decoration: none;
     font-weight: 500;
 }
@@ -80,7 +80,7 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
 }
 .btn-primary:hover {
@@ -89,8 +89,8 @@ body {
 
 .btn-secondary {
     background-color: var(--white);
-    color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
+    color: var(--theme-primary-blue);
+    border: 1px solid var(--theme-primary-blue);
 }
 .btn-secondary:hover {
     background-color: var(--theme-light-blue);
@@ -140,7 +140,7 @@ body {
     position: relative;
 }
 .main-nav a:hover, .main-nav a.active {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
 }
 .main-nav a i {
     font-size: 0.7em;
@@ -191,7 +191,7 @@ body {
     margin-left: 15px;
 }
 .header-actions a:hover {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
 }
 
 .notification-badge {
@@ -217,7 +217,7 @@ body {
     gap: 10px;
 }
 .consult-btn {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
     padding: 10px;
     border-radius: 8px;
@@ -260,7 +260,7 @@ body {
     margin-bottom: 2px;
 }
 .sidebar-icon:hover {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
 }
 .back-to-top {
     position: fixed;
@@ -289,7 +289,7 @@ body {
     max-width: 50%;
 }
 .hero-text .new-tag {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
     padding: 3px 8px;
     border-radius: 4px;
@@ -299,7 +299,7 @@ body {
 }
 .hero-text .new-announcement {
     font-size: 14px;
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     font-weight: 500;
 }
 .hero-text .new-announcement i {
@@ -370,7 +370,7 @@ body {
 .feature-box .large-text {
     font-size: 24px;
     font-weight: bold;
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     margin-bottom: 15px;
 }
 .feature-box .small-text {
@@ -389,7 +389,7 @@ body {
     margin: 20px auto 0;
 }
 .text-blue {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     font-weight: 500;
 }
 
@@ -497,7 +497,7 @@ body {
     align-items: flex-start;
 }
 .capability-card li i {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     margin-right: 8px;
     margin-top: 3px;
 }
@@ -528,13 +528,13 @@ body {
     border-bottom-right-radius: 4px;
 }
 .pricing-tabs .tab-btn.active {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
-    border-color: var(--primary-blue);
+    border-color: var(--theme-primary-blue);
 }
 .pricing-tabs .tab-btn:not(.active):hover {
-    color: var(--primary-blue);
-    border-color: var(--primary-blue);
+    color: var(--theme-primary-blue);
+    border-color: var(--theme-primary-blue);
 }
 
 .pricing-table-container {

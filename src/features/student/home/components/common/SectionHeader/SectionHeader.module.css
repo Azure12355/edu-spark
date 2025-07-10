@@ -1,0 +1,25 @@
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0;
+}
+
+.seeMoreLink {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--student-text-tertiary);
+    text-decoration: none;
+    font-size: 14px;
+}
+.seeMoreLink:hover {
+    color: var(--student-primary);
+}

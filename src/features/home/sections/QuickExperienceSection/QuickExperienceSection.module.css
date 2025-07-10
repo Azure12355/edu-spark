@@ -83,7 +83,7 @@
 
 .primaryGradientBtn {
   color: var(--white);
-  background: var(--primary-blue);
+  background: var(--theme-primary-blue);
   box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
 }
 .primaryGradientBtn:hover {
@@ -113,7 +113,7 @@
 .largeText {
   font-size: 26px;
   font-weight: 600; /* 加粗 */
-  color: var(--primary-blue);
+  color: var(--theme-primary-blue);
   margin-bottom: 16px;
 }
 .smallText {
@@ -133,7 +133,7 @@
 }
 
 .textBlueGradient { /* 用于"文本、语音、视觉" */
-  background: linear-gradient(90deg, var(--primary-blue) 0%, #3f80ff 100%);
+  background: linear-gradient(90deg, var(--theme-primary-blue) 0%, #3f80ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

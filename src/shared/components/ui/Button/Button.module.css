@@ -12,7 +12,7 @@
 }
 
 .primary {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
 }
 .primary:hover {
@@ -21,8 +21,8 @@
 
 .secondary {
     background-color: var(--white);
-    color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
+    color: var(--theme-primary-blue);
+    border: 1px solid var(--theme-primary-blue);
 }
 .secondary:hover {
     background-color: var(--theme-light-blue);

@@ -1,7 +1,7 @@
 // [!file src/features/teacher/assistant/AssistantPage.tsx]
 "use client";
 
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Image from 'next/image';
 import styles from './Assistant.module.css';
 
@@ -24,6 +24,7 @@ import CourseSelectionModal
 import {useTeacherAssistant} from '@/features/teacher/assistant/ai-assistant/hooks/useTeacherAssistant';
 /* [code focus end ++] */
 import {CourseVO} from "@/shared/types";
+import {useRouter, useSearchParams} from "next/navigation";
 
 
 // 原有的模拟数据
@@ -142,6 +143,23 @@ export default function AssistantPage() {
         setSelectedSkill,
         // thinkingMode 和 setThinkingMode 暂时还未使用，后续会用到
     } = useTeacherAssistant();
+
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    useEffect(() => {
+        // 2. 检查 URL 中是否存在 'q' 参数
+        const initialQuestion = searchParams.get('q');
+        if (initialQuestion) {
+            // 3. 如果存在，则自动发送消息
+            // 解码URL参数以防包含特殊字符
+            sendMessage(decodeURIComponent(initialQuestion));
+
+            // 4. (可选但推荐) 发送后，从URL中移除该参数，避免刷新页面时重复提问
+            // 使用 router.replace 来更新URL而不创建新的历史记录
+            router.replace('/student/assistant');
+        }
+    }, [searchParams]);
 
     // 弹窗的开关状态，这是纯UI状态，可以保留在组件中
     const [isModalOpen, setIsModalOpen] = useState(false);

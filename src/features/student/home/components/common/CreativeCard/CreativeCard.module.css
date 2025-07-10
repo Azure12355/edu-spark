@@ -1,0 +1,495 @@
+/* [code focus start --] */
+/* --- 1. 通用卡片容器 --- */
+.cardWrapper {
+    border-radius: 18px; /* 更圆润的边角 */
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+    break-inside: avoid; /* 防止在瀑布流中断裂 */
+    margin-bottom: 20px; /* 瀑布流间距 */
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    padding: 24px;
+}
+.cardWrapper.concept {
+    padding: 0; /* 概念卡内部自己控制内边距 */
+}
+
+/* --- 2. 3D翻转效果核心样式 --- */
+.flipCard {
+    perspective: 1500px; /* 赋予3D舞台深度 */
+    width: 100%;
+    aspect-ratio: 1 / 1; /* 保持概念卡为正方形，美观 */
+}
+.flipCardInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d; /* 开启3D空间 */
+}
+.flipCardFront, .flipCardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    -webkit-backface-visibility: hidden; /* 隐藏元素背面 */
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+    overflow: hidden;
+}
+.flipCardBack {
+    transform: rotateY(180deg);
+    align-items: flex-start; /* 背面内容左对齐 */
+    text-align: left;
+    justify-content: flex-start;
+}
+
+/* --- 3. 卡片类型特定样式 (Front & Back) --- */
+.conceptIconWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 150px;
+    color: rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s ease-out;
+}
+.cardWrapper:hover .conceptIconWrapper {
+    transform: translate(-50%, -50%) scale(1.15) rotate(-8deg);
+}
+.conceptTitle {
+    font-size: 36px; /* 增大标题 */
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: -1px;
+}
+.conceptSubtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    margin: 0;
+    background-color: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 99px;
+}
+.backHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.backTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+.flipBackButton {
+    background: none; border: none; color: white; opacity: 0.7; cursor: pointer;
+}
+.backContent {
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin: 0;
+}
+
+
+/* 2.2 公式/代码片段卡 (Formula/Code) */
+.formula, .code {
+    /* 使用淡雅的背景色，而非渐变 */
+}
+.snippetContent {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    color: var(--text-dark); /* 浅色文字 */
+}
+.snippetHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.snippetTitleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: black; /* 标题更突出 */
+}
+.copyButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.copyButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+.snippetPre {
+    margin: 0;
+    /* 玻璃拟物化内嵌背景 */
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 400px;
+    overflow: auto;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+.snippetPre code { color: #e5e7eb; }
+
+/* --- 4. 新的淡雅光晕主题 --- */
+.sky { background: radial-gradient(ellipse at top left, #aed8ff, #73a6f5); }
+.meadow { background: radial-gradient(ellipse at top left, #b3ffc7, #66d986); }
+.lilac { background: radial-gradient(ellipse at top left, #e3cfff, #b293e5); }
+.ember { background: radial-gradient(ellipse at top left, #ffd7b3, #ffa86e); }
+
+/* 为翻转后的卡片背面应用一个稍暗的同色系背景，增加层次感 */
+.sky .flipCardBack { background: #73a6f5; }
+.meadow .flipCardBack { background: #66d986; }
+.lilac .flipCardBack { background: #b293e5; }
+.ember .flipCardBack { background: #ffa86e; }
+/* [code focus end --] */
+/* [code focus start ++] */
+@keyframes aurora-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes breathing-glow {
+    0%, 100% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.5); opacity: 0.1; }
+}
+
+/* --- 1. 通用卡片容器 --- */
+.cardWrapper {
+    border-radius: 20px; /* 更圆润 */
+    cursor: pointer;
+    color: var(--card-text-primary);
+    background-color: var(--card-bg);
+    break-inside: avoid;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    padding: 1px; /* 用于容纳边框伪元素 */
+    overflow: hidden; /* 确保伪元素不出界 */
+}
+
+/* 动态光晕边框 - 核心 */
+.cardWrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%; /* 远大于卡片，确保光晕覆盖边缘 */
+    aspect-ratio: 1 / 1;
+    transform: translate(-50%, -50%);
+    background: var(--aurora-border);
+    animation: aurora-spin 8s linear infinite;
+    z-index: 1;
+}
+
+/* 内容容器，位于光晕之上 */
+.cardWrapper > * {
+    background-color: var(--card-bg);
+    border-radius: 19px; /* 比父容器小1px，露出边框 */
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+/* 呼吸感背景光晕 */
+.cardWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--breathing-glow);
+    animation: breathing-glow 10s ease-in-out infinite;
+    z-index: 0;
+    border-radius: 20px;
+}
+
+.cardWrapper.concept { padding: 1px; }
+
+/* --- 2. 3D翻转效果 (与之前类似，微调) --- */
+.flipCard {
+    perspective: 1500px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+.flipCardInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+.flipCardFront, .flipCardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 19px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 28px;
+    overflow: hidden;
+}
+.flipCardBack {
+    transform: rotateY(180deg);
+    align-items: flex-start;
+    text-align: left;
+    justify-content: flex-start;
+    background-color: var(--card-back-bg);
+}
+
+/* --- 3. 卡片内容样式 (重构) --- */
+.conceptIconWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 140px;
+    color: var(--card-icon-bg);
+    transition: transform 0.4s ease-out;
+}
+.cardWrapper:hover .conceptIconWrapper {
+    transform: translate(-50%, -50%) scale(1.1) rotate(-5deg);
+}
+.conceptTitle {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px; /* 中文加一点字距 */
+}
+.conceptSubtitle {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 99px;
+    background-color: var(--card-tag-bg);
+    border: 1px solid var(--card-tag-border);
+    color: var(--card-tag-text);
+}
+.backHeader {
+    width: 100%; display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 16px;
+}
+.backTitle { font-size: 18px; font-weight: 600; margin: 0; }
+.flipBackButton { background: none; border: none; color: var(--card-text-secondary); cursor: pointer; }
+.backContent { font-size: 14px; line-height: 1.8; color: var(--card-text-secondary); margin: 0; }
+
+
+/* 公式/代码片段卡 */
+.snippetContent { font-family: 'JetBrains Mono', monospace; padding: 24px; }
+.snippetHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.snippetTitleWrapper { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
+.copyButton {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--card-btn-bg); border: 1px solid var(--card-btn-border);
+    color: var(--card-btn-text); padding: 6px 10px;
+    border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.2s;
+}
+.copyButton:hover { background: var(--card-btn-bg-hover); color: var(--card-text-primary); }
+.snippetPre {
+    margin: 0; background: var(--snippet-bg);
+    border: 1px solid var(--snippet-border);
+    border-radius: 12px; padding: 16px;
+    max-height: 400px; overflow: auto;
+    font-size: 13px; line-height: 1.7; white-space: pre-wrap;
+}
+.snippetPre code { color: var(--snippet-text); }
+
+
+/* --- 4. 新的淡雅主题变量 --- */
+:root {
+    --card-text-primary: #334155;
+    --card-text-secondary: #64748b;
+}
+
+.sky {
+    --card-bg: #f5faff;
+    --card-back-bg: #eaf4ff;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #a8d5ff, #c9e6ff, #ffffff, #c9e6ff, #a8d5ff);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #a8d5ff, transparent 70%);
+    --card-icon-bg: rgba(59, 130, 246, 0.08);
+    --card-tag-bg: #e0f2fe; --card-tag-border: #bae6fd; --card-tag-text: #0ea5e9;
+    --card-btn-bg: #e0f2fe; --card-btn-border: #bae6fd; --card-btn-text: #0ea5e9; --card-btn-bg-hover: #e0f2fe;
+    --snippet-bg: #eef2ff; --snippet-border: #e0e7ff; --snippet-text: #4338ca;
+}
+.meadow {
+    --card-bg: #f5fff8;
+    --card-back-bg: #e6ffed;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #a7f3d0, #d1fae5, #ffffff, #d1fae5, #a7f3d0);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #a7f3d0, transparent 70%);
+    --card-icon-bg: rgba(22, 163, 74, 0.08);
+    --card-tag-bg: #dcfce7; --card-tag-border: #bbf7d0; --card-tag-text: #22c55e;
+    --card-btn-bg: #dcfce7; --card-btn-border: #bbf7d0; --card-btn-text: #22c55e; --card-btn-bg-hover: #dcfce7;
+    --snippet-bg: #f0fdf4; --snippet-border: #dcfce7; --snippet-text: #15803d;
+}
+.lilac {
+    --card-bg: #fbfaff;
+    --card-back-bg: #f3e8ff;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #d8b4fe, #e9d5ff, #ffffff, #e9d5ff, #d8b4fe);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #d8b4fe, transparent 70%);
+    --card-icon-bg: rgba(139, 92, 246, 0.08);
+    --card-tag-bg: #f3e8ff; --card-tag-border: #e9d5ff; --card-tag-text: #9333ea;
+    --card-btn-bg: #f3e8ff; --card-btn-border: #e9d5ff; --card-btn-text: #9333ea; --card-btn-bg-hover: #f3e8ff;
+    --snippet-bg: #faf5ff; --snippet-border: #f3e8ff; --snippet-text: #7e22ce;
+}
+.ember {
+    --card-bg: #fffaf5;
+    --card-back-bg: #ffeedb;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #fdba74, #fed7aa, #ffffff, #fed7aa, #fdba74);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #fdba74, transparent 70%);
+    --card-icon-bg: rgba(249, 115, 22, 0.08);
+    --card-tag-bg: #ffedd5; --card-tag-border: #fed7aa; --card-tag-text: #f97316;
+    --card-btn-bg: #ffedd5; --card-btn-border: #fed7aa; --card-btn-text: #f97316; --card-btn-bg-hover: #ffedd5;
+    --snippet-bg: #fff7ed; --snippet-border: #ffedd5; --snippet-text: #c2410c;
+}
+
+/* [code focus end ++] */
+
+/* [code focus start ++] */
+/* --- 5. 新增的10种高级主题 --- */
+
+/* 5.1 樱花粉 (Sakura Pink) - 柔和、浪漫 */
+.sakura {
+    --card-bg: #fff5f7;
+    --card-back-bg: #ffe4e9;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #fbcfe8, #fce7f3, #ffffff, #fce7f3, #fbcfe8);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #fbcfe8, transparent 70%);
+    --card-icon-bg: rgba(236, 72, 153, 0.08);
+    --card-tag-bg: #fce7f3; --card-tag-border: #fbcfe8; --card-tag-text: #ec4899;
+    --card-btn-bg: #fce7f3; --card-btn-border: #fbcfe8; --card-btn-text: #ec4899; --card-btn-bg-hover: #fce7f3;
+    --snippet-bg: #fdf2f8; --snippet-border: #fce7f3; --snippet-text: #be185d;
+}
+
+/* 5.2 薄荷青 (Mint Cyan) - 清新、科技 */
+.mint {
+    --card-bg: #f0fdfa;
+    --card-back-bg: #ccfbf1;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #6ee7b7, #a7f3d0, #ffffff, #a7f3d0, #6ee7b7);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #6ee7b7, transparent 70%);
+    --card-icon-bg: rgba(20, 184, 166, 0.08);
+    --card-tag-bg: #ccfbf1; --card-tag-border: #a7f3d0; --card-tag-text: #14b8a6;
+    --card-btn-bg: #ccfbf1; --card-btn-border: #a7f3d0; --card-btn-text: #14b8a6; --card-btn-bg-hover: #ccfbf1;
+    --snippet-bg: #f0fdfa; --snippet-border: #ccfbf1; --snippet-text: #0f766e;
+}
+
+/* 5.3 石墨灰 (Graphite Gray) - 沉稳、专业 */
+.graphite {
+    --card-bg: #f8fafc;
+    --card-back-bg: #f1f5f9;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #cbd5e1, #e2e8f0, #ffffff, #e2e8f0, #cbd5e1);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #cbd5e1, transparent 70%);
+    --card-icon-bg: rgba(100, 116, 139, 0.08);
+    --card-tag-bg: #e2e8f0; --card-tag-border: #cbd5e1; --card-tag-text: #64748b;
+    --card-btn-bg: #e2e8f0; --card-btn-border: #cbd5e1; --card-btn-text: #64748b; --card-btn-bg-hover: #e2e8f0;
+    --snippet-bg: #f8fafc; --snippet-border: #f1f5f9; --snippet-text: #475569;
+}
+
+/* 5.4 珊瑚红 (Coral Red) - 温暖、活力 */
+.coral {
+    --card-bg: #fff6f5;
+    --card-back-bg: #ffeeeb;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #fca5a5, #fecaca, #ffffff, #fecaca, #fca5a5);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #fca5a5, transparent 70%);
+    --card-icon-bg: rgba(239, 68, 68, 0.08);
+    --card-tag-bg: #fee2e2; --card-tag-border: #fecaca; --card-tag-text: #ef4444;
+    --card-btn-bg: #fee2e2; --card-btn-border: #fecaca; --card-btn-text: #ef4444; --card-btn-bg-hover: #fee2e2;
+    --snippet-bg: #fff1f2; --snippet-border: #ffe4e6; --snippet-text: #b91c1c;
+}
+
+/* 5.5 柠檬黄 (Lemon Yellow) - 明亮、乐观 */
+.lemon {
+    --card-bg: #fefce8;
+    --card-back-bg: #fef9c3;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #fde047, #fef08a, #ffffff, #fef08a, #fde047);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #fde047, transparent 70%);
+    --card-icon-bg: rgba(234, 179, 8, 0.08);
+    --card-tag-bg: #fef9c3; --card-tag-border: #fef08a; --card-tag-text: #eab308;
+    --card-btn-bg: #fef9c3; --card-btn-border: #fef08a; --card-btn-text: #eab308; --card-btn-bg-hover: #fef9c3;
+    --snippet-bg: #fefce8; --snippet-border: #fef9c3; --snippet-text: #a16207;
+}
+
+/* 5.6 鸢尾蓝 (Iris Blue) - 深邃、智慧 */
+.iris {
+    --card-bg: #f5f3ff;
+    --card-back-bg: #e0e7ff;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #a5b4fc, #c7d2fe, #ffffff, #c7d2fe, #a5b4fc);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #a5b4fc, transparent 70%);
+    --card-icon-bg: rgba(99, 102, 241, 0.08);
+    --card-tag-bg: #e0e7ff; --card-tag-border: #c7d2fe; --card-tag-text: #6366f1;
+    --card-btn-bg: #e0e7ff; --card-btn-border: #c7d2fe; --card-btn-text: #6366f1; --card-btn-bg-hover: #e0e7ff;
+    --snippet-bg: #eef2ff; --snippet-border: #e0e7ff; --snippet-text: #4338ca;
+}
+
+/* 5.7 橄榄绿 (Olive Green) - 自然、和平 */
+.olive {
+    --card-bg: #f7fee7;
+    --card-back-bg: #eab308;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #d9f99d, #e2f5c1, #ffffff, #e2f5c1, #d9f99d);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #d9f99d, transparent 70%);
+    --card-icon-bg: rgba(132, 204, 22, 0.08);
+    --card-tag-bg: #eefcce; --card-tag-border: #d9f99d; --card-tag-text: #84cc16;
+    --card-btn-bg: #eefcce; --card-btn-border: #d9f99d; --card-btn-text: #84cc16; --card-btn-bg-hover: #eefcce;
+    --snippet-bg: #f7fee7; --snippet-border: #eefcce; --snippet-text: #65a30d;
+}
+
+/* 5.8 靛蓝 (Indigo) - 经典、可靠 */
+.indigo {
+    --card-bg: #f0f9ff;
+    --card-back-bg: #dbeafe;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #93c5fd, #bfdbfe, #ffffff, #bfdbfe, #93c5fd);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #93c5fd, transparent 70%);
+    --card-icon-bg: rgba(59, 130, 246, 0.08);
+    --card-tag-bg: #dbeafe; --card-tag-border: #bfdbfe; --card-tag-text: #3b82f6;
+    --card-btn-bg: #dbeafe; --card-btn-border: #bfdbfe; --card-btn-text: #3b82f6; --card-btn-bg-hover: #dbeafe;
+    --snippet-bg: #eff6ff; --snippet-border: #dbeafe; --snippet-text: #1d4ed8;
+}
+
+/* 5.9 玫瑰金 (Rose Gold) - 轻奢、优雅 */
+.rose {
+    --card-bg: #fff7f5;
+    --card-back-bg: #ffefe8;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #ffc0a5, #ffd9c8, #ffffff, #ffd9c8, #ffc0a5);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #ffc0a5, transparent 70%);
+    --card-icon-bg: rgba(251, 146, 60, 0.08);
+    --card-tag-bg: #ffeadb; --card-tag-border: #ffc0a5; --card-tag-text: #fb923c;
+    --card-btn-bg: #ffeadb; --card-btn-border: #ffc0a5; --card-btn-text: #fb923c; --card-btn-bg-hover: #ffeadb;
+    --snippet-bg: #fff9f5; --snippet-border: #ffeadb; --snippet-text: #ea580c;
+}
+
+/* 5.10 海蓝 (Sea Blue) - 广阔、冷静 */
+.sea {
+    --card-bg: #f0f9ff;
+    --card-back-bg: #e0f2fe;
+    --aurora-border: conic-gradient(from 0deg at 50% 50%, #7dd3fc, #bae6fd, #ffffff, #bae6fd, #7dd3fc);
+    --breathing-glow: radial-gradient(ellipse at 70% 30%, #7dd3fc, transparent 70%);
+    --card-icon-bg: rgba(14, 165, 233, 0.08);
+    --card-tag-bg: #e0f2fe; --card-tag-border: #bae6fd; --card-tag-text: #0ea5e9;
+    --card-btn-bg: #e0f2fe; --card-btn-border: #bae6fd; --card-btn-text: #0ea5e9; --card-btn-bg-hover: #e0f2fe;
+    --snippet-bg: #f0f9ff; --snippet-border: #e0f2fe; --snippet-text: #0284c7;
+}
+/* [code focus end ++] */

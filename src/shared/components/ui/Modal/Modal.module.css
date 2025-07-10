@@ -67,9 +67,9 @@
     color: var(--text-dark);
 }
 .confirmButton {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: white;
-    border-color: var(--primary-blue);
+    border-color: var(--theme-primary-blue);
 }
 .confirmButton:disabled {
     opacity: 0.5;

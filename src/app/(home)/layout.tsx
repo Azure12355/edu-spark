@@ -34,9 +34,8 @@ export default function HomeLayout({
                 <main className={"main-full"}>
                     {children}
                 </main> :
-                <main className={isHome ? '': 'mainContent'}> {children} </main>
+                <main className={`"main-container ${isHome ? '': 'mainContent'}`}> {children} </main>
             }
-            {isHome ? (<Footer/>) : null}
         </div>
     );
 }

@@ -1,0 +1,29 @@
+
+/* [code focus start ++] */
+/* Import a professional sans-serif font */
+
+.homePageContainer {
+    width: 100%;
+    position: relative; /* Crucial for layering the background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Prevent halos from causing horizontal scroll */
+}
+
+.mainContent {
+    width: 100%;
+    max-width: 1280px;
+    padding: 0 24px;
+    margin-bottom: 120px; /* More space at the bottom */
+    position: relative;
+    z-index: 1; /* Content is above the background */
+}
+
+/* A wrapper for each section to apply consistent margin and animation */
+.sectionWrapper {
+    width: 100%;
+    margin-top: 80px; /* Increased vertical spacing */
+}
+/* [code focus end ++] */

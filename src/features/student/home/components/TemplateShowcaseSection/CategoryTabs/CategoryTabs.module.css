@@ -1,0 +1,23 @@
+.categoryTabs {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #e5e6eb;
+    margin-bottom: 24px;
+}
+
+.categoryTab {
+    padding: 12px 4px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--student-text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.categoryTab:hover, .categoryTab.activeCategoryTab {
+    color: var(--student-text-primary);
+    border-bottom-color: var(--student-primary);
+}

@@ -27,9 +27,7 @@ export default function StudentDashboardLayout({
         <div className="student-layout-wrapper">
             <Header navLinks={navLinks} name={"学生端📐"}/>
             <div className="student-main-container">
-                <div className="student-content-area">
-                    {children}
-                </div>
+                {children}
             </div>
         </div>
     );

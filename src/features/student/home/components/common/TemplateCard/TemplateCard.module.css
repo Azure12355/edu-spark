@@ -1,0 +1,28 @@
+.templateCardWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    /* 让卡片在网格中断行时保持完整，不会被切断 */
+    break-inside: avoid;
+    margin-bottom: 20px; /* 瀑布流的垂直间距 */
+}
+
+.templateImage {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background-color: #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.templateCardWrapper:hover .templateImage {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.templateTitle {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    text-align: center;
+}

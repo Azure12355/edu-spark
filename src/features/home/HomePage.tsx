@@ -59,6 +59,8 @@ export default function HomePage() {
         */}
       </main>
 
+      <Footer/>
+
       <CourseAssistantWidget isOpen={isChatbotOpen} onClose={handleCloseChatbot} />
     </>
   );

@@ -102,7 +102,7 @@ a {
 }
 
 .link-arrow {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     text-decoration: none;
     font-weight: 500;
 }
@@ -125,6 +125,6 @@ a {
 }
 
 .text-blue { /* 在 QuickExperienceSection 中用到 */
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     font-weight: 500;
 }

@@ -1,0 +1,39 @@
+.recommendationsSection {
+    margin-top: 40px;
+}
+
+.recommendationsGrid {
+    display: grid;
+    /* 核心布局：创建4列等宽的网格 */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.recommendationCard {
+    /* 核心样式：设置宽高比为 4:3，这样高度会自适应宽度 */
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recommendationCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .recommendationsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .recommendationsGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,107 @@
+/* [!file src/features/student/home/components/common/ActionCard/ActionCard.module.css] */
+.cardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--student-white);
+    border-radius: 16px;
+    border: 1px solid var(--student-border);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    padding: 24px;
+}
+
+.cardContainer:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.1);
+    border-color: var(--theme-color);
+}
+
+.glowEffect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at center, var(--theme-color-alpha) 0%, transparent 50%);
+    transform: translate(-25%, -25%);
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 0;
+    opacity: 0.8;
+}
+
+.cardContainer:hover .glowEffect {
+    transform: translate(-25%, -25%) scale(1.2);
+}
+
+.cardHeader, .cardBody {
+    position: relative;
+    z-index: 1;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.iconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: var(--theme-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.cardBody {
+    flex-grow: 1;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--student-text-primary);
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.description {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.actionHint {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--student-text-tertiary);
+    font-size: 13px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1;
+}
+
+.cardContainer:hover .actionHint {
+    opacity: 1;
+    transform: translateX(0);
+}

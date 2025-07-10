@@ -68,7 +68,7 @@
     margin-bottom: 0;
 }
 .capabilityCard li i {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     margin-right: 8px;
     margin-top: 3px; /* Align icon slightly better */
     font-size: 14px; /* Match text size better */

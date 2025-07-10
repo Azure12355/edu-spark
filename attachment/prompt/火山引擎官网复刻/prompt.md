@@ -472,7 +472,7 @@ export default QuickExperienceSection;
 .largeText {
     font-size: 24px;
     font-weight: bold;
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
     margin-bottom: 15px;
 }
 .smallText {
@@ -1941,13 +1941,13 @@ export default PricingSection;
     border-bottom-right-radius: 4px;
 }
 .tabBtn.active {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
-    border-color: var(--primary-blue);
+    border-color: var(--theme-primary-blue);
 }
 .tabBtn:not(.active):hover {
-    color: var(--primary-blue);
-    border-color: var(--primary-blue);
+    color: var(--theme-primary-blue);
+    border-color: var(--theme-primary-blue);
 }
 
 .pricingTableContainer {
@@ -2573,7 +2573,7 @@ export default FloatingSidebar;
     gap: 10px;
 }
 .consultBtn {
-    background-color: var(--primary-blue);
+    background-color: var(--theme-primary-blue);
     color: var(--white);
     padding: 10px;
     border-radius: 8px;
@@ -2616,7 +2616,7 @@ export default FloatingSidebar;
     margin-bottom: 2px;
 }
 .sidebarIcon:hover {
-    color: var(--primary-blue);
+    color: var(--theme-primary-blue);
 }
 
 ```

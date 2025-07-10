@@ -1,9 +1,5 @@
 /* src/app/teacher/teacher.css */
 
-.mainContent {
-    padding: 20px;
-}
-
 /* --- 0. 根元素高度修复 (最关键的修复) --- */
 html, body {
     height: 100%;

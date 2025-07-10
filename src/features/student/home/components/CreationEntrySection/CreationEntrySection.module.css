@@ -1,0 +1,64 @@
+/* [code focus start ++] */
+.wrapper {
+    margin-top: 40px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin-bottom: 20px;
+}
+
+.actionCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    min-height: 220px; /* 给卡片一个最小高度 */
+}
+
+.quickAccessSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-around; /* 均匀分布 */
+    padding: 16px;
+    background-color: var(--student-white);
+    border-radius: 16px;
+    margin-top: 24px;
+    border: 1px solid var(--student-border);
+    box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.03);
+}
+
+.quickLinkItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--student-text-secondary);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    flex-grow: 1; /* 让每个项目都能填充空间 */
+    text-align: center;
+}
+
+.quickLinkItem:hover {
+    background-color: var(--student-primary-light-bg);
+    color: var(--student-primary);
+    transform: translateY(-3px);
+}
+
+.quickLinkItem i {
+    font-size: 22px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px; /* 垂直居中图标 */
+    transition: color 0.25s ease;
+}
+
+.quickLinkItem span {
+    font-size: 14px;
+    font-weight: 500;
+}
+/* [code focus end ++] */
