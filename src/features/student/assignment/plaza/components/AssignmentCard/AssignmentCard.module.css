@@ -1,0 +1,124 @@
+/* [!file src/features/student/assignment/plaza/components/AssignmentCard/AssignmentCard.module.css] */
+.cardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.cardContainer {
+    background-color: var(--student-white);
+    border: 1px solid var(--student-border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.25s ease-in-out;
+}
+.cardContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--student-primary);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--student-text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.description {
+    font-size: 14px;
+    color: var(--student-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    border-top: 1px dashed var(--student-border);
+    padding-top: 16px;
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+.infoItem i {
+    color: var(--student-text-tertiary);
+    font-size: 16px;
+}
+.infoItem span {
+    color: var(--student-text-secondary);
+}
+.infoItem strong {
+    font-weight: 600;
+    color: var(--student-text-primary);
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--student-border);
+    padding-top: 16px;
+}
+
+.actionButton {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.actionButton.start {
+    background-color: var(--student-primary);
+    color: white;
+}
+.actionButton.start:hover {
+    opacity: 0.9;
+}
+.actionButton.report {
+    background-color: #e5e7eb;
+    color: #4b5563;
+}
+.actionButton.report:hover {
+    background-color: #d1d5db;
+}
+
+.statusTag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.statusTag.ONGOING {
+    background-color: #dbeafe; color: #2563eb;
+}
+.statusTag.NOT_STARTED {
+    background-color: #fef3c7; color: #b45309;
+}
+.statusTag.ENDED {
+    background-color: #e5e7eb; color: #4b5563;
+}
+.statusTag i {
+    font-size: 10px;
+}
