@@ -1,7 +1,6 @@
 // src/app/layout.tsx
 "use client"
 
-import type {Metadata} from "next";
 import "./globals.css";
 import 'github-markdown-css/github-markdown-light.css';
 import AuthModal from "@/shared/components/common/auth/AuthModal"; // 1. 导入登录弹窗

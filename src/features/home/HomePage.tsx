@@ -3,7 +3,6 @@
 import React, { useState } from 'react'; // 引入 useState
 
 // 布局组件
-import Header from '@/features/home/layout/Header/Header';
 import FloatingSidebar from '@/shared/components/common/FloatingSidebar/FloatingSidebar';
 import Footer from '@/features/home/layout/Footer/Footer';
 
@@ -19,7 +18,8 @@ import TechnicalArchitectureSection from '@/features/home/sections/TechnicalArch
 import ModelAndSubjectCatalogSection from '@/features/home/sections/ModelAndSubjectCatalogSection/ModelAndSubjectCatalogSection';
 
 // 小组件 (Widgets)
-import CourseAssistantWidget from '@/shared/components/common/CourseAssistantWidget/CourseAssistantWidget'; // 引入 CourseAssistantWidget
+import CourseAssistantWidget from '@/shared/components/common/CourseAssistantWidget/CourseAssistantWidget';
+import Header from "@/shared/components/common/Header/Header"; // 引入 CourseAssistantWidget
 
 export default function HomePage() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false); // 状态来控制 CourseAssistantWidget 的显隐
@@ -32,10 +32,20 @@ export default function HomePage() {
     setIsChatbotOpen(false);
   };
 
+    const navLinks = [
+        {name: '首页', href: '/'},
+        {name: '学生中心', href: '/student/home'},
+        {name: '教师中心', href: '/teacher/studio'},
+        {name: '课程智能体', href: '/student/assistant'},
+        {name: '在线练习', href: '/student/assignment/player'},
+        {name: '学情分析', href: '/teacher/academic'},
+        {name: '共享资源', href: '/teacher/shared-resources'},
+    ];
+
   return (
     <>
-      <Header />
-      {/* 
+        <Header navLinks={navLinks} name={"首页"}/>
+      {/*
         将打开聊天机器人的函数 (handleOpenChatbot) 作为 prop 传递给 FloatingSidebar。
         当 FloatingSidebar 内部的“售前咨询”按钮被点击时，会调用这个函数。
       */}

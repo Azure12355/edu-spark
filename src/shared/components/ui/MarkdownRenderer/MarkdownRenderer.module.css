@@ -8,7 +8,6 @@
     /* white-space: pre-wrap; */ /* [!code --] */
     word-break: break-word; /* 保留这个，对普通段落有用 */
     /* [!code focus end] */
-    color: var(--teacher-text-primary);
 }
 
 .userMessageContent,
@@ -83,6 +82,10 @@
 .userMessage .inlineCode {
     background-color: rgba(255, 255, 255, 0.2);
     color: #dbeafe;
+}
+
+.userMessage {
+    color: white ;
 }
 
 .bold { font-weight: 600; }

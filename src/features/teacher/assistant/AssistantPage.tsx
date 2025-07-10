@@ -35,19 +35,19 @@ const teacherWelcomeData = {
             id: 'summarize-keypoints',
             icon: <i className="fas fa-project-diagram"></i>,
             title: '总结核心概念',
-            description: '总结一下本课程中关于“TCP三次握手”的核心知识点。'
+            description: '总结一下本课程中核心的概念'
         },
         {
             id: 'explain-difference',
             icon: <i className="fas fa-exchange-alt"></i>,
             title: '比较概念异同',
-            description: '比较一下“进程”与“线程”这两个概念的定义、优缺点和适用场景。'
+            description: '比较一下课中核心的两个概念的定义、优缺点和适用场景。'
         },
         {
             id: 'generate-questions',
             icon: <i className="fas fa-question-circle"></i>,
             title: '生成练习题',
-            description: '围绕“动态规划”这个知识点，帮我出3道难度中等的编程题。'
+            description: '围绕知识点，帮我出3道难度中等的题目。'
         },
         {
             id: 'provide-example',
@@ -59,13 +59,13 @@ const teacherWelcomeData = {
             id: 'create-analogy',
             icon: <i className="fas fa-lightbulb"></i>,
             title: '创建生动比喻',
-            description: '用一个生动、易于理解的比喻来解释什么是“HTTP的无状态性”。'
+            description: '用一个生动、易于理解的比喻来解释课程的本质”。'
         },
         {
             id: 'design-activity',
             icon: <i className="fas fa-users"></i>,
             title: '设计课堂活动',
-            description: '为讲解“OSI七层模型”设计一个持续15分钟的课堂互动活动。'
+            description: '为我讲解课程章节的核心内容。'
         }
     ] as PromptCardData[]
 };
@@ -155,8 +155,8 @@ export default function AssistantPage() {
     // 简单的提交处理函数
     const handleSubmit = async (data: { text: string; mode: any }) => {
         // 调用 Hook 中的 sendMessage 方法
-        await sendMessage(data.text);
         setInputValue(''); // 发送后清空输入框
+        await sendMessage(data.text);
     };
 
     const handleCardClick = (card: PromptCardData) => {

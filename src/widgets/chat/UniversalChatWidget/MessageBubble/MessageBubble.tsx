@@ -1,14 +1,18 @@
 // src/components/common/MessageBubble/MessageBubble.tsx
 "use client";
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, {useState} from 'react';
+import {motion} from 'framer-motion';
 import styles from './MessageBubble.module.css';
 
 import MessageHeader from './MessageHeader/MessageHeader';
 import MessageContent from './MessageContent/MessageContent';
 import MessageThinkingPanel from './MessageThinkingPanel/MessageThinkingPanel';
-import MessageReferences, { ReferenceItem } from './MessageReferences/MessageReferences';
 import MessageActions from './MessageActions/MessageActions';
+import {
+    Reference
+} from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/References/ReferenceCard";
+import ReferencesContainer
+    from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/References/ReferencesContainer";
 
 export interface BubbleMessage {
     id: string;
@@ -17,7 +21,7 @@ export interface BubbleMessage {
     thinkingText?: string | null;
     isThinking?: boolean;
     isComplete?: boolean;
-    references?: ReferenceItem[];
+    references?: Reference[];
     agent?: {
         avatar: React.ReactNode;
         themeColor?: string;
@@ -31,14 +35,19 @@ interface MessageBubbleProps {
     showAvatar: boolean;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelOpen, onToggleThinkingPanel, showAvatar=false }) => {
+const MessageBubble: React.FC<MessageBubbleProps> = ({
+                                                         message,
+                                                         isThinkingPanelOpen,
+                                                         onToggleThinkingPanel,
+                                                         showAvatar = false
+                                                     }) => {
     const [highlightedRefIndex, setHighlightedRefIndex] = useState<number | null>(null);
 
-    const { role, agent, id } = message;
+    const {role, agent, id} = message;
     const isUser = role === 'user';
     const userAvatar = <i className="fas fa-user"></i>;
 
-    const bubbleStyle = !isUser && agent?.themeColor ? { '--bubble-theme-color': agent.themeColor } as React.CSSProperties : {};
+    const bubbleStyle = !isUser && agent?.themeColor ? {'--bubble-theme-color': agent.themeColor} as React.CSSProperties : {};
 
     const handleRefEnter = (index: number) => {
         setHighlightedRefIndex(index);
@@ -52,16 +61,16 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
             key={id}
             id={`message-${id}`}
             className={`${styles.messageContainer} ${isUser ? styles.user : styles.assistant}`}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            initial={{opacity: 0, y: 15}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.35, ease: "easeOut"}}
             style={bubbleStyle}
         >
 
             {
                 showAvatar && (
                     <div className={styles.avatar}>
-                    {isUser ? userAvatar : (agent?.avatar || <i className="fas fa-robot"></i>)}
+                        {isUser ? userAvatar : (agent?.avatar || <i className="fas fa-robot"></i>)}
                     </div>
                 )
             }
@@ -81,23 +90,16 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isThinkingPanelO
                     content={message.content}
                     isThinking={message.isThinking}
                     isUser={isUser}
-                    messageId={id}
-                    onRefEnter={handleRefEnter}
-                    onRefLeave={handleRefLeave}
-                    highlightedIndex={highlightedRefIndex}
                 />
 
-                <MessageThinkingPanel isOpen={isThinkingPanelOpen} thinkingText={message.thinkingText || ''} />
+                <MessageThinkingPanel isOpen={isThinkingPanelOpen} thinkingText={message.thinkingText || ''}/>
 
-                <MessageReferences
-                    references={message.references}
-                    highlightedIndex={highlightedRefIndex}
-                    onRefEnter={handleRefEnter}
-                    onRefLeave={handleRefLeave}
-                />
+                {message.references && message.references.length > 0 && (
+                    <ReferencesContainer references={message.references}/>
+                )}
 
                 {!isUser && message.isComplete && id !== 'init-assistant' && (
-                    <MessageActions contentToCopy={message.content} />
+                    <MessageActions contentToCopy={message.content}/>
                 )}
             </div>
         </motion.div>

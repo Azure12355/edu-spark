@@ -10,7 +10,7 @@ const NotFoundPage = () => {
     const router = useRouter();
 
     const buttonStyle: React.CSSProperties = {
-        marginTop: '24px',
+        margin: '24px',
         padding: '12px 24px',
         fontSize: '16px',
         fontWeight: 500,

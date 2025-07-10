@@ -24,12 +24,6 @@ body {
     margin: 0;
     min-height: 100vh;
 }
-
-.student-main-container {
-    display: flex;
-    height: calc(100vh - 56px); /* 视口高度减去Header高度 */
-}
-
 /* --- 核心修复区域 --- */
 
 /* 1. 将 .student-content-area 变为一个纯粹的、有弹性的容器 */

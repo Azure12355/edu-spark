@@ -1,10 +1,10 @@
 // src/app/student/(dashboard)/layout.tsx
 "use client";
 import React from 'react';
-import { usePathname } from 'next/navigation';
-import StudentHeader from '@/features/student/components/Header/StudentHeader';
-import StudentSidebar from '@/features/student/components/Sidebar/StudentSidebar';
-import '../student.css'; // 引入学生端专属全局样式
+import {usePathname} from 'next/navigation';
+import '../student.css';
+import Header from "@/shared/components/common/Header/Header"; // 引入学生端专属全局样式
+import '../../globals.css';
 
 export default function StudentDashboardLayout({
                                                    children,
@@ -12,22 +12,23 @@ export default function StudentDashboardLayout({
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
-    const isCreateAgentPage = pathname.includes('/student/create-agent');
+
+    const navLinks = [
+        {name: '智能广场', href: '/student/home'},
+        {name: '课程智能体', href: '/student/assistant'},
+        {name: '我的课程', href: '/student/courses'},
+        {name: '在线练习', href: '/student/assignment/player'},
+        {name: '学情分析', href: '/student/academic'},
+        {name: '知识库', href: '/student/knowledge'},
+        {name: '共享资源', href: '/student/shared-resources'},
+    ];
 
     return (
         <div className="student-layout-wrapper">
-            <StudentHeader />
+            <Header navLinks={navLinks} name={"学生端📐"}/>
             <div className="student-main-container">
-                <StudentSidebar />
                 <div className="student-content-area">
-                    {isCreateAgentPage ? (
-                        children // 直接渲染，让子页面控制所有
-                    ) : (
-                        // 对所有其他页面，使用带内边距和滚动的容器
-                        <main className="student-scrollable-content">
-                            {children}
-                        </main>
-                    )}
+                    {children}
                 </div>
             </div>
         </div>

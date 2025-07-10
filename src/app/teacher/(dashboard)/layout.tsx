@@ -2,7 +2,7 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import TeacherHeader from '@/features/teacher/course/course-management/components/Header/TeacherHeader';
+import Header from '@/shared/components/common/Header/Header';
 import '../teacher.css';
 
 export default function TeacherDashboardLayout({
@@ -22,12 +22,19 @@ export default function TeacherDashboardLayout({
         isKnowledgeDetailPage
     ;
 
+    const navLinks = [
+        {name: '课程智能体', href: '/teacher/assistant'},
+        {name: '工作台', href: '/teacher/studio'},
+        {name: '我的课程', href: '/teacher/courses'},
+        {name: '学情分析', href: '/teacher/academic'},
+        {name: '知识库', href: '/teacher/knowledge'},
+        {name: '共享资源', href: '/teacher/shared-resources'},
+    ];
+
     return (
         <div className="teacher-layout-wrapper">
-            {!isKnowledgeDetailPage && <TeacherHeader />}
+            {!isKnowledgeDetailPage && <Header navLinks={navLinks} name={"教师端🧑‍🏫"} />}
             <main
-                // 当是沉浸式页面时，使用 .teacher-main-full (无内边距，全高)
-                // 否则使用 .teacher-main-container (有内边距，可滚动)
                 className={isImmersivePage ? "teacher-main-full" : "teacher-main-container"}
             >
                 {children}

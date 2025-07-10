@@ -21,6 +21,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ content, isThinking, is
         <div className={styles.contentWrapper}>
             <MarkdownRenderer
                 content={contentToRender}
+                className={isUser ? "userMessageContent": undefined}
                 // (className prop 逻辑保持不变，用于区分用户/AI气泡样式)
             />
             {isThinking && <span className={styles.typingIndicator}></span>}

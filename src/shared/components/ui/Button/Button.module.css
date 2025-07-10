@@ -25,5 +25,5 @@
     border: 1px solid var(--primary-blue);
 }
 .secondary:hover {
-    background-color: var(--light-blue);
+    background-color: var(--theme-light-blue);
 }

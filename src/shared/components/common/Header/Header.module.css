@@ -1,0 +1,195 @@
+/* src/components/teacher/layout/Header/Header.module.css */
+
+/*
+  设计思路：
+  - 主题: 现代、专业、富有科技感的教育平台。
+  - 色彩: 以品牌蓝 (var(--ve-primary-blue)) 为主色，搭配不同层次的灰阶，营造干净、专注的视觉氛围。
+  - 字体: 建议在 globals.css 中使用无衬线字体，如 Inter, Manrope 或系统默认字体，以保证可读性。
+  - 布局: 采用 Grid 实现三栏式布局，确保导航的绝对居中和整体的平衡感。
+  - 交互: 大量使用平滑过渡和弹性动画，让用户的每一次点击和悬停都充满乐趣和反馈。
+*/
+
+
+/* -- 1. 头部整体布局 -- */
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 64px;
+    padding: 0 32px;
+    z-index: 1000;
+
+    /* 毛玻璃效果，增加现代感和层次感 */
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* 使用 Grid 实现完美的三栏布局 */
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* 左(1fr) 中(auto) 右(1fr) */
+    align-items: center;
+
+    /* 使用柔和的底部阴影替代硬边框，更显精致 */
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* -- 2. 左右区域容器 -- */
+.leftSection {
+    display: flex;
+    justify-content: flex-start; /* 内容靠左 */
+    align-items: center;
+}
+
+.rightSection {
+    display: flex;
+    justify-content: flex-end; /* 内容靠右 */
+    align-items: center;
+    gap: 12px; /* 统一右侧元素间距 */
+}
+
+
+/* -- 3. Logo 部分 -- */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+.logo:hover {
+    opacity: 0.85;
+}
+
+.logoIcon {
+    border-radius: 10px; /* 更圆润的边角 */
+    box-shadow: 0 4px 8px -2px rgba(36, 99, 235, 0.2); /* 为 Logo 添加品牌色光晕 */
+}
+
+.logoTitle {
+    font-size: 20px;
+    font-weight: 700; /* 加粗，更具品牌感 */
+    color: var(--text-dark);
+    letter-spacing: -0.5px; /* 微调字间距，更紧凑美观 */
+}
+
+
+/* -- 4. 中间导航部分 -- */
+.navigation {
+    display: flex;
+    justify-content: center; /* 确保在 Grid 单元格内居中 */
+    align-items: center;
+    height: 100%;
+    gap: 8px; /* 导航项之间的间距 */
+}
+
+.navLink {
+    position: relative; /* 为活动指示器提供定位上下文 */
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary); /* 默认状态颜色更柔和 */
+    text-decoration: none;
+    border-radius: 8px;
+    transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+.navLink:hover {
+    color: var(--text-dark);
+    background-color: var(--bg-light-gray);
+}
+
+.navLinkActive {
+    color: var(--ve-primary-blue);
+    font-weight: 600;
+}
+
+/* 核心优化：流体动画指示器样式 */
+.activeLinkIndicator {
+    position: absolute;
+    bottom: -2px; /* 稍微向下偏移，避免与文字重叠 */
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--ve-primary-blue);
+    border-radius: 2px;
+    box-shadow: 0 0 10px -2px var(--ve-primary-blue); /* 添加辉光效果 */
+}
+
+
+/* -- 5. 右侧图标按钮和用户区 -- */
+.iconButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1); /* 更平滑的过渡曲线 */
+}
+.iconButton:hover {
+    background-color: var(--bg-light-gray);
+    color: var(--text-dark);
+    transform: scale(1.1); /* 悬停时轻微放大 */
+}
+
+.profileContainer {
+    position: relative;
+}
+
+.avatarButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* 半透明边框，更好地融入背景 */
+    box-shadow: 0 0 0 1.5px var(--border-color); /* 外部细线，增加清晰度 */
+    transition: box-shadow 0.25s ease;
+}
+.avatarButton:hover .avatar,
+.avatarButton:focus-visible .avatar {
+    box-shadow: 0 0 0 2.5px var(--ve-primary-blue); /* 悬停/聚焦时显示品牌色外环 */
+}
+
+.dropdownWrapper {
+    position: absolute;
+    top: calc(100% + 12px); /* 与头像保持合适的距离 */
+    right: 0;
+    z-index: 1010;
+    min-width: 220px; /* 保证下拉菜单有足够的宽度 */
+}
+
+
+/* -- 6. 登录/注册按钮 -- */
+.authButtons {
+    display: flex;
+    align-items: center;
+}
+
+.loginButton {
+    background-color: var(--ve-primary-blue);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    box-shadow: 0 4px 12px -4px rgba(59, 130, 246, 0.4); /* 添加与按钮颜色匹配的阴影 */
+}
+
+.loginButton:hover {
+    background-color: #2563eb; /* 悬停时颜色加深 */
+    transform: translateY(-2px); /* 悬停时轻微上浮 */
+    box-shadow: 0 6px 16px -4px rgba(59, 130, 246, 0.5);
+}

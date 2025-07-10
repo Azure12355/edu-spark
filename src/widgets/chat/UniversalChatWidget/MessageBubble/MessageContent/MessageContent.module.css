@@ -118,9 +118,7 @@
 /* ... add to the end of MessageContent.module.css ... */
 
 /* 这个类名会被传递给 MarkdownRenderer 的根元素 */
-.userMessageOverride {
-    color: white; /* 用户消息气泡内的文本颜色 */
-}
+
 /* 针对用户气泡内的链接进行特殊样式处理 */
 .userMessageOverride :global(.MarkdownRenderer_link__XYZ) { /* XYZ 是动态hash，使用:global确保生效 */
     color: #93c5fd;
@@ -135,4 +133,8 @@
 .userMessageOverride :global(.MarkdownRenderer_inlineCode__XYZ) {
     background-color: rgba(255, 255, 255, 0.2);
     color: #dbeafe;
+}
+
+.userMessageOverride {
+    color: white !important; /* 用户消息气泡内的文本颜色 */
 }

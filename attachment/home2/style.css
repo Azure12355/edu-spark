@@ -1,7 +1,7 @@
 /* style.css */
 :root {
     --primary-blue: #0052FF;
-    --light-blue: #E0E8FF;
+    --theme-light-blue: #E0E8FF;
     --text-dark: #333333;
     --text-medium: #555555;
     --text-light: #777777;
@@ -93,7 +93,7 @@ body {
     border: 1px solid var(--primary-blue);
 }
 .btn-secondary:hover {
-    background-color: var(--light-blue);
+    background-color: var(--theme-light-blue);
 }
 
 /* Header */
@@ -471,7 +471,7 @@ body {
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 15px;
-    background-color: var(--light-blue);
+    background-color: var(--theme-light-blue);
 }
 .capability-card h4 {
     font-size: 18px;
