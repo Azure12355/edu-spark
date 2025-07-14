@@ -1,33 +1,3 @@
-/* --- 主题变量定义 --- */
-:root {
-    /* 战争与冲突 (红色系) */
-    --theme-war-bg: #fff5f5;
-    --theme-war-border: #fecaca;
-    --theme-war-text-primary: #991b1b;
-    --theme-war-text-secondary: #ef4444;
-    --theme-war-tag-bg: #fee2e2;
-
-    /* 探索与发现 (蓝色系) */
-    --theme-discovery-bg: #f0f9ff;
-    --theme-discovery-border: #bfdbfe;
-    --theme-discovery-text-primary: #1e3a8a;
-    --theme-discovery-text-secondary: #3b82f6;
-    --theme-discovery-tag-bg: #dbeafe;
-
-    /* 艺术与文化 (紫色系) */
-    --theme-art-bg: #faf5ff;
-    --theme-art-border: #e9d5ff;
-    --theme-art-text-primary: #581c87;
-    --theme-art-text-secondary: #9333ea;
-    --theme-art-tag-bg: #f3e8ff;
-
-    /* 科学与革新 (绿色系) */
-    --theme-science-bg: #f0fdf4;
-    --theme-science-border: #bbf7d0;
-    --theme-science-text-primary: #166534;
-    --theme-science-text-secondary: #22c55e;
-    --theme-science-tag-bg: #dcfce7;
-}
 
 /* --- 卡片整体容器 --- */
 .cardWrapper {

@@ -3,38 +3,6 @@
 /* --- KnowledgePagination Styles have been REMOVED from this file --- */
 /* --- All .paginationContainer, .paginationButton, etc. styles are now in KnowledgePagination.module.css --- */
 
-/* Defining color palettes */
-:root {
-    --palette-sky-1: rgba(135, 206, 235, 0.2);
-    --palette-sky-2: rgba(0, 119, 182, 0.2);
-    --palette-sky-tag-bg: rgba(0, 119, 182, 0.1);
-    --palette-sky-tag-text: #0077B6;
-
-    --palette-sunset-1: rgba(255, 165, 0, 0.2);
-    --palette-sunset-2: rgba(255, 69, 0, 0.2);
-    --palette-sunset-tag-bg: rgba(255, 69, 0, 0.1);
-    --palette-sunset-tag-text: #d93d00;
-
-    --palette-meadow-1: rgba(144, 238, 144, 0.2);
-    --palette-meadow-2: rgba(34, 139, 34, 0.2);
-    --palette-meadow-tag-bg: rgba(34, 139, 34, 0.1);
-    --palette-meadow-tag-text: #228B22;
-
-    --palette-lilac-1: rgba(221, 160, 221, 0.2);
-    --palette-lilac-2: rgba(147, 112, 219, 0.2);
-    --palette-lilac-tag-bg: rgba(147, 112, 219, 0.1);
-    --palette-lilac-tag-text: #8A2BE2;
-
-    --palette-ocean-1: rgba(0, 191, 255, 0.2);
-    --palette-ocean-2: rgba(25, 25, 112, 0.2);
-    --palette-ocean-tag-bg: rgba(25, 25, 112, 0.1);
-    --palette-ocean-tag-text: #191970;
-
-    --palette-sandstone-1: rgba(244, 164, 96, 0.2);
-    --palette-sandstone-2: rgba(210, 105, 30, 0.2);
-    --palette-sandstone-tag-bg: rgba(210, 105, 30, 0.1);
-    --palette-sandstone-tag-text: #A0522D;
-}
 
 .grid {
     display: grid;

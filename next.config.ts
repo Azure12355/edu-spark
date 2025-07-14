@@ -1,6 +1,24 @@
 import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
+
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/home',
+                permanent: true, // 设置为 true，表示这是一个永久重定向 (HTTP 308)
+            },
+        ]
+    },
+
+    output: 'standalone',
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
     /* config options here */
     reactStrictMode: true,
     images: {

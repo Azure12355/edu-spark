@@ -321,11 +321,6 @@
 .snippetPre code { color: var(--snippet-text); }
 
 
-/* --- 4. 新的淡雅主题变量 --- */
-:root {
-    --card-text-primary: #334155;
-    --card-text-secondary: #64748b;
-}
 
 .sky {
     --card-bg: #f5faff;
