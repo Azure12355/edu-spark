@@ -26,7 +26,7 @@
   <a href="#-贡献">贡献</a>
 </p>
 <p align="center">
-  <a href="https://www.weilanx.com">EduSpark在线链接</a> •
+  <a href="https://eduspark.weilanx.com">EduSpark在线链接</a> •
 </p>
 
 
