@@ -62,7 +62,7 @@ export const useAIConfig = (): UseAIConfigReturn => {
         quantity: 5,
         knowledgePoints: [],
         supplementaryContent: '',
-        modelId: 'glm-4',
+        modelId: 'gemini-3-flash-preview',
     });
 
     // 3. UI 模态框状态

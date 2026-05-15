@@ -20,7 +20,7 @@ export type QATestParams = Omit<AdvancedQARequest, 'query' | 'knowledgeBaseIds' 
 const DEFAULT_PARAMS: QATestParams = {
     retrieval: { topK: 5 },
     generation: {
-        modelId: 'qwen-plus',
+        modelId: 'gemini-3-flash-preview',
         promptTemplate: KNOWLEDGE_QA_PROMPT_TEMPLATE,
         temperature: 0.7,
         neighboringChunks: 0,

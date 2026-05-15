@@ -6,6 +6,7 @@ import {getSyllabusByCourseId} from '@/shared/services/syllabusService';
 import {useToast} from '@/shared/hooks/useToast';
 import {BubbleMessage} from '@/widgets/chat/UniversalChatWidget/MessageBubble/MessageBubble';
 import {ApiError} from '@/shared/lib/errors/apiError';
+import { API_BASE_URL } from '@/shared/constants/api';
 import {
     Reference
 } from "@/features/teacher/knowledge/knowledge-detail/sub-features/qa/components/Chat/MessageList/References/ReferenceCard";
@@ -138,25 +139,36 @@ export const useTeacherAssistant = () => {
         let doneEventReceived = false;
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/assistant/chat`, {
+            const response = await fetch(`${API_BASE_URL}/assistant/chat`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', 'Accept': 'text/event-stream'},
+                headers: {'Content-Type': 'application/json', 'Accept': 'text/event-stream, application/json'},
                 body: JSON.stringify(requestBody),
                 signal: abortControllerRef.current.signal,
                 credentials: "include",
             });
 
             if (!response.body) throw new Error('服务器未返回有效响应体');
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                const payload = await response.json();
+                if (payload?.code && payload.code !== 0) {
+                    throw new ApiError(payload.message || '服务器返回未知业务错误', payload.code);
+                }
+                throw new Error(payload?.message || '服务器返回了非预期的非流式响应');
+            }
             if (!response.ok) {
                 // 错误预判逻辑
                 const errorText = await response.text();
+                let errorJson: { message?: string; code?: number } | null = null;
                 try {
-                    const errorJson = JSON.parse(errorText);
-                    throw new ApiError(errorJson.message || '服务器返回未知业务错误', errorJson.code || response.status);
-                } catch (e) {
-                    // 如果无法解析为JSON，则抛出原始文本
-                    throw new Error(errorText || `请求失败，状态码: ${response.status}`);
+                    errorJson = JSON.parse(errorText);
+                } catch {
+                    errorJson = null;
                 }
+                if (errorJson) {
+                    throw new ApiError(errorJson.message || '服务器返回未知业务错误', errorJson.code || response.status);
+                }
+                throw new Error(errorText || `请求失败，状态码: ${response.status}`);
             }
 
 
@@ -170,13 +182,16 @@ export const useTeacherAssistant = () => {
                 while ((eolIndex = buffer.indexOf('\n\n')) >= 0) {
                     const messageBlock = buffer.slice(0, eolIndex).trim();
                     buffer = buffer.slice(eolIndex + 2);
+                    const dataPayload = messageBlock
+                        .split('\n')
+                        .filter(line => line.startsWith('data:'))
+                        .map(line => line.replace(/^data: ?/, '').trim())
+                        .join('\n');
 
                     if (messageBlock.startsWith('event:done')) {
-                        const dataLine = messageBlock.split('\n').find(line => line.startsWith('data:'));
-                        if (dataLine) {
-                            const jsonData = dataLine.substring(5).trim();
+                        if (dataPayload) {
                             try {
-                                const completeData: AssistantChatCompleteResponse = JSON.parse(jsonData);
+                                const completeData: AssistantChatCompleteResponse = JSON.parse(dataPayload);
                                 const references: Reference[] = completeData.references.map((chunk: ChunkVO) => ({
                                     id: chunk.id,
                                     docName: chunk.documentName,
@@ -199,12 +214,28 @@ export const useTeacherAssistant = () => {
                                 console.error("解析 'done' 事件数据失败:", e);
                             }
                         }
+                    } else if (messageBlock.startsWith('event:error')) {
+                        let errorMessage = 'AI服务暂时不可用，请稍后再试';
+                        try {
+                            const errorData = JSON.parse(dataPayload);
+                            errorMessage = errorData.message || errorMessage;
+                        } catch (e) {
+                            console.error("解析 'error' 事件数据失败:", e);
+                        }
+                        finalAccumulatedContent = `抱歉，${errorMessage}`;
+                        setMessages(prev => prev.map(msg =>
+                            msg.id === assistantMsgId ? {
+                                ...msg,
+                                content: finalAccumulatedContent,
+                                isThinking: false,
+                                isComplete: true
+                            } : msg
+                        ));
+                        doneEventReceived = true;
+                        showToast({message: errorMessage, type: 'error'});
                     } else if (messageBlock.startsWith('data:')) {
                         // 【核心修正】: 精确解析多行 data: 的消息块
-                        const content = messageBlock
-                            .split('\n')
-                            .map(line => line.replace(/^data: ?/, '').trim())
-                            .join('\n');
+                        const content = dataPayload;
 
                         if (content) {
                             finalAccumulatedContent += content;
@@ -231,15 +262,13 @@ export const useTeacherAssistant = () => {
 
 
         } catch (error: any) {
-            console.log(error.code)
-
-            showToast({ message: '请先登录再开始对话', type: 'warning' });
-            // 打开登录弹窗，并传递一个“登录成功后重新发送消息”的回调
-            openAuthModal(() => {
-                showToast({message: '登录成功！正在重新为您发送消息...', type: 'success'});
-            });
-
-            if (error.name !== 'AbortError') {
+            if (error instanceof ApiError && error.code === 40100) {
+                showToast({ message: '请先登录再开始对话', type: 'warning' });
+                openAuthModal(() => {
+                    showToast({message: '登录成功！正在重新为您发送消息...', type: 'success'});
+                });
+                finalAccumulatedContent += `\n\n[错误: ${error.message}]`;
+            } else if (error.name !== 'AbortError') {
                 console.error("智能助教流处理失败:", error);
                 showToast({message: error.message || '与AI服务的连接中断', type: 'error'});
                 finalAccumulatedContent += `\n\n[错误: ${error.message}]`;
@@ -275,7 +304,7 @@ export const useTeacherAssistant = () => {
             setSelectedSkill('');
             abortControllerRef.current = null;
         }
-    }, [isSending, messages, selectedCourse, selectedNode, selectedSkill, thinkingMode, showToast]);
+    }, [isSending, messages, selectedCourse, selectedNode, selectedSkill, thinkingMode, showToast, openAuthModal]);
 
     const stopSending = useCallback(() => {
         if (abortControllerRef.current) {

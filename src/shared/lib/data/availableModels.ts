@@ -2,18 +2,24 @@
 export interface AvailableModel {
     id: string;
     name: string;
-    provider: '通义' | '智谱' | 'DeepSeek';
+    provider: 'AstraFlow' | '通义' | '智谱' | 'DeepSeek';
     description: string;
     tag?: '推荐' | '新功能';
 }
 
 export const availableModels: AvailableModel[] = [
     {
+        id: 'gemini-3-flash-preview',
+        name: 'Gemini 3 Flash Preview',
+        provider: 'AstraFlow',
+        description: '通过 AstraFlow Modelverse 接入的 Gemini-compatible 模型，适合快速问答和知识库对话。',
+        tag: '推荐',
+    },
+    {
         id: 'qwen-plus',
         name: '通义千问-Plus-Latest',
         provider: '通义',
         description: '通义千问超大规模语言模型，支持长文本，综合性能优秀。',
-        tag: '推荐',
     },
     {
         id: 'glm-4',
