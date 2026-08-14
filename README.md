@@ -1,4 +1,5 @@
 
+
 <p align="center">
   <img src="./docs/robot.gif" alt="EduSpark Logo" width="140" style="border-radius: 50%;" />
 </p>
@@ -108,10 +109,7 @@ cp .env.local.example .env.local
 # 后端API服务的地址 (本地开发时，通常指向后端服务的地址)
 NEXT_PUBLIC_API_BASE_URL="http://localhost:8101/api"
 
-# 用于前端独立功能（如富文本编辑器）的第三方API Key
-# 例如，TinyMCE 的 API Key
-NEXT_PUBLIC_TINYMCE_API_KEY="your-tinymce-api-key"
-
+# 本项目使用的 Markdown 编辑器 (@uiw/react-md-editor / bytemd) 均为开源库，无需配置 API Key。
 # (可选) 如果前端某些轻量级交互直连AI模型，请配置相关Key
 ZHIPUAI_API_KEY="your-zhipuai-api-key"
 ```
