@@ -93,7 +93,8 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({ books }) => {
                         }}
                     >
                         <div className={styles.bookCover}>
-                            <Image src={currentBook!.coverUrl} alt={currentBook!.title} layout="fill" objectFit="cover" priority/>
+                            {/*<Image src={currentBook!.coverUrl} alt={currentBook!.title} layout="fill" objectFit="cover" priority/>*/}
+                            <Image src="https://image.weilanx.com/3CF98561-3732-4CB0-870A-ED44F403F430.jpg!blog-img" alt={currentBook!.title} layout="fill" objectFit="cover" priority/>
                         </div>
                     </motion.div>
                 </AnimatePresence>

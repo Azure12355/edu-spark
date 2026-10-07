@@ -3,11 +3,11 @@
 
 import React from 'react';
 import styles from './LinkedKnowledgeBases.module.css';
-import { KnowledgeBase } from '@/shared/types';
+import { KnowledgeBaseVO } from '@/shared/types';
 import LinkedCard from './LinkedCard';
 
 interface LinkedKnowledgeBasesProps {
-    linkedKBs: KnowledgeBase[];
+    linkedKBs: KnowledgeBaseVO[];
     onUnlink: (kbId: number) => void;
     isLoading: boolean;
 }

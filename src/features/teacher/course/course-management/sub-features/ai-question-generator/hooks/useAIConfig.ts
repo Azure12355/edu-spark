@@ -115,7 +115,7 @@ export const useAIConfig = (): UseAIConfigReturn => {
             return;
         }
         const newPoint: KnowledgePoint = {
-            id: `manual-${Date.now()}`,
+            id: -Date.now(),
             title: trimmedTitle,
             type: '重点',
             sectionId: 0,

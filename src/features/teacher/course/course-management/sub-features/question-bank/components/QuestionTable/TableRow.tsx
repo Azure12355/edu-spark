@@ -60,8 +60,8 @@ const TableRow: React.FC<TableRowProps> = ({ question, isSelected, onSelectRow, 
                     {difficultyInfo.text}
                 </span>
             </td>
-            <td>{question.creators[0]?.nickname || 'N/A'}</td>
-            <td>{new Date(question.createdAt).toLocaleDateString()}</td>
+            <td>{question.creators?.[0]?.nickname || 'N/A'}</td>
+            <td>{question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'N/A'}</td>
             <td className={styles.actionsCell}>
                 <div className={styles.actions}>
                     <Tooltip content="预览题目" position="top">

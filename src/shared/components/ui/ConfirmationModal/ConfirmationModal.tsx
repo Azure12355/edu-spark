@@ -4,7 +4,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ConfirmationModal.module.css';
-import { useConfirmationModalState, useConfirmationModalActions } from '@/shared/hooks/useConfirmationModal';
+import { ConfirmationOptions, ConfirmationType, useConfirmationModalState, useConfirmationModalActions } from '@/shared/hooks/useConfirmationModal';
 
 // 定义类型到图标和样式的映射
 const typeConfig = {
@@ -29,20 +29,44 @@ const modalVariants = {
  * 它通过 Hook 监听全局状态，并自我渲染。
  * 你只需要在根布局（RootLayout）中渲染一次即可。
  */
-const ConfirmationModal: React.FC = () => {
-    const { isOpen, options } = useConfirmationModalState();
+interface ConfirmationModalProps extends Partial<Omit<ConfirmationOptions, 'type'>> {
+    isOpen?: boolean;
+    onClose?: () => void;
+    type?: ConfirmationType | string;
+}
+
+const normalizeType = (type?: ConfirmationType | string): ConfirmationType => (
+    type === 'danger' || type === 'info' || type === 'warning' ? type : 'warning'
+);
+
+const ConfirmationModal: React.FC<ConfirmationModalProps> = (props) => {
+    const { isOpen: storeIsOpen, options: storeOptions } = useConfirmationModalState();
     const { hideModal, setIsConfirming } = useConfirmationModalActions();
+    const isControlled = typeof props.isOpen === 'boolean';
+    const isOpen = props.isOpen ?? storeIsOpen;
+    const options = isControlled
+        ? ({
+            title: props.title ?? '',
+            message: props.message ?? '',
+            onConfirm: props.onConfirm ?? (() => undefined),
+            confirmText: props.confirmText,
+            cancelText: props.cancelText,
+            type: normalizeType(props.type),
+            isConfirming: props.isConfirming,
+        } satisfies ConfirmationOptions)
+        : storeOptions;
+    const closeModal = props.onClose ?? hideModal;
 
     // 监听键盘事件
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') hideModal();
+            if (event.key === 'Escape') closeModal();
         };
         if (isOpen) {
             document.addEventListener('keydown', handleKeyDown);
         }
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, hideModal]);
+    }, [isOpen, closeModal]);
 
     // 如果没有配置，不渲染任何东西
     if (!options) return null;
@@ -57,15 +81,19 @@ const ConfirmationModal: React.FC = () => {
         isConfirming = false
     } = options;
 
-    const config = typeConfig[type];
+    const config = typeConfig[normalizeType(type)];
 
     const handleConfirm = async () => {
-        setIsConfirming(true);
+        if (!isControlled) {
+            setIsConfirming(true);
+        }
         try {
             await onConfirm();
         } finally {
-            setIsConfirming(false);
-            hideModal();
+            if (!isControlled) {
+                setIsConfirming(false);
+            }
+            closeModal();
         }
     };
 
@@ -78,7 +106,7 @@ const ConfirmationModal: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
-                    onClick={hideModal}
+                    onClick={closeModal}
                 >
                     <motion.div
                         className={styles.modal}
@@ -91,7 +119,7 @@ const ConfirmationModal: React.FC = () => {
                         <h2 className={styles.title}>{title}</h2>
                         <div className={styles.message}>{message}</div>
                         <div className={styles.actions}>
-                            <button className={`${styles.button} ${styles.cancelButton}`} onClick={hideModal} disabled={isConfirming}>
+                            <button className={`${styles.button} ${styles.cancelButton}`} onClick={closeModal} disabled={isConfirming}>
                                 {cancelText}
                             </button>
                             <button

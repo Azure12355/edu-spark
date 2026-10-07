@@ -8,6 +8,7 @@ interface ActivityTemplateInfo {
 
 export interface ClassActivityVO {
     id: number;
+    classId?: number;
     title: string;
     description?: string;
     activityType: string;

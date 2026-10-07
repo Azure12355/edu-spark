@@ -13,9 +13,7 @@ import Link from 'next/link'; // 导入 Link 组件
 
 interface TemplateCardProps {
     template: AssignmentVO;
-    // [code focus start --]
-    // onEdit: (templateId: number) => void; // 这个回调不再需要直接触发路由，因为 Link 会处理
-    // [code focus end --]
+    onEdit?: (templateId: number) => void;
     onDelete: (templateId: number) => void;
     onView: (templateId: number) => void;
     onPublish: (template: AssignmentVO) => void;

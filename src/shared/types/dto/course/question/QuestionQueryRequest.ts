@@ -12,4 +12,5 @@ export interface QuestionQueryRequestDTO extends PageRequest {
     source?: string;
     creatorId?: number;
     knowledgePointId?: number;
+    courseId?: number;
 }

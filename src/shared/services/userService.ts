@@ -10,6 +10,8 @@ import {
 } from '../types';
 import { Page } from '@/shared/types'; // 引入通用的分页响应类型
 
+export type { UserVO };
+
 /**
  * @description 用户登录。
  * @param {UserLoginRequestDTO} loginRequest - 登录请求体。

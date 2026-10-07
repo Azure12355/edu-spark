@@ -36,13 +36,14 @@ interface UseQuestionEditReturn {
 
 // 3. 创建新题目的默认模板
 const createDefaultQuestion = (): QuestionVO => ({
-    id: `new-${Date.now()}`,
+    id: 0,
     type: QuestionTypeEnum.SINGLE_CHOICE,
     difficulty: QuestionDifficultyEnum.MEDIUM,
     stem: '',
     options: ['新选项 A', '新选项 B', '新选项 C', '新选项 D'],
     answers: ['新选项 A'],
     analyses: [''],
+    createdAt: new Date().toISOString(),
     knowledgePoints: [],
 });
 
@@ -192,7 +193,7 @@ export const useQuestionEdit = (): UseQuestionEditReturn => {
                 router.replace(`/teacher/courses/${courseId}/questions/${newId}/preview`);
             } else {
                 const updateDto: QuestionUpdateRequestDTO = {
-                    id: question.id as number,
+                    id: question.id,
                     type: question.type,
                     difficulty: question.difficulty,
                     stem: question.stem,

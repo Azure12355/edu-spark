@@ -3,11 +3,11 @@
 
 import React from 'react';
 import styles from './LinkedCard.module.css';
-import { KnowledgeBase } from '@/shared/types';
+import { KnowledgeBaseVO } from '@/shared/types';
 import Tooltip from '@/shared/components/ui/Tooltip/Tooltip';
 
 interface LinkedCardProps {
-    kb: KnowledgeBase;
+    kb: KnowledgeBaseVO;
     onUnlink: (kbId: number) => void;
 }
 

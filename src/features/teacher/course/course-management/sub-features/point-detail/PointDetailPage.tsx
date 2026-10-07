@@ -68,7 +68,6 @@ export default function PointDetailPage() {
         toggleSyllabusSidebar,
         tableOfContents,
         activeTocId,
-        hotQuestions,
         handleTocLinkClick,
         contentContainerRef,
     } = usePointDetail();

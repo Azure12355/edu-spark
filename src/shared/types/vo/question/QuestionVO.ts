@@ -7,7 +7,7 @@ import { QuestionKnowledgePointLinkVO } from './QuestionKnowledgePointLinkVO';
  * 严格对标后端的 'com.weilanx.eduspark.model.vo.question.QuestionVO.java'。
  */
 export interface QuestionVO {
-    id: number | string;
+    id: number;
     type: string;
     difficulty: string;
     stem: string;

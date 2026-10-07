@@ -1,85 +1,84 @@
-# ---- Stage 1: Dependency Installation ----
-# 使用一个标准的 Node.js 镜像来安装依赖
-FROM node:20-slim AS deps
-# 设置工作目录
+# syntax=docker/dockerfile:1.7
+# ==============================================================================
+# EduSpark 前端 Dockerfile (优化版)
+# ==============================================================================
+# 支持多平台: linux/amd64, linux/arm64
+# 构建示例:
+#   docker build -t eduspark-frontend:latest .
+#   docker build --platform linux/amd64 -t eduspark-frontend:amd64 .
+# ==============================================================================
+
+# ---- 参数定义 ----
+ARG DOCKER_REGISTRY_MIRROR=docker.m.daocloud.io
+ARG NODE_VERSION=20
+ARG PNPM_VERSION=9.15.4
+ARG NPM_REGISTRY=https://registry.npmmirror.com
+
+# ---- Stage 1: Base ----
+FROM ${DOCKER_REGISTRY_MIRROR}/library/node:${NODE_VERSION}-slim AS base
 WORKDIR /app
 
-# 复制 package.json 和 pnpm-lock.yaml，利用 Docker 的层缓存机制
+ARG PNPM_VERSION
+ARG NPM_REGISTRY
+
+# 使用固定版本 pnpm，避免每次 corepack 拉取 latest
+ENV NPM_CONFIG_REGISTRY=${NPM_REGISTRY}
+RUN echo "Using NPM registry: ${NPM_REGISTRY}" && \
+    npm install -g pnpm@${PNPM_VERSION} --registry=${NPM_REGISTRY} && \
+    pnpm config set registry ${NPM_REGISTRY}
+
+# ---- Stage 2: Dependencies ----
+FROM base AS deps
+ARG NPM_REGISTRY
 COPY package.json pnpm-lock.yaml* ./
+RUN --mount=type=cache,id=eduspark-pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm config set store-dir /root/.local/share/pnpm/store && \
+    pnpm install --frozen-lockfile --prod=false --prefer-offline --registry=${NPM_REGISTRY}
 
-# 安装 pnpm
-# 我们使用 corepack，这是 Node.js 官方推荐的管理包管理器版本的方式
-RUN corepack enable
-RUN corepack prepare pnpm@latest --activate
-
-# 使用 pnpm 安装依赖
-RUN pnpm install --frozen-lockfile
-
-
-# ---- Stage 2: Builder ----
-# 使用相同的镜像来构建应用
-FROM node:20-slim AS builder
-WORKDIR /app
-# 从 'deps' 阶段复制已经安装好的 node_modules
+# ---- Stage 3: Builder ----
+FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
-# 复制项目的其他所有文件
 COPY . .
 
-# 再次启用 pnpm
-RUN corepack enable
-RUN corepack prepare pnpm@latest --activate
-
-# --- 注入构建时所需的所有环境变量 ---
-# 1. 注入需要打包进客户端代码的 NEXT_PUBLIC_* 变量
+# ---- 构建参数 ----
 ARG NEXT_PUBLIC_TINYMCE_API_KEY
-ENV NEXT_PUBLIC_TINYMCE_API_KEY=${NEXT_PUBLIC_TINYMCE_API_KEY}
-ARG NEXT_PUBLIC_API_BASE_URL
-ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
-
-# 2. 注入服务器端代码在构建时需要的私密密钥
-# !! 安全警告：这些密钥会保留在 Docker 镜像的构建层中 !!
+ARG NEXT_PUBLIC_API_BASE_URL=https://eduspark.weilanx.com/api
 ARG COZE_API_KEY
-ENV COZE_API_KEY=${COZE_API_KEY}
 ARG COZE_WORKFLOW_ID
-ENV COZE_WORKFLOW_ID=${COZE_WORKFLOW_ID}
 ARG ZHIPUAI_API_KEY
+
+# ---- 环境变量 ----
+ENV NEXT_PUBLIC_TINYMCE_API_KEY=${NEXT_PUBLIC_TINYMCE_API_KEY}
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+ENV COZE_API_KEY=${COZE_API_KEY}
+ENV COZE_WORKFLOW_ID=${COZE_WORKFLOW_ID}
 ENV ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
-
-# 运行构建命令
-# 现在 pnpm build 可以访问到所有需要的环境变量
-RUN pnpm build
-
-
-# ---- Stage 3: Production Runner ----
-# 使用一个超轻量的 Alpine Linux 镜像作为最终的运行环境
-# 这一阶段不会包含构建时的密钥，因为我们只从 'builder' 阶段复制必要的文件
-FROM node:20-alpine AS runner
-WORKDIR /app
-
-# 设置生产环境变量
-ENV NODE_ENV=production
-# 禁用 Next.js 的遥测数据收集
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# 创建一个非 root 用户来运行应用，增强安全性
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN pnpm build
 
-# 从 'builder' 阶段复制 standalone 输出
+# ---- Stage 4: Production ----
+FROM ${DOCKER_REGISTRY_MIRROR}/library/node:${NODE_VERSION}-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_BASE_URL=https://eduspark.weilanx.com/api
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Next standalone 已包含运行所需依赖，避免 runner 阶段再次安装依赖
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-# 复制 public 和 .next/static 文件夹
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# 切换到非 root 用户
 USER nextjs
 
-# 暴露应用运行的端口
 EXPOSE 3000
-
-# 设置默认端口和主机名
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-# 运行应用的命令
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+
 CMD ["node", "server.js"]

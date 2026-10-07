@@ -68,7 +68,7 @@ export default function AssignmentPlayerPage() {
                         questionLink={currentQuestion}
                         questionIndex={currentQuestionIndex}
                         totalQuestions={totalQuestions}
-                        studentAnswer={answers[currentQuestion?.question.id]}
+                        studentAnswer={currentQuestion ? answers[currentQuestion.question.id] : undefined}
                         onAnswerChange={handleAnswerChange}
                     />
                     <AnswerSheet

@@ -13,11 +13,8 @@ const nextConfig: NextConfig = {
     },
 
     output: 'standalone',
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
     typescript: {
-        ignoreBuildErrors: true,
+        ignoreBuildErrors: false,
     },
     /* config options here */
     reactStrictMode: true,
@@ -69,6 +66,12 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'example.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'image.weilanx.com',
                 port: '',
                 pathname: '/**',
             }

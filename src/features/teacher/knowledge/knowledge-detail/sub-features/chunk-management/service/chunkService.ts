@@ -120,3 +120,15 @@ export const addChunk = (data: AddChunkRequest): Promise<number | any> => {
 export const batchDeleteChunks = (data: BatchDeleteChunkRequest): Promise<boolean | any> => {
     return apiClient.delete<boolean>('/chunk/batchDelete', { data });
 };
+
+export const listChunksByKbId = (
+    kbId: number,
+    current: number,
+    pageSize: number
+): Promise<Page<ChunkVO> | any> => {
+    return listChunksByPage({ knowledgeBaseId: kbId, current, pageSize });
+};
+
+export const deleteChunk = (chunkId: number): Promise<boolean | any> => {
+    return batchDeleteChunks({ ids: [chunkId] });
+};

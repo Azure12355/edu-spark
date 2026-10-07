@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/shared/hooks/useToast';
-import { KnowledgeBase, KnowledgeBaseVO } from '@/shared/types';
+import { KnowledgeBaseVO } from '@/shared/types';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import {
     linkKnowledgeBasesToCourse,
@@ -23,7 +23,7 @@ export const useKnowledgeLinking = () => {
     const showToast = useToast();
 
     // 2. 状态管理
-    const [linkedKBs, setLinkedKBs] = useState<KnowledgeBase[]>([]);
+    const [linkedKBs, setLinkedKBs] = useState<KnowledgeBaseVO[]>([]);
     const [availableKBs, setAvailableKBs] = useState<KnowledgeBaseVO[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export const useKnowledgeLinking = () => {
                 listKnowledgeBaseVOByPage({ current: 1, pageSize: 100, name: debouncedSearchTerm }) // 获取所有，可以加上筛选
             ]);
 
-            setLinkedKBs(linkedData);
+            setLinkedKBs(linkedData as unknown as KnowledgeBaseVO[]);
 
             // 从“所有可用”中过滤掉“已关联”的
             const linkedIds = new Set(linkedData.map(kb => kb.id));
@@ -80,9 +80,7 @@ export const useKnowledgeLinking = () => {
             if (kbToLink) {
                 // 将其从可用列表移动到已关联列表
                 setAvailableKBs(prev => prev.filter(kb => kb.id !== kbId));
-                // 注意：需要将VO转换为Entity类型，或调整后端接口
-                const newLinkedKB: KnowledgeBase = { ...kbToLink, cozeDatasetId: kbToLink.cozeDatasetId || '' };
-                setLinkedKBs(prev => [...prev, newLinkedKB]);
+                setLinkedKBs(prev => [...prev, kbToLink]);
             } else {
                 // 如果在本地状态中找不到，则重新fetch以保证数据一致性
                 await fetchData();
@@ -105,8 +103,7 @@ export const useKnowledgeLinking = () => {
             if (kbToUnlink) {
                 setLinkedKBs(prev => prev.filter(kb => kb.id !== kbId));
                 // 将其移回到可用列表
-                const newAvailableKB: KnowledgeBaseVO = { ...kbToUnlink, owner: {id: 0, username:'', nickname: '' , role: '', status: ''} }; // 简化处理，真实项目需要完整UserVO
-                setAvailableKBs(prev => [newAvailableKB, ...prev]);
+                setAvailableKBs(prev => [kbToUnlink, ...prev]);
             } else {
                 await fetchData();
             }

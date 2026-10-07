@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useToastStore } from '@/shared/hooks/useToast';
 import { useUserStore } from '@/shared/store/userStore';
+import { API_BASE_URL } from '@/shared/constants/api';
 
 /**
  * 后端返回的标准响应体结构
@@ -16,7 +17,7 @@ let isRedirecting = false;
 
 // 1. 创建 Axios 实例 (配置保持不变)
 const apiClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8101/api',
+    baseURL: API_BASE_URL,
     timeout: 10000,
     withCredentials: true,
 });

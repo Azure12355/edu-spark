@@ -1,6 +1,7 @@
 // src/shared/services/qaService.ts
 
 import { AdvancedQARequestDTO, QACompleteResponseVO } from '../types';
+import { API_BASE_URL } from '@/shared/constants/api';
 
 /**
  * @description 发起一次高级知识问答（流式响应）。
@@ -19,7 +20,7 @@ export const answerAdvancedStream = (
     onError: (error: string) => void
 ): { close: () => void } => {
     // 1. 构造完整的 API URL
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8101/api'}/qa/answer/advanced`;
+    const apiUrl = `${API_BASE_URL}/qa/answer/advanced`;
 
     // 2. 创建 EventSource 实例
     //    EventSource 内部封装了 withCredentials: true 的行为，会自动携带 cookie
